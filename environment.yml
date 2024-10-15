@@ -137,4 +137,3 @@ dependencies:
       - gmsh==4.13.1
       - openseespy==3.7.0.4
       - openseespywin==3.7.0.4
-prefix: C:\Users\engbr\anaconda3\envs\bimfem

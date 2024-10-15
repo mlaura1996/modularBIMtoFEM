@@ -174,3 +174,9 @@ poetry.toml
 pyrightconfig.json
 
 # End of https://www.toptal.com/developers/gitignore/api/python
+
+# files created when executed
+Prova.csv
+Prova2.csv
+File.step
+partitionedModel.msh
