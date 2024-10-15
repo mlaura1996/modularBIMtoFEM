@@ -2,7 +2,7 @@ import ifcopenshell
 import ifcopenshell.geom
 import OCC.Core.TopoDS
 from OCC.Core.STEPControl import (STEPControl_AsIs, STEPControl_Writer)
-from OCC.Core.Interface import Interface_Static_SetCVal
+from OCC.Core.Interface import Interface_Static
 from  OCC.Core.STEPConstruct import *
 from OCC.Core.TCollection import TCollection_HAsciiString
 from OCC.Extend.DataExchange import read_step_file_with_names_colors
@@ -26,9 +26,9 @@ schema = 'AP203'
 assembly_mode = 1
 writer = STEPControl_Writer()
 fp = writer.WS().TransferWriter().FinderProcess()
-Interface_Static_SetCVal('write.step.schema', schema)
-Interface_Static_SetCVal('write.step.unit', 'M')
-Interface_Static_SetCVal('write.step.assembly', str(assembly_mode))
+Interface_Static.SetCVal('write.step.schema', schema)
+Interface_Static.SetCVal('write.step.unit', 'M')
+Interface_Static.SetCVal('write.step.assembly', str(assembly_mode))
 
 def exportAlphanumericalProperties(ifcfile):
 
@@ -140,7 +140,7 @@ def createSpecialSTEPFile(elements, fileName):
         label = getObjectLabel(element)
         labels.append(label)
 
-        Interface_Static_SetCVal('write.step.product.name', label)
+        Interface_Static.SetCVal('write.step.product.name', label)
         status = writer.Transfer(shape, STEPControl_AsIs)
         if int(status) > int(IFSelect_RetError):
             raise Exception('Some Error occurred')
