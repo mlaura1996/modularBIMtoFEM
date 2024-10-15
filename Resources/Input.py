@@ -144,7 +144,7 @@ def createSpecialSTEPFile(elements, fileName):
         status = writer.Transfer(shape, STEPControl_AsIs)
         if int(status) > int(IFSelect_RetError):
             raise Exception('Some Error occurred')
-        item = stepconstruct.FindEntity(fp, shape)
+        item = stepconstruct_FindEntity(fp, shape)
         item.SetName(TCollection_HAsciiString(label))
         if not item:
             raise Exception('Item not found')
