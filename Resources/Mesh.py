@@ -3,7 +3,7 @@ import openseespy.opensees as ops
 
 np = ops.getNP()
 
-def createGmshModel(stepfile, labels):
+def createGmshModel(stepfile, labels, runGmsh = True):
     gmsh.initialize()
     gmsh.model.mesh.setOrder(2)
     gmsh.option.setNumber("General.Terminal", 1)
@@ -16,10 +16,14 @@ def createGmshModel(stepfile, labels):
     gmshmodel = fixBoundaries(gmsh.model)
     # # for load in loads:
     # #     gmshmodel = applyLoad(gmshmodel, load)
-    gmshmodel = meshing(gmshmodel, 300, False) #needs to be external
-    gmshmodel = paralleliseMesh(gmshmodel)
-    partitions = getElementInPartitions(gmshmodel)         
-    print(len(partitions))
+    gmshmodel = meshing(gmshmodel, 200, False) #needs to be external
+    # gmshmodel = paralleliseMesh(gmshmodel)
+    # partitions = getElementInPartitions(gmshmodel)         
+    # print(len(partitions))
+    if runGmsh:
+        gmsh.fltk.run()
+    return(gmsh.model)
+
 
 def createMatPhisicalGroups(gmshmodel, labels):
     tridEleTags = gmshmodel.occ.getEntities(dim = 3)
