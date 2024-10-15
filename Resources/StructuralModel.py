@@ -1,5 +1,5 @@
 import openseespy.opensees as ops
-from .gmsh2opensees import * 
+from gmsh2opensees import * 
 from .Materials import *
 
 def GenerateOpenseesModel(gmshmodel, data):

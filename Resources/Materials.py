@@ -1,5 +1,5 @@
 import openseespy.opensees as ops
-from .gmsh2opensees import * 
+from gmsh2opensees import * 
 import gmsh
 import numpy as np
 import math
