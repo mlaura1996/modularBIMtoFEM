@@ -115,7 +115,7 @@ def STEPwriter(elements, data, fileName):
             status = writer.Transfer(shape, STEPControl_AsIs)
             if int(status) > int(IFSelect_RetError):
                 raise Exception('Some Error occurred')
-            item = stepconstruct_FindEntity(fp, shape)
+            item = stepconstruct.FindEntity(fp, shape)
             item.SetName(TCollection_HAsciiString(eleName))
             if not item:
                 raise Exception('Item not found')
