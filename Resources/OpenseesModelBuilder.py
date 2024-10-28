@@ -1,8 +1,14 @@
 import openseespy.opensees as ops
-from .gmsh2opensees import * 
-from .Materials import *
+from gmsh2opensees import * 
+from .StaticAnalysis import *
+from .Visualisation import *
+import math
+import matplotlib.pyplot as plt
+import numpy as np 
+from  .ConstitutiveLaws import ConstitutiveLaws as Masonry
 
-class generalTools:
+g = -9810
+class GeneralTools:
 
     @staticmethod
     def add_incremental_number(existing_list: list) -> int:
@@ -16,48 +22,79 @@ class generalTools:
             current_num = current_num + 1
 
         return current_num
-
-
-class ModelBuilder:
-
-    def __init__(self, ndm: int, ndf: int):
-        """Initialize instance variables to store model configuration."""
-        self.ndm = ndm  # Number of dimensions
-        self.ndf = ndf  # Number of degrees of freedom
-        
-        # Initialize the model in OpenSees using instance variables
-        ops.model("basicBuilder", "-ndm", self.ndm, "-ndf", self.ndf)
-
-    def initialize_model(self):
-        # Access the instance variables with self
-        print(f"Building a solid model with {self.ndm} dimensions and {self.ndf} degrees of freedom")
-
-class Element:
-
-    def __init__(self):
-        self.node_tags = []
-        self.element_tag = 0
-        self.element_name = ""
-        self.side_lenght = 0
     
-    def get_element_side_lenght(self, element_tag: int):
+    @staticmethod
+    def getNodeWithHigherCoords(gmshmodel):
+        node_tags, node_coords, _ = gmshmodel.mesh.getNodes()
+        node_coords = np.array(node_coords).reshape(-1, 3)
+
+        max_z_index = np.argmax(node_coords[:, 2])  # Index of the node with the highest Z value
+        max_z_value = node_coords[max_z_index, 2]  # Highest Z value
+        node_tag_with_max_z = node_tags[max_z_index]  # Node tag corresponding to this index
+
+        ### lets try to open gmsh and enlight it
+
+        return node_tag_with_max_z 
+    
+    @staticmethod
+    def getBaseNode(gmshmodel):
+
+        physical_groups = gmshmodel.getPhysicalGroups()
+        for dim, tag in physical_groups:
+            name = gmsh.model.getPhysicalName(dim, tag)
+            if name == "Fix":
+                group_dim = dim
+                group_tag = tag
+                break
+
+        entities = gmshmodel.getEntitiesForPhysicalGroup(group_dim, group_tag)
+
+        all_nodes = []
+        
+        # Loop through each entity and get the nodes
+        for entity in entities:
+            # Get node tags and coordinates for the entity
+            node_tags = (gmshmodel.mesh.getNodes(group_dim, entity)[0])
+            
+            # Add the node tags to the set
+            all_nodes.append(node_tags)
+        
+        return all_nodes
+        
+    
+    @staticmethod
+    def get_element_side_lenght(element_tag):
         """This method returns the side lenght of a gmsh element given the element tag."""
         
         volume = gmsh.model.mesh.getElementQualities(element_tag, "volume") 
         side_length = (6 * math.sqrt(2) * volume) ** (1/3)
-        self.side_lenght = side_length
         
         return(side_length)
-        
+    
+    
+class Geometry:
+    @staticmethod
+    def addUniqueSolidMaterialTags(excluded_list):
 
-    def create_linear_elastic_element(self, gmshmodel, material_dictionary, solid_material_tag) -> int:
+        #This function returns an incremental number that is not in the excluded_list - needed for the tags of the materials
+
+        excluded_set = set(excluded_list)  # Convert list to set for O(1) lookups
+        max_excluded = max(excluded_set) if excluded_set else -1  # Find the maximum value in the excluded list
+        current_num = max_excluded + 1
+
+        while current_num in excluded_set:
+            current_num = current_num +1
+
+        return current_num
+
+    @staticmethod
+    def create_linear_elastic_element (gmshmodel, material_dictionary, solid_material_tag):
 
         E = material_dictionary['YoungModulus'] #MPa - N/mm2
-        #E = (float(PaE))*1e-6 #MPa - N/mm2
         mrho = material_dictionary['MassDensity'] # kg / m³
-        rho = float(mrho*1e-9) # kg / mm³
+        rho = float(mrho*1e-12) # Ton / mm³
         nu = material_dictionary['PoissonRatio'] #--
-        #add nD material to opensees
+
         ops.nDMaterial('ElasticIsotropic', solid_material_tag, E, nu, rho)
 
         print('Elastic material created with tag: ', solid_material_tag)
@@ -65,11 +102,6 @@ class Element:
         physical_group = material_dictionary['MaterialName']
 
         element_tags, node_tags, element_name, elementNnodes = get_elements_and_nodes_in_physical_group(physical_group, gmshmodel)
-        self.element_name = element_name
-        self.node_tags = node_tags
-
-        for element_tag in element_tags:
-            self.element_tag = element_tag
 
         #Add node tags to Opensees
         for node_tag in node_tags:
@@ -78,23 +110,20 @@ class Element:
         #Add elements to opensees
         for ele_tag, ele_nodes in zip(element_tags, node_tags):
             ops.element('FourNodeTetrahedron', ele_tag, *ele_nodes, solid_material_tag, 0, 0, rho*g)
-
-        print(f'Linear elastic fourNodeTetrahedron element with tag {self.element_tag} added.')
+            print(f'Linear elastic fourNodeTetrahedron element with tag {ele_tag} added.')
         
         return solid_material_tag
     
-
-    def create_plastic_damage_elements(self, gmshmodel, material_dictionary, solid_material_tag) -> int:
+    @staticmethod
+    def create_plastic_damage_elements(gmshmodel, material_dictionary, solid_material_tag):
 
         E = material_dictionary['YoungModulus'] #MPa - N/mm2
-        #E = (float(PaE))*1e-6 #MPa - N/mm2
         mrho = material_dictionary['MassDensity'] # kg / m³
-        rho = float(mrho*1e-9) # kg / mm³
+        rho = float(mrho*1e-12) # Ton / mm³
         nu = material_dictionary['PoissonRatio'] #--
         fc = material_dictionary['CompressiveStrength'] #MPa - N/mm2
-        #fc = float(PaFc)*1e-6 #MPa - N/mm2
         ft = material_dictionary['TensileStrength'] #MPa - N/mm2
-        #ft = float(PaFt)*1e-6 #MPa - N/mm2
+
         if 'CompressionFractureEnergy' in material_dictionary:
             Gc = float(material_dictionary['CompressionFractureEnergy'])
         else: 
@@ -115,11 +144,6 @@ class Element:
         
         #Getting the gmsh model
         element_tags, node_tags, element_name, elementNnodes = get_elements_and_nodes_in_physical_group(physical_group, gmshmodel)
-        self.element_name = element_name
-        self.node_tags = node_tags
-
-        for element_tag in element_tags:
-            self.element_tag = element_tag
 
         #Add node tags to Opensees
         for node_tag in node_tags:
@@ -128,14 +152,14 @@ class Element:
         for element_tag, node_tag in zip(element_tags, node_tags):
 
             solid_material_tag = solid_material_tag + 1
-            side_length = Element.get_element_side_lenght(Element, [element_tag])
+            side_length = GeneralTools.get_element_side_lenght([element_tag])
             side_length = side_length[0]
             print(side_length)
 
-            #Traction
+            #Tensile behaviour
             Te, Ts, Td = Masonry.ExponentialSoftening_Tension.tension(E, ft, Gt, side_length)
 
-            #Compression
+            #Compression behaviour 
             Ce, Cs, Cd = Masonry.BezierCurve_Compression.Compression(E, f0, fc, Gc, side_length)
 
             #Definition of the OpenSees material
@@ -153,9 +177,10 @@ class Element:
             ops.element('FourNodeTetrahedron', element_tag, *node_tag, solid_material_tag, 0, 0, rho*g)
             print('Nonlinear element added!')
     
-        return (solid_material_tag)
-            
-    def add_elements_to_opensees(self, gmshmodel, material_data):
+        return solid_material_tag
+    
+    @staticmethod
+    def add_elements_to_opensees(gmshmodel, material_data):
         """This method create the opensees elements to add to the model."""  
 
         tags = []
@@ -168,51 +193,76 @@ class Element:
             element_tags.append(element_tags)
             
             #Create the material
-            solid_material_tag = addUniqueSolidMaterialTags(tags)
+            solid_material_tag = Geometry.addUniqueSolidMaterialTags(tags)
 
             #Define Material Type
             if material_dictionary['MaterialModelType'] == 'LinearElastic':
-                tag = Element.create_linear_elastic_element(self, gmshmodel, material_dictionary, solid_material_tag)                      
+                tag = Geometry.create_linear_elastic_element(gmshmodel, material_dictionary, solid_material_tag)                    
             if material_dictionary['MaterialModelType'] == 'PlasticDamage':
-                tag = Element.create_plastic_damage_elements(self, gmshmodel, material_dictionary, solid_material_tag)  
+                tag = Geometry.create_plastic_damage_elements(gmshmodel, material_dictionary, solid_material_tag) 
             tags.append(tag)         
 
         return element_tags
-
+    
 class BoundaryConditions:
 
     @staticmethod
-    def fixNodes(gmshmodel):
+    def fix_nodes(gmshmodel):
         #Create boundary conditions
         elementTags2, nodeTags2, elementName2, elementNnodes2 = get_elements_and_nodes_in_physical_group("Fix", gmshmodel)
         fix_nodes(nodeTags2, 'XYZ')
+         
 
 class Loads:
-    def __init__(self, timeSeriesType: str, timeSeriesTag: int, patternType: str, patternTag: int):
-        self.timeSeriesType = timeSeriesType
-        self.timeSeriesTag = timeSeriesTag
-        self.patternType = patternType
-        self.patternTag = patternTag
 
+    @staticmethod
+    def addTimeseriesAndPattern(timeSeriesType, timeSeriesTag, patternType, patternTag):
         ops.timeSeries(timeSeriesType, timeSeriesTag)
         ops.pattern(patternType, patternTag, timeSeriesTag)
 
-
+    @staticmethod
     def addSelfWeight(elementTags):
-        ops.eleLoad("-ele", *elementTags, "-type", "-selfWeight", 0, 0, -1)
+        ops.eleLoad("-ele", *elementTags, "-type", "-selfWeight", 0, 0, 1)
     
+    @staticmethod
     def addMassPushover_X_pos(elementTags):
         ops.eleLoad("-ele", *elementTags, "-type", "-selfWeight", 1, 0, 0)
     
-    def addMassPushover_X_neg(elementTags):
-        ops.eleLoad("-ele", *elementTags, "-type", "-selfWeight", -1, 0, 0)
+    @staticmethod
+    def addMassPushover_Y_pos(elementTags):
+        ops.eleLoad("-ele", *elementTags, "-type", "-selfWeight", 0, 0.3, 0)
+
     
-    
-    
+class Model:
 
-    def addLiveLoads(gmshmodel):
-        elementTags3, nodeTags3, elementName3, elementNnodes3 = get_elements_and_nodes_in_physical_group("Loaded", gmshmodel)
+    def  create_solid_model(gmshmodel, material_data): #I need to add the load comb
+        ops.model("basicBuilder", "-ndm", 3, "-ndf", 3)
+        Geometry.add_elements_to_opensees(gmshmodel, material_data)
+        element_tags = ops.getEleTags()
 
-        #here I need to add more stuff
+        BoundaryConditions.fix_nodes(gmshmodel)
+        Loads.addTimeseriesAndPattern("Linear", 1, "Plain", 1)   
+        #Loads.addSelfWeight(element_tags)      
+
+        ops.record()
+        #ops.printModel("-file", "filename", "Model.json", "Model.json")
+        controlPoint = GeneralTools.getNodeWithHigherCoords(gmshmodel)
+        controlPoint = int(controlPoint)
+ 
+
+        basePoints = GeneralTools.getBaseNode(gmshmodel)
+        basePoints = basePoints[0]  # Get the array from the list
+        basePoints = basePoints.astype(int).tolist()
+        # print(basePoints)
+        # preProcessing.highlight_reactions_points(gmshmodel, basePoints)
+        
 
 
+        #print(basePoints)
+       
+        monotonicPushoverAnalysis.GravityLoads(200, controlPoint, element_tags, gmshmodel)
+        #Loads.addTimeseriesAndPattern("Linear", 2, "Plain", 2)
+        #Loads.addMassPushover_Y_pos(element_tags)
+        #monotonicPushoverAnalysis.PushOverLC("PushoverYPos", 100, controlPoint, basePoints, element_tags, gmshmodel)
+
+        

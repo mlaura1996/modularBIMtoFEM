@@ -209,65 +209,65 @@ class ConstitutiveLaws:
 
             return(Te, Ts, Td)
 
-#Elastic properties
-E = 2550.0 #Magenes_2010
-v = 0.03 #Trasveral from Magenes 2010
+# #Elastic properties
+# E = 2550.0 #Magenes_2010
+# v = 0.03 #Trasveral from Magenes 2010
 
-#Compressive properties properties
-s0 = 1.09 #Magenes
-sp = 3.28 #Magenes 
-ec = 0.030
-Gc = 4  #Ana Araujo
+# #Compressive properties properties
+# s0 = 1.09 #Magenes
+# sp = 3.28 #Magenes 
+# ec = 0.030
+# Gc = 4  #Ana Araujo
 
-#Tensile properties
-ft = 0.137
-Gt = 0.02 #Ana Araujo
+# #Tensile properties
+# ft = 0.137
+# Gt = 0.02 #Ana Araujo
 
-#Mesh size and fracture energy calibration
-meshSize = 100 
+# #Mesh size and fracture energy calibration
+# meshSize = 100 
 
-# Compute the values
-Ce, Cs, Cd = ConstitutiveLaws.BezierCurve_Compression.Compression(E, s0, sp, Gc, meshSize)
+# # Compute the values
+# Ce, Cs, Cd = ConstitutiveLaws.BezierCurve_Compression.Compression(E, s0, sp, Gc, meshSize)
 
-# Create the plots
-plt.figure(figsize=(12, 8))
+# # Create the plots
+# plt.figure(figsize=(12, 8))
 
-# Plot stress-strain curve
-plt.subplot(3, 1, 1)
-plt.plot(Ce, Cs, label='Stress-Strain')
-plt.xlabel('Strain')
-plt.ylabel('Stress (MPa)')
-plt.legend()
-plt.grid(True)
+# # Plot stress-strain curve
+# plt.subplot(3, 1, 1)
+# plt.plot(Ce, Cs, label='Stress-Strain')
+# plt.xlabel('Strain')
+# plt.ylabel('Stress (MPa)')
+# plt.legend()
+# plt.grid(True)
 
-import csv
+# import csv
 
-# Write data to CSV file
-with open('Prova.csv', 'w', newline='') as file:
-    writer = csv.writer(file)
-    writer.writerow(['x', 'y'])  # Write header
-    writer.writerows(zip(Ce, Cs))  # Write data
+# # Write data to CSV file
+# with open('Prova.csv', 'w', newline='') as file:
+#     writer = csv.writer(file)
+#     writer.writerow(['x', 'y'])  # Write header
+#     writer.writerows(zip(Ce, Cs))  # Write data
 
-# Compute the values
-Te, Ts, Td = ConstitutiveLaws.ExponentialSoftening_Tension.tension(E, ft, Gt, meshSize)
+# # Compute the values
+# Te, Ts, Td = ConstitutiveLaws.ExponentialSoftening_Tension.tension(E, ft, Gt, meshSize)
 
-# Create the plots
-plt.figure(figsize=(12, 8))
+# # Create the plots
+# plt.figure(figsize=(12, 8))
 
-# Plot stress-strain curve
-plt.subplot(3, 1, 1)
-plt.plot(Ce, Cs, label='Stress-Strain')
-plt.xlabel('Strain')
-plt.ylabel('Stress (MPa)')
-plt.legend()
-plt.grid(True)
+# # Plot stress-strain curve
+# plt.subplot(3, 1, 1)
+# plt.plot(Ce, Cs, label='Stress-Strain')
+# plt.xlabel('Strain')
+# plt.ylabel('Stress (MPa)')
+# plt.legend()
+# plt.grid(True)
 
-import csv
+# import csv
 
-# Write data to CSV file
-with open('Prova2.csv', 'w', newline='') as file:
-    writer = csv.writer(file)
-    writer.writerow(['x', 'y'])  # Write header
-    writer.writerows(zip(Te, Ts))  # Write data
+# # Write data to CSV file
+# with open('Prova2.csv', 'w', newline='') as file:
+#     writer = csv.writer(file)
+#     writer.writerow(['x', 'y'])  # Write header
+#     writer.writerows(zip(Te, Ts))  # Write data
 
 
