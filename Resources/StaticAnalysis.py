@@ -9,76 +9,79 @@ from tqdm import tqdm
 from datetime import datetime
 
 class utils:
-    
+
     @staticmethod
-    def LcBasicAnalysisLoop(filename, ok, nn, step, cNode, originalIntegrator, originalAlgorithm, originalTest):
+    def basic_analysis_loop_displacement_control(filename, cpoint, ok, step, originalIntegrator):
+        """
+        A simplified loop for displacement control analysis, with adaptive integrator adjustments and algorithm changes
+        to attempt convergence.
 
-        with open(filename, 'a') as file:
-            file.write(f"\nThe following changes were done to accomplish convergency at step {step}:")
+        Parameters:
+        - filename (str): File path for logging.
+        - ok (int): Initial convergence result from the analysis step (0 if successful, non-zero if failed).
+        - step (int): Current step in the analysis.
+        - originalIntegrator (float): Initial value for displacement control increment.
+        """
 
-        """Create an analysis loop to improve convergency"""
-        if ok !=0:
-            print("Trying 10 times smaller timestep at load factor", nn)
-            ops.integrator("LoadControl", .1)
-            ok = ops.analyze(step)    
+        # If the analysis did not converge (ok != 0), adjust integrator and algorithm settings to try again
+        if ok != 0:
+            # Log and attempt smaller increment (10x smaller)
             with open(filename, 'a') as file:
-                file.write(f"Trying 10 times smaller timestep at load factor {nn}.")    
-            
-            if ok ==0:
-                originalIntegrator
+                file.write(f"\nConvergence failed at step {step + 1}:")
+                file.write("\nTrying 10x smaller displacement increment.")
+            ops.integrator("DisplacementControl", cpoint, 2, originalIntegrator / 10)
+            ok = ops.analyze(1)
 
-        if ok !=0:
-            print("Trying 100 times smaller timestep at load factor", nn) #100 smaller is already ok
-            ops.integrator("LoadControl", .01)
-            ok = ops.analyze(step)   
+        # If it converged, reset integrator
+        if ok == 0:
+            ops.integrator("DisplacementControl", cpoint, 2, originalIntegrator)
+
+        elif ok != 0:
+            # Log and attempt even smaller increment (100x smaller)
             with open(filename, 'a') as file:
-                file.write(f"\nTrying 100 times smaller timestep at load factor {nn}.")   
-            
-            if ok ==0:
-                originalIntegrator
-                 
-        
-        if ok !=0:
-            print("Trying 200 iterations at load factor", nn)
-            ops.integrator("LoadControl", .01)
-            ops.test("NormDispIncr", 1.*10**-11, 200)
-            ok = ops.analyze(step)
+                file.write(f"\nConvergence still failed at step {step + 1}:")
+                file.write("\nTrying 100x smaller displacement increment.")
+            ops.integrator("DisplacementControl", cpoint, 2, originalIntegrator / 100)
+            ok = ops.analyze(1)
+
+        # If it converged, reset integrator
+        if ok == 0:
+            ops.integrator("DisplacementControl", cpoint, 2, originalIntegrator)
+
+        elif ok != 0:
+            # Log and increase iterations to try achieving convergence
             with open(filename, 'a') as file:
-                file.write(f"\nTrying 200 iterations at load factor {nn}.")
-            if ok ==0:
-                originalTest
-       
-        if ok !=0:
-            print("Trying Modified Newton algorithm at load factor", nn)
+                file.write(f"\nConvergence still failed at step {step + 1}:")
+                file.write("\nIncreasing iterations to 200.")
+            ops.test("NormDispIncr", 1e-11, 200)
+            ok = ops.analyze(1)
+
+        # If it converged, reset test conditions
+        if ok == 0:
+            ops.test("NormDispIncr", 1e-11, 50)
+
+        elif ok != 0:
+            # Final attempt: change algorithm to 'ModifiedNewton' if all else fails
+            with open(filename, 'a') as file:
+                file.write(f"\nConvergence failed after multiple attempts at step {step + 1}:")
+                file.write("\nSwitching algorithm to 'ModifiedNewton'.")
             ops.algorithm("ModifiedNewton")
-            ok = ops.analyze(step)
-            with open(filename, 'a') as file:
-                file.write(f"\nTrying Modified Newton algorithm at load factor {nn}.")
-            if ok ==0:
-                originalAlgorithm
+            ok = ops.analyze(1)
 
-        if ok !=0: 
-            print("Pass to displacement control", nn)
-            ops.integrator("DisplacementControl", cNode, 2, .001)
-            ok = ops.analyze(step)
-            with open(filename, 'a') as file:
-                file.write(f"\nPass to displacement at load factor {nn}.")
-            if ok ==0:
-                originalIntegrator = ops.integrator("DisplacementControl", cNode, 2, .001)
-        
         return ok
+
     
 
     @staticmethod
     def basic_analysis_loop(filename, ok, step, originalIntegrator):
             
-        if ok != 0:
-            with open(filename, 'a') as file:
-                file.write(f"\nImpossible to reach convergency at step {step + 1}:")
-                file.write(f"\nThe following change was done:")
-                file.write(f"\nUsing 10 times smaller timestep at load factor {step + 1}:")
-            ops.integrator("LoadControl", originalIntegrator/10)
-            ops.analyze(1)
+        
+        with open(filename, 'a') as file:
+            file.write(f"\nImpossible to reach convergency at step {step + 1}:")
+            file.write(f"\nThe following change was done:")
+            file.write(f"\nUsing 10 times smaller timestep at load factor {step + 1}:")
+        ops.integrator("LoadControl", originalIntegrator/10)
+        ops.analyze(1)
 
         if ok == 0:
             ops.integrator("LoadControl", originalIntegrator)            
@@ -224,7 +227,7 @@ class nonLinearAnalysis:
 
 
 class monotonicPushoverAnalysis:
-    def GravityLoads(nSteps, cPoint, element_tags, gmshmodel):
+    def gravity_analysis(nSteps, cPoint, element_tags, gmshmodel):
         
         folder = utils.create_folder("GravityLoads")
 
@@ -275,81 +278,134 @@ class monotonicPushoverAnalysis:
         except Exception as e:
             print(f"An error occurred: {e}")
 
-    def basic_pushover_settings(analysisName, nSteps, cPoint, bPoints, element_tags, gmshmodel):
+    def horizontal_analysis(nSteps, cPoint, element_tags, gmshmodel):
+        
+        folder = utils.create_folder("HLoads")
 
-        folder = utils.create_folder(analysisName)
-
-        ops.wipeAnalysis()
         ops.system("BandGeneral")
         ops.numberer("Plain")
         ops.constraints("Transformation")
-        Integrator = ops.integrator("LoadControl", 1/nSteps) #the number is the load step
-        Algorithm = ops.algorithm("Newton")
-        ops.analysis("Static")
-        Test = ops.test("NormDispIncr", 1.*10**-11, 50)
-
-        # Define Recorders
-        ops.recorder("Node", "-file", folder + "/Push_node_disp.out", "-time", "-node", cPoint, "-dof", 2, "disp")
-        ops.recorder("Node", "-file", folder + "/Push_base_reactions.out", "-time", "-node", *bPoints, "-dof", 2,  "reaction")
-        
-
-
-    def PushOverLC(analysisName, nSteps, cPoint, bPoints, element_tags, gmshmodel):
-
-        folder = utils.create_folder(analysisName)
-        ops.wipeAnalysis()
-        ops.system("BandGeneral")
-        ops.numberer("Plain")
-        ops.constraints("Transformation")
-        Integrator = ops.integrator("LoadControl", 1/nSteps) #the number is the load step
-        Algorithm = ops.algorithm("Newton")
+        Integrator = 1/nSteps
+        ops.integrator("LoadControl", 1/nSteps) #the number is the load step
+        ops.algorithm("ModifiedNewton")
         ops.analysis("Static")
 
-        #Create test
-        """The displacement test allows us to understand how much is the displacement changing from step to step.
-        If its not changing a lot, we are reaching the convergency. - the model has converged"""
-        Test = ops.test("NormDispIncr", 1.*10**-11, 50) #the first thing is the tolerance and the second thing is the number of iteration - 50 is a good amount of iterations
+        ops.test("NormDispIncr", 1.*10**-11, 50) #the first thing is the tolerance and the second thing is the number of iteration - 50 is a good amount of iterations
 
+        recorder.force_displacement_recorder(folder, "Horizonal", cPoint, 2)
 
-        # Define Recorders
-        ops.recorder("Node", "-file", folder + "/Push_node_disp.out", "-time", "-node", cPoint, "-dof", 2, "disp")
-        ops.recorder("Node", "-file", folder + "/Push_base_reactions.out", "-time", "-node", *bPoints, "-dof", 2,  "reaction")
-        
+        filename = folder + "/Horizonal_analysis_info.txt"
 
+        with open(filename, 'a') as file:
+            file.write(f"Using the following analysis settings: \nops.integrator(LoadControl, 1/{nSteps}); \nops.algorithm(Newton); \nops.test(NormDispIncr, 1.*10**-11, 50)")
+            file.write("\n ")
+            file.write("\nUsing IMPLEX")
 
-        if isinstance(cPoint, int):
-            print(f"{cPoint} is a valid single node ID.")
-        else:
-            print(f"Control Point {cPoint} is not a valid node ID.")
+        for step in tqdm(range(nSteps)):
+            with open(filename, 'a') as file:
+                file.write("\n ")
+                file.write(f"\nStarting step {step+1}.")
+            analysis = ops.analyze(1)
 
-        if isinstance(bPoints, list) and all(isinstance(i, int) for i in bPoints):
-            print("Base Points are valid node IDs.")
-        else:
-            print("Base Points are not valid node IDs.")
-        index = 0
-        for step in range(nSteps):
-            index += (1/nSteps)
-            analysis = ops.analyze(step)
+            if analysis != 0:
 
-            filename = folder + "/" + analysisName + "_PushOverInfo.txt"
-            with open(filename, 'w') as file:
-                file.write(f"Using the following analysis settings: ops.integrator(LoadControl, 1/{nSteps}); ops.algorithm(Newton); ops.test(NormDispIncr, 1.*10**-11, 50)")
+                analysis = utils.basic_analysis_loop(filename, analysis, step, Integrator)
+
+            if analysis !=0:
+                
+                with open(filename, 'a') as file:
+                    file.write("\nImpossible to reach convergency. Analysis failed.")
+                break
 
             with open(filename, 'a') as file:
-                file.write("Using IMPLEX")
-            utils.LcBasicAnalysisLoop(filename, analysis, index, step, cPoint, Integrator, Algorithm, Test)
-        
-        
-            viewnum = visualize_displacements_in_gmsh(gmshmodel, step = step)
-                      
-            gmsh.view.write(viewnum, folder + "/" + analysisName + "_displacements_" + str(step)+ ".pos") 
+                file.write("\nConverged")
 
-            try:
-                viewnum1 = visualize_eleResponse_in_gmsh(gmshmodel, element_tags, args="strains", step = step)
-                gmsh.view.write(viewnum1, folder + "/" + analysisName + "_strain_" + str(step)+ ".pos") 
+        viewnum = visualize_displacements_in_gmsh(gmshmodel)   
+        gmsh.view.write(viewnum, folder + "/Horizonal_Displacement.pos") 
 
-            except Exception as e:
-                print(f"An error occurred: {e}")
+        viewnum2 = visualize_reactions_in_gmsh(gmshmodel)
+        gmsh.view.write(viewnum2, folder + "/Horizonal_Reactions.pos") 
+
+        try:
+            visualize_eleResponse_in_gmsh(gmshmodel, element_tags, args="strains")
+        except Exception as e:
+            print(f"An error occurred: {e}")
+    
+    def basic_displacement_control_pushover(nSteps, cPoint, element_tags, gmshmodel, max_attempts=5, tolerance=1e-11, min_step_size=1e-4):
+        """
+        Perform a displacement-controlled pushover analysis in OpenSees with adaptive convergence control,
+        and generate Gmsh visualizations for displacements, reactions, and strains at the end.
+
+        Parameters:
+        - nSteps (int): Number of steps for the pushover analysis.
+        - cPoint (int): Node tag for the control point.
+        - element_tags (list of int): List of element tags to visualize responses.
+        - gmshmodel (Gmsh model object): The Gmsh model for visualizing results.
+        - max_attempts (int): Maximum number of attempts for each step to achieve convergence.
+        - tolerance (float): Initial convergence tolerance.
+        - min_step_size (float): Minimum allowable displacement increment (load step).
+        """
+
+        # Set up folder for results and analysis configurations
+        folder = utils.create_folder("Pushover")
+        filename = f"{folder}/Pushover_analysis_info.txt"
+
+        # Configure OpenSees analysis
+        ops.system("BandGeneral")
+        ops.numberer("Plain")
+        ops.constraints("Transformation")
+        integrator_value = 1 / nSteps
+        ops.integrator("DisplacementControl", cPoint, 2, 0.01)  # Control in Y-axis by default
+        ops.algorithm("ModifiedNewton")
+        ops.analysis("Static")
+        ops.test("NormDispIncr", tolerance, 50)  # Initial tolerance setting
+
+        # Record analysis settings
+        recorder.force_displacement_recorder(folder, "pushover", cPoint, 2)
+
+        with open(filename, 'a') as file:
+            file.write(f"Analysis settings:\nIntegrator: DisplacementControl (1/{nSteps})\nAlgorithm: ModifiedNewton\nTolerance: {tolerance}, Iterations: 50\n")
+
+        # Run the pushover analysis with adaptive loop
+        for step in tqdm(range(nSteps), desc="Running pushover analysis"):
+
+            with open(filename, 'a') as file:
+                file.write("\n ")
+                file.write(f"\nStarting step {step+1}.")
+            analysis = ops.analyze(1)
+
+            analysis = utils.basic_analysis_loop_displacement_control(filename, cPoint, analysis, step, integrator_value)
+
+            if analysis !=0:
+                
+                with open(filename, 'a') as file:
+                    file.write("\nImpossible to reach convergency. Analysis failed.")
+                break
+            with open(filename, 'a') as file:
+                file.write("\nConverged")
+
+        # Visualization steps
+        try:
+            viewnum_disp = visualize_displacements_in_gmsh(gmshmodel)
+            gmsh.view.write(viewnum_disp, f"{folder}/Displacements.pos")
+
+            viewnum_react = visualize_reactions_in_gmsh(gmshmodel)
+            gmsh.view.write(viewnum_react, f"{folder}/Reactions.pos")
+
+            viewnum_strain = visualize_eleResponse_in_gmsh(gmshmodel, element_tags, args="strains")
+            gmsh.view.write(viewnum_strain, f"{folder}/Strains.pos")
+
+        except Exception as e:
+            print(f"An error occurred during visualization: {e}")
+
+        print("Pushover analysis and visualization complete.")
+
+
+
+        
+
+
+
         
 
 

@@ -1,0 +1,44 @@
+Analysis settings:
+Integrator: DisplacementControl (1/100)
+Algorithm: ModifiedNewton
+Tolerance: 1e-11, Iterations: 50
+
+Starting step 1
+
+Attempt 1 with algorithm ModifiedNewton.
+Step 1 failed. Reducing step size to 0.00500.
+Attempt 2 with algorithm KrylovNewton.
+Attempt 3 with algorithm BFGS.
+Step 1 converged on attempt 4 with step size 0.00500 and tolerance 1.0e-11.
+Converged
+Starting step 2
+
+Step 2 converged on attempt 1 with step size 0.01000 and tolerance 1.0e-11.
+Converged
+Starting step 3
+
+Step 3 converged on attempt 1 with step size 0.01000 and tolerance 1.0e-11.
+Converged
+Starting step 4
+
+Attempt 1 with algorithm ModifiedNewton.
+Step 4 failed. Reducing step size to 0.00500.
+Attempt 2 with algorithm KrylovNewton.
+Attempt 3 with algorithm BFGS.
+Step 4 failed. Reducing step size to 0.00250.
+Attempt 4 with algorithm SecantNewton.
+Increasing tolerance to 1.0e-10 as a final attempt.
+Step 4 converged on attempt 5 with step size 0.00250 and tolerance 1.0e-10.
+Converged
+Starting step 5
+
+Attempt 1 with algorithm ModifiedNewton.
+Step 5 failed. Reducing step size to 0.00500.
+Attempt 2 with algorithm KrylovNewton.
+Attempt 3 with algorithm BFGS.
+Step 5 failed. Reducing step size to 0.00250.
+Attempt 4 with algorithm SecantNewton.
+Increasing tolerance to 1.0e-10 as a final attempt.
+Attempt 5 with algorithm Newton.
+Step 5 failed to converge after 5 attempts with minimum step size 0.00010.
+Failed to converge. Analysis stopped.

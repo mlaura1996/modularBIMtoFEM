@@ -1,0 +1,659 @@
+Using the following analysis settings: 
+ops.integrator(LoadControl, 1/500); 
+ops.algorithm(Newton); 
+ops.test(NormDispIncr, 1.*10**-11, 50)
+ 
+Using IMPLEX
+ 
+Starting step 1.
+Converged
+ 
+Starting step 2.
+Converged
+ 
+Starting step 3.
+Converged
+ 
+Starting step 4.
+Converged
+ 
+Starting step 5.
+Converged
+ 
+Starting step 6.
+Converged
+ 
+Starting step 7.
+Converged
+ 
+Starting step 8.
+Converged
+ 
+Starting step 9.
+Converged
+ 
+Starting step 10.
+Converged
+ 
+Starting step 11.
+Converged
+ 
+Starting step 12.
+Converged
+ 
+Starting step 13.
+Converged
+ 
+Starting step 14.
+Converged
+ 
+Starting step 15.
+Converged
+ 
+Starting step 16.
+Converged
+ 
+Starting step 17.
+Converged
+ 
+Starting step 18.
+Converged
+ 
+Starting step 19.
+Converged
+ 
+Starting step 20.
+Converged
+ 
+Starting step 21.
+Converged
+ 
+Starting step 22.
+Converged
+ 
+Starting step 23.
+Converged
+ 
+Starting step 24.
+Converged
+ 
+Starting step 25.
+Converged
+ 
+Starting step 26.
+Converged
+ 
+Starting step 27.
+Converged
+ 
+Starting step 28.
+Converged
+ 
+Starting step 29.
+Converged
+ 
+Starting step 30.
+Converged
+ 
+Starting step 31.
+Converged
+ 
+Starting step 32.
+Converged
+ 
+Starting step 33.
+Converged
+ 
+Starting step 34.
+Converged
+ 
+Starting step 35.
+Converged
+ 
+Starting step 36.
+Converged
+ 
+Starting step 37.
+Converged
+ 
+Starting step 38.
+Converged
+ 
+Starting step 39.
+Converged
+ 
+Starting step 40.
+Converged
+ 
+Starting step 41.
+Converged
+ 
+Starting step 42.
+Converged
+ 
+Starting step 43.
+Converged
+ 
+Starting step 44.
+Converged
+ 
+Starting step 45.
+Converged
+ 
+Starting step 46.
+Converged
+ 
+Starting step 47.
+Converged
+ 
+Starting step 48.
+Converged
+ 
+Starting step 49.
+Converged
+ 
+Starting step 50.
+Converged
+ 
+Starting step 51.
+Converged
+ 
+Starting step 52.
+Converged
+ 
+Starting step 53.
+Converged
+ 
+Starting step 54.
+Converged
+ 
+Starting step 55.
+Converged
+ 
+Starting step 56.
+Converged
+ 
+Starting step 57.
+Converged
+ 
+Starting step 58.
+Converged
+ 
+Starting step 59.
+Converged
+ 
+Starting step 60.
+Converged
+ 
+Starting step 61.
+Converged
+ 
+Starting step 62.
+Converged
+ 
+Starting step 63.
+Converged
+ 
+Starting step 64.
+Converged
+ 
+Starting step 65.
+Converged
+ 
+Starting step 66.
+Converged
+ 
+Starting step 67.
+Converged
+ 
+Starting step 68.
+Converged
+ 
+Starting step 69.
+Converged
+ 
+Starting step 70.
+Converged
+ 
+Starting step 71.
+Converged
+ 
+Starting step 72.
+Converged
+ 
+Starting step 73.
+Converged
+ 
+Starting step 74.
+Converged
+ 
+Starting step 75.
+Converged
+ 
+Starting step 76.
+Converged
+ 
+Starting step 77.
+Converged
+ 
+Starting step 78.
+Converged
+ 
+Starting step 79.
+Converged
+ 
+Starting step 80.
+Converged
+ 
+Starting step 81.
+Converged
+ 
+Starting step 82.
+Converged
+ 
+Starting step 83.
+Converged
+ 
+Starting step 84.
+Converged
+ 
+Starting step 85.
+Converged
+ 
+Starting step 86.
+Converged
+ 
+Starting step 87.
+Converged
+ 
+Starting step 88.
+Converged
+ 
+Starting step 89.
+Converged
+ 
+Starting step 90.
+Converged
+ 
+Starting step 91.
+Converged
+ 
+Starting step 92.
+Converged
+ 
+Starting step 93.
+Converged
+ 
+Starting step 94.
+Converged
+ 
+Starting step 95.
+Converged
+ 
+Starting step 96.
+Converged
+ 
+Starting step 97.
+Converged
+ 
+Starting step 98.
+Converged
+ 
+Starting step 99.
+Converged
+ 
+Starting step 100.
+Converged
+ 
+Starting step 101.
+Converged
+ 
+Starting step 102.
+Converged
+ 
+Starting step 103.
+Converged
+ 
+Starting step 104.
+Converged
+ 
+Starting step 105.
+Converged
+ 
+Starting step 106.
+Converged
+ 
+Starting step 107.
+Converged
+ 
+Starting step 108.
+Converged
+ 
+Starting step 109.
+Converged
+ 
+Starting step 110.
+Converged
+ 
+Starting step 111.
+Converged
+ 
+Starting step 112.
+Converged
+ 
+Starting step 113.
+Converged
+ 
+Starting step 114.
+Converged
+ 
+Starting step 115.
+Converged
+ 
+Starting step 116.
+Converged
+ 
+Starting step 117.
+Converged
+ 
+Starting step 118.
+Converged
+ 
+Starting step 119.
+Converged
+ 
+Starting step 120.
+Converged
+ 
+Starting step 121.
+Converged
+ 
+Starting step 122.
+Converged
+ 
+Starting step 123.
+Converged
+ 
+Starting step 124.
+Converged
+ 
+Starting step 125.
+Converged
+ 
+Starting step 126.
+Converged
+ 
+Starting step 127.
+Converged
+ 
+Starting step 128.
+Converged
+ 
+Starting step 129.
+Converged
+ 
+Starting step 130.
+Converged
+ 
+Starting step 131.
+Converged
+ 
+Starting step 132.
+Converged
+ 
+Starting step 133.
+Converged
+ 
+Starting step 134.
+Converged
+ 
+Starting step 135.
+Converged
+ 
+Starting step 136.
+Converged
+ 
+Starting step 137.
+Converged
+ 
+Starting step 138.
+Converged
+ 
+Starting step 139.
+Converged
+ 
+Starting step 140.
+Converged
+ 
+Starting step 141.
+Converged
+ 
+Starting step 142.
+Converged
+ 
+Starting step 143.
+Converged
+ 
+Starting step 144.
+Converged
+ 
+Starting step 145.
+Converged
+ 
+Starting step 146.
+Converged
+ 
+Starting step 147.
+Converged
+ 
+Starting step 148.
+Converged
+ 
+Starting step 149.
+Converged
+ 
+Starting step 150.
+Converged
+ 
+Starting step 151.
+Converged
+ 
+Starting step 152.
+Converged
+ 
+Starting step 153.
+Converged
+ 
+Starting step 154.
+Converged
+ 
+Starting step 155.
+Converged
+ 
+Starting step 156.
+Converged
+ 
+Starting step 157.
+Converged
+ 
+Starting step 158.
+Converged
+ 
+Starting step 159.
+Converged
+ 
+Starting step 160.
+Converged
+ 
+Starting step 161.
+Converged
+ 
+Starting step 162.
+Converged
+ 
+Starting step 163.
+Converged
+ 
+Starting step 164.
+Converged
+ 
+Starting step 165.
+Converged
+ 
+Starting step 166.
+Converged
+ 
+Starting step 167.
+Converged
+ 
+Starting step 168.
+Converged
+ 
+Starting step 169.
+Converged
+ 
+Starting step 170.
+Converged
+ 
+Starting step 171.
+Converged
+ 
+Starting step 172.
+Converged
+ 
+Starting step 173.
+Converged
+ 
+Starting step 174.
+Converged
+ 
+Starting step 175.
+Converged
+ 
+Starting step 176.
+Converged
+ 
+Starting step 177.
+Converged
+ 
+Starting step 178.
+Converged
+ 
+Starting step 179.
+Converged
+ 
+Starting step 180.
+Converged
+ 
+Starting step 181.
+Converged
+ 
+Starting step 182.
+Converged
+ 
+Starting step 183.
+Converged
+ 
+Starting step 184.
+Converged
+ 
+Starting step 185.
+Converged
+ 
+Starting step 186.
+Converged
+ 
+Starting step 187.
+Converged
+ 
+Starting step 188.
+Converged
+ 
+Starting step 189.
+Converged
+ 
+Starting step 190.
+Converged
+ 
+Starting step 191.
+Converged
+ 
+Starting step 192.
+Converged
+ 
+Starting step 193.
+Converged
+ 
+Starting step 194.
+Converged
+ 
+Starting step 195.
+Converged
+ 
+Starting step 196.
+Converged
+ 
+Starting step 197.
+Converged
+ 
+Starting step 198.
+Converged
+ 
+Starting step 199.
+Converged
+ 
+Starting step 200.
+Converged
+ 
+Starting step 201.
+Converged
+ 
+Starting step 202.
+Converged
+ 
+Starting step 203.
+Converged
+ 
+Starting step 204.
+Converged
+ 
+Starting step 205.
+Converged
+ 
+Starting step 206.
+Converged
+ 
+Starting step 207.
+Converged
+ 
+Starting step 208.
+Converged
+ 
+Starting step 209.
+Converged
+ 
+Starting step 210.
+Converged
+ 
+Starting step 211.
+Converged
+ 
+Starting step 212.
+Converged
+ 
+Starting step 213.
+Converged
+ 
+Starting step 214.
+Converged
+ 
+Starting step 215.
+Converged
+ 
+Starting step 216.
+Converged
+ 
+Starting step 217.
+Converged
+ 
+Starting step 218.

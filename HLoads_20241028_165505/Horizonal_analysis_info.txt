@@ -1,0 +1,116 @@
+Using the following analysis settings: 
+ops.integrator(LoadControl, 1/100); 
+ops.algorithm(Newton); 
+ops.test(NormDispIncr, 1.*10**-11, 50)
+ 
+Using IMPLEX
+ 
+Starting step 1.
+Converged
+ 
+Starting step 2.
+Converged
+ 
+Starting step 3.
+Converged
+ 
+Starting step 4.
+Converged
+ 
+Starting step 5.
+Converged
+ 
+Starting step 6.
+Converged
+ 
+Starting step 7.
+Converged
+ 
+Starting step 8.
+Converged
+ 
+Starting step 9.
+Converged
+ 
+Starting step 10.
+Converged
+ 
+Starting step 11.
+Converged
+ 
+Starting step 12.
+Converged
+ 
+Starting step 13.
+Converged
+ 
+Starting step 14.
+Converged
+ 
+Starting step 15.
+Converged
+ 
+Starting step 16.
+Converged
+ 
+Starting step 17.
+Converged
+ 
+Starting step 18.
+Converged
+ 
+Starting step 19.
+Converged
+ 
+Starting step 20.
+Converged
+ 
+Starting step 21.
+Converged
+ 
+Starting step 22.
+Converged
+ 
+Starting step 23.
+Converged
+ 
+Starting step 24.
+Converged
+ 
+Starting step 25.
+Converged
+ 
+Starting step 26.
+Converged
+ 
+Starting step 27.
+Converged
+ 
+Starting step 28.
+Converged
+ 
+Starting step 29.
+Converged
+ 
+Starting step 30.
+Converged
+ 
+Starting step 31.
+Converged
+ 
+Starting step 32.
+Converged
+ 
+Starting step 33.
+Converged
+ 
+Starting step 34.
+Converged
+ 
+Starting step 35.
+Converged
+ 
+Starting step 36.
+Converged
+ 
+Starting step 37.

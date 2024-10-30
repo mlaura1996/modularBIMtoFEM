@@ -1,0 +1,11 @@
+Analysis settings:
+Integrator: DisplacementControl (1/100)
+Algorithm: ModifiedNewton
+Tolerance: 1e-11, Iterations: 50
+
+Starting step 1
+
+Attempt 1 with algorithm ModifiedNewton.
+Step 1 failed. Reducing step size to 0.00500.
+Attempt 2 with algorithm KrylovNewton.
+Attempt 3 with algorithm BFGS.

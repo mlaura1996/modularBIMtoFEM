@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import numpy as np 
 from  .ConstitutiveLaws import ConstitutiveLaws as Masonry
 
-g = -9810
+g = 9810
 class GeneralTools:
 
     @staticmethod
@@ -109,7 +109,7 @@ class Geometry:
 
         #Add elements to opensees
         for ele_tag, ele_nodes in zip(element_tags, node_tags):
-            ops.element('FourNodeTetrahedron', ele_tag, *ele_nodes, solid_material_tag, 0, 0, rho*g)
+            ops.element('FourNodeTetrahedron', ele_tag, *ele_nodes, solid_material_tag, 0, 0, -rho*g)
             print(f'Linear elastic fourNodeTetrahedron element with tag {ele_tag} added.')
         
         return solid_material_tag
@@ -174,7 +174,7 @@ class Geometry:
 
             #Add the tetrahedron
 
-            ops.element('FourNodeTetrahedron', element_tag, *node_tag, solid_material_tag, 0, 0, rho*g)
+            ops.element('FourNodeTetrahedron', element_tag, *node_tag, solid_material_tag, 0, 0, -rho*g)
             print('Nonlinear element added!')
     
         return solid_material_tag
@@ -229,8 +229,83 @@ class Loads:
         ops.eleLoad("-ele", *elementTags, "-type", "-selfWeight", 1, 0, 0)
     
     @staticmethod
-    def addMassPushover_Y_pos(elementTags):
-        ops.eleLoad("-ele", *elementTags, "-type", "-selfWeight", 0, 0.3, 0)
+    def addSW(gmshmodel, material_data):
+
+        ops.timeSeries("Constant", 1)
+        ops.pattern("Plain", 1, 1)
+
+        for material_dictionary in material_data:
+            name = material_dictionary['MaterialName']
+            element_tags, node_tags, element_name, elementNnodes = get_elements_and_nodes_in_physical_group(name, gmshmodel)
+            
+            print("element tag")
+            print(element_tags)
+            mrho = material_dictionary['MassDensity'] # kg / m³
+            rho = float(mrho*1e-12) # Ton / mm³
+
+            print(mrho)
+
+            for ele in element_tags:
+                ops.eleLoad("-ele", ele, "-type", "-selfWeight", 0, 0, -9810*rho)
+    
+    
+    @staticmethod
+    def addMassPushover_Y_pos(gmshmodel, material_data):
+        ops.timeSeries("Constant", 2)
+        ops.pattern("Plain", 2, 2)
+
+        for material_dictionary in material_data:
+            name = material_dictionary['MaterialName']
+            element_tags, node_tags, element_name, elementNnodes = get_elements_and_nodes_in_physical_group(name, gmshmodel)
+            
+            print("element tag")
+            print(element_tags)
+            mrho = material_dictionary['MassDensity'] # kg / m³
+            rho = float(mrho*1e-12) # Ton / mm³
+
+            print(mrho)
+
+            for ele in element_tags:
+                ops.eleLoad("-ele", ele, "-type", "-selfWeight", 0, 9810*rho, 0.)
+    
+    @staticmethod
+    def apply_total_load_to_node(gmshmodel, material_data):
+
+        ops.timeSeries("Linear", 2)
+        ops.pattern("Plain", 2, 2)
+        
+        for material_dictionary in material_data:
+            name = material_dictionary['MaterialName']
+            mrho = material_dictionary['MassDensity'] # kg / m³
+            rho = float(mrho*1e-12) # Ton / mm³
+            element_tags, node_tags, element_name, elementNnodes = get_elements_and_nodes_in_physical_group(name, gmshmodel)
+            number_of_elements = len(element_tags)
+
+            for element_tag, node_tag in zip(element_tags, node_tags):
+                volume = gmsh.model.mesh.getElementQualities([element_tag], "volume")
+                volume = volume[0]
+                volume = float(volume)
+                load = volume*g*rho
+                nodeLoad = (load/4)*0.3
+
+                for node in node_tag:
+                    ops.load(node, 0, nodeLoad, 0)
+
+            # volumes = gmsh.model.mesh.getElementQualities(element_tags, "volume")
+            # print(volumes)
+
+            # totalVol = sum(volumes)
+            
+            # # totalVol = totalVol + volume
+            # totalLoad = rho*g*totalVol
+            # localLoad = totalVol/elementNnodes
+            # for node in node_tags:
+                        
+            # # Apply lateral load in Y-direction (or X-direction if required)
+            #     ops.load(node, 0, localLoad, 0)
+
+
+
 
     
 class Model:
@@ -241,28 +316,28 @@ class Model:
         element_tags = ops.getEleTags()
 
         BoundaryConditions.fix_nodes(gmshmodel)
-        Loads.addTimeseriesAndPattern("Linear", 1, "Plain", 1)   
-        #Loads.addSelfWeight(element_tags)      
+  
 
-        ops.record()
-        #ops.printModel("-file", "filename", "Model.json", "Model.json")
+        #ops.record()
+        ops.printModel("-file", "filename", "Model.json", "Model.json")
         controlPoint = GeneralTools.getNodeWithHigherCoords(gmshmodel)
         controlPoint = int(controlPoint)
- 
+        print(controlPoint)
 
-        basePoints = GeneralTools.getBaseNode(gmshmodel)
-        basePoints = basePoints[0]  # Get the array from the list
-        basePoints = basePoints.astype(int).tolist()
-        # print(basePoints)
-        # preProcessing.highlight_reactions_points(gmshmodel, basePoints)
+        #Loads.addSW(gmshmodel, material_data)
+        ops.timeSeries("Linear", 1)
+        ops.pattern("Plain", 1, 1)
+        monotonicPushoverAnalysis.gravity_analysis(100, controlPoint, element_tags, gmshmodel)
+        Loads.apply_total_load_to_node(gmshmodel, material_data)
+   
+        #Loads.addMassPushover_Y_pos(gmshmodel, material_data)
         
+    
+        ops.printModel("-file", "filename", "Model.json", "Model.json")
 
 
-        #print(basePoints)
-       
-        monotonicPushoverAnalysis.GravityLoads(200, controlPoint, element_tags, gmshmodel)
-        #Loads.addTimeseriesAndPattern("Linear", 2, "Plain", 2)
-        #Loads.addMassPushover_Y_pos(element_tags)
-        #monotonicPushoverAnalysis.PushOverLC("PushoverYPos", 100, controlPoint, basePoints, element_tags, gmshmodel)
+        monotonicPushoverAnalysis.horizontal_analysis(100, controlPoint, element_tags, gmshmodel)
+
+ 
 
         

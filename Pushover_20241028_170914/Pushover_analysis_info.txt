@@ -1,0 +1,40 @@
+Analysis settings:
+Integrator: DisplacementControl (1/1000)
+Algorithm: ModifiedNewton
+Tolerance: 1e-11, Iterations: 50
+
+ 
+Starting step 1.
+Converged
+ 
+Starting step 2.
+Converged
+ 
+Starting step 3.
+Convergence failed at step 3:
+Trying 10x smaller displacement increment.
+Converged
+ 
+Starting step 4.
+Convergence failed at step 4:
+Trying 10x smaller displacement increment.
+Converged
+ 
+Starting step 5.
+Convergence failed at step 5:
+Trying 10x smaller displacement increment.
+Converged
+ 
+Starting step 6.
+Convergence failed at step 6:
+Trying 10x smaller displacement increment.
+Converged
+ 
+Starting step 7.
+Convergence failed at step 7:
+Trying 10x smaller displacement increment.
+Converged
+ 
+Starting step 8.
+Convergence failed at step 8:
+Trying 10x smaller displacement increment.

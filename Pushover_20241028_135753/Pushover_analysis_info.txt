@@ -1,0 +1,23 @@
+Analysis settings:
+Integrator: DisplacementControl (1/100)
+Algorithm: ModifiedNewton
+Tolerance: 1e-11, Iterations: 50
+
+ 
+Starting step 1.
+Convergence failed at step 1:
+Trying 10x smaller displacement increment.
+Convergence still failed at step 1:
+Trying 100x smaller displacement increment.
+Converged
+ 
+Starting step 2.
+Convergence failed at step 2:
+Trying 10x smaller displacement increment.
+Convergence still failed at step 2:
+Trying 100x smaller displacement increment.
+Convergence still failed at step 2:
+Increasing iterations to 200.
+Convergence failed after multiple attempts at step 2:
+Switching algorithm to 'ModifiedNewton'.
+Impossible to reach convergency. Analysis failed.

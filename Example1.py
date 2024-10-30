@@ -10,28 +10,28 @@ from Resources.Visualisation import postProcessing as ps
 
 
 
-Properties = Resources.Input.exportAlphanumericalProperties('./Models/TestWall.ifc')
-print(Properties)
+# Properties = Resources.Input.exportAlphanumericalProperties('./Models/TestWall.ifc')
+# print(Properties)
 
 
-ifc_file = ifcopenshell.open('./Models/TestWall.ifc')
-elements = ifc_file.by_type('IfcBuildingElement')
+# ifc_file = ifcopenshell.open('./Models/TestWall.ifc')
+# elements = ifc_file.by_type('IfcBuildingElement')
 
-file, labels = Resources.Input.createSpecialSTEPFile(elements, "File")
-gmshMod = Resources.Mesh.createGmshModel(file, labels, False)
-
-
-
-model.create_solid_model(gmshMod, Properties)
+# file, labels = Resources.Input.createSpecialSTEPFile(elements, "File")
+# gmshMod = Resources.Mesh.createGmshModel(file, labels, False)
 
 
-# ps.create_csv_file_for_force_displacement_recorder("GravityLoads_20241028_092158/gravity_reactions.out", "GravityLoads_20241028_092158/gravity_displacement.out", "SW.csv")
-# ps.plot_reaction_vs_displacement("SW.csv")
+
+# model.create_solid_model(gmshMod, Properties)
+
+
+ps.create_csv_file_for_force_displacement_recorder("HLoads_20241029_150253/Horizonal_reactions.out", "HLoads_20241029_150253/Horizonal_displacement.out", "HR.csv")
+ps.plot_reaction_vs_displacement("HR.csv")
 
 # gmsh.initialize()
-# gmsh.open("GravityLoads_20241028_092158/SW_Displacement.pos")
-# gmsh.open("GravityLoads_20241028_092158/SW_Reactions.pos")
-#gmsh.fltk.run()
+# gmsh.open("HLoads_20241029_150253/SW_Displacement.pos")
+# gmsh.open("HLoads_20241029_150253/SW_Reactions.pos")
+gmsh.fltk.run()
 
 
 
