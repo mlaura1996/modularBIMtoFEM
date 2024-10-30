@@ -1,0 +1,79 @@
+Using the following analysis settings: 
+ops.integrator(LoadControl, 1/100); 
+ops.algorithm(Newton); 
+ops.test(NormDispIncr, 1.*10**-11, 50)
+Using IMPLEX
+ 
+Starting step 0.
+The following changes were done to accomplish convergency at step 0:
+Converged
+ 
+Starting step 1.
+The following changes were done to accomplish convergency at step 1:
+Converged
+ 
+Starting step 2.
+The following changes were done to accomplish convergency at step 2:
+Converged
+ 
+Starting step 3.
+The following changes were done to accomplish convergency at step 3:Trying 10 times smaller timestep at load factor 0.04.
+Trying 100 times smaller timestep at load factor 0.04.
+Trying 200 iterations at load factor 0.04.
+Trying Modified Newton algorithm at load factor 0.04.
+Pass to displacement at load factor 0.04.
+Converged
+ 
+Starting step 4.
+The following changes were done to accomplish convergency at step 4:
+Converged
+ 
+Starting step 5.
+The following changes were done to accomplish convergency at step 5:
+Converged
+ 
+Starting step 6.
+The following changes were done to accomplish convergency at step 6:
+Converged
+ 
+Starting step 7.
+The following changes were done to accomplish convergency at step 7:
+Converged
+ 
+Starting step 8.
+The following changes were done to accomplish convergency at step 8:
+Converged
+ 
+Starting step 9.
+The following changes were done to accomplish convergency at step 9:
+Converged
+ 
+Starting step 10.
+The following changes were done to accomplish convergency at step 10:
+Converged
+ 
+Starting step 11.
+The following changes were done to accomplish convergency at step 11:
+Converged
+ 
+Starting step 12.
+The following changes were done to accomplish convergency at step 12:
+Converged
+ 
+Starting step 13.
+The following changes were done to accomplish convergency at step 13:
+Converged
+ 
+Starting step 14.
+The following changes were done to accomplish convergency at step 14:
+Converged
+ 
+Starting step 15.
+The following changes were done to accomplish convergency at step 15:
+Converged
+ 
+Starting step 16.
+The following changes were done to accomplish convergency at step 16:
+Converged
+ 
+Starting step 17.

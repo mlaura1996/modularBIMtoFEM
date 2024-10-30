@@ -1,0 +1,3 @@
+Using the following analysis settings: ops.integrator(LoadControl, 1/200); ops.algorithm(Newton); ops.test(NormDispIncr, 1.*10**-11, 50)Using IMPLEX
+The following changes were done to accomplish convergency at step 2:Trying 10 times smaller timestep at load factor 0.015.
+Trying 100 times smaller timestep at load factor 0.015.
