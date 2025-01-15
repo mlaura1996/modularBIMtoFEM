@@ -15,7 +15,10 @@ def createGmshModel(stepfile, labels):
     gmsh.model.occ.synchronize()
     gmshmodel = createMatPhisicalGroups(gmsh.model, labels)
     gmshmodel = fixBoundaries(gmsh.model)
-    adaptive_mesh_by_thickness(gmshmodel)
+    mesh_size(gmshmodel)
+    #adaptive_mesh_(gmshmodel)
+    #gmsh.model.geo.synchronize()
+    #gmsh.write("example_model.geo")
     #smart_mesh_model(gmshmodel)
     
     # # for load in loads:
@@ -33,7 +36,180 @@ def createGmshModel(stepfile, labels):
 
 
 
-def adaptive_mesh_by_thickness(model, scaling_factor=1, global_max_mesh=5, debug_file="mesh_debug.log"):
+import gmsh
+import re
+def mesh_size(
+    model,
+    num_threads=4,
+    scaling_factor=1,
+    global_max_mesh=10,
+    global_min_mesh=0.5,
+    debug_file="mesh_debug.log"
+):
+    """
+    Adaptive meshing ensuring at least three elements in the thickness of each solid, using parallel processing,
+    with optimizations for avoiding overly small elements in regions where larger elements are acceptable.
+    """
+    
+    # gmsh.option.setNumber("General.NumThreads", num_threads)  # Enable multithreading
+    # gmsh.option.setNumber("Mesh.Algorithm3D", 4)  # Use Frontal-Delaunay for balanced meshing
+    # gmsh.option.setNumber("Mesh.Optimize", 1)  # Enable mesh optimization
+    # gmsh.option.setNumber("Mesh.OptimizeNetgen", 1)  # Use Netgen optimization for quality
+    # gmsh.option.setNumber("Mesh.MeshSizeMax", global_max_mesh)  # Set global max mesh size
+    # gmsh.option.setNumber("Mesh.MeshSizeMin", global_min_mesh)  # Set global min mesh size
+
+    model.occ.synchronize()
+    volumes = model.getEntities(3)  # Extract 3D volumes
+
+    fields = []
+    with open(debug_file, "w") as f:
+        f.write("--- Mesh Debugging Log ---\n")
+
+        for volume in volumes:
+            name = model.getEntityName(volume[0], volume[1])
+            if not name:
+                f.write(f"No name for volume {volume}. Skipping.\n")
+                continue
+
+            match = re.search(r'(\d+\.\d+|\d+)_m', name)
+            if match:
+                thickness = float(match.group(1)) * scaling_factor
+                f.write(f"Matched thickness: {thickness} from label: {name}\n")
+
+                # Ensure at least three elements in thickness
+                if thickness <= 0.05:
+                    thickness = 0.1
+                    mesh_size = thickness
+
+                elif thickness >= 0.2:
+                    mesh_size = thickness/3
+                
+                else:
+                    mesh_size = thickness/2
+
+
+                # Boundary surfaces and curves
+                # Step 1: Extract boundary surfaces (dim 2) from volumes (dim 3)
+                points = gmsh.model.getBoundary([volume], oriented=False, combined=True, recursive=True)
+                print(name)
+                print(points)
+                for point in points:
+                    gmsh.model.mesh.setSize([point], mesh_size)
+            
+    gmsh.model.mesh.generate(3)
+
+    # Save the mesh
+    gmsh.write("output_mesh.msh")
+    gmsh.fltk.run();
+    # Finalize
+    gmsh.finalize()
+
+
+def adaptive_mesh_(
+    model,
+    num_threads=4,
+    scaling_factor=1,
+    global_max_mesh=10,
+    global_min_mesh=0.5,
+    debug_file="mesh_debug.log"
+):
+    """
+    Adaptive meshing ensuring at least three elements in the thickness of each solid, using parallel processing,
+    with optimizations for avoiding overly small elements in regions where larger elements are acceptable.
+    """
+    
+    gmsh.option.setNumber("General.NumThreads", num_threads)  # Enable multithreading
+    gmsh.option.setNumber("Mesh.Algorithm3D", 4)  # Use Frontal-Delaunay for balanced meshing
+    gmsh.option.setNumber("Mesh.Optimize", 1)  # Enable mesh optimization
+    gmsh.option.setNumber("Mesh.OptimizeNetgen", 1)  # Use Netgen optimization for quality
+    gmsh.option.setNumber("Mesh.MeshSizeMax", global_max_mesh)  # Set global max mesh size
+    gmsh.option.setNumber("Mesh.MeshSizeMin", global_min_mesh)  # Set global min mesh size
+
+    model.occ.synchronize()
+    volumes = model.getEntities(3)  # Extract 3D volumes
+
+    fields = []
+    with open(debug_file, "w") as f:
+        f.write("--- Mesh Debugging Log ---\n")
+
+        for volume in volumes:
+            name = model.getEntityName(volume[0], volume[1])
+            if not name:
+                f.write(f"No name for volume {volume}. Skipping.\n")
+                continue
+
+            match = re.search(r'(\d+\.\d+|\d+)_m', name)
+            if match:
+                thickness = float(match.group(1)) * scaling_factor
+                f.write(f"Matched thickness: {thickness} from label: {name}\n")
+
+                # Ensure at least three elements in thickness
+                if thickness <= 0.05:
+                    thickness = 0.05
+                mesh_size = thickness / 3
+
+
+                # Boundary surfaces and curves
+                # Step 1: Extract boundary surfaces (dim 2) from volumes (dim 3)
+                surfaces = gmsh.model.getBoundary([volume], oriented=False, combined=True, recursive=False)
+                surface_tags = [s[1] for s in surfaces if s[0] == 2]
+
+                # Step 2: Extract boundary curves (dim 1) from surfaces
+                curve_tags = []
+                for surface in surface_tags:
+                    curves = gmsh.model.getBoundary([(2, surface)], oriented=False, combined=True, recursive=False)
+                    for c in curves:
+                        if c[0] == 1:  # Extract only curves (dim=1)
+                            curve_tags.append(c[1])
+                            print(f"Found curve {c[1]} for surface {surface}")
+
+                field = gmsh.model.mesh.field.add("AttractorAnisoCurve")
+                gmsh.model.mesh.field.setNumbers(field, "CurvesList", curve_tags)
+                gmsh.model.mesh.field.setNumber(field, "Sampling", 40)
+
+                # Set field parameters
+                # gmsh.model.mesh.field.setNumber(field, "SizeMinNormal", mesh_size/3)
+                # gmsh.model.mesh.field.setNumber(field, "SizeMaxNormal", mesh_size)
+                gmsh.model.mesh.field.setNumber(field, "DistMin", mesh_size/2)
+                gmsh.model.mesh.field.setNumber(field, "DistMax", mesh_size)
+
+                fields.append(field)
+                f.write(f"Field {field} created with mesh size {mesh_size}\n")
+            else:
+                f.write(f"No match for volume name: {name}\n")
+
+        if fields:
+            # Combine fields using the Min field
+            combine_field = gmsh.model.mesh.field.add("Min")
+            gmsh.model.mesh.field.setNumbers(combine_field, "FieldsList", fields)
+            gmsh.model.mesh.field.setAsBackgroundMesh(combine_field)
+            f.write(f"Set background mesh field with fields: {fields}\n")
+        else:
+            f.write("No fields created. Mesh will not be adapted.\n")
+
+        # Save the background field for debugging
+        gmsh.write("background_field.pos")
+
+    try:
+        # Generate the mesh with parallel processing
+        model.mesh.generate(3)
+        gmsh.write("adaptive_mesh_optimized.msh")
+        print("Mesh generation complete with parallel processing and optimizations.")
+    except Exception as e:
+        print(f"Error during meshing: {e}")
+        gmsh.write("partial_mesh_error.msh")
+    gmsh.fltk.run(); 
+
+
+    gmsh.finalize()
+
+
+def get_mesh_size(thickness):
+    if thickness <= 0.1:
+        thickness = 0.1
+    return thickness
+
+def adaptive_mesh_by_thickness(model, scaling_factor=2, global_max_mesh=5, debug_file="mesh_debug.log"):
     """
     Apply adaptive anisotropic mesh refinement based on the thickness stored in entity names.
     
@@ -49,10 +225,7 @@ def adaptive_mesh_by_thickness(model, scaling_factor=1, global_max_mesh=5, debug
     model.occ.synchronize()
     volumes = model.getEntities(3)  # Extract 3D volumes
 
-    def get_mesh_size(thickness, scaling_factor):
-        if thickness <= 0.05:
-            return 0.01
-        return min(thickness/scaling_factor, global_max_mesh)
+
 
     fields = []
     with open(debug_file, "w") as f:
@@ -86,15 +259,16 @@ def adaptive_mesh_by_thickness(model, scaling_factor=1, global_max_mesh=5, debug
 
                 field = gmsh.model.mesh.field.add("AttractorAnisoCurve")
                 gmsh.model.mesh.field.setNumbers(field, "CurvesList", curve_tags)
-                gmsh.model.mesh.field.setNumber(field, "Sampling", 40)  # Reduce sampling to avoid over-refinement
+                gmsh.model.mesh.field.setNumber(field, "Sampling", 10)  # Reduce sampling to avoid over-refinement
 
-                mesh_size = get_mesh_size(thickness, scaling_factor)
+                mesh_size = get_mesh_size(thickness)
+                mesh_size = mesh_size/scaling_factor
 
                 gmsh.model.mesh.field.setNumber(field, "SizeMinNormal", mesh_size)
                 gmsh.model.mesh.field.setNumber(field, "SizeMaxNormal", thickness)
                 gmsh.model.mesh.field.setNumber(field, "SizeMinTangent", mesh_size)
                 gmsh.model.mesh.field.setNumber(field, "SizeMaxTangent", thickness)
-                gmsh.model.mesh.field.setNumber(field, "DistMin", thickness * 0.5)
+                gmsh.model.mesh.field.setNumber(field, "DistMin", thickness * 0.3)
                 gmsh.model.mesh.field.setNumber(field, "DistMax", thickness * 1.0)
 
                 f.write(f"Field {field} created with SizeMinNormal = {mesh_size}\n")
@@ -131,7 +305,6 @@ def adaptive_mesh_by_thickness(model, scaling_factor=1, global_max_mesh=5, debug
 
     gmsh.fltk.run()
     gmsh.finalize()
-
 
 
 
