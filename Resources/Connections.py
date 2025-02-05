@@ -1,6 +1,17 @@
 import gmsh
 import numpy as np
 from Resources import Mesh
+import re
+
+def transform_string(input_string):
+    # Use regex to capture everything before the first underscore
+    transformed_string = re.sub(r'_(.*)', '', input_string)
+    return transformed_string
+
+def extract_underscored_parts(input_string):
+    # Use regex to find all substrings between underscores, including underscores
+    matches = re.findall(r'(_[^_]+_)', input_string)
+    return matches
 
 def get_normals(tags, return_dict=True):
     """
@@ -116,10 +127,14 @@ def is_inside_wall(fragment, walls):
     
     return None  # Not inside any wall
 
-def assign_beam_fragments_to_walls(walls, fragments):
+def assign_beam_fragments_to_walls(beam, walls, fragments):
     """
     Assigns side fragments to masonry and middle fragments to timber.
     """
+    beam_name = gmsh.model.get_entity_name(3, beam)
+    beam_dim = extract_underscored_parts(beam_name)
+    beam_dim = beam_dim[0]
+    print(beam_dim)
     assigned_fragments = set()
 
     middle_fragments = []
@@ -130,6 +145,8 @@ def assign_beam_fragments_to_walls(walls, fragments):
 
         if intersecting_wall:
             wall_name = gmsh.model.get_entity_name(3, intersecting_wall)
+            wall_name = transform_string(wall_name)
+            wall_name = wall_name + beam_dim
             gmsh.model.set_entity_name(3, fragment_tag, wall_name)
             print(f"✅ Assigned fragment {fragment_tag} to {wall_name}")
             assigned_fragments.add(fragment_tag)
@@ -137,7 +154,7 @@ def assign_beam_fragments_to_walls(walls, fragments):
             middle_fragments.append(fragment_tag)
 
     for mid_frag in middle_fragments:
-        gmsh.model.set_entity_name(3, mid_frag, "Timber")
+        gmsh.model.set_entity_name(3, mid_frag, beam_name)
         print(f"✅ Assigned middle fragment {mid_frag} to Timber")
 
     gmsh.model.occ.synchronize()
@@ -189,7 +206,7 @@ def split_beam_and_assign_to_wall(gmshmodel, labels):
             fragments = new_fragments  # Update fragments for next iteration
 
             # **NEW: Assign inner beam fragments to wall groups**
-            assign_beam_fragments_to_walls(walls, fragments)
+            assign_beam_fragments_to_walls(beam_tag, walls, fragments)
             Mesh.createMatPhisicalGroups(gmshmodel, labels)
             gmsh.model.occ.synchronize()
 
