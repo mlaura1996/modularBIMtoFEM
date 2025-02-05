@@ -121,6 +121,7 @@ def assign_beam_fragments_to_walls(walls, fragments):
     Assigns side fragments to masonry and middle fragments to timber.
     """
     assigned_fragments = set()
+
     middle_fragments = []
 
     for fragment in fragments:
@@ -187,17 +188,21 @@ def split_beam_and_assign_to_wall(gmshmodel, labels):
 
             fragments = new_fragments  # Update fragments for next iteration
 
-        # **NEW: Assign inner beam fragments to wall groups**
-        assign_beam_fragments_to_walls(walls, fragments)
-        Mesh.createMatPhisicalGroups(gmshmodel, labels)
-        gmsh.model.occ.synchronize()
+            # **NEW: Assign inner beam fragments to wall groups**
+            assign_beam_fragments_to_walls(walls, fragments)
+            Mesh.createMatPhisicalGroups(gmshmodel, labels)
+            gmsh.model.occ.synchronize()
 
 
     # Cleanup duplicates
     gmsh.model.occ.removeAllDuplicates()
     gmsh.model.geo.removeAllDuplicates()
     gmsh.model.occ.synchronize()
-    gmsh.fltk.run()
+    # gmsh.fltk.run()
+
+
+
+
 
 
 
