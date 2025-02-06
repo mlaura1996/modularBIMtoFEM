@@ -127,7 +127,7 @@ def is_inside_wall(fragment, walls):
     
     return None  # Not inside any wall
 
-def assign_beam_fragments_to_walls(beam, walls, fragments):
+def assign_beam_fragments_to_walls(beam, walls, fragments, i):
     """
     Assigns side fragments to masonry and middle fragments to timber.
     """
@@ -138,15 +138,16 @@ def assign_beam_fragments_to_walls(beam, walls, fragments):
     assigned_fragments = set()
 
     middle_fragments = []
-
+    
     for fragment in fragments:
+        i = i + 1
         fragment_tag = fragment[1]
         intersecting_wall = is_inside_wall(fragment_tag, walls)
 
         if intersecting_wall:
             wall_name = gmsh.model.get_entity_name(3, intersecting_wall)
             wall_name = transform_string(wall_name)
-            wall_name = wall_name + beam_dim
+            wall_name = wall_name + beam_dim + "" + str(i) 
             gmsh.model.set_entity_name(3, fragment_tag, wall_name)
             print(f"✅ Assigned fragment {fragment_tag} to {wall_name}")
             assigned_fragments.add(fragment_tag)
@@ -178,7 +179,7 @@ def split_beam_and_assign_to_wall(gmshmodel, labels):
     # Collect wall boundaries
     wall_tuples = [(wall, [sublist[1] for sublist in gmsh.model.getBoundary([(3, wall)], oriented=False)])
                    for wall in walls]
-
+    i = 0
     for beam_tag in beams:
         beam_vertices = gmsh.model.getBoundary([(3, beam_tag)], oriented=False)
         beam_tuple = (beam_tag, [sublist[1] for sublist in beam_vertices])
@@ -193,6 +194,7 @@ def split_beam_and_assign_to_wall(gmshmodel, labels):
             new_fragments = []
 
             for fragment in fragments:
+                i =  i + 1 
                 shared_surface_list = list(shared_surfaces)
                 missing_surface = close_prism(shared_surface_list, method="loop")
 
@@ -206,8 +208,8 @@ def split_beam_and_assign_to_wall(gmshmodel, labels):
             fragments = new_fragments  # Update fragments for next iteration
 
             # **NEW: Assign inner beam fragments to wall groups**
-            assign_beam_fragments_to_walls(beam_tag, walls, fragments)
-            Mesh.createMatPhisicalGroups(gmshmodel, labels)
+            assign_beam_fragments_to_walls(beam_tag, walls, fragments, i)
+            #Mesh.createMatPhisicalGroups(gmshmodel, labels)
             gmsh.model.occ.synchronize()
 
 
