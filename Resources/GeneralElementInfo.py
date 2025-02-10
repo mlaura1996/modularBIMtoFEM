@@ -5,6 +5,7 @@ import OCC.Core.TopoDS
 from OCC.Core.BRepGProp import brepgprop_VolumeProperties
 from OCC.Core.GProp import GProp_GProps
 import re
+from Resources import Geometry
 
 # geometry settings
 settings = ifcopenshell.geom.settings()
@@ -16,6 +17,8 @@ class GeometryForVolume:
     def get_shape(slab):
         product = ifcopenshell.geom.create_shape(settings, slab)
         shape = OCC.Core.TopoDS.TopoDS_Iterator(product.geometry).Value()
+        shape = Geometry.get_lowest_solid(shape)
+        print(shape)
         return shape
 
     @staticmethod
@@ -367,18 +370,28 @@ class StructuralProperties:
     
 
 class Material:
-    def __init__(self, name, density, young_modulus, poisson_ratio, is_structural):
+    def __init__(self, name, density, young_modulus, poisson_ratio, is_structural, material_model_type,
+                 compressive_strength, tensile_strength,compression_fracture_energy, tensile_fracture_energy,
+                  compressive_elastic_behaviour ):
         self.name = name
         self.density = density
         self.young_modulus = young_modulus
         self.poisson_ratio = poisson_ratio
         self.is_structural = is_structural
+        self.material_model_type = material_model_type
+        self.compressive_strength = compressive_strength 
+        self.tensile_strength = tensile_strength 
+        self.compression_fracture_energy = compression_fracture_energy 
+        self.tensile_fracture_energy = tensile_fracture_energy 
+        self.material_model_type = material_model_type 
+        self.compressive_elastic_behaviour = compressive_elastic_behaviour
+        
     
     def __repr__(self):
         return (f"Material(name={self.name}, density={self.density} kg/m³, "
-                f"Young's Modulus={self.young_modulus} MPa, "
-                f"Poisson's Ratio={self.poisson_ratio}, "
-                f"Structural={self.is_structural})")
+                f"YoungModulus={self.young_modulus} MPa, "
+                f"PoissonRatio={self.poisson_ratio}, "
+                f"Structural={self.is_structural}, " f"MaterialModelType={self.material_model_type}")
 
 # Function to create material database from IFC file
 def create_material_database(ifc_file):
@@ -393,12 +406,19 @@ def create_material_database(ifc_file):
             properties = StructuralProperties.get_mechanical_properties(material)
             young_modulus = properties.get('YoungModulus', 0)
             poisson_ratio = properties.get('PoissonRatio', 0)
-            is_structural = common_properties.get('IsStructural', False)
+            is_structural = properties.get('isStructural', False)
+            compressive_strength = properties.get('CompressiveStrength', 0)
+            tensile_strength = properties.get('TensileStrength', 0)
+            compression_fracture_energy = properties.get('CompressionFractureEnergy', 0)
+            tensile_fracture_energy = properties.get('TensileFractureEnergy', 0)
+            material_model_type = common_properties.get('MaterialModelType', None)
+            compressive_elastic_behaviour = common_properties.get('CompressiveStressElasticBehaviour', 0)
         except Exception as e:
             print(f"The material {name}: is not structural, and it has not {e}")
             young_modulus = 0
             poisson_ratio = 0
             is_structural = False
+            material_model_type = None
 
         density = common_properties.get('MassDensity', 0)
 
@@ -407,50 +427,137 @@ def create_material_database(ifc_file):
             density,
             young_modulus,
             poisson_ratio,
-            is_structural
+            is_structural,
+            material_model_type, 
+            compressive_strength,
+            tensile_strength,
+            compression_fracture_energy,
+            tensile_fracture_energy, 
+            compressive_elastic_behaviour
         )
     
     return material_db
 
+def is_structural_material(material_name, materials):
+    """
+    Checks if a given material in the database is structural.
+    
+    :param material_name: Name of the material to check
+    :param materials: Dictionary of material objects
+    :return: The material if Structural=True, otherwise None
+    """
+    material = materials.get(material_name)
+    
+    if material and getattr(material, 'Structural', False) == True:
+        return material
+    
+
 # Homogenize slab function (updated to use new material database generation)
+# def homogenize_slab(layers, slab, material_db):
+#     total_volume = 0
+#     total_density = 0
+#     total_poisson_ratio = 0
+#     weighted_young_modulus = 0
+#     total_thickness = 0
+
+#     for layer in layers:
+#         material = material_db[layer['material_name']]
+#         shape = GeometryForVolume.get_shape(slab)
+#         volume = GeometryForVolume.get_volume_from_shape(shape)
+#         layer['volume'] = volume
+#         total_volume += volume
+#         total_density += material.density * volume
+#         total_poisson_ratio += material.poisson_ratio * volume
+#         weighted_young_modulus += material.young_modulus * volume
+#         total_thickness += layer.get('thickness', 0)
+
+#     E_eff = weighted_young_modulus / total_volume if total_volume > 0 else 0
+#     nu_eff = total_poisson_ratio / total_volume if total_volume > 0 else 0
+#     rho_eff = total_density / total_volume if total_volume > 0 else 0
+
+#     fictitious_material_name = f"Fictitious_Material{len(material_db) + 1}"
+#     material_db[fictitious_material_name] = Material(
+#         fictitious_material_name,
+#         rho_eff,
+#         E_eff,
+#         nu_eff,
+#         True
+#     )
+
+#     return {
+#         'Effective Young Modulus (MPa)': E_eff,
+#         'Effective Poisson Ratio': nu_eff,
+#         'Effective Density (kg/m^3)': rho_eff,
+#         'Material Tag': fictitious_material_name,
+#         'Total Thickness (m)': total_thickness
+#     }
+
 def homogenize_slab(layers, slab, material_db):
-    total_volume = 0
+    qsets = ifcopenshell.util.element.get_psets(slab, qtos_only=True)
+
+    gross_area = qsets['Qto_SlabBaseQuantities'].get('GrossArea', 0)
+    print(gross_area)
+
     total_density = 0
-    total_poisson_ratio = 0
-    weighted_young_modulus = 0
-    total_thickness = 0
 
+    structural_thickness = 0
+    structural_poisson_ratio = 0
+    structural_young_modulus = 0
+    compound = Geometry.get_geom(slab)
+    
+    tot_geom = GeometryForVolume.get_volume_from_shape(compound)
+    print(tot_geom)
+    structural_geom = Geometry.get_lowest_solid(compound)
+    structural_volume = GeometryForVolume.get_volume_from_shape(structural_geom)
+    print(structural_volume)
+
+
+    structural_materials = []
     for layer in layers:
-        material = material_db[layer['material_name']]
-        shape = GeometryForVolume.get_shape(slab)
-        volume = GeometryForVolume.get_volume_from_shape(shape)
-        layer['volume'] = volume
-        total_volume += volume
-        total_density += material.density * volume
-        total_poisson_ratio += material.poisson_ratio * volume
-        weighted_young_modulus += material.young_modulus * volume
-        total_thickness += layer.get('thickness', 0)
+        print(layer)
+        material_name = layer['material_name']
+        material = material_db.get(material_name)
+        total_density = + material.density
 
-    E_eff = weighted_young_modulus / total_volume if total_volume > 0 else 0
-    nu_eff = total_poisson_ratio / total_volume if total_volume > 0 else 0
-    rho_eff = total_density / total_volume if total_volume > 0 else 0
 
+        if material.is_structural == True:
+            structural_young_modulus = material.young_modulus
+            structural_poisson_ratio = material.poisson_ratio
+            structural_thickness = layer['thickness']
+            structural_density = material.density
+            struc_volume = gross_area*structural_thickness
+            structural_mass = struc_volume*structural_density
+            # Get shape and calculate volume
+        
+        else:
+            non_structural_thickness = layer['thickness']
+            non_struc_volume = gross_area*non_structural_thickness
+            non_structural_density = material.density
+            non_structural_mass = +(non_structural_density*non_struc_volume) #fare in modo di sommare
+    
+    calibrated_density =(structural_mass+non_structural_mass)/struc_volume
     fictitious_material_name = f"Fictitious_Material{len(material_db) + 1}"
     material_db[fictitious_material_name] = Material(
         fictitious_material_name,
-        rho_eff,
-        E_eff,
-        nu_eff,
-        True
+        calibrated_density,
+        structural_young_modulus,
+        structural_poisson_ratio,
+        True,
+        "LinearElastic", 
+        0, 0, 0, 0, 0
     )
 
     return {
-        'Effective Young Modulus (MPa)': E_eff,
-        'Effective Poisson Ratio': nu_eff,
-        'Effective Density (kg/m^3)': rho_eff,
+        'Effective Young Modulus (MPa)': structural_young_modulus,
+        'Effective Poisson Ratio': structural_poisson_ratio,
+        'Effective Density (kg/m^3)': calibrated_density,
         'Material Tag': fictitious_material_name,
-        'Total Thickness (m)': total_thickness
+        'Thickness (m)': structural_thickness,
+        'Structural Layer Thickness (m)': structural_thickness,
+        'Structural Layer Young Modulus (MPa)': structural_young_modulus,
+        'Structural Layer Poisson Ratio': structural_poisson_ratio
     }
+
 
 def assign_material_tags(elements, material_db):
     element_tags = {}  # Dictionary to store tags
@@ -461,7 +568,7 @@ def assign_material_tags(elements, material_db):
         if isinstance(info, list):
             result = homogenize_slab(info, element, material_db)
             fictitious_material_name = result['Material Tag']
-            total_thickness = result['Total Thickness (m)']
+            total_thickness = result['Thickness (m)']
             tag = f"{fictitious_material_name}_{total_thickness:.2f}_m"
         else:
             thickness = info.get('thickness', 0) or 0
