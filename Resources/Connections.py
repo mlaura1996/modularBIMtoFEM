@@ -2,6 +2,7 @@ import gmsh
 import numpy as np
 from Resources import Mesh
 import re
+from .gmsh2opensees import * 
 
 def transform_string(input_string):
     # Use regex to capture everything before the first underscore
@@ -200,6 +201,9 @@ def split_beam_and_assign_to_wall(gmshmodel, labels):
 
                 initial_volumes = gmsh.model.getEntities(3)
                 _, fragment_map = gmsh.model.occ.fragment([fragment], [(2, missing_surface)])
+                #_, fragment_map = gmsh.model.occ.intersect([fragment], [(2, missing_surface)])
+
+                
                 
                 gmsh.model.occ.synchronize()
 
@@ -218,6 +222,92 @@ def split_beam_and_assign_to_wall(gmshmodel, labels):
     gmsh.model.geo.removeAllDuplicates()
     gmsh.model.occ.synchronize()
     # gmsh.fltk.run()
+
+
+def cutMod():
+
+    # Retrieve all physical groups (walls and beams)
+    physical_groups = gmsh.model.getPhysicalGroups()
+
+    walls = [entity for dim, tag in physical_groups if "Masonry" in gmsh.model.getPhysicalName(dim, tag)
+            for entity in gmsh.model.getEntitiesForPhysicalGroup(dim, tag)]
+
+    beams = [entity for dim, tag in physical_groups if "StructuralTimber" in gmsh.model.getPhysicalName(dim, tag)
+            for entity in gmsh.model.getEntitiesForPhysicalGroup(dim, tag)]
+
+    shared_surfaces = []
+    wall_boundary_faces = set()
+
+    # Get boundaries of walls
+    for wall in walls:
+        wall_boundaries = gmsh.model.getBoundary([(3, wall)], oriented=False)
+        wall_boundary_faces.update(wall_boundaries)  # Store all wall boundary faces
+
+    # Get boundaries of beams and find the shared surfaces
+    for beam in beams:
+        beam_boundaries = gmsh.model.getBoundary([(3, beam)], oriented=False)
+
+        for beam_face in beam_boundaries:
+            if beam_face in wall_boundary_faces:  # Check for shared faces
+                shared_surfaces.append(beam_face)  # Store shared surfaces
+
+    # Perform cut operation to separate the touching elements
+    for wall in walls:
+        for beam in beams:
+            try:
+                _, fragment_map = gmsh.model.occ.cut([(3, wall)], [(3, beam)], removeObject=False, removeTool=False)
+                gmsh.model.occ.synchronize()
+            except Exception as e:
+                print(f"Skipping cut for wall {wall} and beam {beam} due to error: {e}")
+
+
+def create2DPhysicalGroups(gmsh_model):
+    # Retrieve all physical groups (walls and beams)
+    physical_groups = gmsh_model.getPhysicalGroups()
+
+    walls = [entity for dim, tag in physical_groups if "Masonry" in gmsh_model.getPhysicalName(dim, tag)
+             for entity in gmsh_model.getEntitiesForPhysicalGroup(dim, tag)]
+
+    beams = [entity for dim, tag in physical_groups if "StructuralTimber" in gmsh_model.getPhysicalName(dim, tag)
+             for entity in gmsh_model.getEntitiesForPhysicalGroup(dim, tag)]
+    
+    wall_boundary_faces = set()
+    beam_boundary_faces = set()
+    matching_surfaces = []
+
+    # Get boundaries of walls
+    for wall in walls:
+        wall_boundaries = gmsh_model.getBoundary([(3, wall)], oriented=False)
+        wall_boundary_faces.update(wall_boundaries)  # Store all wall boundary faces
+
+    # Get boundaries of beams
+    for beam in beams:
+        beam_boundaries = gmsh_model.getBoundary([(3, beam)], oriented=False)
+        beam_boundary_faces.update(beam_boundaries)  # Store all beam boundary faces
+
+    # Identify surfaces that now occupy the same location after the cut
+    for wall_face in wall_boundary_faces:
+        for beam_face in beam_boundary_faces:
+            if gmsh_model.getEntitiesInBoundingBox(*gmsh_model.getBoundingBox(wall_face[0], wall_face[1])) == \
+               gmsh_model.getEntitiesInBoundingBox(*gmsh_model.getBoundingBox(beam_face[0], beam_face[1])):
+                matching_surfaces.append((wall_face, beam_face))
+
+    # Define separate 2D physical groups for the surfaces in the same place
+    if matching_surfaces:
+        walls_cut_surfaces = [s[0][1] for s in matching_surfaces]
+        beams_cut_surfaces = [s[1][1] for s in matching_surfaces]
+
+        gmsh_model.addPhysicalGroup(2, walls_cut_surfaces, tag=10)
+        gmsh_model.setPhysicalName(2, 10, "Wall_Cut_Surfaces")
+
+        gmsh_model.addPhysicalGroup(2, beams_cut_surfaces, tag=20)
+        gmsh_model.setPhysicalName(2, 20, "Beam_Cut_Surfaces")
+
+    print("2D Physical Groups assigned for cut surfaces.")
+
+
+
+
 
 
 
