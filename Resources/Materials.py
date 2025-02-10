@@ -1,5 +1,5 @@
 import openseespy.opensees as ops
-from gmsh2opensees import * 
+from .gmsh2opensees import * 
 import gmsh
 import numpy as np
 import math
@@ -8,6 +8,8 @@ from  .ConstitutiveLaws import ConstitutiveLaws as Masonry
 
 #constants
 g = -9.810 #mm/s2
+
+
 
 def addUniqueSolidMaterialTags(excluded_list):
 
@@ -24,7 +26,7 @@ def addUniqueSolidMaterialTags(excluded_list):
 
 def getElementHeights(gmshmodel):
     #Getting the gmsh model to calibrate the fracture energy
-    elementTags, nodeTags, elementName, elementNnodes = get_elements_and_nodes_in_physical_group('StructuralMasonry3', gmshmodel)
+    elementTags, nodeTags, elementName, elementNnodes = get_elements_and_nodes_in_physical_group('IrregularMasonry', gmshmodel)
     volumes = gmsh.model.mesh.getElementQualities(elementTags, "volume")
     print(len(elementTags))
     print(len(volumes))
@@ -34,12 +36,14 @@ def getElementHeights(gmshmodel):
 
         return side_length
     
-def CreateLinearElasticModel(gmshmodel, dictionary, solidMaterialTag):
-    PaE = dictionary['YoungModulus'] #Pa - N/m2
+
+    
+def CreateLinearElasticModel(gmshmodel, material, solidMaterialTag):
+    PaE = material.young_modulus #Pa - N/m2
     E = (float(PaE))*1e-6 #MPa - N/mm2
-    mrho = dictionary['MassDensity'] # kg / m³
+    mrho = material.density # kg / m³
     rho = float(mrho*1e-9) # kg / mm³
-    nu = dictionary['PoissonRatio'] #--
+    nu = material.poisson_ratio #--
 
     #add material to opensees
     ops.nDMaterial('ElasticIsotropic', solidMaterialTag, E, nu, rho)
@@ -47,7 +51,7 @@ def CreateLinearElasticModel(gmshmodel, dictionary, solidMaterialTag):
 
     
     #assign material to element
-    PhysicalGroup = dictionary['MaterialName']
+    PhysicalGroup = material.name
     elementTags, nodeTags, elementName, elementNnodes = get_elements_and_nodes_in_physical_group(PhysicalGroup, gmshmodel)
 
     #Add elements to opensees
@@ -58,34 +62,34 @@ def CreateLinearElasticModel(gmshmodel, dictionary, solidMaterialTag):
     
     return(solidMaterialTag)
 
-def CreatePlasticDamageModel(gmshmodel, dictionary, solidMaterialTag):
+def CreatePlasticDamageModel(gmshmodel, material, solidMaterialTag):
 
-    PaE = dictionary['YoungModulus'] #Pa - N/m2
+    PaE = material.young_modulus #Pa - N/m2
     E = (float(PaE))*1e-6 #MPa - N/mm2
-    mrho = dictionary['MassDensity'] # kg / m³
+    mrho = material.density # kg / m³
     rho = float(mrho*1e-9) # kg / mm³
-    nu = dictionary['PoissonRatio'] #--
-    PaFc = dictionary['CompressiveStrength'] #Pa - N/m2
+    nu = material.poisson_ratio #--
+    PaFc = material.compressive_strength #Pa - N/m2
     fc = float(PaFc)*1e-6 #MPa - N/mm2
-    PaFt = dictionary['TensileStrength'] #Pa - N/m2
+    PaFt = material.tensile_strength #Pa - N/m2
     ft = float(PaFt)*1e-6 #MPa - N/mm2
-    if 'CompressionFractureEnergy' in dictionary:
-        Gc = float(dictionary['CompressionFractureEnergy'])
+    if material.compression_fracture_energy is not 0:
+        Gc = float(material.compression_fracture_energy)
     else: 
         Gc = 15 + (0.43*fc) - 0.0036*(fc**2)
     
-    if 'TensionFractureEnergy' in dictionary:
-        Gt = float(dictionary['TensionFractureEnergy'])
+    if material.tensile_fracture_energy is not 0:
+        Gt = float(material.tension_fracture_energy)
     else: 
         Gt = 0.025*(fc/10)**(0.7)
     
-    if 'CompressiveStressElasticBehaviour' in dictionary:
-        f0 = float(dictionary['CompressiveStressElasticBehaviour'])
+    if material.compressive_elastic_behaviour is not 0:
+        f0 = float(material.compressive_elastic_behaviour)
     else:
-        f0 = fc/3
+        f0 = fc/3 #except very specific masonry types - 
 
     #Creating the geometry
-    PhysicalGroup = dictionary['MaterialName']
+    PhysicalGroup = material.name
     
     #Getting the gmsh model
     elementTags, nodeTags, elementName, elementNnodes = get_elements_and_nodes_in_physical_group(PhysicalGroup, gmshmodel)
@@ -100,6 +104,7 @@ def CreatePlasticDamageModel(gmshmodel, dictionary, solidMaterialTag):
 
         solidMaterialTag = solidMaterialTag + 1
         side_length = (6 * math.sqrt(2) * volume) ** (1/3)
+        #print(side_length)
 
         #Traction
         Te, Ts, Td = Masonry.ExponentialSoftening_Tension.tension(E, ft, Gt, side_length)
@@ -120,7 +125,7 @@ def CreatePlasticDamageModel(gmshmodel, dictionary, solidMaterialTag):
         #Add the tetrahedron
 
         ops.element('FourNodeTetrahedron', elementTag, *nodeTag, solidMaterialTag, 0, 0, rho*g)
-        print('Nonlinear element added!')
+        #print('Nonlinear element added!')
 
         
     return solidMaterialTag
