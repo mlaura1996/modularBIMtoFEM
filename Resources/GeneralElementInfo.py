@@ -536,7 +536,7 @@ def homogenize_slab(layers, slab, material_db):
             non_structural_mass = +(non_structural_density*non_struc_volume) #fare in modo di sommare
     
     calibrated_density =(structural_mass+non_structural_mass)/struc_volume
-    fictitious_material_name = f"Fictitious_Material{len(material_db) + 1}"
+    fictitious_material_name = f"FictitiousMaterial{len(material_db) + 1}" 
     material_db[fictitious_material_name] = Material(
         fictitious_material_name,
         calibrated_density,
