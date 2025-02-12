@@ -122,27 +122,30 @@ class Element:
     
     @staticmethod 
     def create_plastic_damage_elements(gmshmodel, material, solid_material_tag) -> int:
-        PaE = material.young_modulus #MPa - N/mm2
-        E = (float(PaE))*1e6 #Pa - N/m2
+        MPaE = material.young_modulus #MPa - N/mm2
+        E = (float(MPaE))*1e6 #MPa - N/m2
         rho = material.density # kg / m³
+        #rho = float(mrho*1e-9) # kg / mm³
         nu = material.poisson_ratio #--
-
-        fc = material.compressive_strength #MPa - N/mm2
-        #fc = float(PaFc)*1e-6 #MPa - N/mm2
-        ft = material.tensile_strength #MPa - N/mm2
-        #ft = float(PaFt)*1e-6 #MPa - N/mm2
+        MPaFc = material.compressive_strength #MPa - N/mm2
+        fc = float(MPaFc)*1e6 #Pa - N/m2
+        MPaFt = material.tensile_strength #MPa - N/mm2
+        ft = float(MPaFt)*1e6 #Pa - N/mm2
         if material.compression_fracture_energy != 0:
             Gc = float(material.compression_fracture_energy)
+            Gc = float(Gc*1e6)
         else: 
             Gc = 15 + (0.43*fc) - 0.0036*(fc**2)
         
         if material.tensile_fracture_energy != 0:
             Gt = float(material.tensile_fracture_energy)
+            Gt = float(Gt*1e6)
         else: 
             Gt = 0.025*(fc/10)**(0.7)
         
         if material.compressive_elastic_behaviour != 0:
             f0 = float(material.compressive_elastic_behaviour)
+            f0 = float(f0*1e6)
         else:
             f0 = fc/3
 
