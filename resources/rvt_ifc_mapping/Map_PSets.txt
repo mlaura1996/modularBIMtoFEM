@@ -1,0 +1,48 @@
+PropertySet:	Pset_MaterialCommon	T	IfcMaterial
+	MaterialModelType	Text	MaterialModelType
+	MassDensity	Real	Density
+
+PropertySet:	Pset_MaterialMechanical	T	IfcMaterial
+	YoungModulus	Real	YoungsModulus
+	PoissonRatio	Real	PoissonRatio
+	CompressiveStrength	Real	CompressiveStrength
+	TensileStrength	Real	TensileStrength
+	CompressionFractureEnergy	Real	CompressionFractureEnergy
+	TensionFractureEnergy	Real	TensionFractureEnergy
+	CompressiveStressElasticBehaviour	Real	CompressiveStressElasticBehaviour
+	CombinationCoefficient	Real	CombinationCoefficient
+	Overload	Real	Overload
+	isStructural	Boolean	isStructural
+
+PropertySet:	Pset_BeamCommon	I	IfcBeam
+	CrossSectionBase	Real	CrossSectionBase	
+	CrossSectionHeight	Real	CrossSectionHeight	
+
+PropertySet:	Pset_ColumnCommon	I	IfcColumn
+	CrossSectionWidth	Real	Width	
+	CrossSectionHeight	Real	Height	
+
+PropertySet:	Structural	I	IfcWindow
+	LintelThickness	Real	LintelThickness	
+
+PropertySet:	Structural	I	IfcDoor
+	LintelThickness	Real	LintelThickness		
+
+PropertySet:	Pset_SpaceOccupancyRequirements	T	IfcSpace
+	OccupancyType	Text	OccupancyType
+
+PropertySet:	Pset_DoorWindowGlazingType	T	IfcWindow
+	SolarHeatGainTransmittance	Real	Pset_DoorWindowGlazingType.SolarHeatGainCoefficient
+
+PropertySet:	Pset_DoorWindowGlazingType	T	IfcDoor
+	SolarHeatGainTransmittance	Real	Pset_DoorWindowGlazingType.SolarHeatGainCoefficient
+
+PropertySet:	Pset_DoorWindowGlazingType	T	IfcWindow
+	VisibleLightTransmittance	Real	Pset_DoorWindowGlazingType.VisibleLightTransmittance
+
+PropertySet:	Pset_DoorWindowGlazingType	T	IfcDoor
+	VisibleLightTransmittance	Real	Pset_DoorWindowGlazingType.VisibleLightTransmittance
+
+PropertySet:	Pset_WindowCommon	T	IfcWindow
+	VisibleTransmittance	Real	Pset_WindowCommon.ThermalTransmittance
+	
