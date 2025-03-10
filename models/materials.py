@@ -1,6 +1,6 @@
 from core.config import gmsh, ops, math, G 
 from external.gmsh2opensees import *
-from masonry_law import *
+from .masonry_law import ConstitutiveLaws
 
 def addUniqueSolidMaterialTags(excluded_list):
 
