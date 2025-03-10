@@ -67,14 +67,14 @@ class Element:
     @staticmethod 
     def create_plastic_damage_elements(gmshmodel, material, solid_material_tag) -> int:
         MPaE = material.young_modulus #MPa - N/mm2
-        E = (float(MPaE))*1e6 #MPa - N/m2
+        E = (float(MPaE)) #MPa - N/m2
         rho = material.density # kg / m³
-        #rho = float(mrho*1e-9) # kg / mm³
+        rho = float(rho*1e-9) # kg / mm³
         nu = material.poisson_ratio #--
-        MPaFc = material.compressive_strength #MPa - N/mm2
-        fc = float(MPaFc)*1e6 #Pa - N/m2
-        MPaFt = material.tensile_strength #MPa - N/mm2
-        ft = float(MPaFt)*1e6 #Pa - N/mm2
+        fc = material.compressive_strength #MPa - N/mm2
+        #fc = float(MPaFc)*1e6 #Pa - N/m2
+        ft = material.tensile_strength #MPa - N/mm2
+        #ft = float(MPaFt)*1e6 #Pa - N/mm2
         if material.compression_fracture_energy != 0:
             Gc = float(material.compression_fracture_energy)
             Gc = float(Gc*1e6)
@@ -108,6 +108,7 @@ class Element:
             solid_material_tag = solid_material_tag + 1
             side_length = Element.get_element_side_lenght([element_tag])
             side_length = side_length[0]
+            print(side_length)
             print(side_length)
 
             #Traction
@@ -168,6 +169,8 @@ class BoundaryConditions:
         #Create boundary conditions
         elementTags2, nodeTags2, elementName2, elementNnodes2 = get_elements_and_nodes_in_physical_group("Fix", gmshmodel)
         fix_nodes(nodeTags2, 'XYZ')
+
+        return nodeTags2
 
 class Loads:
     def __init__(self, timeSeriesType: str, timeSeriesTag: int, patternType: str, patternTag: int):
