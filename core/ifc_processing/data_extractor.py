@@ -251,6 +251,7 @@ class MaterialsAndThicknesses:
             print("Retriving thickness from QSets")
             if element.is_a() == "IfcBeam" or element.is_a() == "IfcColumn":
                 thickness = MaterialsAndThicknesses.get_thickness_from_pset(element)
+                print(thickness)
             elif element.is_a() == "IfcWall" or element.is_a() == "IfcSlab" or element.is_a() == "IfcFooting":
                 thickness = MaterialsAndThicknesses.get_thickness_from_qset(element)
             elif element.is_a() == "IfcRoof":
@@ -372,6 +373,11 @@ class Material:
         return (f"Material(name={self.name}, density={self.density} kg/m³, "
                 f"YoungModulus={self.young_modulus} MPa, "
                 f"PoissonRatio={self.poisson_ratio}, "
+                f"CompressiveStrength={self.compressive_strength} MPa,"
+                f"TensileStrength={self.tensile_strength} MPa,"
+                f"CompressionFractureEnergy={self.compression_fracture_energy} MPa,"
+                f"TensileFractureEnergy={self.tensile_fracture_energy} MPa,"
+                f"CompressiveStressElasticBehaviour={self.compressive_elastic_behaviour} MPa,"
                 f"Structural={self.is_structural}, " f"MaterialModelType={self.material_model_type}")
 
     # Function to create material database from IFC file
