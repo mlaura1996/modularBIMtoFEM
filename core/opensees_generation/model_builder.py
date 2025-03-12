@@ -40,9 +40,10 @@ class Element:
     @staticmethod
     def create_linear_elastic_element(gmshmodel, material, solid_material_tag) -> int:
 
-        PaE = material.young_modulus #MPa - N/mm2
-        E = (float(PaE))*1e6 #Pa - N/m2
+        E = material.young_modulus #MPa - N/mm2
+        #E = (float(PaE))*1e6 #Pa - N/m2
         rho = material.density # kg / m³
+        rho = float(rho*1e-12) # kg / mm³
         nu = material.poisson_ratio #--
         #add nD material to opensees
         ops.nDMaterial('ElasticIsotropic', solid_material_tag, E, nu, rho)
@@ -69,7 +70,7 @@ class Element:
         MPaE = material.young_modulus #MPa - N/mm2
         E = (float(MPaE)) #MPa - N/m2
         rho = material.density # kg / m³
-        rho = float(rho*1e-9) # kg / mm³
+        rho = float(rho*1e-12) # kg / mm³
         nu = material.poisson_ratio #--
         fc = material.compressive_strength #MPa - N/mm2
         #fc = float(MPaFc)*1e6 #Pa - N/m2
@@ -139,7 +140,7 @@ class Element:
         """This method create the opensees elements to add to the model."""  
         print(materials_dict)
         names = get_solid_physical_groups(gmshmodel)
-        materials_dict = filter_materials_by_name(materials_dict, names)
+        #materials_dict = filter_materials_by_name(materials_dict, names)
         print(materials_dict)
         tags = []
         for matname, material in materials_dict.items():
@@ -156,7 +157,7 @@ class Element:
             #Define Material Type
             if material.material_model_type == 'LinearElastic':
                 tag = Element.create_linear_elastic_element(gmshmodel, material, solid_material_tag)                      
-            if material.material_model_type == 'PlasticDamage':
+            elif material.material_model_type == 'PlasticDamage':
                 tag = Element.create_plastic_damage_elements(gmshmodel, material, solid_material_tag)  
             tags.append(tag)         
 
@@ -168,6 +169,7 @@ class BoundaryConditions:
     def fixNodes(gmshmodel):
         #Create boundary conditions
         elementTags2, nodeTags2, elementName2, elementNnodes2 = get_elements_and_nodes_in_physical_group("Fix", gmshmodel)
+        print(nodeTags2)
         fix_nodes(nodeTags2, 'XYZ')
 
         return nodeTags2
