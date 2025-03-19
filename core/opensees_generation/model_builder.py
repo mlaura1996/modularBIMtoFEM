@@ -4,6 +4,7 @@ from models.materials import *
 from models.masonry_law import *
 from utils.gmsh_helpers import get_solid_physical_groups
 from utils.dict_helper import filter_materials_by_name
+import gmsh
 
 
 class ModelBuilder:
@@ -43,12 +44,12 @@ class Element:
         E = material.young_modulus #MPa - N/mm2
         #E = (float(PaE))*1e6 #Pa - N/m2
         rho = material.density # kg / m³
-        rho = float(rho*1e-12) # kg / mm³
+        rho = float(rho*1e-12) # Ton / mm³
         nu = material.poisson_ratio #--
         #add nD material to opensees
         ops.nDMaterial('ElasticIsotropic', solid_material_tag, E, nu, rho)
 
-        print('Elastic material created with tag: ', solid_material_tag)
+        #print('Elastic material created with tag: ', solid_material_tag)
         #assign material to element
         physical_group = material.name
 
@@ -70,7 +71,7 @@ class Element:
         MPaE = material.young_modulus #MPa - N/mm2
         E = (float(MPaE)) #MPa - N/m2
         rho = material.density # kg / m³
-        rho = float(rho*1e-12) # kg / mm³
+        rho = float(rho*1e-12) # Ton / mm³
         nu = material.poisson_ratio #--
         fc = material.compressive_strength #MPa - N/mm2
         #fc = float(MPaFc)*1e6 #Pa - N/m2
@@ -109,8 +110,8 @@ class Element:
             solid_material_tag = solid_material_tag + 1
             side_length = Element.get_element_side_lenght([element_tag])
             side_length = side_length[0]
-            print(side_length)
-            print(side_length)
+            # print(side_length)
+            # print(side_length)
 
             #Traction
             Te, Ts, Td = ConstitutiveLaws.ExponentialSoftening_Tension.tension(E, ft, Gt, side_length)
@@ -126,27 +127,29 @@ class Element:
             '-Ce', *Ce, '-Cs', *Cs, '-Cd', *Cd, # compressive law
             )
 
-            print('Plastic material created with tag: ', solid_material_tag)
+            #print('Plastic material created with tag: ', solid_material_tag)
 
             #Add the tetrahedron
 
             ops.element('FourNodeTetrahedron', element_tag, *node_tag, solid_material_tag, 0, 0, rho*G)
-            print('Nonlinear element added!')
+            #print('Nonlinear element added!')
     
         return (solid_material_tag)
 
     @staticmethod        
     def add_elements_to_opensees(gmshmodel, materials_dict):
-        """This method create the opensees elements to add to the model."""  
-        print(materials_dict)
+        """This method create the opensees elements to add to the model."""          
         names = get_solid_physical_groups(gmshmodel)
-        #materials_dict = filter_materials_by_name(materials_dict, names)
-        print(materials_dict)
+        materials_dict = filter_materials_by_name(materials_dict, names)
+        
         tags = []
         for matname, material in materials_dict.items():
+            print(matname)
+            print(material)
 
             #Get all the tags that will be in OpenSees - needed to show the results in Gmsh
             physical_group = matname
+            print(matname)
 
             element_tags, node_tags, element_name, elementNnodes = get_elements_and_nodes_in_physical_group(physical_group, gmshmodel)
             element_tags.append(element_tags)
