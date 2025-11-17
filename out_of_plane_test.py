@@ -14,7 +14,7 @@ from utils.analysis_helper import check_sign_flips, PeakViews
 from utils.plot_helper import LiveDVPlot
 from utils.modelbuilder_helper import get_wall_cp, get_group_center_cp, TagManager, add_base_springs_elastic_tm
 
-material_file_path = os.path.join(EXPORT_DIR_PART_1, "OutOfPlane_rock.json")
+material_file_path = os.path.join(EXPORT_DIR_PART_1, "CMB_unreinforced_adapted_E.json")
 materials = load_material_objects(material_file_path)
 for material in materials:
     print(material)
@@ -406,6 +406,7 @@ push_fh.close()
 displacement_pos_file = os.path.join(displacements_path, "lateral_linear.pos")
 gmsh.write(displacement_pos_file)
 #gmsh.fltk.run()usarlo peusaus
+
 
 
 
