@@ -1,1 +1,10 @@
+These results are obtained under the following assumptions:
+
+lt = 16.0 * E * Gf / (s0 * s0)
+ft = 0.05 MPa
+Gt = 0.02 N/mm
+E = 700 MPa
+
+other values are the default from the paper
+
 
