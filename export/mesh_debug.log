@@ -1,9 +1,0 @@
---- Mesh Debugging Log ---
-Matched thickness: 500.0 from label: Shapes/StructuralMasonry4_0.50_m 1/1/StructuralMasonry4_0.50_m 1.1
-Matched thickness: 500.0 from label: Shapes/StructuralMasonry4_0.50_m 2/2/StructuralMasonry4_0.50_m 2.1
-Matched thickness: 80.0 from label: Shapes/FictitiousMaterial7_0.08_m 6
-Matched thickness: 900.0 from label: Shapes/FootingMasonryFooting_0.90_m 7
-Matched thickness: 900.0 from label: Shapes/FootingMasonryFooting_0.90_m 8
-Matched thickness: 130.0 from label: Shapes/StructuralTimber_0.13_m 3
-Matched thickness: 130.0 from label: Shapes/StructuralTimber_0.13_m 4
-Matched thickness: 130.0 from label: Shapes/StructuralTimber_0.13_m 5
