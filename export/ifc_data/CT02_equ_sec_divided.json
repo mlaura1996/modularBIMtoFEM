@@ -1,0 +1,67 @@
+{
+    "Masonry": {
+        "name": "Masonry",
+        "density": 1900.0,
+        "YoungModulus": 1000.0,
+        "PoissonRatio": 0.2,
+        "CompressiveStrength": 3.28,
+        "TensileStrength": 0.14,
+        "CompressionFractureEnergy": 5.4,
+        "TensileFractureEnergy": 0.005,
+        "CompressiveStressElasticBehaviour": 0,
+        "Structural": false,
+        "MaterialModelType": "PlasticDamage"
+    },
+    "Footing": {
+        "name": "Footing",
+        "density": 2300.0,
+        "YoungModulus": 30000.0,
+        "PoissonRatio": 0.2,
+        "CompressiveStrength": 0,
+        "TensileStrength": 0,
+        "CompressionFractureEnergy": 0,
+        "TensileFractureEnergy": 0,
+        "CompressiveStressElasticBehaviour": 0,
+        "Structural": false,
+        "MaterialModelType": "LinearElastic"
+    },
+    "Concrete": {
+        "name": "Concrete",
+        "density": 2300.0,
+        "YoungModulus": 30000.0,
+        "PoissonRatio": 0.2,
+        "CompressiveStrength": 0,
+        "TensileStrength": 0,
+        "CompressionFractureEnergy": 0,
+        "TensileFractureEnergy": 0,
+        "CompressiveStressElasticBehaviour": 0,
+        "Structural": false,
+        "MaterialModelType": "LinearElastic"
+    },
+    "Steel": {
+        "name": "Steel",
+        "density": 1465.0,
+        "YoungModulus": 210000.0,
+        "PoissonRatio": 0.30000000000000004,
+        "CompressiveStrength": 0,
+        "TensileStrength": 0,
+        "CompressionFractureEnergy": 0,
+        "TensileFractureEnergy": 0,
+        "CompressiveStressElasticBehaviour": 0,
+        "Structural": false,
+        "MaterialModelType": "LinearElastic"
+    },
+    "LowSection": {
+        "name": "LowSection",
+        "density": 1465.0,
+        "YoungModulus": 210000.0,
+        "PoissonRatio": 0.30000000000000004,
+        "CompressiveStrength": 0,
+        "TensileStrength": 0,
+        "CompressionFractureEnergy": 0,
+        "TensileFractureEnergy": 0,
+        "CompressiveStressElasticBehaviour": 0,
+        "Structural": false,
+        "MaterialModelType": "LinearElastic"
+    }
+}
