@@ -1,6 +1,0 @@
-Using the following analysis settings: ops.integrator(LoadControl, 1/200); ops.algorithm(Newton); ops.test(NormDispIncr, 1.*10**-11, 50)Using IMPLEX
-The following changes were done to accomplish convergency at step 199:Trying 10 times smaller timestep at load factor 1.0000000000000007.
-Trying 100 times smaller timestep at load factor 1.0000000000000007.
-Trying 200 iterations at load factor 1.0000000000000007.
-Trying Modified Newton algorithm at load factor 1.0000000000000007.
-Pass to displacement at load factor 1.0000000000000007.
