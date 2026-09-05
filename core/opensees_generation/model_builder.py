@@ -7,6 +7,7 @@ from utils.dict_helper import filter_materials_by_name
 from utils.tag_manager import add_unique_solid_material_tag
 import gmsh
 import math
+import numpy as np
 
 
 class ModelBuilder:
@@ -138,34 +139,92 @@ class Element:
     
         return (solid_material_tag)
 
-    @staticmethod              
-    def add_elements_to_opensees(gmshmodel, materials_dict):
-        """This method create the opensees elements to add to the model."""          
+    @staticmethod
+    def _get_volume_elements(volume_tag, node_substitution=None):
+        """Per-volume equivalent of get_elements_and_nodes_in_physical_group
+        (external/gmsh2opensees/g2o_elements_functions.py) - same element
+        type / node-shape handling, but scoped to a single gmsh volume
+        entity instead of a whole physical group, so that a wall-to-wall
+        interface split (core.mesh_generation.wall_interfaces.NodeSplitter)
+        can be applied to just one side of a shared interface without
+        touching the neighbouring volume's connectivity.
+
+        node_substitution: optional {volume_tag: {orig_node_tag: dup_node_tag}}
+        (NodeSplitter.create_duplicate_nodes's return value). Only affects
+        which node tag shows up in the element *connectivity* - node
+        creation for the substituted (duplicate) tags already happened in
+        NodeSplitter, and add_nodes_to_ops silently skips tags already
+        defined in OpenSees, so this doesn't need to special-case anything
+        node-creation-side.
+        """
+        element_types, element_tags, node_tags_flat = gmsh.model.mesh.getElements(dim=3, tag=volume_tag)
+        if len(element_types) == 0:
+            return [], []
+        if len(element_types) != 1:
+            print("Cannot handle more than one element type per volume at this moment.")
+            exit(-1)
+
+        _, nnodes = get_element_info_from_elementType(element_types[0])
+        node_tags = np.array(node_tags_flat[0], dtype=int).reshape((-1, nnodes))
+
+        sub = (node_substitution or {}).get(volume_tag, {})
+        if sub:
+            node_tags = np.array([[sub.get(int(n), int(n)) for n in row] for row in node_tags])
+
+        return element_tags[0].tolist(), node_tags.tolist()
+
+    @staticmethod
+    def add_elements_to_opensees(gmshmodel, materials_dict, node_substitution=None):
+        """This method create the opensees elements to add to the model.
+
+        node_substitution (optional): {volume_tag: {orig_node_tag: dup_node_tag}},
+        from core.mesh_generation.wall_interfaces.NodeSplitter.create_duplicate_nodes.
+        When given, the tetrahedra of any volume acting as a confirmed
+        interface's "split side" are built against the duplicate node
+        instead of the one shared with its neighbour, so the
+        zeroLengthContactASDimplex elements built on top of those
+        duplicates (ContactInterfaceGenerator.generate) actually decouple
+        the two sides instead of connecting to a rigidly-shared node.
+        """
         names = get_solid_physical_groups(gmshmodel)
         materials_dict = filter_materials_by_name(materials_dict, names)
-        
+
         tags = []
+        all_element_tags = []
         for matname, material in materials_dict.items():
 
-            #Get all the tags that will be in OpenSees - needed to show the results in Gmsh
-            physical_group = matname
+            #Get all the volumes in this material's physical group, and flatten
+            #their element/node connectivity together - same aggregate
+            #get_elements_and_nodes_in_physical_group used to produce, just
+            #built per volume so node_substitution can be applied per volume
+            #before flattening. This keeps create_linear_elastic_element's
+            #single nDMaterial() call, and create_plastic_damage_elements'
+            #per-element regularized material, both exactly as before when
+            #node_substitution is None.
+            dim, pg_tag = get_physical_groups_map(gmshmodel)[matname]
+            volumes = gmshmodel.getEntitiesForPhysicalGroup(dim, pg_tag)
 
+            element_tags, node_tags = [], []
+            for volume in volumes:
+                v_element_tags, v_node_tags = Element._get_volume_elements(volume, node_substitution)
+                element_tags.extend(v_element_tags)
+                node_tags.extend(v_node_tags)
 
-            element_tags, node_tags, element_name, elementNnodes = get_elements_and_nodes_in_physical_group(physical_group, gmshmodel)
-            element_tags.append(element_tags)
-                        
+            if not element_tags:
+                continue
+
             #Create the material
             solid_material_tag = add_unique_solid_material_tag(tags)
 
             #Define Material Type
             if material.material_model_type == 'LinearElastic':
-                tag = Element.create_linear_elastic_element(gmshmodel, material, solid_material_tag, element_tags, node_tags)                      
+                tag = Element.create_linear_elastic_element(gmshmodel, material, solid_material_tag, element_tags, node_tags)
             elif material.material_model_type == 'PlasticDamage':
-                #tag = Element.create_linear_elastic_element(gmshmodel, material, solid_material_tag, element_tags, node_tags)
-                tag = Element.create_plastic_damage_elements(gmshmodel, material, solid_material_tag, element_tags, node_tags)  
-            tags.append(tag)         
+                tag = Element.create_plastic_damage_elements(gmshmodel, material, solid_material_tag, element_tags, node_tags)
+            tags.append(tag)
+            all_element_tags.extend(element_tags)
 
-        return element_tags
+        return all_element_tags
     
     #@staticmethod              
     # def add_filtered_elements_to_opensees(gmshmodel, materials_dict, allowed_tags=None, pid):

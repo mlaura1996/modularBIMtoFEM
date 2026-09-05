@@ -16,11 +16,18 @@ Pipeline:
        table and let the user confirm which candidates become imperfect
        (contact) connections; persist the choice to JSON so re-runs are
        non-interactive.
-    4. ContactInterfaceGenerator - tag the selected surfaces as physical
-       groups (so they survive meshing), then after gmsh.model.mesh.generate,
-       split the shared nodes on each selected interface into two coincident
-       sets and emit a zeroLengthContactASDimplex element per node pair,
-       with Kn/Kt scaled by each node's tributary area.
+    4. ContactInterfaceGenerator.tag_physical_groups() - tag the selected
+       surfaces as physical groups (so they survive meshing), called before
+       gmsh.model.mesh.generate().
+    5. NodeSplitter.create_duplicate_nodes() - after meshing: create one
+       duplicate OpenSees node per interface node, and return the
+       {volume: {orig: dup}} substitution map for
+       core.opensees_generation.model_builder.Element.add_elements_to_opensees
+       to consume, so that volume's tetrahedra attach to the duplicate
+       instead of the shared node.
+    6. ContactInterfaceGenerator.generate() - after the volume elements
+       exist: emit a zeroLengthContactASDimplex element per original/
+       duplicate node pair, with Kn/Kt scaled by that node's tributary area.
 
 Two things this module deliberately does NOT do, per PROJECT_BRIEF.md:
   - It does not filter by IFC entity type (wall vs slab vs stair). The STEP
@@ -275,54 +282,38 @@ class ContactInterfaceGenerator:
         return tributary
 
     @staticmethod
-    def generate(gmshmodel, selected, get_new_ops_node_tag, get_new_ops_element_tag,
-                 Kn_nominal, Kt_nominal, mu=0.6, int_type=1):
-        """For every confirmed interface: recover its meshed nodes and
-        their tributary area, duplicate each node (new OpenSees node at the
-        same coordinates), and create one zeroLengthContactASDimplex
-        element per original/duplicate node pair with Kn, Kt scaled by that
-        node's tributary area.
+    def generate(selected, Kn_nominal, Kt_nominal, mu=0.6, int_type=1, get_new_ops_element_tag=None):
+        """Create one zeroLengthContactASDimplex element per original/
+        duplicate node pair, Kn/Kt scaled by that node's tributary area.
+
+        Requires NodeSplitter.create_duplicate_nodes(selected, ...) to have
+        already run: this function only reads c['node_map'] and
+        c['tributary'] (original_tag -> duplicate_tag / area), it does not
+        create nodes itself - node creation and the corresponding volume-
+        element node substitution have to happen together, in
+        model_builder.py, before the contact elements are wired in here.
 
         Kn_nominal, Kt_nominal are per unit area (brief: Kn=69000, Kt=0.001
         in the N-mm-t unit system used in Ch.6/7 - pass values already
         converted to whatever unit system this model uses).
-
-        get_new_ops_node_tag / get_new_ops_element_tag: callables with no
-        arguments returning the next free OpenSees node/element tag (e.g.
-        utils.tag_manager.Opensees.get_next_available_node_tag /
-        get_next_available_element_tag), so this function does not need to
-        know about the rest of the model's tag bookkeeping.
-
-        IMPORTANT - what this function does NOT do: it does not reassign
-        which side's tetrahedra reference the duplicated node. That
-        reassignment has to happen where the volume elements themselves are
-        built (core/opensees_generation/model_builder.py Element.*), by
-        substituting, for volume_b's elements only, the duplicated tag
-        wherever an original interface node tag would otherwise be used.
-        This function returns the original->duplicate node tag map per
-        interface precisely so that substitution can be done there; wiring
-        it into add_elements_to_opensees is the next step, and needs an
-        actual meshed run to validate (not exercised in this session - see
-        PROJECT_BRIEF.md Task A step 4 and the chat summary).
         """
         import openseespy.opensees as ops
+        from utils.tag_manager import Opensees as OpenseesTags
+
+        get_new_ops_element_tag = get_new_ops_element_tag or OpenseesTags.get_next_available_element_tag
 
         results = []
         for c in selected:
-            surf_tag = c["physical_group_tag_surface"] if "physical_group_tag_surface" in c else c["surface"]
-            tributary = ContactInterfaceGenerator.get_nodal_tributary_areas(surf_tag)
-
+            if "node_map" not in c:
+                raise ValueError(
+                    f"Interface {InterfaceSelection.key_for(c)} has no node_map - call "
+                    f"NodeSplitter.create_duplicate_nodes() first."
+                )
             nx, ny, nz = c["normal"]
-            node_map = {}   # original_tag -> duplicate_tag
             created_elements = []
 
-            for orig_tag, area in tributary.items():
-                coord, _, _, _ = gmshmodel.mesh.get_node(orig_tag)
-
-                dup_tag = get_new_ops_node_tag()
-                ops.node(int(dup_tag), *coord)
-                node_map[orig_tag] = dup_tag
-
+            for orig_tag, dup_tag in c["node_map"].items():
+                area = c["tributary"][orig_tag]
                 Kn = Kn_nominal * area
                 Kt = Kt_nominal * area
 
@@ -333,8 +324,88 @@ class ContactInterfaceGenerator:
 
             results.append({
                 "interface_key": InterfaceSelection.key_for(c),
-                "surface": surf_tag,
-                "node_map": node_map,
+                "surface": c["surface"],
+                "node_map": c["node_map"],
                 "elements": created_elements,
             })
         return results
+
+
+class NodeSplitter:
+    """Bridges Task A's confirmed interfaces to element creation in
+    core/opensees_generation/model_builder.py: decides which volume on each
+    interface gets its nodes duplicated, creates the duplicates in
+    OpenSees, and hands back a substitution map that
+    Element.add_elements_to_opensees consumes to build that volume's
+    tetrahedra against the duplicate instead of the shared node.
+
+    Must run after ContactInterfaceGenerator.tag_physical_groups() +
+    meshing (needs the meshed interface surface to know which nodes are
+    actually on it), and before Element.add_elements_to_opensees().
+    """
+
+    @staticmethod
+    def assign_split_side(selected):
+        """volume_b (the larger tag of the pair - arbitrary but consistent,
+        candidates are already built from sorted(vols)) is the side whose
+        tetrahedra get reassigned to duplicate nodes; volume_a keeps the
+        originals. Doesn't matter physically which side is which - the
+        contact element is symmetric - only that every consumer agrees.
+        """
+        for c in selected:
+            c["split_volume"] = c["volume_b"]
+        return selected
+
+    # Offset added to a node's own gmsh tag to get its duplicate's OpenSees
+    # tag - NOT an incrementing "next free tag" counter. Found the hard way
+    # (see chat log): NodeSplitter runs before Element.add_elements_to_opensees,
+    # i.e. before any *real* gmsh mesh node has been added to OpenSees, so
+    # querying ops.getNodeTags() for "the next free tag" at that point sees
+    # an empty/near-empty model and hands out tags 1, 2, 3... which then
+    # collide with the real gmsh node tags created moments later (gmsh's own
+    # numbering also starts at 1). That collision doesn't error - add_nodes_to_ops
+    # silently skips any tag already present - it just silently gives some
+    # real mesh node the wrong (duplicate's) coordinates. 10,000,000 is safely
+    # above any node count this pipeline will ever produce (Castelnuovo's
+    # finest planned mesh is ~279k nodes) and keeps the mapping invertible
+    # (dup_tag - OFFSET == orig_tag) for debugging.
+    TAG_OFFSET = 10_000_000
+
+    @staticmethod
+    def create_duplicate_nodes(gmshmodel, selected):
+        """For every selected interface: get its meshed nodes + tributary
+        area, create one duplicate OpenSees node per original node at the
+        same coordinates (tag = orig_tag + NodeSplitter.TAG_OFFSET), and
+        store c['node_map'] / c['tributary'] on each candidate (consumed by
+        ContactInterfaceGenerator.generate()).
+
+        Returns {split_volume: {orig_node_tag: dup_node_tag}} for
+        Element.add_elements_to_opensees's node_substitution argument.
+
+        KNOWN LIMITATION: if the same node is shared by two interfaces that
+        both assign the same volume as split_volume (e.g. a node at a
+        triple junction where two selected interfaces meet), the second
+        interface's update() overwrites the first's duplicate for that
+        node - it only gets split once, not twice. Rare at Castelnuovo's
+        scale but not handled; would need per-(interface, node) duplicates
+        instead of per-(volume, node) if it turns out to matter.
+        """
+        import openseespy.opensees as ops
+
+        NodeSplitter.assign_split_side(selected)
+
+        substitution = {}
+        for c in selected:
+            tributary = ContactInterfaceGenerator.get_nodal_tributary_areas(c["surface"])
+            node_map = {}
+            for orig_tag in tributary:
+                coord, _, _, _ = gmshmodel.mesh.get_node(orig_tag)
+                dup_tag = orig_tag + NodeSplitter.TAG_OFFSET
+                ops.node(int(dup_tag), *coord)
+                node_map[orig_tag] = dup_tag
+
+            c["node_map"] = node_map
+            c["tributary"] = tributary
+            substitution.setdefault(c["split_volume"], {}).update(node_map)
+
+        return substitution
