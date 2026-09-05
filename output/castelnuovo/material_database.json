@@ -1,0 +1,100 @@
+{
+  "Tufelli_masonry_typeA": {
+    "name": "Tufelli_masonry_typeA",
+    "density": 1450,
+    "young_modulus": 1526.6,
+    "poisson_ratio": 0.2,
+    "is_structural": true,
+    "material_model_type": "PlasticDamage",
+    "compressive_strength": 3.445,
+    "tensile_strength": null,
+    "compression_fracture_energy": 0,
+    "tensile_fracture_energy": 0,
+    "compressive_elastic_behaviour": 0,
+    "_mqi_total": {
+      "vertical": 4.55,
+      "out_of_plane": 4.9,
+      "in_plane": 3.5
+    },
+    "_shear_modulus_MPa": 440.86,
+    "_shear_strength_turnsek_cacovic_MPa": 0.0512,
+    "_evidence": "A-419/a419 photos (WhatsApp Image 2023-06-01 at 14.50.49/50/51): stone arch over a door with well-dressed voussoirs, courses fairly regular though not perfectly continuous",
+    "_flags": [
+      "Vertical joint staggering scored 'partially_staggered' (conservative) rather than 'properly_staggered' - not directly measurable from the available photos at typical phone-camera resolution/angle",
+      "Mortar scored plain 'lime' (conservative) rather than crediting the pozzolana content mentioned in the manuscript with a hydraulic-lime-level score - the pozzolana's real contribution to mortar performance was not tested, only described qualitatively"
+    ]
+  },
+  "Tufelli_masonry_typeB": {
+    "name": "Tufelli_masonry_typeB",
+    "density": 1450,
+    "young_modulus": 1198.7,
+    "poisson_ratio": 0.2,
+    "is_structural": true,
+    "material_model_type": "PlasticDamage",
+    "compressive_strength": 2.616,
+    "tensile_strength": null,
+    "compression_fracture_energy": 0,
+    "tensile_fracture_energy": 0,
+    "compressive_elastic_behaviour": 0,
+    "_mqi_total": {
+      "vertical": 2.8,
+      "out_of_plane": 3.5,
+      "in_plane": 2.45
+    },
+    "_shear_modulus_MPa": 384.66,
+    "_shear_strength_turnsek_cacovic_MPa": 0.0403,
+    "_evidence": "A-417/417_c (corner building, Vicolo del Cabalino - WhatsApp Image 2023-06-01 at 14.50.40/41/42/43) and A-418/418-a (WhatsApp Image 2023-06-01 at 14.50.47/48, brick arch over a round-headed window): irregular unit sizes, less continuous coursing than typeA",
+    "_flags": [
+      "Same conservative mortar assumption as typeA (plain lime, not hydraulic-boosted)",
+      "Vertical joint staggering scored 'partially_staggered' from the visibly less regular coursing - not measured"
+    ]
+  },
+  "Tufelli_masonry_typeC": {
+    "name": "Tufelli_masonry_typeC",
+    "density": 1450,
+    "young_modulus": 987.8,
+    "poisson_ratio": 0.2,
+    "is_structural": true,
+    "material_model_type": "PlasticDamage",
+    "compressive_strength": 2.099,
+    "tensile_strength": null,
+    "compression_fracture_energy": 0,
+    "tensile_fracture_energy": 0,
+    "compressive_elastic_behaviour": 0,
+    "_mqi_total": {
+      "vertical": 1.4,
+      "out_of_plane": 1.4,
+      "in_plane": 1.05
+    },
+    "_shear_modulus_MPa": 320.71,
+    "_shear_strength_turnsek_cacovic_MPa": 0.0275,
+    "_evidence": "A-417/417_a (WhatsApp Image 2023-06-01 at 14.50.44/45/46, 14.51.48/49/50): exposed stone interspersed with rendered patches and a decorative brick course",
+    "_flags": [
+      "Scores kept uniformly low across all 7 parameters per the manuscript's explicit statement that this residential fabric has 'more frequent use of reused bricks, and greater variability in coursing and joint execution' than the representative architecture its local-technique description is based on - a stated characterisation from the manuscript, not read off any single photo"
+    ]
+  },
+  "Tufelli_masonry_typeD": {
+    "name": "Tufelli_masonry_typeD",
+    "density": 1450,
+    "young_modulus": 1198.7,
+    "poisson_ratio": 0.2,
+    "is_structural": true,
+    "material_model_type": "PlasticDamage",
+    "compressive_strength": 2.616,
+    "tensile_strength": null,
+    "compression_fracture_energy": 0,
+    "tensile_fracture_energy": 0,
+    "compressive_elastic_behaviour": 0,
+    "_mqi_total": {
+      "vertical": 2.8,
+      "out_of_plane": 3.5,
+      "in_plane": 2.45
+    },
+    "_shear_modulus_MPa": 384.66,
+    "_shear_strength_turnsek_cacovic_MPa": 0.0403,
+    "_evidence": "A-417/417_b (WhatsApp Image 2023-06-01 at 14.51.52/53) and A-420/a420 (WhatsApp Image 2023-06-01 at 14.50.52-55): fully plastered in every available survey photo, no exposed masonry",
+    "_flags": [
+      "ENTIRELY assumed, not observed: scored identically to typeB (the 'ordinary/irregular' type) as the most defensible default for an unexceptional rendered facade in the same aggregate, rather than typeA (visibly higher quality, tied to specific observed stonework at door openings that this facade's render gives no evidence for) or typeC (visibly patched/reworked, again no evidence either way). This is the weakest-grounded of the four classifications - revisit first if render is ever removed, or if there is independent reason (archival, structural survey) to place this facade in a specific construction phase."
+    ]
+  }
+}

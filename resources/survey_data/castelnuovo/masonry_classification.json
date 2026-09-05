@@ -1,0 +1,109 @@
+{
+  "_meta": {
+    "description": "MQI classification of the 4 masonry types found in Castelnuovo di Porto's IFC model (Tufelli_masonry_typeA-D), from on-site survey photographs and the case-study manuscript. Consumed by docker/opensees/castelnuovo_hmo_graph.py.",
+    "sources": {
+      "manuscript": "Downloads/Manuscript (3).docx - 'Application to a real masonry aggregate' section (historical/technical context: muratura a tufelli, local construction technique, quality discriminators)",
+      "photos": "Downloads/A-417/418/419/420 zips (WhatsApp survey photos, 2023-06-01), extracted to Downloads/castelnuovo_extract/",
+      "reference_book": "Downloads/libro.zip (209 photographed pages of a masonry-restoration reference text citing Carbonara, with typology comparison tables for tufo litoide masonry in the Roman area)",
+      "ontology_rules": "https://github.com/mlaura1996/HistoricMasonryOntology/blob/main/ontology.ttl - exact SWRL rule bodies for every score and formula, read directly (see core/ifc_processing/hmo_mqi.py docstring)",
+      "code_reference": "NTC18 Circolare n.7/2019, Tabella C8.5.I, tufo/calcarenite rows - used as a sanity range, not as the source of the values (see 'ntc_comparison' per type below)"
+    },
+    "process_note": "First pass (see chat log) used more favourable assumptions (lime-pozzolana mortar scored as hydraulic-lime quality, typeA vertical joints assumed 'properly staggered') and produced compressive strength / Young's modulus 20-58% above the NTC C8.5.I tufo range. Revised to conservative assumptions (plain lime mortar, 'partially staggered' joints where staggering isn't directly observable) below, after explicit user direction to move the values toward the NTC range rather than accept the MQI-only figures at face value."
+  },
+  "types": {
+    "Tufelli_masonry_typeA": {
+      "description": "Regular tufo masonry, fairly continuous coursing, well-cut stone voussoirs at openings",
+      "evidence": "A-419/a419 photos (WhatsApp Image 2023-06-01 at 14.50.49/50/51): stone arch over a door with well-dressed voussoirs, courses fairly regular though not perfectly continuous",
+      "flags": [
+        "Vertical joint staggering scored 'partially_staggered' (conservative) rather than 'properly_staggered' - not directly measurable from the available photos at typical phone-camera resolution/angle",
+        "Mortar scored plain 'lime' (conservative) rather than crediting the pozzolana content mentioned in the manuscript with a hydraulic-lime-level score - the pozzolana's real contribution to mortar performance was not tested, only described qualitatively"
+      ],
+      "observation": {
+        "unit_dimensions": "medium",
+        "unit_shape": "cut_or_squared",
+        "unit_material": "irregular_soft_stone",
+        "mortar_quality": "lime",
+        "horizontal_joints": "partially_continuous",
+        "vertical_joints": "partially_staggered",
+        "wall_connections": "sparse"
+      },
+      "mass_density_kg_m3": 1450,
+      "density_note": "Not derivable from MQI (HMO has no density rule - density is a material constant, not a workmanship-quality output). Taken as the midpoint of NTC18 C8.5.I's tufo/calcarenite range (1300-1600 kg/m3), not measured on this specific building.",
+      "ntc_comparison": {
+        "category": "Regular soft stone ashlar (tufo/calcarenite), NTC18 Circolare Tab. C8.5.I",
+        "range": {"fm_MPa": [1.96, 3.14], "tau0_MPa": [0.039, 0.079], "E_MPa": [1177, 1589], "G_MPa": [392, 490]},
+        "note": "Computed fm (3.445 MPa) is ~10% above the NTC upper bound; E, G, tau0 fall inside the range. Accepted as-is: HMO's own stated logic is that MQI-derived values may legitimately exceed a generic code table for masonry executed better than the code's baseline assumption (voussoir-quality stonework at openings is real, observed evidence, not an assumption) - flagged here rather than force-fit into the NTC range."
+      }
+    },
+    "Tufelli_masonry_typeB": {
+      "description": "Irregular tufo masonry, discontinuous coursing, brick relieving arches at openings, squared corner quoins",
+      "evidence": "A-417/417_c (corner building, Vicolo del Cabalino - WhatsApp Image 2023-06-01 at 14.50.40/41/42/43) and A-418/418-a (WhatsApp Image 2023-06-01 at 14.50.47/48, brick arch over a round-headed window): irregular unit sizes, less continuous coursing than typeA",
+      "flags": [
+        "Same conservative mortar assumption as typeA (plain lime, not hydraulic-boosted)",
+        "Vertical joint staggering scored 'partially_staggered' from the visibly less regular coursing - not measured"
+      ],
+      "observation": {
+        "unit_dimensions": "medium",
+        "unit_shape": "roughly_cut_or_irregular_soft",
+        "unit_material": "irregular_soft_stone",
+        "mortar_quality": "lime",
+        "horizontal_joints": "not_continuous",
+        "vertical_joints": "partially_staggered",
+        "wall_connections": "sparse"
+      },
+      "mass_density_kg_m3": 1450,
+      "density_note": "Same as typeA - see density_note there.",
+      "ntc_comparison": {
+        "category": "Irregular soft stone (tufo/calcarenite), NTC18 Circolare Tab. C8.5.I",
+        "range": {"fm_MPa": [1.37, 2.16], "tau0_MPa": [0.028, 0.041], "E_MPa": [883, 1236], "G_MPa": [294, 412]},
+        "note": "Computed fm (2.616 MPa) is ~21% above the NTC upper bound; E, G fall inside the range; tau0 (0.0403) is at the top of the range. Same acceptance rationale as typeA, with a larger residual gap - worth revisiting first if better evidence becomes available (e.g. if unit-dimension measurements from the point cloud turn out smaller than the 'medium' assumption used here)."
+      }
+    },
+    "Tufelli_masonry_typeC": {
+      "description": "Patched/reworked masonry, mixed exposed stone and infill/repairs, brick dentil cornice, evidence of blocked former openings",
+      "evidence": "A-417/417_a (WhatsApp Image 2023-06-01 at 14.50.44/45/46, 14.51.48/49/50): exposed stone interspersed with rendered patches and a decorative brick course",
+      "flags": [
+        "Scores kept uniformly low across all 7 parameters per the manuscript's explicit statement that this residential fabric has 'more frequent use of reused bricks, and greater variability in coursing and joint execution' than the representative architecture its local-technique description is based on - a stated characterisation from the manuscript, not read off any single photo"
+      ],
+      "observation": {
+        "unit_dimensions": "small",
+        "unit_shape": "roughly_cut_or_irregular_soft",
+        "unit_material": "irregular_soft_stone",
+        "mortar_quality": "lime",
+        "horizontal_joints": "not_continuous",
+        "vertical_joints": "aligned",
+        "wall_connections": "none"
+      },
+      "mass_density_kg_m3": 1450,
+      "density_note": "Same as typeA - see density_note there.",
+      "ntc_comparison": {
+        "category": "Irregular soft stone (tufo/calcarenite), NTC18 Circolare Tab. C8.5.I",
+        "range": {"fm_MPa": [1.37, 2.16], "tau0_MPa": [0.028, 0.041], "E_MPa": [883, 1236], "G_MPa": [294, 412]},
+        "note": "Computed values (fm=2.099, E=987.8, G=320.7, tau0=0.0275) all fall inside the NTC range - the only one of the four types that does, consistent with it being the visually lowest-quality masonry surveyed."
+      }
+    },
+    "Tufelli_masonry_typeD": {
+      "description": "Fully rendered facade, masonry not directly observable - assumed by construction-era analogy to typeB",
+      "evidence": "A-417/417_b (WhatsApp Image 2023-06-01 at 14.51.52/53) and A-420/a420 (WhatsApp Image 2023-06-01 at 14.50.52-55): fully plastered in every available survey photo, no exposed masonry",
+      "flags": [
+        "ENTIRELY assumed, not observed: scored identically to typeB (the 'ordinary/irregular' type) as the most defensible default for an unexceptional rendered facade in the same aggregate, rather than typeA (visibly higher quality, tied to specific observed stonework at door openings that this facade's render gives no evidence for) or typeC (visibly patched/reworked, again no evidence either way). This is the weakest-grounded of the four classifications - revisit first if render is ever removed, or if there is independent reason (archival, structural survey) to place this facade in a specific construction phase."
+      ],
+      "observation": {
+        "unit_dimensions": "medium",
+        "unit_shape": "roughly_cut_or_irregular_soft",
+        "unit_material": "irregular_soft_stone",
+        "mortar_quality": "lime",
+        "horizontal_joints": "not_continuous",
+        "vertical_joints": "partially_staggered",
+        "wall_connections": "sparse"
+      },
+      "mass_density_kg_m3": 1450,
+      "density_note": "Same as typeA - see density_note there.",
+      "ntc_comparison": {
+        "category": "Irregular soft stone (tufo/calcarenite), NTC18 Circolare Tab. C8.5.I",
+        "range": {"fm_MPa": [1.37, 2.16], "tau0_MPa": [0.028, 0.041], "E_MPa": [883, 1236], "G_MPa": [294, 412]},
+        "note": "Identical to typeB by construction (same observation) - see typeB's note."
+      }
+    }
+  }
+}
