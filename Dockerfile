@@ -1,0 +1,44 @@
+FROM condaforge/miniforge3:25.3.1-0
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libcairo2 \
+    libpango-1.0-0 \
+    libpangocairo-1.0-0 \
+    libgdk-pixbuf2.0-0 \
+    libffi-dev \
+    libxml2 \
+    libxslt1.1 \
+    libglu1-mesa \
+    libglx-mesa0 \
+    libgl1 \
+    libx11-6 \
+    libxi6 \
+    libfreetype6 \
+    fontconfig \
+    libxft2 \
+    libxinerama1 \
+    libgomp1 \
+    libxcursor1 \
+    libxrender1 \
+    libxext6 \
+    libsm6 \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+RUN conda install -y mamba -n base -c conda-forge && \
+    mamba create -y -n appenv -c conda-forge \
+    python=3.10.12 \
+    pip \
+    ifcopenshell \
+    pythonocc-core \
+    && conda clean -afy
+
+COPY requirements.txt /app/requirements.txt
+
+RUN conda run -n appenv python -m pip install --upgrade pip && \
+    conda run -n appenv pip install --no-cache-dir -r /app/requirements.txt
+
+COPY . /app
+
+CMD ["conda", "run", "--no-capture-output", "-n", "appenv", "python", "stko_exporter.py"]

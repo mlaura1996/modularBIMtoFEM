@@ -1,9 +1,11 @@
 # IFC OpenShell
 import ifcopenshell
 import ifcopenshell.geom
+import ifcopenshell.util.element
 
 # OpenCascade (OCC)
 import OCC.Core.TopoDS
+from OCC.Core.BRep import BRep_Builder
 from OCC.Core.Bnd import Bnd_Box
 from OCC.Core.BRepBndLib import brepbndlib_Add
 from OCC.Core.TopoDS import TopoDS_Compound, TopoDS_Shape, TopoDS_Iterator
@@ -19,9 +21,13 @@ import OCC.Core.XCAFDoc
 import OCC.Display.SimpleGui
 from OCC.Core.IFSelect import IFSelect_RetError
 from OCC.Core.TopExp import TopExp_Explorer
-from OCC.Core.TopAbs import TopAbs_FACE
-from OCC.Core.BRepGProp import brepgprop_VolumeProperties
 from OCC.Core.GProp import GProp_GProps
+from OCC.Core.BRepAdaptor import BRepAdaptor_Surface
+from OCC.Core.TopAbs import TopAbs_FACE, TopAbs_EDGE, TopAbs_SHELL, TopAbs_COMPOUND, TopAbs_SOLID
+from OCC.Core.GeomAbs import GeomAbs_Plane
+from OCC.Core.GProp import GProp_GProps
+from OCC.Core.BRepGProp import brepgprop_LinearProperties, brepgprop_SurfaceProperties, brepgprop_VolumeProperties
+from OCC.Core.TopoDS import topods
 
 #Meshing
 import gmsh
@@ -60,3 +66,6 @@ N_PROC = ops.getNP()
 
 #constants
 G = -9.810 #mm/s2
+
+#settings
+SLAB_AS_SHELLS = True

@@ -1,6 +1,6 @@
 from core.config import EXPORT_DIR
 from core.config import gmsh, re, np
-from . import connections
+#from . import connections
 
 class GmshModel:
     @staticmethod 
@@ -11,30 +11,15 @@ class GmshModel:
         gmsh.model.add(stepfile[-4])
         gmsh.open(stepfile)
         gmsh.model.occ.fragment(gmsh.model.occ.getEntities(3), [])
-        gmsh.model.occ.synchronize()
-        #gmshmodel = PhysicalGroups.add_original_material_physical_groups(gmsh.model, labels)    
+        gmsh.model.occ.synchronize() 
         gmshmodel = PhysicalGroups.add_material_physical_groups(labels)
-        gmshmodel = PhysicalGroups.add_supports_physical_groups(gmshmodel)
-        gmshmodel = PhysicalGroups.add_surface_loads_physical_groups(gmshmodel)
-  
-        # connections.split_beam_and_assign_to_wall(gmshmodel, labels)
-        # gmshmodel = PhysicalGroups.add_supports_physical_groups(gmsh.model)
-        # gmsh.model.geo.removeAllDuplicates()
-        # gmsh.model.removePhysicalGroups()
-        # gmsh.model.occ.synchronize()
-        
-        # gmshmodel = PhysicalGroups.add_material_physical_groups(gmshmodel, labels)
-        # #connections.extrude_beam_interface_surfaces(gmshmodel, offset=1000)
-        # gmsh.model.occ.synchronize()
-        #gmsh.fltk.run()
-
-        # connections.create2DPhysicalGroups(gmshmodel)
-       
-        
+        gmsh.fltk.run() 
+        #gmshmodel = PhysicalGroups.add_supports_physical_groups(gmshmodel)
+        #gmshmodel = PhysicalGroups.add_surface_loads_physical_groups(gmshmodel)  
         if use_adaptive_mesh:
             Mesh.generate_adaptive_mesh(gmshmodel, scaling_factor=1000)            
         else:
-            Mesh.fast_meshing(gmshmodel, 300)
+            Mesh.fast_meshing(gmshmodel, 0.3)
         if run_gmsh:
             gmsh.fltk.run()   
 
@@ -221,7 +206,7 @@ class PhysicalGroups():
         forLoad = []
         for surface in FinalBound:
             normal = gmshmodel.getNormal(surface, [0, 0, 0, 1])  # Get normal vector
-            print(f"Surface {surface} Normal: {normal}")
+            #print(f"Surface {surface} Normal: {normal}")
 
             # Ensure it's a **top-facing** horizontal surface
             if abs(float(normal[0])) < 0.01 and abs(float(normal[1])) < 0.01 and float(normal[2]) > 0.99:

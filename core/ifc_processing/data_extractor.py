@@ -257,7 +257,10 @@ class MaterialsAndThicknesses:
             elif element.is_a() == "IfcRoof":
                 thickness = MaterialsAndThicknesses.get_roof_thickness_from_pset(element)
             elif element.is_a() == "IfcDoor" or element.is_a() == "IfcWindow":
-                thickness = MaterialsAndThicknesses.get_door_windows_thickness_from_pset(element)
+                try:
+                    thickness = MaterialsAndThicknesses.get_door_windows_thickness_from_pset(element)
+                except KeyError:
+                    thickness = 10
             else:
                 thickness = None
                 print("work in progress")
@@ -302,9 +305,12 @@ class MaterialsAndThicknesses:
         
         #ConstituentSet
         elif rel_associate_material.RelatingMaterial.is_a()=="IfcMaterialConstituentSet":
+            element_info = {"material_name": "Assembly", "thickness": 10}
+            
             material_constituent_set = rel_associate_material.RelatingMaterial   
             material_constituent = material_constituent_set.MaterialConstituents 
-            element_info = QuantitySet.get_complex_quantity(element)             
+            
+            #element_info = QuantitySet.get_complex_quantity(element)             
 
         return element_info
     
@@ -444,7 +450,8 @@ class Material:
     def homogenize_slab(layers, slab, material_db):
         geometry_processor = geometry_extractor.GeometryProcessor(GEOMETRY_SETTINGS)
         qsets = ifcopenshell.util.element.get_psets(slab, qtos_only=True)
-
+        print("-----------------------------------------")
+        print(slab)
         gross_area = qsets['Qto_SlabBaseQuantities'].get('GrossArea', 0)
         print(gross_area)
 
@@ -510,12 +517,13 @@ class Material:
         for element in elements:
             info = MaterialsAndThicknesses.exporting_materials_and_thicknesses_for_complex_elements(element)
             
-            if isinstance(info, list):
+            if element.is_a("IfcSlab") and isinstance(info, list):
                 result = Material.homogenize_slab(info, element, material_db)
                 fictitious_material_name = result['Material Tag']
                 total_thickness = result['Thickness (m)']
                 tag = f"{fictitious_material_name}_{total_thickness:.2f}_m"
             else:
+                print(info)
                 thickness = info.get('thickness', 0) or 0
                 tag = f"{info['material_name']}_{thickness:.2f}_m"
             

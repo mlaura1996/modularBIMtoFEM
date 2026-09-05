@@ -1,9 +1,9 @@
 import os
-
+import openseespy.opensees as ops
 if os.name == 'nt':
 	import openseespy.opensees as ops
-else:   #not checked in mac
-	import opensees as ops
+# else:   #not checked in mac
+# 	import opensees as ops
 
 
 

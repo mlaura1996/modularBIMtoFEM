@@ -44,9 +44,9 @@ class Element:
     def create_linear_elastic_element(gmshmodel, material, solid_material_tag, element_tags, node_tags) -> int:
 
         E = material.young_modulus #MPa - N/mm2
-        #E = (float(PaE))*1e6 #Pa - N/m2
+        E = (float(E))*1e6 #Pa - N/m2
         rho = material.density # kg / m³
-        rho = float(rho*1e-12) # Ton / mm³
+        #rho = float(rho*1e-12) # Ton / mm³
         nu = material.poisson_ratio #--
         #add nD material to opensees
         nDMaterial('ElasticIsotropic', solid_material_tag, E, nu, rho)
