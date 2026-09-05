@@ -136,9 +136,25 @@ class TclWriter:
         OpenSees domain) and solid_elements()'s node_substitution will
         reference them from whichever rank owns the split volume's
         elements.
+
+        Deduplicates across interfaces: a node sitting where three or more
+        walls meet can be an "interface node" for more than one selected
+        interface at once (e.g. two different wall-to-wall joints
+        converging on the same corner). Its dup_tag (orig_tag +
+        NodeSplitter.TAG_OFFSET) is a pure function of orig_tag, so every
+        interface that includes it computes the identical duplicate - found
+        the hard way at cluster scale (18 volumes, multiple interfaces):
+        emitting `node <tag>` twice for the same tag makes OpenSees reject
+        the second one ("node already exists"), aborting the whole run.
+        One `node` line per unique dup_tag is correct - it's still the same
+        physical duplicate serving every interface that touches it.
         """
+        seen = set()
         for c in selected:
             for orig_tag, dup_tag in c["node_map"].items():
+                if dup_tag in seen:
+                    continue
+                seen.add(dup_tag)
                 coord, _, _, _ = gmshmodel.mesh.get_node(orig_tag)
                 self._lines.append(f"node {int(dup_tag)} {coord[0]:.6f} {coord[1]:.6f} {coord[2]:.6f}")
         return self
@@ -178,12 +194,29 @@ class TclWriter:
         other ranks (that's how any shared boundary works at all), so this
         is very likely fine, but it has not been stress-tested here beyond
         the 2-volume/2-rank case in test_apegmsh_tcl.py.
+
+        Deduplicates across interfaces, same reasoning and same bug as
+        duplicate_nodes(): a node shared by two selected interfaces (e.g.
+        a corner where three walls meet) produces the identical
+        (orig_tag, dup_tag) pair - hence the identical element tag
+        (orig_tag + dup_tag) - in both interfaces' node_map. Emitting it
+        twice would either duplicate-tag-collide or, if the two
+        interfaces' normals differ, silently pick whichever orientation
+        happens to be written second. First occurrence wins; which
+        interface "claims" a shared corner node is as arbitrary as
+        NodeSplitter's own volume-pair tie-break, not a modelling choice
+        this method should be making silently for you if it starts to
+        matter - flagged, not solved, same as the METIS gap above.
         """
         node_rank = self._node_partition_map(fem)
+        lines_by_rank = {}
+        seen_pairs = set()
         for c in selected:
             nx, ny, nz = c["normal"]
-            lines_by_rank = {}
             for orig_tag, dup_tag in c["node_map"].items():
+                if (orig_tag, dup_tag) in seen_pairs:
+                    continue
+                seen_pairs.add((orig_tag, dup_tag))
                 area = c["tributary"][orig_tag]
                 Kn = Kn_nominal * area
                 Kt = Kt_nominal * area
@@ -199,10 +232,10 @@ class TclWriter:
                     f"{Kn:.6g} {Kt:.6g} {mu:.6g} -orient {nx:.6g} {ny:.6g} {nz:.6g} "
                     f"-intType {int_type}"
                 )
-            for rank, lines in lines_by_rank.items():
-                self._lines.append(f"if {{$pid == {rank}}} {{")
-                self._lines.extend(f"    {ln}" for ln in lines)
-                self._lines.append("}")
+        for rank, lines in lines_by_rank.items():
+            self._lines.append(f"if {{$pid == {rank}}} {{")
+            self._lines.extend(f"    {ln}" for ln in lines)
+            self._lines.append("}")
         return self
 
     def fix(self, fem, pg_name, dofs):

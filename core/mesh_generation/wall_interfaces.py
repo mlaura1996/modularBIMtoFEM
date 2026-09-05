@@ -418,19 +418,31 @@ class NodeSplitter:
         per duplicate. See compute_node_map for the shared logic and the
         known limitation; see TclWriter.duplicate_nodes for the Tcl-text
         equivalent used by the apeGmsh/Task B path.
+
+        Deduplicates ops.node() calls across interfaces - a node where
+        three or more walls meet can belong to more than one selected
+        interface's node_map, and its dup_tag (a pure function of
+        orig_tag) is then identical across all of them. Found via
+        TclWriter.duplicate_nodes hitting "node already exists" at cluster
+        scale (18 volumes, multiple interfaces); applied the same fix here
+        even though this openseespy path hasn't hit it in a test yet - same
+        root cause, same fix.
         """
         import openseespy.opensees as ops
 
         NodeSplitter.assign_split_side(selected)
 
         substitution = {}
+        created = set()
         for c in selected:
             tributary = ContactInterfaceGenerator.get_nodal_tributary_areas(c["surface"])
             node_map = {}
             for orig_tag in tributary:
-                coord, _, _, _ = gmshmodel.mesh.get_node(orig_tag)
                 dup_tag = orig_tag + NodeSplitter.TAG_OFFSET
-                ops.node(int(dup_tag), *coord)
+                if dup_tag not in created:
+                    coord, _, _, _ = gmshmodel.mesh.get_node(orig_tag)
+                    ops.node(int(dup_tag), *coord)
+                    created.add(dup_tag)
                 node_map[orig_tag] = dup_tag
 
             c["node_map"] = node_map
