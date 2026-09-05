@@ -372,15 +372,21 @@ class NodeSplitter:
     TAG_OFFSET = 10_000_000
 
     @staticmethod
-    def create_duplicate_nodes(gmshmodel, selected):
+    def compute_node_map(gmshmodel, selected):
         """For every selected interface: get its meshed nodes + tributary
-        area, create one duplicate OpenSees node per original node at the
-        same coordinates (tag = orig_tag + NodeSplitter.TAG_OFFSET), and
-        store c['node_map'] / c['tributary'] on each candidate (consumed by
-        ContactInterfaceGenerator.generate()).
+        area, compute each node's duplicate tag (orig_tag +
+        NodeSplitter.TAG_OFFSET), and store c['node_map'] / c['tributary']
+        on each candidate. Pure computation - creates no nodes in any
+        backend (openseespy or Tcl text). Split out from
+        create_duplicate_nodes() so both backends (direct openseespy calls
+        - see that method - and TclWriter.duplicate_nodes for the apeGmsh/
+        Task B path) can share the same node-map logic instead of
+        duplicating it; the two backends only differ in how they turn a
+        (tag, coord) pair into an actual node.
 
         Returns {split_volume: {orig_node_tag: dup_node_tag}} for
-        Element.add_elements_to_opensees's node_substitution argument.
+        Element.add_elements_to_opensees's / TclWriter.solid_elements's
+        node_substitution argument.
 
         KNOWN LIMITATION: if the same node is shared by two interfaces that
         both assign the same volume as split_volume (e.g. a node at a
@@ -389,6 +395,29 @@ class NodeSplitter:
         node - it only gets split once, not twice. Rare at Castelnuovo's
         scale but not handled; would need per-(interface, node) duplicates
         instead of per-(volume, node) if it turns out to matter.
+        """
+        NodeSplitter.assign_split_side(selected)
+
+        substitution = {}
+        for c in selected:
+            tributary = ContactInterfaceGenerator.get_nodal_tributary_areas(c["surface"])
+            node_map = {}
+            for orig_tag in tributary:
+                dup_tag = orig_tag + NodeSplitter.TAG_OFFSET
+                node_map[orig_tag] = dup_tag
+
+            c["node_map"] = node_map
+            c["tributary"] = tributary
+            substitution.setdefault(c["split_volume"], {}).update(node_map)
+
+        return substitution
+
+    @staticmethod
+    def create_duplicate_nodes(gmshmodel, selected):
+        """openseespy backend: compute_node_map() plus an ops.node() call
+        per duplicate. See compute_node_map for the shared logic and the
+        known limitation; see TclWriter.duplicate_nodes for the Tcl-text
+        equivalent used by the apeGmsh/Task B path.
         """
         import openseespy.opensees as ops
 

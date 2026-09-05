@@ -81,7 +81,8 @@ class TclWriter:
         return self
 
     def solid_elements(self, fem, pg_name, material_tag, rank,
-                        ele_type="FourNodeTetrahedron", body_force=(0.0, 0.0, 0.0)):
+                        ele_type="FourNodeTetrahedron", body_force=(0.0, 0.0, 0.0),
+                        node_substitution=None):
         """Tets in physical group pg_name AND MPI rank `rank`, wrapped in
         an `if {$pid == rank}` guard - the actual domain-decomposition
         step. Silently emits nothing if this (pg, rank) combination is
@@ -94,19 +95,114 @@ class TclWriter:
         fem.elements.get(partition=0) raises KeyError). This method does
         the +1 translation so callers can think in OpenSeesMP rank terms
         throughout.
+
+        node_substitution (optional): {volume_tag: {orig_node_tag: dup_node_tag}}
+        from core.mesh_generation.wall_interfaces.NodeSplitter.compute_node_map,
+        for Task A/B reconciliation - a confirmed interface's "split side"
+        volume gets its connectivity reassigned to duplicate node tags
+        exactly as core.opensees_generation.model_builder.Element does for
+        the direct-openseespy path. Not scoped by volume here because
+        FEMData.elements.get() has no per-volume filter (only pg/label/
+        partition/dim) - substitutes across every volume tag present in
+        the map, relying on tag uniqueness (real gmsh tags never collide
+        with NodeSplitter.TAG_OFFSET-shifted duplicates) to make that safe
+        even when pg_name spans more than one volume.
         """
         result = fem.elements.get(pg=pg_name, partition=rank + 1)
         if result.n_elements == 0:
             return self
+        sub = {}
+        for vol_map in (node_substitution or {}).values():
+            sub.update(vol_map)
         self._lines.append(f"if {{$pid == {rank}}} {{")
         for group in result:
             for eid, conn in group:
-                nodes_str = " ".join(str(int(n)) for n in conn)
+                nodes = [sub.get(int(n), int(n)) for n in conn] if sub else [int(n) for n in conn]
+                nodes_str = " ".join(str(n) for n in nodes)
                 self._lines.append(
                     f"    element {ele_type} {int(eid)} {nodes_str} {material_tag} "
                     f"{body_force[0]:.6g} {body_force[1]:.6g} {body_force[2]:.6g}"
                 )
         self._lines.append("}")
+        return self
+
+    def duplicate_nodes(self, gmshmodel, selected):
+        """Emit `node <dup_tag> x y z` for every interface's duplicate
+        nodes (core.mesh_generation.wall_interfaces.NodeSplitter.compute_node_map
+        must have already populated c['node_map'] on each candidate).
+        Unconditional, like nodes() - every rank needs every node defined,
+        including the synthetic duplicates, since FEMData/gmsh have no
+        knowledge of them (they don't exist in the mesh, only in the
+        OpenSees domain) and solid_elements()'s node_substitution will
+        reference them from whichever rank owns the split volume's
+        elements.
+        """
+        for c in selected:
+            for orig_tag, dup_tag in c["node_map"].items():
+                coord, _, _, _ = gmshmodel.mesh.get_node(orig_tag)
+                self._lines.append(f"node {int(dup_tag)} {coord[0]:.6f} {coord[1]:.6f} {coord[2]:.6f}")
+        return self
+
+    @staticmethod
+    def _node_partition_map(fem):
+        """{node_id: 0-based rank} for every node FEMData knows about
+        (real mesh nodes only - duplicates are synthetic, see
+        duplicate_nodes). A node exactly on a partition boundary can
+        legitimately appear in more than one partition's node set; this
+        keeps whichever assignment is seen last, which is an arbitrary
+        but consistent tie-break - correctness (the element ends up on
+        exactly one valid rank) doesn't depend on which one.
+        """
+        mapping = {}
+        for p in fem.nodes.partitions:
+            for nid in fem.nodes.get(partition=p).ids:
+                mapping[int(nid)] = p - 1  # apeGmsh 1-based -> OpenSeesMP 0-based
+        return mapping
+
+    def contact_elements(self, fem, selected, Kn_nominal, Kt_nominal, mu=0.6, int_type=1):
+        """zeroLengthContactASDimplex elements for confirmed interfaces
+        (NodeSplitter.compute_node_map must have already run). Each
+        element is guarded onto the rank that owns its ORIGINAL node
+        (queried from FEMData's partition assignment - the duplicate has
+        no partition of its own, being synthetic) - a functional choice
+        (every element lands on exactly one valid rank, node exists there
+        because nodes()/duplicate_nodes() are unconditional) rather than a
+        load-balance-optimal one.
+
+        KNOWN GAP (brief section 6, explicitly flagged there as needing
+        verification): does METIS ever cut a contact pair's two GMSH-mesh
+        neighbourhoods (the elements around the original vs. around what
+        will become the duplicate) across different ranks in a way that
+        matters for solver correctness? Not investigated in this pass -
+        OpenSeesMP is designed for elements referencing nodes owned by
+        other ranks (that's how any shared boundary works at all), so this
+        is very likely fine, but it has not been stress-tested here beyond
+        the 2-volume/2-rank case in test_apegmsh_tcl.py.
+        """
+        node_rank = self._node_partition_map(fem)
+        for c in selected:
+            nx, ny, nz = c["normal"]
+            lines_by_rank = {}
+            for orig_tag, dup_tag in c["node_map"].items():
+                area = c["tributary"][orig_tag]
+                Kn = Kn_nominal * area
+                Kt = Kt_nominal * area
+                rank = node_rank.get(orig_tag)
+                if rank is None:
+                    raise ValueError(
+                        f"Original node {orig_tag} not found in FEMData's partition "
+                        f"assignment - was get_fem_data() called after partition()?"
+                    )
+                lines_by_rank.setdefault(rank, []).append(
+                    f"element zeroLengthContactASDimplex "
+                    f"{orig_tag + dup_tag} {orig_tag} {dup_tag} "
+                    f"{Kn:.6g} {Kt:.6g} {mu:.6g} -orient {nx:.6g} {ny:.6g} {nz:.6g} "
+                    f"-intType {int_type}"
+                )
+            for rank, lines in lines_by_rank.items():
+                self._lines.append(f"if {{$pid == {rank}}} {{")
+                self._lines.extend(f"    {ln}" for ln in lines)
+                self._lines.append("}")
         return self
 
     def fix(self, fem, pg_name, dofs):
