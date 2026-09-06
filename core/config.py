@@ -65,7 +65,14 @@ Interface_Static_SetCVal('write.step.assembly', str(STEP_ASSEMBLY_MODE))
 N_PROC = ops.getNP()
 
 #constants
-G = -9.810 #mm/s2
+# Standard gravity, m/s^2 - the "#mm/s2" this comment used to say was wrong,
+# not the value: -9.810 is correct gravity in m/s^2, and every consumer of
+# G (Element.create_linear_elastic_element, and, after the unit fix in
+# core/opensees_generation/model_builder.py, create_plastic_damage_elements
+# too) works in metres, matching STEP_UNIT='M' above and the mesh's own
+# node coordinates - see model_builder.py's create_plastic_damage_elements
+# docstring for the full trace of the bug this used to compound.
+G = -9.810 #m/s2
 
 #settings
 SLAB_AS_SHELLS = True

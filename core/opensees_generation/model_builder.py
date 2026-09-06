@@ -64,34 +64,72 @@ class Element:
             
         return solid_material_tag
     
-    @staticmethod 
+    @staticmethod
     def create_plastic_damage_elements(gmshmodel, material, solid_material_tag, element_tags, node_tags) -> int:
-        MPaE = material.young_modulus #MPa - N/mm2
-        E = (float(MPaE)) #MPa - N/m2
-        rho = material.density # kg / m³
-        rho = float(rho*1e-12) # Ton / mm³
-        nu = material.poisson_ratio #--
-        fc = material.compressive_strength #MPa - N/mm2
-        #fc = float(MPaFc)*1e6 #Pa - N/m2
-        ft = material.tensile_strength #MPa - N/mm2
-        #ft = float(MPaFt)*1e6 #Pa - N/mm2
+        """Builds ASDConcrete3D + FourNodeTetrahedron elements.
+
+        UNIT FIX (see chat log for the full trace): this function used to
+        leave E/fc/ft in MPa and convert density to ton/mm^3 - i.e.
+        calibrated for an N-mm-ton system - while add_nodes_to_ops() feeds
+        it node coordinates straight from the gmsh mesh, which are in
+        METRES (core/config.py's STEP_UNIT='M', confirmed empirically on
+        the real Castelnuovo geometry throughout this session: wall
+        coordinates like (17.88, 5.93, 4.1), not (17880, 5930, 4100)).
+        FourNodeTetrahedron computes stiffness/mass directly from nodal
+        coordinates with no unit conversion of its own, so feeding it
+        mm-calibrated material constants against metre-scale coordinates
+        silently produced wrong element volumes/mass/stiffness (off by
+        factors around 10^9) - nothing errors, the analysis just runs on
+        the wrong physics. Also fed the crack-band regularisation length
+        (side_length, itself in metres, from Element.get_element_side_lenght
+        -> gmsh's own volume metric) into the same formulas as E/fc/ft/Gc/Gt
+        in mm-calibrated units, corrupting the constitutive law itself, not
+        just the FE assembly.
+
+        Now consistently SI (Pa, m, kg, N) throughout, matching
+        create_linear_elastic_element's convention (which was already
+        correct - E converted to Pa, density left in kg/m^3, no fix needed
+        there).
+        """
+        # Gc/Gt fallback formulas need fc in MPa - they are NOT
+        # unit-independent physical laws, they're specific empirical curve
+        # fits (Gc: CEB-FIP Model Code 90 compressive fracture energy,
+        # Gf=15+0.43*fc-0.0036*fc^2, valid for fc in MPa between 12-80 MPa -
+        # confirmed by web search, see chat log). Their raw numeric output
+        # is in N/mm, not N/m or Pa*m - cross-checked against
+        # PROJECT_BRIEF.md's own Chapter 6 (SERA-AIMS) reference values
+        # (explicitly stated to be in the N-mm-t system): at fc=1.30 MPa the
+        # Gt formula below gives 0.0056 N/mm vs. the brief's calibrated
+        # Gt=0.006 N/mm - close enough (~7%) to confirm the unit, not close
+        # enough to expect (a generic code-formula fallback isn't meant to
+        # reproduce one specific experimental calibration exactly).
+        fc_MPa = material.compressive_strength
+        ft_MPa = material.tensile_strength
+
         if material.compression_fracture_energy != 0:
-            Gc = float(material.compression_fracture_energy)
-            #Gc = float(Gc*1e6)
-        else: 
-            Gc = 15 + (0.43*fc) - 0.0036*(fc**2)
-        
-        if material.tensile_fracture_energy != 0:
-            Gt = float(material.tensile_fracture_energy)
-            #Gt = float(Gt*1e6)
-        else: 
-            Gt = 0.025*(fc/10)**(0.7)
-        
-        if material.compressive_elastic_behaviour != 0:
-            f0 = float(material.compressive_elastic_behaviour)
-            f0 = float(f0*1e6)
+            Gc_Nmm = float(material.compression_fracture_energy)
         else:
-            f0 = fc/3
+            Gc_Nmm = 15 + (0.43 * fc_MPa) - 0.0036 * (fc_MPa ** 2)
+
+        if material.tensile_fracture_energy != 0:
+            Gt_Nmm = float(material.tensile_fracture_energy)
+        else:
+            Gt_Nmm = 0.025 * (fc_MPa / 10) ** 0.7
+
+        # Now convert everything to SI (Pa, m, N) for the actual element/
+        # material creation below. 1 MPa = 1e6 Pa; 1 N/mm = 1000 N/m.
+        E = float(material.young_modulus) * 1e6
+        fc = fc_MPa * 1e6
+        ft = ft_MPa * 1e6
+        Gc = Gc_Nmm * 1000
+        Gt = Gt_Nmm * 1000
+        rho = material.density  # kg/m^3 already - no conversion needed
+        nu = material.poisson_ratio
+
+        if material.compressive_elastic_behaviour != 0:
+            f0 = float(material.compressive_elastic_behaviour) * 1e6  # MPa -> Pa
+        else:
+            f0 = fc / 3  # fc is already in Pa at this point
 
         #Creating the geometry
         physical_group = material.name

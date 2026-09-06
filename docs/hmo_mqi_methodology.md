@@ -346,6 +346,15 @@ addressed here.
 
 ## 9. What's still open
 
+- **Resolved after this document was first written**: the values in
+  `material_database.json` reach OpenSees through
+  `core.opensees_generation.model_builder.Element.create_plastic_damage_elements`,
+  which used to be calibrated for an N-mm-ton system while the mesh
+  coordinates are in metres - a silent unit mismatch (not a data-quality
+  issue in this JSON, a bug in the consumer). Fixed; see that function's
+  own docstring and `docker/opensees/test_plastic_damage_units.py`, which
+  runs Tufelli_masonry_typeA's actual properties through a real self-weight
+  analysis and checks the result lands in a physically plausible range.
 - Type D's classification is unverified by construction - see 6.2.
 - `poisson_ratio = 0.2` for all four types is a literature default, not
   MQI-derived (HMO has no rule for it either).
