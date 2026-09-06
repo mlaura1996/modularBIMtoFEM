@@ -236,13 +236,45 @@ each type through `hmo_mqi.py`, and writes:
   `density`, `young_modulus`, `poisson_ratio`, `compressive_strength`, ...),
   keyed by the same material names the IFC file uses
   (`Tufelli_masonry_typeA` etc.), so it merges into that pipeline's
-  `material_db` without a translation step. `tensile_strength` is left
-  `null` (no HMO rule for it, not invented); `compression_fracture_energy`
-  / `tensile_fracture_energy` are left at `0`, which is not a silent gap -
-  `model_builder.py`'s `create_plastic_damage_elements` already falls back
-  to `Gc = 15 + 0.43*fc - 0.0036*fc²` / `Gt = 0.025*(fc/10)^0.7` (Bažant)
-  when a material's own values are `0`, so leaving them at `0` activates an
-  existing, deliberate fallback rather than leaving a real gap unhandled.
+  `material_db` without a translation step.
+
+  `tensile_strength`: HMO has no SWRL rule for it at all (checked - not a
+  gap in this script, a gap in the ontology). Originally left at `null`
+  here, which `load_material_objects` (Section 8) coerces to `0` - traced
+  what that actually does downstream and it is not inert: `model_builder.py`
+  `create_plastic_damage_elements` passes `ft` straight into
+  `ConstitutiveLaws.ExponentialSoftening_Tension.tension(E, ft, Gt, side_length)`,
+  and with `ft=0` that function's own convergence check
+  (`if stress > s0*0.05`) is `0 > 0`, false on the first iteration, so it
+  returns a **degenerate two-point curve** `Te=[0,0.0], Ts=[0,0], Td=[0,0]`
+  instead of an actual softening branch - fed straight into
+  `nDMaterial('ASDConcrete3D', ...)`. "Not derived by HMO" was silently
+  becoming "asserted zero tensile strength," with the code unable to tell
+  the two apart. Fixed by setting `tensile_strength = compressive_strength
+  * (0.17 / 1.30)` - the ft/fc ratio of PROJECT_BRIEF.md's own Chapter 6
+  (SERA-AIMS) reference masonry, the closest documented precedent available,
+  not a masonry-science formula. Verified the fix: the same tension-curve
+  call now returns a real 21001-point exponential softening curve instead
+  of the two-point degenerate one (see chat log for both runs side by side).
+  Current values: typeA 0.451 MPa, typeB/D 0.342 MPa, typeC 0.274 MPa.
+
+  Shear strength (Turnšek-Čačovič, computed by `hmo_mqi.py`) is **not a
+  `Material` field at all** - `data_extractor.py`'s `Material` class has no
+  such attribute, and `create_plastic_damage_elements` has no shear-strength
+  parameter to receive one (ASDConcrete3D's shear behaviour emerges from
+  the triaxial damage-plasticity formulation, not an explicit input). Kept
+  in the JSON under the `_shear_strength_turnsek_cacovic_MPa` key for
+  traceability only - `load_material_objects` excludes every `_`-prefixed
+  key from the `Material()` call, so this value is documentation, not a
+  live input to anything downstream yet.
+
+  `compression_fracture_energy` / `tensile_fracture_energy` are left at `0`,
+  which - unlike `tensile_strength` - is not a placeholder without
+  consequence either way: `create_plastic_damage_elements` already falls
+  back to `Gc = 15 + 0.43*fc - 0.0036*fc²` / `Gt = 0.025*(fc/10)^0.7`
+  (Bažant, cited there) when a material's own values are `0`, so leaving
+  them at `0` activates an existing, deliberate fallback rather than
+  leaving a gap.
 
 ## 7. Visualising the graph
 
@@ -292,11 +324,13 @@ materials = load_material_objects("output/castelnuovo/material_database.json")
 ```
 
 Verified against the actual file this pipeline stage produces (Docker
-image, see chat log) - loads all four types correctly, `tensile_strength`
-coerced from JSON `null` to `0` (matching how the rest of the codebase
-already treats an absent numeric property, e.g.
-`Material.assign_material_tags`'s `info.get('thickness', 0) or 0`), and
-the loaded `Material.__repr__` output confirmed field-for-field against
+image, see chat log) - loads all four types correctly. `load_material_objects`
+still coerces any JSON `null` to `0` for numeric fields (matching how the
+rest of the codebase already treats an absent property, e.g.
+`Material.assign_material_tags`'s `info.get('thickness', 0) or 0`) -
+relevant now mainly for `compression_fracture_energy` /
+`tensile_fracture_energy`, since `tensile_strength` itself is no longer
+`null` (Section 6.3 above). The loaded `Material.__repr__` output confirmed field-for-field against
 what `castelnuovo_hmo_graph.py` wrote.
 
 **Not yet wired further than that.** `load_material_objects` produces a
