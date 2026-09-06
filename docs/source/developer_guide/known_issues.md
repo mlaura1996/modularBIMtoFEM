@@ -145,10 +145,14 @@ runnable — see the next entry.
   visualizers, where a plausible-looking but wrong implementation would be
   worse than an ImportError: it would produce a curve or a stress plot that
   runs cleanly and looks reasonable without actually being correct.
-  Deliberately not guessed at — see chat for the open question on how to
-  proceed (real missing engineering logic vs. missing implementation
-  effort, and whether these two Chapter 6 SERA-AIMS specimen scripts are
-  in scope for the Chapter 7 Castelnuovo work at all).
+  Deliberately not guessed at.
+
+  **Deprioritised, on request**: these are Chapter 6 SERA-AIMS specimen
+  scripts, not part of this chapter's Castelnuovo case study. Left
+  documented as "not yet runnable" rather than implemented with guessed
+  engineering logic. Revisit if/when they're back in scope, ideally with
+  either the original working version of these two functions or an
+  explicit specification of the control-point selection rule.
 
 ## Documented separately
 
