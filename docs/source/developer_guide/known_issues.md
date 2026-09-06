@@ -59,28 +59,96 @@ formula (recorded as such in the JSON, not hidden).
 returns a real 21001-point exponential softening curve instead of the
 two-point degenerate one.
 
+### `analysis_run.py` wrong import and wrong method name
+
+Imported `models.masonry_law` (module doesn't exist; the real module is
+`models.damage_law`) and called `BoundaryConditions.fixNodes(gmshmodel)`
+(the actual method, in `model_builder.py`, is `fix_nodes`, snake_case).
+Both fixed. **Verified**: `import core.opensees_generation.analysis_run`
+now succeeds inside the Docker image (it previously raised
+`ModuleNotFoundError` at the first line).
+
+### `cyclic_test.py` importing `pd` from `core.config`
+
+`core/config.py` never actually imported `pandas`, only `numpy` and
+`matplotlib.pyplot` — so `from core.config import ... pd ...` raised
+`ImportError`. Added `import pandas as pd` (and `import csv`, needed by
+the same import line and by `in_plane_wall.py`/`out_of_plane_test.py`) to
+`core/config.py`. **Verified**: the script now gets past the import and
+fails only on its actual runtime input, a `CT02_estimated_time_series.csv`
+file expected in the working directory (a separate, pre-existing
+data-availability question, not an import bug).
+
+### `requirements.txt` incomplete
+
+Added `ifcopenshell`, `numpy`, `pandas`, `matplotlib` (all imported by
+`core/config.py` at module load time, none previously listed). Left
+`pythonocc-core` out deliberately — not reliably pip-installable on
+Windows, which is why the Docker image installs it via `conda` instead
+(see {doc}`../user_guide/installation`, unchanged advice).
+
+### `mesh.py` hard-coded quadratic mesh order
+
+`GmshModel.createGmshModel` (used by `main.py`) called
+`gmsh.model.mesh.setOrder(2)` unconditionally. Every element creator in
+`model_builder.py`'s `Element` class (`create_linear_elastic_element` and
+`create_plastic_damage_elements`) unpacks `node_tags` directly into an
+OpenSees `element('FourNodeTetrahedron', ...)` call, which requires
+exactly 4 nodes — order 2 hands it 10-node Tet10 connectivity instead,
+which fails at that `element()` call. Changed to `setOrder(1)`, matching
+every actual element consumer in the repository (there is no code path
+anywhere that handles Tet10 connectivity) and PROJECT_BRIEF.md §4.1's own
+choice of Tet4 for this pipeline.
+
+### `EXPORT_DIR_PART_1/2/3`, `OUTPUT_DIR`, `LOG_DIR` — now defined
+
+Added to `core/config.py`. `EXPORT_DIR_PART_1`/`_2` weren't guessed: they
+match where `out_of_plane_test.py`'s own real inputs already sat on disk
+(`export/ifc_data/CMB_unreinforced_adapted_E.json`,
+`export/mesh/out_of_plane.msh` — both predate this fix, evidence of the
+intended convention, not an assumption). `OUTPUT_DIR = "output/"` matches
+an existing `output/CMB_acceptable/` folder whose contents (`pushover_curve.csv`,
+`results_SW.csv`, ...) are exactly what these two scripts produce —
+meaning a version of this script *did* run successfully at some point.
+`EXPORT_DIR_PART_3` and `LOG_DIR` are imported by both scripts but never
+referenced in either script's body, so their values only had to be
+plausible, not verified against real data.
+
+This unblocks the import line in both scripts, but does **not** make them
+runnable — see the next entry.
+
 ## Still open
 
-- **`in_plane_wall.py`/`out_of_plane_test.py`** — still missing
-  `EXPORT_DIR_PART_1/2/3`, `OUTPUT_DIR`, `LOG_DIR` config constants, and
-  `utils/plot_helper.py`/`utils/modelbuilder_helper.py` modules they
-  import. `load_material_objects` being implemented (see
-  {doc}`materials_hmo_mqi`) unblocks their import error, not these.
-- **`core/opensees_generation/analysis_run.py`** — wrong import,
-  `models.masonry_law` (the actual module is `models.damage_law`).
-- **`core/opensees_generation/cyclic_test.py`** — imports `pd` (pandas)
-  from `core.config`, which doesn't define or re-export it.
-- **`requirements.txt`** — lists only `gmsh`, `openseespy`, `lark`; missing
-  `ifcopenshell`, `pythonocc-core`, `numpy`, `pandas`, `matplotlib`, all of
-  which `core/config.py` imports at module load time. See
-  {doc}`../user_guide/installation`.
-- **`core/mesh_generation/mesh.py`** defaults to `setOrder(2)` (quadratic
-  tetrahedra), but the Task A/B/C pipeline uses `FourNodeTetrahedron`
-  (linear Tet4, per PROJECT_BRIEF.md §4.1 — Tet10 was explicitly rejected
-  on cost grounds). Not reconciled — a caller that doesn't override the
-  order explicitly (as the Task A/B/C test scripts do, via
-  `gmsh.model.mesh.setOrder(1)`) would mesh quadratically and then feed a
-  Tet4 element creator element connectivity it doesn't expect.
+- **`in_plane_wall.py`/`out_of_plane_test.py` are missing more than config
+  constants.** Past the (now fixed) import line, both scripts depend on
+  functions that were never implemented anywhere in the repository (not
+  just unimported — grepped the full codebase, they don't exist):
+  `utils/plot_helper.py`'s `LiveDVPlot` (imported by both, not actually
+  called in either script's visible body); `utils/modelbuilder_helper.py`'s
+  `get_wall_cp` (in-plane script, actively used to pick the pushover
+  control node), `get_group_center_cp` (out-of-plane script, same role),
+  `TagManager` (re-import target only — the real class already exists at
+  `utils/tag_manager.py`), and `add_base_springs_elastic_tm` (imported,
+  not called); `utils/analysis_helper.py`'s `check_sign_flips` (actively
+  used) and `PeakViews` (imported, not called); and
+  `external/gmsh2opensees/g2o_viz.py`'s
+  `compute_and_visualize_principal_strains`/`_stresses` (actively used, in
+  the pushover loop of both scripts). `check_sign_flips`/`PeakViews`/the
+  two `compute_and_visualize_*` functions weren't on the original version
+  of this list — found while trying to actually fix it, not previously
+  reported.
+
+  The two genuinely load-bearing gaps are `get_wall_cp`/`get_group_center_cp`
+  (control-point selection — an engineering choice, e.g. "highest node,"
+  "closest to a target coordinate," that affects what the resulting
+  pushover curve means) and `check_sign_flips`/the principal stress/strain
+  visualizers, where a plausible-looking but wrong implementation would be
+  worse than an ImportError: it would produce a curve or a stress plot that
+  runs cleanly and looks reasonable without actually being correct.
+  Deliberately not guessed at — see chat for the open question on how to
+  proceed (real missing engineering logic vs. missing implementation
+  effort, and whether these two Chapter 6 SERA-AIMS specimen scripts are
+  in scope for the Chapter 7 Castelnuovo work at all).
 
 ## Documented separately
 

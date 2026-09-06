@@ -6,7 +6,13 @@ class GmshModel:
     @staticmethod 
     def createGmshModel(stepfile, labels, run_gmsh = True, use_adaptive_mesh = True):
         gmsh.initialize()
-        gmsh.model.mesh.setOrder(2)
+        # Order 1 (linear Tet4), not 2: every element creator in
+        # core.opensees_generation.model_builder.Element (both
+        # create_linear_elastic_element and create_plastic_damage_elements)
+        # unpacks node_tags directly into an OpenSees 'FourNodeTetrahedron'
+        # call, which requires exactly 4 nodes per element - order 2 would
+        # hand it 10-node Tet10 connectivity and fail at the element() call.
+        gmsh.model.mesh.setOrder(1)
         gmsh.option.setNumber("General.Terminal", 1)
         gmsh.model.add(stepfile[-4])
         gmsh.open(stepfile)

@@ -1,3 +1,11 @@
 gmsh==4.11.1
 openseespy==3.5.1.3
 lark==1.3.1
+ifcopenshell
+numpy
+pandas
+matplotlib
+
+# pythonocc-core (imported by core/config.py) is not reliably pip-installable
+# on Windows - the Docker image (docker/opensees/Dockerfile) installs it via
+# conda instead. See docs/source/user_guide/installation.md.

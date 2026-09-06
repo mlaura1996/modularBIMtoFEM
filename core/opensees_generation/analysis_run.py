@@ -1,7 +1,7 @@
 import openseespy.opensees as ops
 from core.config import *
 from external.gmsh2opensees import *
-from models.masonry_law import *
+from models.damage_law import *
 from utils.gmsh_helpers import *
 from utils.dict_helper import *
 from .model_builder import ModelBuilder, Element, BoundaryConditions, Loads
@@ -17,7 +17,7 @@ def run_static_analysis(gmshmodel, materials_dict):
 
     # Step 2: Apply Boundary Conditions (Fix base nodes)
     print("Applying boundary conditions...")
-    BoundaryConditions.fixNodes(gmshmodel)
+    BoundaryConditions.fix_nodes(gmshmodel)
 
     # Step 4: Define Loads (Self-weight applied to elements)
     print("Applying loads...")

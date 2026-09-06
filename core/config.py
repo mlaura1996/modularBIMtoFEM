@@ -37,11 +37,28 @@ import re
 import openseespy.opensees as ops
 
 #Utils
-import numpy as np 
+import numpy as np
 import math
 import matplotlib.pyplot as plt
+import pandas as pd
+import csv
+import os
 
 EXPORT_DIR = "export/"
+
+# Sub-paths of EXPORT_DIR, one per pipeline stage's output - imported by
+# in_plane_wall.py/out_of_plane_test.py, which never got these defined here
+# (import error until now). EXPORT_DIR_PART_1/2 match the directories those
+# scripts' own inputs already live in on disk (export/ifc_data/'s
+# CMB_unreinforced_adapted_E.json, export/mesh/'s out_of_plane.msh - both
+# predate this fix, confirming the convention rather than guessing it).
+# EXPORT_DIR_PART_3/LOG_DIR are imported by the same two scripts but never
+# actually referenced in their bodies - defined for import-completeness only.
+EXPORT_DIR_PART_1 = os.path.join(EXPORT_DIR, "ifc_data")
+EXPORT_DIR_PART_2 = os.path.join(EXPORT_DIR, "mesh")
+EXPORT_DIR_PART_3 = os.path.join(EXPORT_DIR, "opensees")
+OUTPUT_DIR = "output/"
+LOG_DIR = os.path.join(OUTPUT_DIR, "logs")
 
 # Geometry extraction settings
 GEOMETRY_SETTINGS = ifcopenshell.geom.settings()
