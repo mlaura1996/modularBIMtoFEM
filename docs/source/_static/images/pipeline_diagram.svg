@@ -1,0 +1,85 @@
+<svg viewBox="0 0 1160 260" xmlns="http://www.w3.org/2000/svg" role="img" font-family="Helvetica, Arial, sans-serif">
+  <title>modularBIMtoFEM pipeline: IFC to parallel OpenSees analysis</title>
+  <desc>IFC building model, through IfcOpenShell/OpenCASCADE geometry extraction and apeGmsh meshing/partitioning, to a TCL model run on OpenSeesMP, producing a colour-mapped stress result.</desc>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#546578"/>
+    </marker>
+    <linearGradient id="stressMap" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2b6cb0"/>
+      <stop offset="35%" stop-color="#38a169"/>
+      <stop offset="65%" stop-color="#d69e2e"/>
+      <stop offset="100%" stop-color="#c53030"/>
+    </linearGradient>
+  </defs>
+
+  <!-- connecting arrows -->
+  <line x1="176" y1="130" x2="224" y2="130" stroke="#546578" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="406" y1="130" x2="454" y2="130" stroke="#546578" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="636" y1="130" x2="684" y2="130" stroke="#546578" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="866" y1="130" x2="914" y2="130" stroke="#546578" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- 1. IFC model -->
+  <g>
+    <rect x="16" y="70" width="160" height="120" rx="8" fill="#ffffff" stroke="#2b6cb0" stroke-width="2"/>
+    <text x="96" y="60" text-anchor="middle" font-size="13" font-weight="600" fill="#1a202c">1. BIM / IFC model</text>
+    <rect x="34" y="88" width="124" height="86" fill="none" stroke="#a0aec0" stroke-width="1.5"/>
+    <line x1="34" y1="110" x2="158" y2="110" stroke="#a0aec0" stroke-width="1"/>
+    <line x1="34" y1="132" x2="158" y2="132" stroke="#a0aec0" stroke-width="1"/>
+    <line x1="34" y1="154" x2="158" y2="154" stroke="#a0aec0" stroke-width="1"/>
+    <line x1="70" y1="88" x2="70" y2="174" stroke="#a0aec0" stroke-width="1"/>
+    <line x1="122" y1="88" x2="122" y2="174" stroke="#a0aec0" stroke-width="1"/>
+    <text x="96" y="196" text-anchor="middle" font-size="10.5" fill="#4a5568">Castelnuovo aggregate</text>
+  </g>
+
+  <!-- 2. IfcOpenShell / OpenCASCADE -->
+  <g>
+    <rect x="224" y="70" width="182" height="120" rx="8" fill="#ffffff" stroke="#38a169" stroke-width="2"/>
+    <text x="315" y="60" text-anchor="middle" font-size="13" font-weight="600" fill="#1a202c">2. IfcOpenShell +</text>
+    <text x="315" y="46" text-anchor="middle" font-size="13" font-weight="600" fill="#1a202c">OpenCASCADE</text>
+    <path d="M270 150 L300 100 L360 100 L340 150 Z" fill="none" stroke="#38a169" stroke-width="1.8"/>
+    <path d="M270 150 L290 170 L350 170 L340 150 Z" fill="none" stroke="#38a169" stroke-width="1.8"/>
+    <line x1="300" y1="100" x2="290" y2="170" stroke="#38a169" stroke-width="1.2" opacity="0.6"/>
+    <line x1="360" y1="100" x2="350" y2="170" stroke="#38a169" stroke-width="1.2" opacity="0.6"/>
+    <text x="315" y="196" text-anchor="middle" font-size="10.5" fill="#4a5568">316 solids -&gt; STEP + material DB</text>
+  </g>
+
+  <!-- 3. apeGmsh -->
+  <g>
+    <rect x="454" y="70" width="182" height="120" rx="8" fill="#ffffff" stroke="#805ad5" stroke-width="2"/>
+    <text x="545" y="60" text-anchor="middle" font-size="13" font-weight="600" fill="#1a202c">3. apeGmsh</text>
+    <polygon points="545,95 585,118 585,155 545,178 505,155 505,118" fill="none" stroke="#805ad5" stroke-width="1.6"/>
+    <line x1="545" y1="95" x2="545" y2="178" stroke="#805ad5" stroke-width="1" opacity="0.5"/>
+    <line x1="505" y1="118" x2="585" y2="155" stroke="#805ad5" stroke-width="1" opacity="0.5"/>
+    <line x1="585" y1="118" x2="505" y2="155" stroke="#805ad5" stroke-width="1" opacity="0.5"/>
+    <text x="545" y="196" text-anchor="middle" font-size="10.5" fill="#4a5568">mesh, interfaces, partitions</text>
+  </g>
+
+  <!-- 4. TCL export + OpenSeesMP -->
+  <g>
+    <rect x="684" y="70" width="182" height="120" rx="8" fill="#ffffff" stroke="#dd6b20" stroke-width="2"/>
+    <text x="775" y="60" text-anchor="middle" font-size="13" font-weight="600" fill="#1a202c">4. TCL export +</text>
+    <text x="775" y="46" text-anchor="middle" font-size="13" font-weight="600" fill="#1a202c">OpenSeesMP</text>
+    <rect x="710" y="95" width="60" height="76" rx="3" fill="none" stroke="#dd6b20" stroke-width="1.6"/>
+    <text x="740" y="118" text-anchor="middle" font-size="9" fill="#dd6b20">.tcl</text>
+    <line x1="710" y1="128" x2="770" y2="128" stroke="#dd6b20" stroke-width="0.8"/>
+    <line x1="710" y1="140" x2="770" y2="140" stroke="#dd6b20" stroke-width="0.8"/>
+    <line x1="710" y1="152" x2="770" y2="152" stroke="#dd6b20" stroke-width="0.8"/>
+    <rect x="783" y="100" width="18" height="66" rx="2" fill="#dd6b20" opacity="0.85"/>
+    <rect x="806" y="112" width="18" height="54" rx="2" fill="#dd6b20" opacity="0.65"/>
+    <rect x="829" y="122" width="18" height="44" rx="2" fill="#dd6b20" opacity="0.45"/>
+    <text x="775" y="196" text-anchor="middle" font-size="10.5" fill="#4a5568">Docker: MPI + MUMPS, N ranks</text>
+  </g>
+
+  <!-- 5. FEM result -->
+  <g>
+    <rect x="914" y="70" width="230" height="120" rx="8" fill="#ffffff" stroke="#c53030" stroke-width="2"/>
+    <text x="1029" y="60" text-anchor="middle" font-size="13" font-weight="600" fill="#1a202c">5. FEM result</text>
+    <polygon points="960,168 985,100 1030,95 1075,110 1095,168" fill="url(#stressMap)" stroke="#2d3748" stroke-width="1"/>
+    <line x1="985" y1="100" x2="960" y2="168" stroke="#2d3748" stroke-width="0.6" opacity="0.4"/>
+    <line x1="1030" y1="95" x2="1010" y2="168" stroke="#2d3748" stroke-width="0.6" opacity="0.4"/>
+    <line x1="1075" y1="110" x2="1055" y2="168" stroke="#2d3748" stroke-width="0.6" opacity="0.4"/>
+    <text x="1029" y="196" text-anchor="middle" font-size="10.5" fill="#4a5568">damage / stress field, per node</text>
+  </g>
+</svg>

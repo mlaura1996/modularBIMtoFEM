@@ -5,3 +5,4 @@ visualize_displacement.py
 visualize_specific_results.py
 __pycache__/
 *.pyc
+docs/build/
