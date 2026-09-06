@@ -37,6 +37,7 @@ html_theme_options = {
     "sticky_navigation": True,
 }
 html_title = "modularBIMtoFEM — Chapter 7 documentation"
+html_logo = "_static/images/open_bim_to_fem_logo.png"
 
 # Allow importing the repository's own packages so autodoc can pull
 # docstrings (core/, external/, models/, utils/) - the repo root is one
