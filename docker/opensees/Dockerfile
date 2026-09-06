@@ -132,10 +132,18 @@ ARG APEGMSH_COMMIT=f8826d30c187afbf95f2d7e2569ed563ce49659f
 RUN conda run -n appenv python -m pip install --upgrade pip && \
     conda run -n appenv pip install --no-cache-dir -r /app/requirements.txt && \
     conda run -n appenv pip install --no-cache-dir \
-        "apeGmsh @ git+https://github.com/mlaura1996/apeGmsh.git@${APEGMSH_COMMIT}"
+        "apeGmsh @ git+https://github.com/mlaura1996/apeGmsh.git@${APEGMSH_COMMIT}" \
+        h5py
 # apeGmsh's own deps are just gmsh/numpy/pandas (checked its pyproject.toml) -
 # the "viewer" extra (PySide6/pyvista/vtk) is deliberately NOT installed here,
-# per brief 7.2: not needed in the run image.
+# per brief 7.2: not needed in the run image. h5py is added explicitly:
+# apeGmsh's Results.from_recorders()/native HDF5 writer imports it
+# unconditionally (results/writers/_native.py), but it isn't declared under
+# ANY of apeGmsh's own extras (plot/opensees/vtk/dxf/viewer/all - checked
+# apegmsh-1.5.0.dist-info/METADATA directly) - a gap in apeGmsh's own
+# packaging, not something requirements.txt should silently work around.
+# matplotlib (apeGmsh's "plot" extra, for headless results.plot) is already
+# in requirements.txt for core/config.py's own needs.
 
 # Pipeline code and Castelnuovo geometry are baked in (small, versioned
 # inputs); records, interface selection and results are NOT - see the

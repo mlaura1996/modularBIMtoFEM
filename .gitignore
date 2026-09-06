@@ -6,3 +6,12 @@ visualize_specific_results.py
 __pycache__/
 *.pyc
 docs/build/
+
+# Regenerable run artifacts from docker/opensees/*.py test/visualization
+# scripts - large, produced by re-running the script against the Docker
+# image, not curated results. The scripts themselves and their PNG output
+# (output/castelnuovo/plots/) are tracked.
+/results/
+output/castelnuovo/*.tcl
+output/castelnuovo/recorders_linear/
+output/castelnuovo/recorders_parallel/
