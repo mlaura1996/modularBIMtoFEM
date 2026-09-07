@@ -85,4 +85,26 @@ OpenSeesMP` run (not a mock):
   independently on every MPI rank;
 - scaled to a real 18-volume Castelnuovo cluster, multiple interfaces, and
   6 partitions (`test_task_ab_scaled.py`) — not just the 2-volume minimal
-  case.
+  case;
+- the full 316-solid aggregate, bonded, with proper per-volume base
+  fixity (`self_weight_check_full_aggregate.py`) — total volume matches
+  PROJECT_BRIEF.md exactly, and an independent mass/weight balance check
+  (`rho * g * V` vs. summed base reactions) agrees to within 0.027%.
+
+## Visualising results headlessly (apeGmsh)
+
+`apeGmsh`'s own `results.plot` (matplotlib-backed, no Qt/X11 needed) can
+render a run's output directly inside the Docker container — the
+interactive `results.viewer()` needs a display this container doesn't
+have, but `results.plot.deformed(...)`/`.contour(...)` save static PNGs.
+Two things to get right, both found by hitting them:
+
+- **Recorders must be written per-rank, one file per rank, not one shared
+  file requested unconditionally from every rank.** Multiple MPI
+  processes racing to write the same file corrupts it — see
+  {doc}`known_issues` for the exact failure mode and the fix
+  (`self_weight_check_full_aggregate.py`'s recorder section).
+- `Results.from_recorders(spec, output_dir, fem=fem)` expects recorder
+  commands built from apeGmsh's own `Recorders`/`emit_spec_tcl` (or
+  `ResolvedRecorderSpec.to_tcl_commands`) — not arbitrary hand-written
+  `recorder` lines — so the transcoder can match files to components.

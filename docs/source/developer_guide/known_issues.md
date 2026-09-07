@@ -6,6 +6,58 @@ fix verified, not just applied) and still open.
 
 ## Fixed
 
+### Single global base z_min under-constrains staggered-foundation units
+
+**The bug.** Base fixity was implemented as "every node within a
+tolerance of the whole model's minimum Z." On the full Castelnuovo
+aggregate (a row of adjoining historical units, each plausibly built at a
+different time - see {doc}`../case_study/materials`'s HSTO/quoin
+discussion), one unit's own true foundation level sat a few centimetres
+above the aggregate's global minimum. That unit's base nodes never
+matched the global threshold, so it was never actually restrained -
+floating, held up only through its bonded/contact connections to
+neighbours. Symptom: an early full-aggregate self-weight render showed
+one unit with anomalously large displacement (~3.5 cm) versus the rest.
+
+**The fix.** `core.mesh_generation.wall_interfaces.InterfaceDetection.
+find_ground_bearing_volumes()` - a volume counts as ground-bearing only if
+its own bottom face is not shared with another volume's top, reusing the
+existing `"horizontal_bearing"` touching-pair classification (previously
+only used to keep floor/slab contacts out of Task A's interface list -
+same geometric signal, opposite question). Each ground-bearing volume is
+then fixed at its *own* local z_min, not one global one.
+
+**Verified**: `docker/opensees/self_weight_check_full_aggregate.py` -
+with the fix, 55/316 volumes are identified as ground-bearing (vs.
+implicitly assuming all volumes near one global plane), max self-weight
+displacement drops to ~1.4 mm (physically reasonable for linear-elastic
+self-weight only), and an independent mass/weight balance check (`rho *
+g * total_volume` vs. summed base reactions) matches to within 0.027%.
+
+### Recorder race condition on the parallel TCL path
+
+**The bug.** `TclWriter`-based recorders were emitted unconditionally, on
+every MPI rank, all writing to the *same* output file path. Multiple
+processes opening and writing the same file concurrently is an OS-level
+race. Node **reaction** recorders corrupted visibly (ragged rows - "the
+number of columns changed from 412 to 620"): reactions are derived from
+each rank's *local* element forces, so a rank that doesn't own the
+elements at a given node has no valid data to write, and 6 racing writers
+produced genuinely inconsistent content. Node **displacement** recorders
+did not visibly corrupt in either run this was tried on - plausibly
+because Mumps' direct solve leaves every rank holding the full, identical
+solution vector, so the redundant writes agreed - but "didn't visibly
+break" is not the same as "verified safe," and this was not treated as
+proof of correctness.
+
+**The fix**: displacement recorders guarded to a single writer
+(`if {$pid==0}`); reaction recorders given one output file *per rank*
+(`if {$pid==<rank>}`, distinct filenames), summed across all rank files
+in Python afterward - correct under either possible OpenSeesMP reaction
+convention (contributions split across ranks touching a shared node, or
+a single owning rank reporting the true value and the rest reporting
+zero), since both cases sum to the right total.
+
 ### Units mismatch in `create_plastic_damage_elements` (ASDConcrete3D)
 
 **The bug.** `Element.create_plastic_damage_elements`
@@ -119,6 +171,20 @@ runnable — see the next entry.
 
 ## Still open
 
+- **ASDConcrete3D + Task A contact interfaces don't converge together
+  yet.** `docker/opensees/test_asdconcrete3d_parallel.py` combines the
+  real survey-derived material (`Tufelli_masonry_typeA`) with contact
+  interfaces on the 18-volume/6-partition cluster - both pieces are
+  individually verified elsewhere (material: {doc}`known_issues` units
+  fix, self-weight check on the full aggregate; interfaces: linear-
+  elastic partitioned runs), but combined, `NormDispIncr` fails at the
+  first load step with an oscillating, non-converging norm. Not yet
+  root-caused: candidates are the material+contact nonlinear combination
+  itself, the 18-volume cluster's specific topology (only 2 of many
+  candidate interfaces selected, same shape of risk as the "unrestrained
+  mechanism" finding in {doc}`task_a_interfaces`), or the single-
+  representative-crack-band-length simplification documented in that
+  script's own docstring. Kept as a standing repro case, not deleted.
 - **`in_plane_wall.py`/`out_of_plane_test.py` are missing more than config
   constants.** Past the (now fixed) import line, both scripts depend on
   functions that were never implemented anywhere in the repository (not
