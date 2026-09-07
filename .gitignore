@@ -13,6 +13,4 @@ docs/build/
 # (output/castelnuovo/plots/) are tracked.
 /results/
 output/castelnuovo/*.tcl
-output/castelnuovo/recorders_linear/
-output/castelnuovo/recorders_parallel/
-output/castelnuovo/recorders_full_aggregate/
+output/castelnuovo/recorders_*/
