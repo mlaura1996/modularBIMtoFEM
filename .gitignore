@@ -14,3 +14,8 @@ docs/build/
 /results/
 output/castelnuovo/*.tcl
 output/castelnuovo/recorders_*/
+
+# Raw, unrepaired intermediate from scripts/convert_ifc_to_step.py -
+# scripts/repair_step_geometry.py's output (resources/ifc_examples/
+# castelnuovo/example_clean_PRONTO.stp) is the tracked, usable artifact.
+/export/castelnuovo_clean/
