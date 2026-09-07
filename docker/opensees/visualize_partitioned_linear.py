@@ -79,7 +79,6 @@ with apeGmsh(model_name="visualize_linear") as g:
 
     g.parts.from_model("castelnuovo_cluster")
     g.physical.add_volume(remaining, name="Masonry")
-    g.physical.add_volume([34], name="Fixed")
 
     g.mesh.sizing.set_global_size(0.4)
     g.mesh.generation.generate(dim=3)
@@ -102,6 +101,26 @@ with apeGmsh(model_name="visualize_linear") as g:
     fem = g.mesh.queries.get_fem_data(dim=3)
     print(f"FEMData: {len(fem.nodes.ids)} nodes, {len(fem.elements.ids)} elements")
 
+    # --- Base fixity: every node at the cluster's true lowest Z, not one
+    # arbitrary whole volume (the previous version fixed all of volume 34,
+    # picked only as the BFS cluster's starting point - not a foundation
+    # condition; flagged by the user after looking at the first render).
+    # Caveat, worth checking against the printed z_min below: this 18-volume
+    # subset is a partial BFS-grown chunk of the aggregate, so its geometric
+    # minimum Z is only a real foundation level if the chunk happens to
+    # include Castelnuovo's actual ground floor - not guaranteed, and not
+    # checked against the brief's z=-1.50m candidate (open question, see
+    # docs/source/case_study/open_questions.md, brief 8.4).
+    masonry_nodes = fem.nodes.get(pg="Masonry")
+    z = masonry_nodes.coords[:, 2]
+    z_min = float(z.min())
+    BASE_TOL = 1e-3  # metres
+    base_mask = z <= z_min + BASE_TOL
+    base_ids = [int(i) for i in masonry_nodes.ids[base_mask]]
+    print(f"Base level z_min = {z_min:.4f} m, {len(base_ids)} nodes fixed there "
+          f"(tol={BASE_TOL} m)")
+    assert len(base_ids) > 0, "no nodes found at the computed base level"
+
     E, nu, rho = 700.0e6, 0.25, 2000.0
     mat_tag = 1
 
@@ -115,7 +134,8 @@ with apeGmsh(model_name="visualize_linear") as g:
                                body_force=(0.0, 0.0, -rho * 9.81),
                                node_substitution=substitution)
     writer.contact_elements(fem, selected, Kn_nominal=69000.0 * 1e9, Kt_nominal=0.001 * 1e9)
-    writer.fix(fem, "Fixed", dofs=[1, 1, 1])
+    for nid in base_ids:
+        writer.raw(f"fix {nid} 1 1 1")
 
     # --- Recorders, via apeGmsh's own spec/emitter, so Results.from_recorders() can read them back. ---
     rec = Recorders()

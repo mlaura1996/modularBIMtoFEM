@@ -115,6 +115,59 @@ class InterfaceDetection:
                 c["orientation"] = "oblique"               # needs manual judgement
         return candidates
 
+    @staticmethod
+    def find_ground_bearing_volumes(candidates, volume_z_ranges, tol=0.05):
+        """Volumes whose own bottom face is not shared with another
+        volume's top - candidate ground-contact ("this one really rests on
+        the foundation, not on another wall") volumes.
+
+        Motivation: a single global z_min across a whole aggregate is
+        wrong for base fixity whenever different structural units sit at
+        slightly different foundation levels (found by inspection - one
+        unit's self-weight displacement looked anomalously large, traced
+        to its true base being fixed nowhere because the global z_min
+        belonged to a neighbouring unit). This function is the general
+        fix: use classify_orientation()'s "horizontal_bearing" tag (one
+        volume's top touching another's bottom - the floor/slab-bearing
+        signal, brief section 5) as a "this volume rests on another
+        volume" flag, and exclude those volumes. What's left is assumed to
+        rest directly on the ground.
+
+        Parameters
+        ----------
+        candidates : list[dict]
+            Output of find_touching_surface_pairs(), already passed
+            through classify_orientation().
+        volume_z_ranges : dict[int, tuple[float, float]]
+            {volume_tag: (z_min, z_max)} for every volume under
+            consideration, in the same units as the candidates' centroids
+            (metres here) - computed by the caller from actual mesh node
+            coordinates, not geometry alone, so it reflects what the
+            analysis will actually see.
+        tol : float
+            Distance (metres) within which a horizontal_bearing surface's
+            Z is considered coincident with a volume's own z_min - i.e.
+            "this surface IS this volume's bottom face", not its top.
+
+        Returns
+        -------
+        list[int]
+            Volume tags with no detected support from another volume, i.e.
+            candidates for direct ground bearing. Purely geometric - still
+            a heuristic (see module docstring), not a substitute for an
+            engineer confirming which units are actually at grade.
+        """
+        resting_on_something = set()
+        for c in candidates:
+            if c.get("orientation") != "horizontal_bearing":
+                continue
+            surf_z = c["centroid"][2]
+            for v in (c["volume_a"], c["volume_b"]):
+                zr = volume_z_ranges.get(v)
+                if zr is not None and abs(surf_z - zr[0]) < tol:
+                    resting_on_something.add(v)
+        return sorted(v for v in volume_z_ranges if v not in resting_on_something)
+
 
 class InterfaceSelection:
 
