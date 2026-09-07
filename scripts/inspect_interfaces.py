@@ -57,8 +57,8 @@ from apeGmsh import apeGmsh
 from core.ifc_processing.ifc_step_matching import classify_step_volumes_by_ifc_type
 from core.mesh_generation.wall_interfaces import InterfaceDetection, InterfaceSelection
 
-STEP_PATH = "resources/ifc_examples/castelnuovo/final_example_PRONTO.stp"
-IFC_PATH = "resources/ifc_examples/castelnuovo/final_example.ifc"
+STEP_PATH = "resources/ifc_examples/castelnuovo/example_clean_PRONTO.stp"
+IFC_PATH = "resources/ifc_examples/castelnuovo/example_clean.ifc"
 SELECTION_PATH = "resources/survey_data/castelnuovo/interface_selection.json"
 VOLUME_TYPES_PATH = "resources/survey_data/castelnuovo/volume_ifc_types.json"
 
