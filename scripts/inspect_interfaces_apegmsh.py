@@ -81,11 +81,17 @@ with apeGmsh(model_name="inspect_interfaces_apegmsh") as g:
     print(f"Meshed: {len(fem.nodes.ids)} nodes, {len(fem.elements.ids)} elements")
 
     print(
-        "\nOpening apeGmsh's viewer (brep pick mode). CLICK a candidate "
-        "interface surface to select it, CTRL+CLICK to deselect. Close "
-        "the window when done."
+        "\nOpening apeGmsh's viewer (brep pick mode). Only the candidate "
+        "interface SURFACES are shown (dims=[2]) - the wall VOLUMES are "
+        "left out on purpose: with both shown together, the opaque wall "
+        "faces bury the thin interface surfaces sandwiched inside them, "
+        "so there's nothing visibly clickable. Use the 'Filter' panel "
+        "(left side) to turn volumes (dim 3) back on if you want spatial "
+        "context, at the cost of hiding surfaces behind them again.\n"
+        "CLICK a candidate interface surface to select it, CTRL+CLICK to "
+        "deselect. Close the window when done."
     )
-    mv = g.mesh.viewer(fem=fem, dims=[2, 3])
+    mv = g.mesh.viewer(fem=fem, dims=[2])
     picked = mv.tags  # list of (dim, tag)
     picked_surfaces = {tag for dim, tag in picked if dim == 2}
 
