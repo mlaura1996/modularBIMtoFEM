@@ -35,34 +35,26 @@ the Docker image above, which installs `ifcopenshell` and
 `pythonocc-core` via `conda` (they are not readily pip-installable on
 Windows).
 
-## Local conda environment with the interactive viewer (Task A visual selection)
+## Local conda environment for Task A interface selection
 
-Neither of the two environments above can open a GUI window: the Docker
-image is headless (deliberately excludes apeGmsh's `viewer` extra —
-PySide6/pyvista/vtk — per brief 7.2, not needed for the run image), and
-plain `pip install -r requirements.txt` doesn't reach `ifcopenshell`/
-`pythonocc-core` at all (previous section). Visually inspecting where the
-Task A candidate wall-to-wall interfaces actually are on the building
-(instead of only reading their area/centroid/normal off a text table)
-needs a real window, on the host, not in a container.
+Neither of the two environments above can open a GUI window or (for the
+Docker image) run matplotlib to a file conveniently: visually inspecting
+where the Task A candidate wall-to-wall interfaces actually are on the
+building needs a real window, on the host, not in a container.
 
 ```bash
 conda create -y -n castelnuovo_viewer -c conda-forge python=3.10.12 pip ifcopenshell pythonocc-core
 conda activate castelnuovo_viewer
 pip install gmsh numpy pandas matplotlib openseespy lark apeGmsh
-pip install PySide2 pyvistaqt pyvista
 ```
 
 Same `ifcopenshell`/`pythonocc-core`/Python-3.10 recipe as the Docker
 image's runtime stage (`docker/opensees/Dockerfile`), just installed
 locally with plain `conda`/`pip` instead of inside a container — apeGmsh
-itself requires Python ≥ 3.10, so an existing older environment (e.g. one
-built for a different project, on Python 3.8) won't work even if it
-already has `ifcopenshell`/`pythonocc-core`. `openseespy`/`lark` are only
-needed because `core/config.py` imports them at module load time even for
-geometry-only scripts (`utils/dict_helper` etc. pull in `core.config`
-transitively) - not because anything in this environment actually runs
-OpenSees.
+itself requires Python ≥ 3.10. `openseespy`/`lark` are only needed
+because `core/config.py` imports them at module load time even for
+geometry-only scripts - not because anything in this environment actually
+runs OpenSees.
 
 ```{note}
 Windows + Anaconda: if `conda create` fails with `CondaSSLError:
@@ -74,46 +66,54 @@ this up automatically.
 ```
 
 ```{note}
-**Use `PySide2`, not `PySide6`** for apeGmsh's interactive `MeshViewer`
-(`apeGmsh[viewer]`'s own default extra pulls PySide6). On Windows, a
-conda-forge `pythonocc-core` install pulls in its own native Qt6
-(`qt6-main`) as a transitive dependency; PySide6 bundles a *different*
-build of the same Qt6 DLLs (e.g. `Qt6Core.dll`) under `site-packages`,
-and the two collide - `import PySide6.QtCore` (and, one level up,
-`import qtpy`) fails with `ImportError: DLL load failed while importing
-QtCore: The specified procedure could not be found.` `os.add_dll_directory`
-pointed at PySide6's own folder does **not** fix it (tried). PySide2 is
-Qt5-based (`Qt5Core.dll`, a different name from `Qt6Core.dll`), so it
-doesn't collide with `qt6-main` at all - confirmed working by actually
-constructing apeGmsh's `ViewerWindow`, not just importing the binding.
+**Do not add PySide2/PySide6/pyvista/pyvistaqt to this environment** for
+apeGmsh's interactive `MeshViewer` (`inspect_interfaces_apegmsh.py`) -
+real time was spent trying, without success, on Windows: PySide6
+collides with a Qt6 (`qt6-main`) conda-forge pulls in as a transitive
+`pythonocc-core` dependency (`ImportError: DLL load failed while
+importing QtCore`); switching to PySide2 avoids that collision but hits
+`pyvistaqt`'s Qt-embedded VTK render surface coming up a literal
+transparent hole (confirmed not an occlusion or missing-data issue -
+plain, non-Qt-embedded PyVista renders fine on the same machine);
+`QT_OPENGL=angle` crashes outright (`eglError: 3005`,
+`QOpenGLContext.getProcAddress` missing from this PySide2 build);
+`QT_OPENGL=software` still renders the same transparent hole; rebuilding
+the whole environment with conda-forge's own `pyside2` build (rather than
+pip's) to get a more complete Qt binding hit conda's classical solver
+hanging for 30-50+ minutes (repeatedly), then, once switched to
+`micromamba` for a fast solve, a `gdk-pixbuf` post-link script crashing
+(`ffi.dll` not found) on every attempt regardless of install path length.
+`inspect_interfaces_apegmsh.py` is kept in the repo as-is, documenting
+exactly what was tried, in case a future environment doesn't hit the same
+Windows-specific packaging issues - it is **not** the recommended path.
 ```
 
-Then, either of two scripts, both loading the same repaired geometry
-(`resources/ifc_examples/castelnuovo/example_clean_PRONTO.stp` - see
-`scripts/repair_step_geometry.py` for how it was produced from a
-slab-free IFC) and both saving to
-`resources/survey_data/castelnuovo/interface_selection.json` for reuse by
-the Docker-based scripts via `InterfaceSelection.select_interactive_or_cached()`:
+The recommended path instead - two scripts, both on the repaired
+geometry (`resources/ifc_examples/castelnuovo/example_clean_PRONTO.stp` -
+see `scripts/repair_step_geometry.py` for how it was produced from a
+slab-free IFC), agreeing on the same candidate numbering (same detection
+order, same `MIN_VOLUME_M3` door/window-frame filter in both scripts -
+**not** the real, much slower IFC-type point-in-solid classifier in
+`core/ifc_processing/ifc_step_matching.py`, which took several minutes
+here):
 
 ```bash
-python scripts/inspect_interfaces.py           # gmsh's native GUI, list-based
-python scripts/inspect_interfaces_apegmsh.py    # apeGmsh's viewer, click-to-pick in 3D
+python scripts/plot_candidate_interfaces.py   # matplotlib PNG, numbered, headless - look at this first
+python scripts/inspect_interfaces.py          # gmsh's native GUI - confirm a selection by number
 ```
 
-Both detect every candidate wall-to-wall interface
-(`core.mesh_generation.wall_interfaces.InterfaceDetection` - the exact
-same code the Docker-based analysis scripts use) and exclude slabs/
-windows/doors by default, using the original IFC element types recovered
-via `core.ifc_processing.ifc_step_matching` (the STEP geometry itself
-carries no such label). They differ only in the selection UI:
-`inspect_interfaces.py` tags each candidate as a physical group and reads
-back which ones are left **visible** (toggle checkboxes in the "Physical
-groups" panel) when the gmsh window closes;
-`inspect_interfaces_apegmsh.py` opens apeGmsh's own PyVista/VTK viewer in
-"brep" pick mode - click a surface to select it, ctrl+click to deselect,
-and the script reads back `MeshViewer.tags` when the window closes. Both
-print what was captured and offer a manual index/range override as a
-safety net.
+`plot_candidate_interfaces.py` writes
+`output/castelnuovo/plots/candidate_interfaces_overview.png` - a numbered
+point per candidate interface's centroid, over a cheap wall-centroid
+"silhouette" for spatial orientation. Look at it, note the numbers you
+want. `inspect_interfaces.py` then opens gmsh's own GUI with every
+candidate tagged as its own numbered physical group (the same numbers as
+the PNG); tick/untick each `IF_###` checkbox in the "Physical groups"
+panel (List tab) - visible when you close the window = selected. It
+prints what was captured and offers a manual index/range override as a
+safety net, then saves to
+`resources/survey_data/castelnuovo/interface_selection.json` for reuse by
+the Docker-based scripts via `InterfaceSelection.select_interactive_or_cached()`.
 
 ## Repository layout at a glance
 
