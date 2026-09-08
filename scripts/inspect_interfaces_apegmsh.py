@@ -77,8 +77,13 @@ with apeGmsh(model_name="inspect_interfaces_apegmsh") as g:
     g.mesh.sizing.set_global_size(GLOBAL_MESH_SIZE)
     g.mesh.generation.generate(dim=3)
 
-    fem = g.mesh.queries.get_fem_data(dim=3)
-    print(f"Meshed: {len(fem.nodes.ids)} nodes, {len(fem.elements.ids)} elements")
+    # dim=None (all dims), not dim=3: the viewer renders dims=[2] below
+    # (the candidate interface surfaces) - a dim=3-only FEMData has no 2D
+    # element data at all for it to draw, which is why the window came up
+    # blank/transparent the first time (not an occlusion problem - there
+    # was nothing there to occlude anything with).
+    fem = g.mesh.queries.get_fem_data()
+    print(f"Meshed: {len(fem.nodes.ids)} nodes, {len(fem.elements.ids)} elements (all dims)")
 
     print(
         "\nOpening apeGmsh's viewer (brep pick mode). Only the candidate "
