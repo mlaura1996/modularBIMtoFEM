@@ -1,35 +1,43 @@
 """
-Static, headless visualization of Task A candidate wall-to-wall
-interfaces - matplotlib only (the SAME robust, proven rendering path
-already used for output/castelnuovo/plots/*.png), no Qt/VTK/OpenGL at
-all. Built after apeGmsh's interactive MeshViewer turned out to be
-unworkable on this machine (hours of Qt/GTK/conda-forge DLL conflicts -
-see chat log). This sidesteps that whole stack entirely.
+Static visualization of Task A candidate wall-to-wall interfaces,
+rendered by gmsh's OWN graphics engine (real building geometry - walls,
+openings, the actual aggregate shape), not reconstructed from scratch in
+matplotlib. Headless: `gmsh.fltk.initialize()` + `gmsh.write(*.png)`
+renders and saves a screenshot without opening a blocking interactive
+window.
 
-Run OUTSIDE Docker, on a local conda/micromamba environment with
-ifcopenshell, pythonocc-core, gmsh, apeGmsh, numpy, matplotlib (NOT the
-PySide2/pyvista/pyvistaqt pieces - those aren't needed here and were the
-actual source of trouble):
+(A first version plotted candidate centroids as bare points in matplotlib
+- no wall outlines, unreadable, dropped: matplotlib has no CAD/BREP
+rendering of its own, so a point cloud is all it could show without
+reconstructing wall geometry by hand.)
+
+Run OUTSIDE Docker, on a local conda environment with ifcopenshell,
+pythonocc-core, gmsh, apeGmsh (see docs/source/user_guide/installation.md):
 
     python scripts/plot_candidate_interfaces.py
 
 Deliberately does NOT use core.ifc_processing.ifc_step_matching's real
-IFC-type classification (point-in-solid tests, O(n_ifc_elements x
-n_volumes) - a real bottleneck, minutes in some environments) - instead
-uses a cheap volume-size threshold to drop small door/window frame
-volumes (walls are far larger). Less precise than the real classifier,
-fine for "roughly where are the candidates" visual triage - refine later
-with scripts/inspect_interfaces.py's classifier-based filtering once a
-selection is confirmed.
+IFC-type classification (point-in-solid tests - a real bottleneck,
+minutes in some environments) - instead uses a cheap volume-size
+threshold to drop small door/window frame volumes (walls are far larger).
 
-Produces one overview PNG under output/castelnuovo/plots/ - each
-vertical_joint candidate's centroid shown as a numbered point (number
-matches the row in core.mesh_generation.wall_interfaces.InterfaceSelection.
-present_cli()'s table). No wireframe/volume context drawn (that loop was
-the likely cause of a hang/crash on this machine with 279 volumes) - the
-point cloud's own shape traces the building. Look at the image, note the
-numbers you want, then run scripts/inspect_interfaces.py (gmsh-native,
-non-Qt, proven working) and type them in when it asks.
+Produces two PNGs under output/castelnuovo/plots/ - candidate_interfaces_
+real_plan.png (top view) and _iso.png (isometric) - the real building,
+wireframe (not solid-shaded: tried solid walls + an alpha-transparency
+color first so the internal candidate surfaces would show through the
+masonry, but the alpha channel wasn't respected in the screenshot -
+wireframe has no fill to hide anything behind, confirmed working),
+candidate wall-to-wall interfaces highlighted in red
+(gmsh.model.setColor(..., recursive=True) - recursive=False silently did
+nothing, confirmed by a dedicated test coloring the whole building bright
+green first).
+
+Numbers aren't baked into these images (gmsh's own screenshot has no
+simple way to stamp arbitrary per-candidate text) - use them to see WHERE
+the candidates are, then do the actual selection in
+scripts/inspect_interfaces.py's live window, which shows the same real
+geometry and lets you identify each highlighted surface's number from its
+physical-group name in the "Physical groups" panel.
 """
 import os
 import sys
@@ -37,10 +45,6 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import gmsh
-import numpy as np
-import matplotlib
-matplotlib.use("Agg")
-import matplotlib.pyplot as plt
 from apeGmsh import apeGmsh
 
 from core.mesh_generation.wall_interfaces import InterfaceDetection
@@ -71,36 +75,50 @@ with apeGmsh(model_name="plot_candidates") as g:
     numbered = [(i, c) for i, c in enumerate(candidates, start=1)
                 if c["orientation"] in PLOT_ORIENTATIONS
                 and c["volume_a"] in big_vol_tags and c["volume_b"] in big_vol_tags]
-    print(f"{len(numbered)} candidates will be plotted/numbered "
+    print(f"{len(numbered)} candidates will be highlighted "
           f"(orientation in {PLOT_ORIENTATIONS}, both volumes >= {MIN_VOLUME_M3} m^3).",
           flush=True)
 
-    # Cheap building-shape context: each big (wall) volume's own centroid
-    # as a small gray dot - NOT its boundary edges (that per-edge
-    # getParametrizationBounds/getValue sampling loop, tried first, was
-    # the likely cause of a hang/crash on this machine with 279 volumes;
-    # a single getCenterOfMass call per volume is far cheaper and gives
-    # enough of a silhouette to orient by).
-    wall_centroids = np.array([gmsh.model.occ.getCenterOfMass(3, t) for t in big_vol_tags])
-    print(f"{len(wall_centroids)} wall-volume centroids for context.", flush=True)
+    # Candidate interfaces are internal faces sandwiched between two solid
+    # wall volumes - invisible from any exterior view against opaque
+    # walls (found by looking: the first render showed no red at all,
+    # solid masonry everywhere). Fix: make the wall volumes themselves
+    # semi-transparent (gmsh.model.setColor's alpha channel) so the
+    # bright, fully-opaque red interfaces show through.
+    for _d, t in all_vols:
+        gmsh.model.setColor([(3, t)], 200, 200, 210, 255, recursive=True)
+    for _i, c in numbered:
+        gmsh.model.setColor([(2, c["surface"])], 255, 0, 0, 255, recursive=True)
 
-    fig = plt.figure(figsize=(13, 10))
-    ax = fig.add_subplot(111, projection="3d")
-    ax.scatter(wall_centroids[:, 0], wall_centroids[:, 1], wall_centroids[:, 2],
-               color="lightgray", s=10, zorder=1, alpha=0.5)
-    cmap = plt.get_cmap("tab20")
-    for k, (i, c) in enumerate(numbered):
-        cx, cy, cz = c["centroid"]
-        ax.scatter([cx], [cy], [cz], color=cmap(k % 20), s=35, zorder=3)
-        ax.text(cx, cy, cz, str(i), fontsize=6.5, zorder=4)
-    ax.set_title(f"{len(numbered)} vertical_joint candidates (walls only, "
-                 f"door/window frames filtered by volume)")
-    ax.set_xlabel("X"); ax.set_ylabel("Y"); ax.set_zlabel("Z")
-    path = os.path.join(OUT_DIR, "candidate_interfaces_overview.png")
-    fig.savefig(path, dpi=150, bbox_inches="tight")
-    plt.close(fig)
-    print(f"Wrote {path}", flush=True)
+    gmsh.option.setNumber("General.Terminal", 0)
+    gmsh.option.setNumber("Geometry.Surfaces", 1)
+    # Wireframe, not solid-shaded (tried solid + alpha transparency first -
+    # the alpha channel wasn't respected in the screenshot, so the
+    # internal red candidate surfaces stayed completely hidden behind
+    # opaque exterior walls). Wireframe has no fill to hide anything
+    # behind, at the cost of a less "solid" look.
+    gmsh.option.setNumber("Geometry.SurfaceType", 0)
+    gmsh.option.setNumber("Geometry.LineWidth", 2)
+    gmsh.option.setNumber("General.Trackball", 0)
+    gmsh.fltk.initialize()
 
-print("\nDone. Look at the PNG under output/castelnuovo/plots/, note the numbers "
-      "you want, then run scripts/inspect_interfaces.py and type them in when asked.",
+    views = [
+        ("plan", 0, 0, 0),      # default/top-ish view (matches the working test render)
+        ("iso", -35, 0, -35),   # a rotated, more 3D-legible view
+    ]
+    written = []
+    for name, rx, ry, rz in views:
+        if rx or ry or rz:
+            gmsh.option.setNumber("General.RotationX", rx)
+            gmsh.option.setNumber("General.RotationY", ry)
+            gmsh.option.setNumber("General.RotationZ", rz)
+        path = os.path.join(OUT_DIR, f"candidate_interfaces_real_{name}.png")
+        gmsh.write(path)
+        written.append(path)
+        print(f"Wrote {path}", flush=True)
+
+print(f"\nDone - wrote {len(written)} real-geometry screenshots under "
+      "output/castelnuovo/plots/, candidate interfaces highlighted in red. "
+      "Use them to see WHERE the candidates are, then do the actual "
+      "selection in scripts/inspect_interfaces.py's live window.",
       flush=True)
