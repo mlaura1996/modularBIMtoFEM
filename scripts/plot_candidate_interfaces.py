@@ -90,6 +90,18 @@ with apeGmsh(model_name="plot_candidates") as g:
     for _i, c in numbered:
         gmsh.model.setColor([(2, c["surface"])], 255, 0, 0, 255, recursive=True)
 
+    # Number labels, in gmsh's own 3D view (not stamped on afterward -
+    # gmsh.view.addListDataString positions real text at each candidate's
+    # centroid, rendered as part of the same screenshot).
+    label_view = gmsh.view.add("candidate_numbers")
+    for i, c in numbered:
+        gmsh.view.addListDataString(label_view, list(c["centroid"]), [str(i)],
+                                     ["Font", "Helvetica-Bold", "FontSize", "14",
+                                      "Align", "Center"])
+    view_idx = gmsh.view.getIndex(label_view)
+    gmsh.option.setNumber(f"View[{view_idx}].Visible", 1)
+    gmsh.option.setNumber(f"View[{view_idx}].ShowScale", 0)
+
     gmsh.option.setNumber("General.Terminal", 0)
     gmsh.option.setNumber("Geometry.Surfaces", 1)
     # Wireframe, not solid-shaded (tried solid + alpha transparency first -
