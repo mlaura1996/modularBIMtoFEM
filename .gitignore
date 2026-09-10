@@ -19,3 +19,8 @@ output/castelnuovo/recorders_*/
 # scripts/repair_step_geometry.py's output (resources/ifc_examples/
 # castelnuovo/example_clean_PRONTO.stp) is the tracked, usable artifact.
 /export/castelnuovo_clean/
+
+# scripts/select_interfaces_gui.py's fragmented-geometry cache - speeds up
+# repeat runs (skips a ~14s STEP-load+fragment), regenerated automatically
+# whenever the source STEP file is newer than the cache.
+output/castelnuovo/cache/

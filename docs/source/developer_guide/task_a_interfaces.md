@@ -12,8 +12,103 @@ Deciding which party walls separate distinct structural units is a
 judgement about the building's construction history — not reliably
 readable from the IFC. The brief's own design choice (§5, option (b) over
 (a)): a numbered terminal table, not a viewer click-through. Cheaper to
-build, and sufficient — implemented as-is, viewer selection was never
-started.
+build, and sufficient as the entry point every Docker-based script still
+uses (`InterfaceSelection.select_interactive_or_cached`) — but picking
+interfaces from a bare table of areas/centroids/normals, with no picture
+of the building, turned out to be hard to do with any confidence on a
+279-volume aggregate. `scripts/select_interfaces_gui.py` (below) is the
+viewer click-through the brief's option (a) originally passed over — built
+later, once the table alone proved impractical at this geometry's scale,
+and layered on top of the same `InterfaceDetection`/`InterfaceSelection`
+classes rather than replacing them: it writes the exact same
+`interface_selection.json` format, so anything reading a saved selection
+(the CLI path included) doesn't know or care which tool produced it.
+
+## Interactive selection tool (`select_interfaces_gui.py`)
+
+Run locally (not in Docker — see {doc}`../user_guide/installation`'s
+`castelnuovo_viewer` conda environment):
+
+```bash
+conda activate castelnuovo_viewer
+python scripts/select_interfaces_gui.py
+```
+
+It detects candidates the same way as the CLI path above, renders the
+real building geometry with every default-visible candidate (vertical
+joints between two wall-sized volumes) numbered and highlighted in red,
+and opens a tkinter window: the picture on the left, a scrollable
+yes/no checklist on the right — one row per numbered candidate,
+pre-checked to match the CLI's own default filter.
+
+```{figure} ../_static/images/task_a_gui_selection.png
+:alt: select_interfaces_gui.py main window — numbered building render on the left, a scrollable checklist of candidate interfaces on the right
+:width: 100%
+
+Main window: the building rendered at three selectable camera angles
+(`Vista 1/2/3` buttons, bottom-left), candidate interfaces numbered and
+highlighted in red, a checkbox per candidate on the right (ticked =
+export as a contact interface).
+```
+
+Clicking **"Save && preview selection"** writes
+`resources/survey_data/castelnuovo/interface_selection.json` immediately
+(in the same format `InterfaceSelection.save`/`.load_selected` and the
+Docker-based scripts already expect), then re-renders the same building
+showing *only* the interfaces just selected, in a second window, as a
+visual confirmation before closing the app:
+
+```{figure} ../_static/images/task_a_gui_confirm.png
+:alt: the confirm-selection popup, showing only the interfaces that were ticked
+:width: 100%
+
+Confirmation popup after "Save && preview selection" — only the ticked
+interfaces are drawn, numbered the same way as the main window, so a
+mistaken tick is obvious before the analysis scripts ever run.
+```
+
+Implementation notes for anyone touching this script:
+
+- **Candidate numbers are stable across tools** - `select_interfaces_gui.py`,
+  `plot_candidate_interfaces.py`, and `inspect_interfaces.py` all detect
+  candidates on the same, full, unfiltered volume set in the same order
+  (`InterfaceDetection.find_touching_surface_pairs()` then
+  `classify_orientation()`), so a number written down from one script's
+  output means the same interface in another.
+- **The gmsh session is kept alive for the whole app run**, not reloaded
+  per render - loading + fragmenting the STEP geometry (~14s) is cached to
+  a `.brep` file (`output/castelnuovo/cache/`, invalidated automatically if
+  the source STEP changes) and `gmsh.fltk.initialize()`'s own setup cost is
+  paid once. Every view is rendered lazily (only when actually shown, not
+  all three up front) and cached per (selection, view) - switching between
+  already-rendered views is close to instant.
+- **The gmsh window is real but never visible** - `gmsh.fltk.initialize()`
+  needs a native window handle for its OpenGL context (this build has no
+  true headless mode), so it's moved off-screen and shrunk to 50x50px
+  before creation (`General.GraphicsPositionX/Y`, `...Width/Height`)
+  instead of ever appearing where you'd see it.
+- **A real gmsh quirk, found while building this**: only the *first*
+  `gmsh.write()` after `gmsh.fltk.initialize()` honors `Print.Width`/
+  `Print.Height` - every later write in the same session silently drops to
+  a smaller, screen-derived size, no matter how many times those options
+  are re-set beforehand. Reproduced with no Tkinter involved at all, so
+  it's a gmsh behaviour, not an artifact of mixing GUI toolkits. Fixed by
+  a genuine `gmsh.fltk.finalize()` + `gmsh.fltk.initialize()` cycle before
+  every `gmsh.write()` call (~0.7-1s each here, since the window is
+  tiny/off-screen — see above). Also applied in
+  `plot_candidate_interfaces.py`'s two-image loop, which had the exact
+  same bug silently producing a lower-resolution "iso" image than "plan"
+  ever since it was written.
+- **Overlapping number labels get a small offset + leader arrow**
+  (`declutter_positions()` in the script) when several candidates' true
+  centroids fall within ~0.6m of each other - common at an L-shaped wall
+  junction, see `InterfaceSelection.key_for`'s docstring: 144 of
+  Castelnuovo's candidates are volume pairs that touch at more than one
+  separate patch. A 3D-domain approximation, not true screen-space
+  collision avoidance (that would need replicating gmsh's camera
+  projection) — good enough in most views; the very densest corner
+  clusters (10+ candidates within ~1m) are still only really legible by
+  zooming into that area in the app.
 
 ## `InterfaceDetection`
 

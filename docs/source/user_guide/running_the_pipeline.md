@@ -41,6 +41,16 @@ calibrated for millimetre-scale models, not this metre-scale one. See
 
 ## 3. Task A — select wall-to-wall interfaces
 
+Which candidate interfaces to select is an engineering judgement (see
+{doc}`../developer_guide/task_a_interfaces` for why, and a real case where
+selecting too many produced an unstable mechanism) — make that decision
+once, locally, with `scripts/select_interfaces_gui.py`
+({doc}`installation`'s recommended path, screenshots and implementation
+notes in {doc}`../developer_guide/task_a_interfaces`), **before** running
+this step in Docker. It saves to
+`resources/survey_data/castelnuovo/interface_selection.json`; everything
+below just loads that file back.
+
 ```python
 from core.mesh_generation.wall_interfaces import (
     InterfaceDetection, InterfaceSelection, ContactInterfaceGenerator, NodeSplitter,

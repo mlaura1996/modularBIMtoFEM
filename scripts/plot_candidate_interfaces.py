@@ -96,11 +96,19 @@ with apeGmsh(model_name="plot_candidates") as g:
     label_view = gmsh.view.add("candidate_numbers")
     for i, c in numbered:
         gmsh.view.addListDataString(label_view, list(c["centroid"]), [str(i)],
-                                     ["Font", "Helvetica-Bold", "FontSize", "14",
+                                     ["Font", "Helvetica-Bold", "FontSize", "24",
                                       "Align", "Center"])
     view_idx = gmsh.view.getIndex(label_view)
     gmsh.option.setNumber(f"View[{view_idx}].Visible", 1)
     gmsh.option.setNumber(f"View[{view_idx}].ShowScale", 0)
+
+    # Output resolution, independent of the (headless) window size - default
+    # is -1 (= match the window, which is small and makes the numbers look
+    # blurry/cramped) - user feedback: "i numeri si vedono ma potrebbero
+    # vedersi meglio". 2400x1800 is large enough to zoom into in the GUI
+    # (scripts/select_interfaces_gui.py) without pixelating.
+    gmsh.option.setNumber("Print.Width", 2400)
+    gmsh.option.setNumber("Print.Height", 1800)
 
     gmsh.option.setNumber("General.Terminal", 0)
     gmsh.option.setNumber("Geometry.Surfaces", 1)
@@ -112,7 +120,18 @@ with apeGmsh(model_name="plot_candidates") as g:
     gmsh.option.setNumber("Geometry.SurfaceType", 0)
     gmsh.option.setNumber("Geometry.LineWidth", 2)
     gmsh.option.setNumber("General.Trackball", 0)
-    gmsh.fltk.initialize()
+
+    # gmsh.fltk.initialize() needs a real native window for its OpenGL
+    # context (no true windowless mode in this build) - move it off-screen
+    # and shrink it so it never becomes visible, same as
+    # scripts/select_interfaces_gui.py (user feedback there: "si apre
+    # sempre gmsh" - applies here too, this script opens a window the same
+    # way). It's re-initialized per view below anyway (see the loop), which
+    # re-applies these same option values each time.
+    gmsh.option.setNumber("General.GraphicsPositionX", -32000)
+    gmsh.option.setNumber("General.GraphicsPositionY", -32000)
+    gmsh.option.setNumber("General.GraphicsWidth", 50)
+    gmsh.option.setNumber("General.GraphicsHeight", 50)
 
     views = [
         ("plan", 0, 0, 0),      # default/top-ish view (matches the working test render)
@@ -120,6 +139,19 @@ with apeGmsh(model_name="plot_candidates") as g:
     ]
     written = []
     for name, rx, ry, rz in views:
+        # Real gmsh quirk, found while debugging scripts/select_interfaces_
+        # gui.py (reproduced with no Tkinter involved at all): only the
+        # FIRST gmsh.write() after gmsh.fltk.initialize() honors Print.
+        # Width/Height - every later write() in the same session silently
+        # drops to some other (screen-derived, much smaller) size. Was
+        # already happening here too - this loop's "iso" file has been
+        # quietly under-resolution the whole time (1924x1061 instead of
+        # 2400x1800) and just never looked broken enough to notice. Fix:
+        # a genuine finalize()+initialize() cycle before every write.
+        gmsh.fltk.finalize()
+        gmsh.fltk.initialize()
+        gmsh.option.setNumber("Print.Width", 2400)
+        gmsh.option.setNumber("Print.Height", 1800)
         if rx or ry or rz:
             gmsh.option.setNumber("General.RotationX", rx)
             gmsh.option.setNumber("General.RotationY", ry)

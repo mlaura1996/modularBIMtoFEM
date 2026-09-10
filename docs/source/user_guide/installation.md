@@ -88,32 +88,38 @@ exactly what was tried, in case a future environment doesn't hit the same
 Windows-specific packaging issues - it is **not** the recommended path.
 ```
 
-The recommended path instead - two scripts, both on the repaired
-geometry (`resources/ifc_examples/castelnuovo/example_clean_PRONTO.stp` -
-see `scripts/repair_step_geometry.py` for how it was produced from a
-slab-free IFC), agreeing on the same candidate numbering (same detection
-order, same `MIN_VOLUME_M3` door/window-frame filter in both scripts -
-**not** the real, much slower IFC-type point-in-solid classifier in
-`core/ifc_processing/ifc_step_matching.py`, which took several minutes
-here):
+The recommended path is a single script,
+`scripts/select_interfaces_gui.py` - a small tkinter application (stdlib
+only, no PySide/pyvista/Qt) that renders the repaired geometry
+(`resources/ifc_examples/castelnuovo/example_clean_PRONTO.stp` - see
+`scripts/repair_step_geometry.py` for how it was produced from a
+slab-free IFC) with every candidate wall-to-wall interface numbered and
+highlighted, and lets you tick/untick each one against the picture. See
+{doc}`../developer_guide/task_a_interfaces` for the full walkthrough with
+screenshots and {doc}`running_the_pipeline`'s Task A section for how the
+file it produces feeds the rest of the pipeline.
 
 ```bash
-python scripts/plot_candidate_interfaces.py   # matplotlib PNG, numbered, headless - look at this first
-python scripts/inspect_interfaces.py          # gmsh's native GUI - confirm a selection by number
+python scripts/select_interfaces_gui.py
 ```
 
-`plot_candidate_interfaces.py` writes
-`output/castelnuovo/plots/candidate_interfaces_overview.png` - a numbered
-point per candidate interface's centroid, over a cheap wall-centroid
-"silhouette" for spatial orientation. Look at it, note the numbers you
-want. `inspect_interfaces.py` then opens gmsh's own GUI with every
-candidate tagged as its own numbered physical group (the same numbers as
-the PNG); tick/untick each `IF_###` checkbox in the "Physical groups"
-panel (List tab) - visible when you close the window = selected. It
-prints what was captured and offers a manual index/range override as a
-safety net, then saves to
-`resources/survey_data/castelnuovo/interface_selection.json` for reuse by
-the Docker-based scripts via `InterfaceSelection.select_interactive_or_cached()`.
+Saves straight to `resources/survey_data/castelnuovo/interface_selection.json`
+for reuse by the Docker-based scripts via
+`InterfaceSelection.select_interactive_or_cached()`.
+
+```{note}
+Two older, single-purpose scripts are still in the repository and still
+work, in case the GUI ever needs bypassing on a machine where even
+tkinter is a problem (unlikely - it is Python's own stdlib GUI toolkit,
+not a separate install): `plot_candidate_interfaces.py` (a static,
+numbered PNG only - no selection) and `inspect_interfaces.py` (gmsh's own
+native FLTK GUI, selection via the "Physical groups" panel's checkboxes).
+Both use the exact same candidate numbering as `select_interfaces_gui.py`
+(same detection order, same `MIN_VOLUME_M3` door/window-frame filter -
+**not** the real, much slower IFC-type point-in-solid classifier in
+`core/ifc_processing/ifc_step_matching.py`, which took several minutes
+here), so a number noted from one is the same interface in another.
+```
 
 ## Repository layout at a glance
 
