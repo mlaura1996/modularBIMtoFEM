@@ -173,19 +173,32 @@ class InterfaceSelection:
 
     @staticmethod
     def key_for(candidate):
-        """Stable identity for a candidate interface.
+        """Stable identity for a candidate interface - centroid ONLY,
+        rounded to mm, deliberately NOT including volume_a/volume_b.
 
-        volume_a-volume_b alone is NOT sufficient: 144 of the 1010
-        Castelnuovo candidates are volume pairs that touch at more than one
-        separate patch (e.g. an L-shaped wall meeting another at two
-        distinct locations), so the pair collides for those and silently
-        drops one interface (found by round-tripping save/load in testing).
-        The centroid, rounded to mm, disambiguates same-pair patches and is
-        a geometric invariant that reproduces across a fresh detection run
-        on the same input geometry, unlike gmsh's internal surface tags.
+        Two things had to be learned the hard way to land on this:
+        1. volume_a-volume_b alone is NOT sufficient: 144 of the 1010
+           Castelnuovo candidates are volume pairs that touch at more than
+           one separate patch (e.g. an L-shaped wall meeting another at two
+           distinct locations), so the pair collides for those and
+           silently drops one interface (found by round-tripping save/load
+           in testing) - centroid disambiguates same-pair patches.
+        2. volume tags are NOT portable across environments, even for the
+           exact same input STEP file: a selection made interactively
+           (scripts/select_interfaces_gui.py, local conda env, apeGmsh
+           v2.0.0) failed to load inside the Docker analysis image
+           (apeGmsh v1.5.0, an older pinned commit) with "interfaces not
+           found" - traced to gmsh/OCC assigning different tag NUMBERS to
+           the same solids across the two apeGmsh/gmsh versions (verified:
+           the "missing" interfaces' centroids matched an existing Docker
+           candidate to 0.0000m, just under different volume_a/volume_b
+           numbers). The geometry and detection are consistent across
+           environments; only gmsh's internal tag *numbering* isn't -
+           centroid alone is what's actually invariant, so it's what the
+           key is now built from.
         """
         cx, cy, cz = candidate["centroid"]
-        return f"{candidate['volume_a']}-{candidate['volume_b']}@{cx:.3f},{cy:.3f},{cz:.3f}"
+        return f"{cx:.3f},{cy:.3f},{cz:.3f}"
 
     @staticmethod
     def present_cli(candidates, default_include=("vertical_joint", "oblique")):

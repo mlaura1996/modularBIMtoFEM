@@ -1,0 +1,18 @@
+{
+  "volumes": 279,
+  "candidate_interfaces": 885,
+  "selected_interfaces": 11,
+  "duplicate_nodes": 326,
+  "mesh_nodes": 17700,
+  "mesh_elements": 57827,
+  "mpi_ranks": 6,
+  "ground_bearing_volumes": 28,
+  "base_fixed_nodes": 576,
+  "converged_all_ranks": true,
+  "total_volume_m3": 623.0566263119475,
+  "self_weight_calculated_N": 12224371.008240411,
+  "total_base_reaction_N": 12227819.353599997,
+  "weight_reaction_diff_pct": 0.028208775382076185,
+  "max_downward_displacement_mm": -2.82359,
+  "n_parts": 6
+}

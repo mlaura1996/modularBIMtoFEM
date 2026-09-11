@@ -23,25 +23,53 @@ imprinted) — see {doc}`geometry` for the full provenance trail:
   **278,858 nodes / 953,994 linear tetrahedra** — the full-scale model, not
   yet run (see {doc}`open_questions`)
 
+A second, cleaned STEP (`example_clean_PRONTO.stp`,
+`scripts/repair_step_geometry.py`) was produced later, from a slab-free
+source IFC (0 slabs vs. the original's 32, 115 elements vs. 154):
+duplicate solids and real interpenetrations removed, 279 volumes after
+fragment, 623.06 m³ (no slabs, so not directly comparable to the 663.71 m³
+above). This is the geometry Task A's interactive selection tool and the
+full-aggregate runs below use - the 316-solid/663.71 m³ figures above
+still describe the original, still used by the smaller Task A/B test
+scripts (`test_task_ab_*.py`).
+
 ## What has actually been run
 
-Not the full-scale model yet. What's verified, end to end, via real
-`mpirun -np N OpenSeesMP` (not mocked):
+Not the brief's full-resolution model yet (0.167 m element size,
+~279k nodes/954k tets - see {doc}`open_questions`). What's verified, end
+to end, via real `mpirun -np N OpenSeesMP` (not mocked), smallest to
+largest:
 
 - a 2-volume touching pair, 1 selected interface (`test_task_ab_reconciled.py`)
 - an 18-volume connected cluster (built by BFS over touching pairs from
   the geometry), **2 selected interfaces** out of 39 candidates (29
   classified as `vertical_joint`), **6 partitions** — matching the
   Chapter 6/7 reference partition count (`test_task_ab_scaled.py`)
+- **the full aggregate** - all 279 volumes of the cleaned geometry (no
+  slabs, duplicates/interpenetrations resolved - see {doc}`geometry`), a
+  coarse 0.6 m mesh (17,700 nodes / 57,827 elements), **11 selected
+  interfaces** out of 885 candidates, chosen interactively against the
+  real building picture with `scripts/select_interfaces_gui.py` (not a
+  hand-picked table subset - see
+  {doc}`../developer_guide/task_a_interfaces`), **6 partitions**
+  (`docker/opensees/full_aggregate_with_interfaces_clean.py`). Converges
+  on all 6 ranks; self-weight vs. base-reaction balance 0.028% error, same
+  accuracy as the bonded (no-interfaces) reference case.
 
-The 2-out-of-29 selection is deliberate, not a placeholder: selecting all
-29 candidate vertical joints produced a `Matrix Singular` failure under
-self-weight alone — enough walls released from each other that part of the
-cluster became a mechanism. See
-{doc}`../developer_guide/task_a_interfaces` for the full account. The
-selection that converges is conservative on purpose; extending it further
-is future work, one interface at a time, checking convergence after each
-addition rather than selecting the full candidate set up front.
+An earlier 29-candidate attempt (all `vertical_joint` interfaces at once,
+on the 18-volume cluster above) produced a `Matrix Singular` failure under
+self-weight alone, read at the time as a real mechanism (too many walls
+released from each other). **That reading turned out to be incomplete**:
+building and verifying the full-aggregate run above surfaced a genuine
+node-substitution bug in `TclWriter.solid_elements` that independently
+produced the identical failure mode - see
+{doc}`../developer_guide/task_a_interfaces` for the full account,
+including why the 2-interface case converging doesn't actually prove the
+underlying model was sound at 29. With the bug fixed, the full-aggregate
+run above shows 11 interfaces - more than the earlier "2 is safe, more
+fails" conclusion suggested - converging cleanly; extending the selection
+further, and re-checking convergence after each addition, remains
+worthwhile practice, just no longer backed by that specific data point.
 
 ## Material characterisation
 

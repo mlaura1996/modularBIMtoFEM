@@ -180,13 +180,57 @@ with the others before this.
 **Selecting every candidate interface produced an unstable mechanism.**
 With 39 candidate interfaces at the vertical joints, selecting all 29
 `vertical_joint`-classified ones (rather than a conservative subset) made
-the self-weight static analysis fail with `Matrix Singular` — not a bug in
-the selection or generation code, a real modelling consequence: enough
-walls were released from each other that part of the structure became a
-mechanism under gravity alone. Reducing to 2 conservative interfaces
-converged cleanly. This is the practical shape of the brief's warning (§5,
-intro) that interface selection is "an engineering judgement," not a
-detail to automate away — a selection that looks more "correct" (every
-real joint modelled as a joint) can be less usable for a first converging
-model. See {doc}`../case_study/overview` for how many interfaces the
-current Castelnuovo selection actually uses.
+the self-weight static analysis fail with `Matrix Singular` — read at the
+time as purely a real modelling consequence (enough walls released from
+each other that part of the structure becomes a mechanism under gravity
+alone). **Update, found later (see below): at least some of this class of
+failure was actually the node-substitution bug, not a real mechanism** -
+the 2-interface case that converged may just as well have been too small
+for the bug's orphaned node(s) to matter, not proof the model was
+otherwise sound. The underlying engineering point (§5, intro: interface
+selection is a judgement, not a detail to automate away, and "every real
+joint modelled as a joint" can be less usable than a conservative subset)
+still stands independently, but treat any *specific* pre-fix "N interfaces
+converges, N+1 doesn't" result as unverified until re-run against the
+fixed `TclWriter.solid_elements`. See {doc}`../case_study/overview` for
+how many interfaces the current Castelnuovo selection actually uses.
+
+**`TclWriter.solid_elements`'s node substitution was silently a no-op
+across an entire volume's worth of connectivity - twice, in two different
+ways.** Found while investigating exactly the "Matrix is Singular
+Numerically" failure above on the full aggregate with an 11-interface
+selection (Castelnuovo, clean geometry) - traced by literally counting, in
+the generated TCL, how many `element FourNodeTetrahedron` lines referenced
+a given interface's original node vs. its duplicate:
+
+1. The substitution dict (`{orig_tag: dup_tag}`) was flattened across
+   *every* selected interface's volume and applied to *every* element in
+   the physical group, regardless of which volume that element actually
+   belongs to. The original node sits on the shared boundary, so it's also
+   referenced by volume_a's (the non-split side's) own tets - which got
+   silently rewritten to the duplicate too. Result: *both* sides ended up
+   on the duplicate, and the real mesh node was referenced by zero solid
+   elements - a rigid body connected to the rest of the model only through
+   its own contact spring. `core.opensees_generation.model_builder.
+   Element.add_elements_to_opensees` (the direct-openseespy path) never had
+   this bug - it iterates per volume from the start.
+2. The obvious fix - look up each element's owning volume via
+   `gmsh.model.mesh.getElements(dim=3, tag=vol)` from inside
+   `solid_elements()` - silently substituted *nothing at all*, the opposite
+   failure: `g.mesh.partitioning.partition()` (called earlier in every one
+   of these scripts) mutates gmsh's element/entity bookkeeping such that
+   this same query, called *after* partitioning, returns empty for every
+   volume. This is the exact same class of issue documented above for
+   `InterfaceDetection.find_touching_surface_pairs()` needing to run before
+   partitioning - just hit again, one layer further down, before it was
+   connected to that existing lesson.
+
+Fixed by moving the volume→element lookup into the *caller* (right after
+`NodeSplitter.compute_node_map`, before `partition()` - every calling
+script already computes it there) and passing the resulting
+`split_element_ids` set into `solid_elements()` explicitly, instead of a
+`gmshmodel` handle it would have queried too late. Verified end to end on
+the Castelnuovo full aggregate (cleaned geometry, 279 volumes) with the
+real 11-interface selection made via `scripts/select_interfaces_gui.py`:
+converges on all 6 ranks, 0.028% self-weight/reaction balance error - the
+same accuracy as the bonded (no-interfaces) case.

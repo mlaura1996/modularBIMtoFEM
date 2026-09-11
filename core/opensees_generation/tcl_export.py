@@ -82,7 +82,7 @@ class TclWriter:
 
     def solid_elements(self, fem, pg_name, material_tag, rank,
                         ele_type="FourNodeTetrahedron", body_force=(0.0, 0.0, 0.0),
-                        node_substitution=None):
+                        node_substitution=None, split_element_ids=None):
         """Tets in physical group pg_name AND MPI rank `rank`, wrapped in
         an `if {$pid == rank}` guard - the actual domain-decomposition
         step. Silently emits nothing if this (pg, rank) combination is
@@ -101,23 +101,70 @@ class TclWriter:
         for Task A/B reconciliation - a confirmed interface's "split side"
         volume gets its connectivity reassigned to duplicate node tags
         exactly as core.opensees_generation.model_builder.Element does for
-        the direct-openseespy path. Not scoped by volume here because
-        FEMData.elements.get() has no per-volume filter (only pg/label/
-        partition/dim) - substitutes across every volume tag present in
-        the map, relying on tag uniqueness (real gmsh tags never collide
-        with NodeSplitter.TAG_OFFSET-shifted duplicates) to make that safe
-        even when pg_name spans more than one volume.
+        the direct-openseespy path (which scopes correctly - see below).
+        split_element_ids (required together with node_substitution): the
+        set of element ids belonging to any of node_substitution's split
+        volumes - MUST be computed by the caller BEFORE
+        g.mesh.partitioning.partition() (see below for why), e.g.:
+
+            split_element_ids = set()
+            for vol in substitution:
+                _t, etags, _n = gmsh.model.mesh.getElements(dim=3, tag=vol)
+                for tags in etags:
+                    split_element_ids.update(int(t) for t in tags)
+
+        TWO real bugs, found and fixed here, both on the Castelnuovo full-
+        aggregate + 11-interface run ("Matrix is Singular Numerically" at
+        the very first load step):
+        1. An earlier version flattened every volume's {orig: dup} into
+           one global dict and applied it to every element in pg_name
+           regardless of which volume that element actually belongs to -
+           the orig node is on the shared boundary, so it also belongs to
+           volume_a's (the NON-split side's) own tets, and those got
+           silently rewritten to the duplicate too. Both sides ending up
+           on the duplicate orphans the real mesh node entirely - zero
+           solid-element stiffness, connected to the rest of the model
+           only through its own contact spring (confirmed: the orig node
+           of a selected interface was referenced by 0 tet elements
+           afterward, all of them had moved to the duplicate).
+        2. Fixing (1) by querying `gmshmodel.mesh.getElements(dim=3,
+           tag=vol)` from INSIDE this method (called after partitioning)
+           silently returns EMPTY for every volume - partitioning mutates
+           gmsh's element/entity bookkeeping the same way it breaks
+           InterfaceDetection.find_touching_surface_pairs() after
+           partition() (see that function's callers' comments) - so the
+           "fix" from (1) ended up substituting nothing at all (confirmed:
+           split_element_ids came back with 0 elements although the exact
+           same query, run BEFORE partition(), found the expected ones).
+           Hence the caller-computed `split_element_ids` parameter instead
+           of a `gmshmodel` one - it has to be computed at the right time,
+           which only the caller (which also calls
+           NodeSplitter.compute_node_map before partition()) is in a
+           position to guarantee.
         """
         result = fem.elements.get(pg=pg_name, partition=rank + 1)
         if result.n_elements == 0:
             return self
+
+        if node_substitution and split_element_ids is None:
+            raise ValueError(
+                "solid_elements(): node_substitution was given but "
+                "split_element_ids wasn't - cannot scope the substitution to "
+                "its own split_volume without it (applying it unscoped "
+                "orphans the non-split side's node - see this method's "
+                "docstring)."
+            )
+
         sub = {}
         for vol_map in (node_substitution or {}).values():
             sub.update(vol_map)
         self._lines.append(f"if {{$pid == {rank}}} {{")
         for group in result:
             for eid, conn in group:
-                nodes = [sub.get(int(n), int(n)) for n in conn] if sub else [int(n) for n in conn]
+                if sub and int(eid) in split_element_ids:
+                    nodes = [sub.get(int(n), int(n)) for n in conn]
+                else:
+                    nodes = [int(n) for n in conn]
                 nodes_str = " ".join(str(n) for n in nodes)
                 self._lines.append(
                     f"    element {ele_type} {int(eid)} {nodes_str} {material_tag} "

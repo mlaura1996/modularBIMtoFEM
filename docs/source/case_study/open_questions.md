@@ -31,10 +31,14 @@ as of the current branch.
     ({doc}`materials`) encode an inferred subdivision (417/418/419/420),
     but from the cadastral-map row order, not from Task A's own
     independent, geometry-based interface detection — the two have not
-    been cross-referenced. Task A's actual interface *selection* used for
-    the verified test runs so far is a small, hand-picked conservative
-    subset (see {doc}`overview`), not a subdivision decision for the whole
-    building.
+    been cross-referenced. Task A's interface *selection* has moved past a
+    small hand-picked test subset, though: a real selection (11
+    interfaces, out of 885 candidates on the full aggregate) was made
+    interactively against the actual building picture
+    (`scripts/select_interfaces_gui.py`) and verified to converge (see
+    {doc}`overview`) - still a deliberate, conservative choice by one
+    person, not a systematic subdivision decision cross-referenced against
+    the HSTO graph.
 * - 7. Run machine specifications
   - **Open.** Not asked yet. Needed before partitioning/solver
     configuration can be sized for the full-scale (~279k node) mesh, and
@@ -67,8 +71,14 @@ item is discoverable from one page:
 
 ## Pipeline-scale gap
 
-The full-scale Castelnuovo mesh (~279k nodes / 954k tets) has never
-actually been run — only subsets up to 18 volumes / 6 partitions (see
-{doc}`overview`). This is directly downstream of question 7 above: sizing
-partitions and solver configuration for the real analysis needs the run
-machine's specifications first.
+The full-scale, brief-target Castelnuovo mesh (~279k nodes / 954k tets at
+the 0.167 m element size) has never actually been run. Update: the full
+279-volume *geometry* (cleaned, no slabs) has now been run end to end at a
+coarser 0.6 m mesh (17,700 nodes / 57,827 elements) with a real,
+interactively-selected set of Task A contact interfaces - converges on all
+6 MPI ranks, 0.028% self-weight/reaction balance error (see {doc}`overview`).
+That closes the "does the whole aggregate + real interfaces even run"
+question; the remaining gap is purely resolution - going from 0.6 m to the
+brief's 0.167 m target mesh - which is directly downstream of question 7
+above: sizing partitions and solver configuration for a mesh that size
+needs the run machine's specifications first.

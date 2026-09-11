@@ -109,6 +109,19 @@ with apeGmsh(model_name="task_ab_scaled") as g:
 
     ContactInterfaceGenerator.tag_physical_groups(selected)
     substitution = NodeSplitter.compute_node_map(gmsh.model, selected)
+
+    # MUST run before partition() - gmsh.model.mesh.getElements(dim=3, tag=vol)
+    # silently returns empty for volumes after partitioning (same class of issue
+    # as InterfaceDetection.find_touching_surface_pairs() after partition() -
+    # found the hard way: this returned 0 elements when computed inside
+    # TclWriter.solid_elements(), called after partition() below). Needed to
+    # scope node_substitution to each interface own split_volume - see that
+    # method's docstring for the two real bugs this fixes.
+    split_element_ids = set()
+    for vol in substitution:
+        _etypes, etags, _enodes = gmsh.model.mesh.getElements(dim=3, tag=vol)
+        for tags in etags:
+            split_element_ids.update(int(t) for t in tags)
     n_dup_total = sum(len(v) for v in substitution.values())
     print(f"{n_dup_total} duplicate nodes across {len(selected)} interfaces, "
           f"split volumes: {sorted(set(c['split_volume'] for c in selected))}")
@@ -131,7 +144,7 @@ with apeGmsh(model_name="task_ab_scaled") as g:
     for rank in range(N_PARTS):
         writer.solid_elements(fem, "Masonry", mat_tag, rank,
                                body_force=(0.0, 0.0, -rho * 9.81),
-                               node_substitution=substitution)
+                               node_substitution=substitution, split_element_ids=split_element_ids)
     writer.contact_elements(fem, selected, Kn_nominal=69000.0 * 1e9, Kt_nominal=0.001 * 1e9)
     writer.fix(fem, "Fixed", dofs=[1, 1, 1])
     # analysis_static_gravity's plain Newton + 5 LoadControl steps diverged

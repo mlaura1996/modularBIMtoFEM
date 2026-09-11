@@ -86,7 +86,13 @@ FROM condaforge/miniforge3:25.3.1-0 AS runtime
 # packages. Second block is the X11/GL stack the pip gmsh wheel needs even
 # headless (it bundles FLTK) - same set already proven to work for
 # pythonocc-core in the repo's top-level Dockerfile; gmsh needs it too
-# (verified here: `import gmsh` failed on libXft.so.2 without it).
+# (verified here: `import gmsh` failed on libXft.so.2 without it). xvfb is
+# for gmsh.fltk.initialize() specifically - it still needs a real X11
+# display to create its (off-screen, on the host side - see scripts/
+# select_interfaces_gui.py) window, and this container has none at all
+# ("Can't open display" - found running docker/opensees/
+# full_aggregate_with_interfaces_clean.py's gmsh-screenshot rendering).
+# Run under `xvfb-run -a <cmd>` to get one.
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libtcl8.6 \
     openmpi-bin \
@@ -111,6 +117,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libxrender1 \
     libxext6 \
     libsm6 \
+    xvfb \
     && rm -rf /var/lib/apt/lists/*
 
 COPY --from=builder /build/OpenSees/build/OpenSeesMP /usr/local/bin/OpenSeesMP

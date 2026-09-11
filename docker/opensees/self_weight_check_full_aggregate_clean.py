@@ -1,21 +1,23 @@
 """
-Same full 316-solid Castelnuovo aggregate and per-volume base fixity as
-self_weight_check_full_aggregate.py, now WITH Task A wall-to-wall contact
-interfaces - the combination that hadn't been tried yet (only "full
-aggregate, bonded" and "18-volume subset, with interfaces" existed
-separately). Still linear elastic, not the real ASDConcrete3D material -
-one variable at a time, since that combination (material.py's
-test_asdconcrete3d_parallel.py) is a separate, still-unresolved
-convergence problem on the smaller 18-volume cluster.
+Same self-weight-only, bonded (no Task A interfaces) sanity check as
+self_weight_check_full_aggregate.py, but on the CLEANED Castelnuovo
+geometry (resources/ifc_examples/castelnuovo/example_clean_PRONTO.stp -
+277/279 volumes after fragment, no slabs, duplicates/interpenetrations
+resolved - see scripts/repair_step_geometry.py) instead of the original
+final_example_PRONTO.stp (316 solids, brief 3.3's 663.71 m^3).
 
-Interface selection stays conservative (2 interfaces) for the same reason
-as test_task_ab_scaled.py and this script's own base-fixity sibling:
-selecting many candidate interfaces at once risks an unrestrained
-mechanism under self-weight alone (found the hard way earlier this
-session). On the full aggregate, with hundreds of candidate touching
-pairs instead of 39, this risk is larger, not smaller - so the same
-small, deliberate subset approach is used here too, not "select
-everything."
+Why a separate script rather than swapping STEP_PATH in place: the old
+script's numbers (663.71 m^3, 0.027% mass/weight error, ~1.4mm max
+displacement) are a validated reference for the OLD geometry - useful to
+diff against if this run's numbers look wrong. Total volume/weight here
+is EXPECTED to differ (no slabs), so there is no single "right" number to
+assert against; this script just prints what it computes and checks
+internal consistency (reaction sum vs. its own independently-computed
+weight), the same way the original does.
+
+Run BEFORE full_aggregate_with_interfaces_clean.py: confirms base fixity
+and self-weight balance still hold on the cleaned geometry before layering
+Task A contact interfaces on top of it.
 """
 import os
 import re
@@ -23,7 +25,7 @@ import subprocess
 import sys
 
 sys.path.insert(0, "/app")
-os.makedirs("output/castelnuovo/recorders_full_aggregate_interfaces", exist_ok=True)
+os.makedirs("output/castelnuovo/recorders_full_aggregate_clean", exist_ok=True)
 os.makedirs("output/castelnuovo/plots", exist_ok=True)
 
 import gmsh
@@ -31,73 +33,40 @@ import numpy as np
 from apeGmsh import apeGmsh, Results
 from apeGmsh.solvers.Recorders import Recorders
 
-from core.mesh_generation.wall_interfaces import (
-    InterfaceDetection, ContactInterfaceGenerator, NodeSplitter,
-)
+from core.mesh_generation.wall_interfaces import InterfaceDetection
 from core.opensees_generation.tcl_export import TclWriter
 
-STEP_PATH = "resources/ifc_examples/castelnuovo/final_example_PRONTO.stp"
+STEP_PATH = "resources/ifc_examples/castelnuovo/example_clean_PRONTO.stp"
 N_PARTS = 6
-MODEL_PATH = "output/castelnuovo/full_aggregate_interfaces_model.tcl"
-RECORDER_DIR = "output/castelnuovo/recorders_full_aggregate_interfaces"
-GLOBAL_MESH_SIZE = 0.6
+MODEL_PATH = "output/castelnuovo/self_weight_full_clean_model.tcl"
+RECORDER_DIR = "output/castelnuovo/recorders_full_aggregate_clean"
+GLOBAL_MESH_SIZE = 0.6  # m - coarse first pass, not the brief's 0.167 m target
 E, nu, rho = 700.0e6, 0.25, 2000.0
 G_ACCEL = 9.81
 
-with apeGmsh(model_name="full_aggregate_interfaces") as g:
+with apeGmsh(model_name="self_weight_full_clean") as g:
     g.mesh.sizing.set_size_sources(from_points=False)
     g.model.io.load_step(STEP_PATH)
     gmsh.model.occ.fragment(gmsh.model.occ.getEntities(3), [])
     gmsh.model.occ.synchronize()
 
     all_vols = gmsh.model.getEntities(3)
-    print(f"{len(all_vols)} volumes loaded (brief 3.3: 316 solids expected)")
+    print(f"{len(all_vols)} volumes loaded (cleaned geometry - no slabs, "
+          f"see scripts/repair_step_geometry.py; expect ~279, NOT the old 316)")
 
     total_volume = sum(gmsh.model.occ.getMass(dim, tag) for dim, tag in all_vols)
-    print(f"Total volume (gmsh): {total_volume:.2f} m^3 (brief 3.3 reports 663.71 m^3)")
+    print(f"Total volume (gmsh): {total_volume:.2f} m^3 (no fixed expectation here - "
+          f"no slabs, so this will not match the old geometry's 663.71 m^3)")
 
-    # Touching-pair detection before meshing/partitioning (see
-    # self_weight_check_full_aggregate.py's comment - doing this after
-    # partition() breaks with "Unknown OpenCASCADE entity").
     candidates = InterfaceDetection.find_touching_surface_pairs()
     InterfaceDetection.classify_orientation(candidates)
-    vertical = [c for c in candidates if c["orientation"] == "vertical_joint"]
-    print(f"{len(candidates)} candidates, {len(vertical)} vertical_joint")
 
-    # Conservative subset, same reasoning as test_task_ab_scaled.py.
-    selected = vertical[:2]
-    print(f"{len(selected)} interfaces selected (conservative subset, not all)")
-    assert len(selected) >= 1
-
-    ContactInterfaceGenerator.tag_physical_groups(selected)
-
-    g.parts.from_model("castelnuovo_full")
+    g.parts.from_model("castelnuovo_full_clean")
     g.physical.add_volume([t for _, t in all_vols], name="Masonry")
 
     g.mesh.sizing.set_global_size(GLOBAL_MESH_SIZE)
     g.mesh.generation.generate(dim=3)
 
-    # Node split (needs the mesh to exist) - before partitioning, like
-    # every other Task A/B script.
-    substitution = NodeSplitter.compute_node_map(gmsh.model, selected)
-
-    # MUST run before partition() - gmsh.model.mesh.getElements(dim=3, tag=vol)
-    # silently returns empty for volumes after partitioning (same class of issue
-    # as InterfaceDetection.find_touching_surface_pairs() after partition() -
-    # found the hard way: this returned 0 elements when computed inside
-    # TclWriter.solid_elements(), called after partition() below). Needed to
-    # scope node_substitution to each interface own split_volume - see that
-    # method's docstring for the two real bugs this fixes.
-    split_element_ids = set()
-    for vol in substitution:
-        _etypes, etags, _enodes = gmsh.model.mesh.getElements(dim=3, tag=vol)
-        for tags in etags:
-            split_element_ids.update(int(t) for t in tags)
-    n_dup_total = sum(len(v) for v in substitution.values())
-    print(f"{n_dup_total} duplicate nodes across {len(selected)} interfaces")
-
-    # Per-volume Z ranges from mesh node coordinates, for ground-bearing
-    # base fixity (same approach as self_weight_check_full_aggregate.py).
     all_node_tags, all_node_coords, _ = gmsh.model.mesh.getNodes()
     node_z_by_tag = {int(t): float(c[2]) for t, c in zip(all_node_tags, all_node_coords.reshape(-1, 3))}
 
@@ -115,7 +84,8 @@ with apeGmsh(model_name="full_aggregate_interfaces") as g:
         volume_z_ranges[vol] = (min(zs), max(zs))
 
     ground_volumes = InterfaceDetection.find_ground_bearing_volumes(candidates, volume_z_ranges)
-    print(f"{len(ground_volumes)}/{len(volume_z_ranges)} volumes identified as ground-bearing")
+    print(f"{len(ground_volumes)}/{len(volume_z_ranges)} volumes identified as "
+          f"ground-bearing (no other volume detected underneath)")
 
     info = g.mesh.partitioning.partition(n_parts=N_PARTS)
     print(f"Partitioned into {N_PARTS} parts: {info.elements_per_partition}")
@@ -138,17 +108,13 @@ with apeGmsh(model_name="full_aggregate_interfaces") as g:
     writer = TclWriter(ndm=3, ndf=3)
     writer.header()
     writer.nodes(fem)
-    writer.duplicate_nodes(gmsh.model, selected)
     writer.material_linear_elastic(mat_tag, E, nu, rho)
     for rank in range(N_PARTS):
         writer.solid_elements(fem, "Masonry", mat_tag, rank,
-                               body_force=(0.0, 0.0, -rho * G_ACCEL),
-                               node_substitution=substitution, split_element_ids=split_element_ids)
-    writer.contact_elements(fem, selected, Kn_nominal=69000.0e9, Kt_nominal=0.001e9)
+                               body_force=(0.0, 0.0, -rho * G_ACCEL))
     for nid in base_ids_all:
         writer.raw(f"fix {int(nid)} 1 1 1")
 
-    # Recorders: same partition-safe pattern as self_weight_check_full_aggregate.py.
     rec = Recorders()
     rec.nodes(pg="Masonry", components="displacement")
     spec = rec.resolve(fem, ndm=3, ndf=3)
@@ -166,16 +132,12 @@ with apeGmsh(model_name="full_aggregate_interfaces") as g:
         writer.raw(f"    recorder Node -file {fname} -time -node {ids_str} -dof 3 reaction")
         writer.raw("}")
 
-    # NewtonLineSearch + finer increments - test_task_ab_scaled.py needed
-    # this on its 18-volume/2-interface cluster (plain Newton + coarse
-    # steps diverged there); using the same robust settings from the
-    # start here rather than waiting to hit the same problem.
     writer.raw("constraints Plain")
     writer.raw("numberer ParallelRCM")
     writer.raw("system Mumps")
     writer.raw("test NormDispIncr 1e-6 30 1")
-    writer.raw("algorithm NewtonLineSearch")
-    n_steps = 20
+    writer.raw("algorithm Newton")
+    n_steps = 10
     writer.raw(f"integrator LoadControl {1.0/n_steps:.6g}")
     writer.raw("analysis Static")
     writer.raw(f"set ok [analyze {n_steps}]")
@@ -223,8 +185,8 @@ print(results)
 
 ax = results.plot.deformed(component="displacement_z", scale=200.0, ghost=False,
                             cmap="Blues", edge_color=None)
-ax.set_title("Castelnuovo FULL aggregate + Task A interfaces - self-weight, linear elastic - deformed x200")
-deformed_path = "output/castelnuovo/plots/full_aggregate_interfaces_deformed_uz.png"
+ax.set_title("Castelnuovo FULL aggregate (clean geometry) - self-weight, bonded, linear elastic - deformed x200")
+deformed_path = "output/castelnuovo/plots/full_aggregate_clean_deformed_uz.png"
 ax.figure.savefig(deformed_path, dpi=150, bbox_inches="tight")
 print(f"Wrote {deformed_path}")
 
