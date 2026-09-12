@@ -30,8 +30,11 @@ self-weight is real metres, shown at x200 like those figures.
 Run locally (this OPENS A WINDOW and blocks until you close it):
 
     conda activate castelnuovo_viewer
-    python scripts/view_results_gmsh.py            # untied (as-imported geometry)
-    python scripts/view_results_gmsh.py tied       # with the equalDOF junction ties
+    python scripts/view_results_gmsh.py                 # untied, as-imported geometry
+    python scripts/view_results_gmsh.py tied            # with the equalDOF ties
+    python scripts/view_results_gmsh.py tied80          # the documented 80-mode run
+    python scripts/view_results_gmsh.py tied80 3        # PRM >= 3% instead of 5%
+    python scripts/view_results_gmsh.py tied80 all      # every computed mode
 """
 import math
 import os
@@ -49,15 +52,31 @@ RUNS = {
     "tied": ("output/castelnuovo/recorders_castelnuovo_tied",
              "castelnuovo_tied.msh",
              "docker/opensees/eigen_castelnuovo_tied.py"),
+    "tied80": ("output/castelnuovo/recorders_castelnuovo_tied_80modes",
+               "castelnuovo_tied.msh",
+               "docker/opensees/eigen_castelnuovo_tied.py --n-modes 80"),
 }
 RUN = sys.argv[1] if len(sys.argv) > 1 else "native"
 if RUN not in RUNS:
     sys.exit(f"Unknown run {RUN!r} - choose one of: {', '.join(RUNS)}")
 DATA_DIR, _MSH_NAME, _HOW_TO_MAKE = RUNS[RUN]
 MSH_PATH = f"{DATA_DIR}/{_MSH_NAME}"
-N_MODES = 10
 SELFWEIGHT_FACTOR = 200.0     # real metres -> same x200 as the matplotlib figures
 MODE_FACTOR = 0.5             # m, applied to eigenvectors normalised to max|u| = 1
+
+# Which modes to load. Loading all 80 would be useless for taking figure
+# screenshots - most of them are tiny local mechanisms - so by default only
+# the modes that actually drive the response are loaded, selected the same
+# way the document ranks them: participating mass, not eigenvalue order.
+# Pass a PRM threshold in % as the second argument, or "all" for every mode
+# the run wrote. Each view's title carries f, T and PRMx/PRMy so a
+# screenshot is self-labelling.
+PRM_THRESHOLD = 5.0
+_arg2 = sys.argv[2] if len(sys.argv) > 2 else None
+if _arg2 == "all":
+    PRM_THRESHOLD = None
+elif _arg2:
+    PRM_THRESHOLD = float(_arg2)
 
 
 def parse_float(s):
@@ -107,6 +126,29 @@ print(f"Run {RUN!r}: loaded mesh, model name: {model_name!r}")
 with open(f"{DATA_DIR}/eigenvalues.txt") as f:
     eigenvalues = [float(x) for x in f.read().split()]
 
+# Participating mass per mode, to label and to select.
+with open(f"{DATA_DIR}/modal_properties.txt") as f:
+    _modal = f.read()
+_body = _modal.split("9. MODAL PARTICIPATION MASS RATIOS")[1].split("* 10.")[0]
+prm = {}
+for _line in _body.splitlines():
+    _p = _line.split()
+    if len(_p) == 7 and _p[0].isdigit():
+        prm[int(_p[0])] = (float(_p[1]), float(_p[2]))
+
+if PRM_THRESHOLD is None:
+    modes_to_load = sorted(prm)
+else:
+    modes_to_load = sorted(m for m, (mx, my) in prm.items()
+                           if max(mx, my) >= PRM_THRESHOLD)
+    if not modes_to_load:      # never open an empty window
+        modes_to_load = [m for m, _ in sorted(
+            prm.items(), key=lambda kv: -(kv[1][0] + kv[1][1]))[:3]]
+        print(f"No mode reaches PRM {PRM_THRESHOLD:g}%; falling back to the "
+              f"top 3 by MX+MY.")
+print(f"Loading {len(modes_to_load)} mode(s): "
+      f"{', '.join(str(m) for m in modes_to_load)}")
+
 view_tags = []
 
 # --- self-weight ----------------------------------------------------------
@@ -123,17 +165,21 @@ view_tags.append(v)
 print(f"View {v}: self-weight")
 
 # --- modes ----------------------------------------------------------------
-for mode in range(1, N_MODES + 1):
+for mode in modes_to_load:
     path = f"{DATA_DIR}/mode{mode}_eigenvector.txt"
     if not os.path.isfile(path):
+        print(f"  mode {mode}: no eigenvector file, skipped")
         continue
     tags, flat = load_vector_file(path)
     flat = normalise(flat)
     T = 2 * math.pi / math.sqrt(eigenvalues[mode - 1])
-    # Name the run in the view title - the whole point here is comparing two
-    # runs side by side, and a screenshot that does not say which one it is
-    # is worse than no screenshot.
-    v = gmsh.view.add(f"[{RUN}] Mode {mode} - T={T:.3f}s, f={1.0 / T:.3f}Hz")
+    mx, my = prm[mode]
+    # Name the run AND the participating mass in the view title: the whole
+    # point here is comparing runs and picking modes for a figure, and a
+    # screenshot that does not say which mode of which run it shows is
+    # worse than no screenshot.
+    v = gmsh.view.add(f"[{RUN}] Mode {mode} - f={1.0 / T:.2f}Hz, T={T:.4f}s, "
+                      f"PRMx={mx:.2f}%, PRMy={my:.2f}%")
     gmsh.view.addHomogeneousModelData(v, 0, model_name, "NodeData", tags, flat,
                                        numComponents=3)
     gmsh.view.option.setNumber(v, "VectorType", 5)
@@ -142,7 +188,8 @@ for mode in range(1, N_MODES + 1):
     gmsh.view.option.setNumber(v, "NbIso", 20)
     gmsh.view.option.setNumber(v, "ShowScale", 1)
     view_tags.append(v)
-    print(f"View {v}: mode {mode} (T={T:.3f}s)")
+    print(f"View {v}: mode {mode} (f={1.0 / T:.2f}Hz, "
+          f"PRMx={mx:.2f}%, PRMy={my:.2f}%)")
 
 # Show only the first view on open - with 11 warped shapes stacked on top of
 # each other the window is unreadable otherwise. Toggle the rest from the
