@@ -43,7 +43,19 @@ import os
 import sys
 
 sys.path.insert(0, "/app")
-OUT_DIR = "output/castelnuovo/recorders_castelnuovo_tied"
+
+
+def _argval(flag, default):
+    return sys.argv[sys.argv.index(flag) + 1] if flag in sys.argv else default
+
+
+# --n-modes writes to its own directory by default, so a longer run never
+# overwrites results that have already been checked and written up.
+_N_MODES_ARG = int(_argval("--n-modes", 10))
+OUT_DIR = _argval(
+    "--out-dir",
+    "output/castelnuovo/recorders_castelnuovo_tied" if _N_MODES_ARG == 10
+    else f"output/castelnuovo/recorders_castelnuovo_tied_{_N_MODES_ARG}modes")
 os.makedirs(OUT_DIR, exist_ok=True)
 
 import numpy as np
@@ -62,7 +74,9 @@ from core.mesh_generation.wall_interfaces import InterfaceDetection
 
 STEP_PATH = "resources/ifc_examples/castelnuovo/example_clean_PRONTO.stp"
 GLOBAL_MESH_SIZE = 0.6
-N_MODES = 10
+N_MODES = _N_MODES_ARG  # --n-modes; 10 reaches only ~52% MX / 55% MY cumulative
+# participating mass, well under the 85% NTC2018 7.3.3.1 / EC8 require, so a
+# seismic verification needs considerably more than the default.
 E_MPA, NU, RHO = 1227.95, 0.2, 1450.0  # see module docstring for the weighted-average derivation
 G_ACCEL = -9.81  # matches core.config.G's sign convention (negative = -z)
 MAX_JUNCTION_GAP = 0.05   # m - treat solids this close as a junction that should be connected
