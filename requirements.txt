@@ -1,10 +1,15 @@
 gmsh==4.11.1
 openseespy==3.5.1.3
 lark==1.3.1
-ifcopenshell
-numpy
-pandas
-matplotlib
+# Pinned to what the verified image actually resolved to (read off the
+# built image, not chosen). They were unpinned until the analysis had to
+# move to a second machine: an unpinned rebuild months from now can
+# resolve differently without saying so, and a thesis result has to be
+# reproducible from this file alone.
+ifcopenshell==0.8.5
+numpy==2.2.6
+pandas==2.3.3
+matplotlib==3.10.9
 
 # pythonocc-core (imported by core/config.py) is not reliably pip-installable
 # on Windows - the Docker image (docker/opensees/Dockerfile) installs it via

@@ -1,0 +1,24 @@
+{
+  "_what": "Reference values for the tied Castelnuovo model, 10 modes, produced by docker/opensees/eigen_castelnuovo_tied.py --n-modes 10 inside modularbimtofem-opensees-mp:dev. Used by docker/opensees/verify_environment.py to check that another machine reproduces this model before a long run is launched on it.",
+  "_produced_on": "Intel i7-10750H, 6 cores, Windows 11 + Docker Desktop",
+  "mesh_nodes": 34821,
+  "mesh_elements": 119953,
+  "total_volume_m3": 623.0566263119475,
+  "equaldof_constraints": 122,
+  "open_junctions": 21,
+  "self_weight_calculated_N": 8862668.980974298,
+  "total_base_reaction_N": 8864970.222061416,
+  "young_modulus_MPa": 1227.95,
+  "eigenvalues": [
+    1321.768600490725,
+    1675.5195793435946,
+    1901.0060799592914,
+    2223.129593821294,
+    2722.9876905245324,
+    3074.8205967663707,
+    3269.6540554906223,
+    3645.5244241182113,
+    3943.5761248984772,
+    4515.686447833335
+  ]
+}

@@ -39,10 +39,19 @@ IN_CSV = Path(sys.argv[1]) if len(sys.argv) > 1 else (
 OUT_STEM = Path(sys.argv[2]) if len(sys.argv) > 2 else (
     REPO_ROOT / "output/castelnuovo/plots/modal_participation_paper")
 
-# The same face the other thesis figures use. Kept as an absolute path to
-# the folder that owns it rather than copied into this repo.
-FONT_PATH = Path("C:/Users/mlaur/Documents/aggregate_tests/graph_maker/"
-                 "n015006t.ttf")
+# The same face the other thesis figures use. Not copied into this repo
+# (it is not ours to redistribute), so it is looked for in several places
+# and the location can be given explicitly - a single hard-coded Windows
+# path would break this script on any other machine, which matters now
+# that the analysis is moving to a second computer.
+FONT_CANDIDATES = [
+    Path(os.environ["THESIS_FONT"]) if os.environ.get("THESIS_FONT") else None,
+    REPO_ROOT / "resources/fonts/n015006t.ttf",
+    Path("C:/Users/mlaur/Documents/aggregate_tests/graph_maker/n015006t.ttf"),
+    Path.home() / "Documents/aggregate_tests/graph_maker/n015006t.ttf",
+]
+FONT_PATH = next((p for p in FONT_CANDIDATES if p and p.exists()),
+                 FONT_CANDIDATES[-1])
 
 if FONT_PATH.exists():
     font_manager.fontManager.addfont(str(FONT_PATH))
