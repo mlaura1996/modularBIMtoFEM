@@ -1,0 +1,145 @@
+<meta charset="utf-8">
+<title>Castelnuovo — transfer checklist</title>
+<style>
+  @page { size: A4; margin: 14mm 14mm; }
+  body { font: 10pt/1.4 "Segoe UI", system-ui, sans-serif; color: #1a1a1a; }
+  h1 { font-size: 17pt; margin: 0 0 1mm; }
+  .sub { color: #555; font-size: 9pt; margin: 0 0 4mm; }
+  h2 { font-size: 11.5pt; margin: 5mm 0 1.5mm; padding-bottom: 0.8mm;
+       border-bottom: 1.2pt solid #1f4e79; color: #1f4e79; }
+  table { border-collapse: collapse; width: 100%; margin: 1.5mm 0 3mm; font-size: 9pt; }
+  th, td { border: 0.5pt solid #bbb; padding: 1.2mm 1.8mm; text-align: left;
+           vertical-align: top; }
+  th { background: #e8edf3; font-weight: 600; }
+  .box { width: 4mm; text-align: center; font-size: 11pt; }
+  pre { background: #f4f5f7; border-left: 2.5pt solid #1f4e79; padding: 1.8mm 2.5mm;
+        font: 8.2pt/1.3 Consolas, monospace; white-space: pre-wrap;
+        word-break: break-all; margin: 1mm 0 2.5mm; }
+  code { font: 8.5pt Consolas, monospace; background: #f0f1f3; padding: 0 0.8mm; }
+  .stop { background: #fdecec; border-left: 2.5pt solid #b00000; padding: 2mm 2.5mm;
+          margin: 1.5mm 0 2.5mm; font-size: 9pt; }
+  .ok { background: #eaf5ea; border-left: 2.5pt solid #2d7a2d; padding: 2mm 2.5mm;
+        margin: 1.5mm 0 2.5mm; font-size: 9pt; }
+  .small { font-size: 8.5pt; color: #555; }
+  ol { margin: 1mm 0 2mm; padding-left: 5.5mm; }
+  li { margin-bottom: 0.8mm; }
+</style>
+
+<h1>What to take to the desktop machine</h1>
+<p class="sub">Castelnuovo di Porto nonlinear time-history &middot; target machine:
+Intel i9-9900KF, 8 cores, 32&nbsp;GB RAM.<br>
+Full instructions: <code>docs/Castelnuovo_Run_On_Desktop.pdf</code>, which is
+inside the repository once it is cloned.</p>
+
+<h2>1. Carry on a USB stick — one file only</h2>
+<table>
+  <tr><th class="box">&#9744;</th><th>File</th><th>Size</th><th>Where it is now</th></tr>
+  <tr><td class="box">&#9744;</td>
+      <td><code>castelnuovo-image.tar.gz</code><br>
+          <span class="small">the Docker image: OpenSees 3.8.0 + MUMPS, gmsh,
+          the whole Python environment</span></td>
+      <td>1.40&nbsp;GB<br><span class="small">1 496 262 271 bytes</span></td>
+      <td><code>C:\Users\mlaur\Desktop\</code></td></tr>
+</table>
+
+<p><strong>Verify the copy before trusting it.</strong> A 1.4&nbsp;GB USB
+transfer can truncate silently. On the desktop, in PowerShell, in the folder
+where you copied it:</p>
+<pre>Get-FileHash castelnuovo-image.tar.gz -Algorithm SHA256</pre>
+<p>The hash must be exactly:</p>
+<pre>FF893903453EBC636B3CD8C8B62D29FF8B5E44B2CE6F3F1286F8EEC52D468089</pre>
+<p class="small">PowerShell prints it in uppercase; the comparison is
+case-insensitive. If it differs, copy the file again — do not proceed.</p>
+
+<h2>2. Nothing else needs carrying — it all comes from GitHub</h2>
+<table>
+  <tr><th class="box">&#9744;</th><th>What</th><th>Included in the clone</th></tr>
+  <tr><td class="box">&#9744;</td><td>Analysis code, geometry, material data</td>
+      <td>yes</td></tr>
+  <tr><td class="box">&#9744;</td>
+      <td>Seismic record — Montenegro 1979, Run 2.1 longitudinal, PGA 0.593&nbsp;g<br>
+          <span class="small"><code>resources/records/castelnuovo/montenegro1979_run21_long.txt</code>
+          — already in m/s², do not rescale</span></td>
+      <td>yes</td></tr>
+  <tr><td class="box">&#9744;</td>
+      <td>Reference values for the verification step<br>
+          <span class="small"><code>resources/reference/castelnuovo_tied_10modes.json</code></span></td>
+      <td>yes</td></tr>
+  <tr><td class="box">&#9744;</td>
+      <td>The step-by-step guide (PDF)<br>
+          <span class="small"><code>docs/Castelnuovo_Run_On_Desktop.pdf</code></span></td>
+      <td>yes</td></tr>
+</table>
+<pre>git clone https://github.com/mlaura1996/modularBIMtoFEM.git
+cd modularBIMtoFEM
+git checkout chapter7-castelnuovo</pre>
+<p class="small">The branch is <code>chapter7-castelnuovo</code>, not
+<code>main</code>. Last commit as pushed: <code>67dfac8</code>.</p>
+
+<h2>3. To install on the desktop (needs internet, ~15 min)</h2>
+<table>
+  <tr><th class="box">&#9744;</th><th>Software</th><th>Notes</th></tr>
+  <tr><td class="box">&#9744;</td><td>Docker Desktop</td>
+      <td>Accept the WSL&nbsp;2 backend; reboot; start it and wait for the whale
+          icon to stop animating</td></tr>
+  <tr><td class="box">&#9744;</td><td>Git for Windows</td><td>All defaults</td></tr>
+  <tr><td class="box">&#9744;</td>
+      <td>File <code>C:\Users\&lt;user&gt;\.wslconfig</code></td>
+      <td>Contents below. Then <code>wsl --shutdown</code> and restart Docker
+          Desktop. Skipping this is the usual cause of the analysis being
+          killed with no error message.</td></tr>
+</table>
+<pre>[wsl2]
+memory=24GB
+processors=8
+swap=8GB</pre>
+
+<h2>4. Free disk space needed on the desktop</h2>
+<table>
+  <tr><th>Item</th><th>Space</th></tr>
+  <tr><td>Docker image once loaded (it decompresses)</td><td>~7 GB</td></tr>
+  <tr><td>Repository clone</td><td>~1 GB</td></tr>
+  <tr><td>Analysis output (recorders, sampled)</td><td>allow 20–30 GB</td></tr>
+  <tr><td><strong>Total, with margin</strong></td><td><strong>~50 GB</strong></td></tr>
+</table>
+
+<h2>5. Order of operations — do not reorder</h2>
+<ol>
+  <li>Install Docker Desktop + Git, write <code>.wslconfig</code>, restart.</li>
+  <li><code>docker load -i &lt;path&gt;\castelnuovo-image.tar.gz</code></li>
+  <li>Clone the repository and check out <code>chapter7-castelnuovo</code>.</li>
+  <li><strong>Run the verification</strong> —
+      <code>verify_environment.py</code>, ~20 min. It must print
+      <code>PASS</code>. Do not skip it.</li>
+  <li><strong>Run the smoke test</strong> —
+      <code>timehistory_castelnuovo.py --smoke</code>, ~10 min. Two lines
+      matter; see below.</li>
+  <li>Only then, the full run, detached.</li>
+</ol>
+
+<h2>6. Two things to report back before the full run starts</h2>
+<div class="stop"><strong>(a) The conflict guard.</strong> The smoke test prints
+either <code>conflict guard passed</code> or <code>ABORT: N node(s) are both
+tied and duplicated at a contact interface</code>. If it aborts, stop and report
+it — it is an anticipated modelling conflict, not something to work around.
+<br><br>
+<strong>(b) The recorder check.</strong> Find the block
+<code>--- recorder check after 5 steps ---</code> and send back the list of any
+recorder marked <code>EMPTY</code>. The damage-output response names for this
+material could not be verified in advance; OpenSees writes an empty file instead
+of raising an error, so a 30-hour run could otherwise finish with no damage data
+at all.</div>
+
+<div class="ok"><strong>Expected run time:</strong> roughly 15–40 hours for the
+19.5&nbsp;s window (3900 steps). The first progress line of the transient gives
+a real estimate for that machine. The setup stages before it — meshing, then
+20–60 minutes building one damage material per element — are normal and not a
+hang.
+<br><br>
+<strong>The 8 cores will not speed this up:</strong> the solver is sequential.
+And <strong>there is no restart</strong> — if the run is interrupted it begins
+again from zero, so disable Windows automatic restarts and sleep first.</div>
+
+<p class="small">After copying the image to the desktop, delete
+<code>castelnuovo-image.tar.gz</code> from the laptop Desktop — that drive is at
+97% capacity.</p>
