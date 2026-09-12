@@ -80,6 +80,11 @@ cum_y = np.array([float(r["PRMy_cum"]) for r in rows])
 # 0-65% for its own model; this aggregate's modes sit between about 6 and
 # 37 Hz with no mode above ~21%, so reusing those numbers would leave the
 # plot almost empty.
+#
+# Starting at the first mode rather than at 0 Hz is deliberate: anchoring
+# the axis at zero leaves a long empty strip that the cumulative curves can
+# only cross as a straight interpolated ramp, which reads as mass building
+# up gradually where in fact nothing participates until the first mode.
 XMIN = float(np.floor(freq.min() / 5.0) * 5)
 XMAX = float(np.ceil(freq.max() / 5.0) * 5)
 YMAX = float(np.ceil(max(prm_x.max(), prm_y.max()) / 5.0) * 5 + 5)
