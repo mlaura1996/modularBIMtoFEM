@@ -39,32 +39,58 @@ from matplotlib import cm
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection, Line3DCollection
 
 STEP_PATH = "resources/ifc_examples/castelnuovo/example_clean_PRONTO.stp"
-DATA_DIR = "output/castelnuovo/recorders_castelnuovo_native"
 GLOBAL_MESH_SIZE = 0.6
-N_MODES = 10
 DEFORM_SCALE_SELFWEIGHT = 200.0
 MAX_MODE_DISPLACEMENT_M = 0.5
 VIEWS = [(18, -65), (25, -20)]
 GEOM_EDGE_COLOR = "#2b2b2b"
 GEOM_EDGE_LINEWIDTH = 0.6
-IMG_PREFIX = "full_aggregate_native"
-IMG_SUFFIX = "NATIVE"
+
+# Which run to plot. The node ordering here is derived from the mesh, and
+# every displacement file is read positionally against it, so the mesh MUST
+# be the one the analysis used. Re-meshing the STEP reproduces that only
+# for the uniform 0.6 m runs; the tied run's mesh is locally refined in two
+# passes, so that run is plotted from the .msh it exported rather than
+# re-derived - reproducing a two-pass refinement by hand and hoping it
+# matches is exactly the kind of silent mismatch that puts the wrong
+# picture next to the right numbers.
+RUNS = {
+    "native": ("output/castelnuovo/recorders_castelnuovo_native",
+               None, "full_aggregate_native", "NATIVE"),
+    "tied": ("output/castelnuovo/recorders_castelnuovo_tied",
+             "castelnuovo_tied.msh", "full_aggregate_tied", "TIED"),
+    "tied80": ("output/castelnuovo/recorders_castelnuovo_tied_80modes",
+               "castelnuovo_tied.msh", "full_aggregate_tied", "TIED"),
+}
+RUN = sys.argv[1] if len(sys.argv) > 1 else "native"
+if RUN not in RUNS:
+    sys.exit(f"Unknown run {RUN!r} - choose one of: {', '.join(RUNS)}")
+DATA_DIR, _MSH_NAME, IMG_PREFIX, IMG_SUFFIX = RUNS[RUN]
+MSH_PATH = os.path.join(DATA_DIR, _MSH_NAME) if _MSH_NAME else None
+# Plot only the first N modes - the 80-mode run's later modes are tiny local
+# mechanisms that no one reads off a figure.
+N_MODES = int(sys.argv[2]) if len(sys.argv) > 2 else 10
 
 # --- 1. Re-mesh (same settings as eigen_castelnuovo_native_gmsh.py) to get
 # a live gmsh session for surface/curve queries. ---
 gmsh.initialize()
 gmsh.option.setNumber("General.Terminal", 1)
 gmsh.model.add("plot_castelnuovo_native")
-gmsh.open(STEP_PATH)
-gmsh.model.occ.fragment(gmsh.model.occ.getEntities(3), [])
-gmsh.model.occ.synchronize()
+if MSH_PATH:
+    if not os.path.isfile(MSH_PATH):
+        sys.exit(f"Missing {MSH_PATH} - run docker/opensees/"
+                 f"eigen_castelnuovo_tied.py (or it with --mesh-only) first.")
+    gmsh.open(MSH_PATH)
+    print(f"Loaded the analysed mesh from {MSH_PATH}")
+else:
+    gmsh.open(STEP_PATH)
+    gmsh.model.occ.fragment(gmsh.model.occ.getEntities(3), [])
+    gmsh.model.occ.synchronize()
+    gmsh.model.mesh.setOrder(1)
+    gmsh.option.setNumber("Mesh.MeshSizeMax", GLOBAL_MESH_SIZE)
+    gmsh.model.mesh.generate(3)
 all_vols = gmsh.model.getEntities(3)
 vol_tags = [t for _, t in all_vols]
-pg_tag = gmsh.model.addPhysicalGroup(3, vol_tags)
-gmsh.model.setPhysicalName(3, pg_tag, "Masonry")
-gmsh.model.mesh.setOrder(1)
-gmsh.option.setNumber("Mesh.MeshSizeMax", GLOBAL_MESH_SIZE)
-gmsh.model.mesh.generate(3)
 
 all_node_tags, all_node_coords, _ = gmsh.model.mesh.getNodes()
 node_tags_sorted = np.array(sorted(int(t) for t in all_node_tags), dtype=np.int64)
