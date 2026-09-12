@@ -1,0 +1,357 @@
+<meta charset="utf-8">
+<title>Castelnuovo nonlinear time-history — how to run it</title>
+<style>
+  @page { size: A4; margin: 18mm 16mm; }
+  body { font: 10.5pt/1.45 "Segoe UI", system-ui, sans-serif; color: #1a1a1a; }
+  h1 { font-size: 19pt; margin: 0 0 2mm; }
+  h2 { font-size: 13pt; margin: 7mm 0 2mm; padding-bottom: 1mm;
+       border-bottom: 1.5pt solid #1f4e79; color: #1f4e79; }
+  h3 { font-size: 11pt; margin: 4mm 0 1.5mm; color: #333; }
+  .sub { color: #555; font-size: 9.5pt; margin: 0 0 4mm; }
+  pre { background: #f4f5f7; border-left: 3pt solid #1f4e79; padding: 2.5mm 3mm;
+        font: 8.8pt/1.35 Consolas, "Courier New", monospace; white-space: pre-wrap;
+        word-break: break-all; margin: 1.5mm 0 3mm; }
+  code { font: 9pt Consolas, monospace; background: #f0f1f3; padding: 0 1mm; }
+  table { border-collapse: collapse; width: 100%; margin: 2mm 0 4mm; font-size: 9.3pt; }
+  th, td { border: 0.5pt solid #bbb; padding: 1.3mm 2mm; text-align: left;
+           vertical-align: top; }
+  th { background: #e8edf3; font-weight: 600; }
+  .warn { background: #fff4e5; border-left: 3pt solid #c77700; padding: 2.5mm 3mm;
+          margin: 2mm 0 3mm; }
+  .stop { background: #fdecec; border-left: 3pt solid #b00000; padding: 2.5mm 3mm;
+          margin: 2mm 0 3mm; }
+  .ok { background: #eaf5ea; border-left: 3pt solid #2d7a2d; padding: 2.5mm 3mm;
+        margin: 2mm 0 3mm; }
+  ol, ul { margin: 1mm 0 3mm; padding-left: 6mm; }
+  li { margin-bottom: 1mm; }
+  .step { background: #1f4e79; color: #fff; padding: 0.6mm 2.2mm; border-radius: 2mm;
+          font-size: 9.5pt; margin-right: 2mm; }
+  .small { font-size: 9pt; color: #555; }
+  h2 { page-break-after: avoid; }
+  pre, table, .warn, .stop, .ok { page-break-inside: avoid; }
+</style>
+
+<h1>Castelnuovo di Porto — nonlinear time-history</h1>
+<p class="sub">Step-by-step instructions for running the analysis on the desktop
+machine (Intel i9-9900KF, 8 cores, 32&nbsp;GB RAM).<br>
+Everything runs inside a Docker container, so nothing needs to be installed on
+Windows except Docker Desktop and Git.</p>
+
+<h2>0. What you are about to run, and what it costs</h2>
+
+<p>A nonlinear dynamic (time-history) analysis of a masonry building aggregate:
+about 35,000 nodes and 120,000 tetrahedral elements, with a damage-plasticity
+material, contact interfaces between units, and multi-point constraints that
+restore wall continuity the source geometry had lost.</p>
+
+<table>
+  <tr><th>Quantity</th><th>Value</th><th>Where it comes from</th></tr>
+  <tr><td>Seismic input</td>
+      <td>1979 Montenegro, Ulcinj–Hotel Albatros, longitudinal component as
+          delivered in SERA-AIMS Run&nbsp;2.1 — PGA 0.593&nbsp;g at
+          t&nbsp;=&nbsp;12.345&nbsp;s</td>
+      <td>Same record as Chapter 6; committed in the repository already
+          converted to m/s²</td></tr>
+  <tr><td>Time step / duration</td><td>0.005 s, 19.5 s → 3900 increments</td>
+      <td>Chapter 6's own setup for this record</td></tr>
+  <tr><td>Integrator</td><td>TRBDF2</td>
+      <td>Chapter 6 — composite scheme, damps the spurious high-frequency
+          oscillations that contact and softening produce</td></tr>
+  <tr><td>Solver / iteration</td>
+      <td>UmfPack, Newton with line search, energy-increment test
+          1×10⁻³, 200 iterations</td>
+      <td>Chapter 6</td></tr>
+  <tr><td>Damping</td><td>Rayleigh, 3% at modes 1 and 10
+          (5.786 and 10.695 Hz)</td>
+      <td>Chapter 6's convention; frequencies from the 80-mode modal run</td></tr>
+  <tr><td>Expected wall-clock time</td><td><strong>roughly 15–40 hours</strong></td>
+      <td>Extrapolated from a measured ~5 s per stiffness factorisation on a
+          6-core i7-10750H; see the note below</td></tr>
+</table>
+
+<div class="warn"><strong>About the run time.</strong> The estimate is a
+projection, not a measurement on this machine. It was obtained by timing one
+stiffness factorisation on the real model (≈5 s at 101,634 free degrees of
+freedom) and multiplying by steps × iterations. The spread is wide because the
+number of Newton iterations per step depends on how much the masonry cracks,
+which is not known in advance.
+<br><br>
+<strong>More cores will not make this faster.</strong> The solver used here
+(UmfPack) is sequential — it runs on one core. The i9-9900KF helps through its
+higher single-core clock, not through having 8 cores. Using all cores would
+require the parallel route (OpenSeesMP + MUMPS), which is not what this script
+does and carries an unresolved risk with the multi-point constraints.</p>
+</div>
+
+<h2>1. Install the prerequisites</h2>
+<ol>
+  <li><strong>Docker Desktop</strong> — <code>https://www.docker.com/products/docker-desktop/</code><br>
+      During installation accept the WSL 2 backend. Reboot when asked, then
+      start Docker Desktop and wait until the whale icon stops animating.</li>
+  <li><strong>Git</strong> — <code>https://git-scm.com/download/win</code>
+      (accept all defaults).</li>
+</ol>
+
+<h3>1a. Give Docker enough memory (important)</h3>
+<p>On Windows, Docker Desktop runs inside WSL 2, which by default caps itself at
+half the host RAM and may release it poorly. A direct sparse factorisation of
+this model is memory-hungry. Create the file
+<code>C:\Users\&lt;your-user&gt;\.wslconfig</code> with this content, then run
+<code>wsl --shutdown</code> and restart Docker Desktop:</p>
+<pre>[wsl2]
+memory=24GB
+processors=8
+swap=8GB</pre>
+<p class="small">24 GB of the 32 GB leaves Windows enough to stay responsive.
+If the analysis is later killed without an error message, that is the classic
+symptom of running out of memory — raise this value and retry.</p>
+
+<h2>2. Get the code</h2>
+<pre>cd C:\
+mkdir work
+cd C:\work
+git clone https://github.com/mlaura1996/modularBIMtoFEM.git
+cd modularBIMtoFEM
+git checkout chapter7-castelnuovo
+git log --oneline -3</pre>
+<p>The last command should list recent commits mentioning the time-history and
+the junction ties. The branch is <code>chapter7-castelnuovo</code> — not
+<code>main</code>.</p>
+
+<div class="warn"><strong>If the branch is missing or out of date:</strong> the
+commits may not have been pushed yet. Ask Maria Laura to run
+<code>git push origin chapter7-castelnuovo</code> on her laptop first, then
+<code>git fetch &amp;&amp; git checkout chapter7-castelnuovo</code> here.</div>
+
+<h2>3. Get the Docker image</h2>
+<p>The image contains OpenSees 3.8.0 compiled with MUMPS, gmsh, and the whole
+Python environment — about 7 GB. There are two ways to get it; <strong>the first
+is strongly preferred</strong>.</p>
+
+<h3>Option A — copy the exact image (preferred)</h3>
+<p>On Maria Laura's laptop:</p>
+<pre>docker save modularbimtofem-opensees-mp:dev | gzip &gt; castelnuovo-image.tar.gz</pre>
+<p>Copy that file across (external drive or network share), then here:</p>
+<pre>docker load -i D:\castelnuovo-image.tar.gz
+docker images modularbimtofem-opensees-mp</pre>
+<p>This is preferred because it gives bit-identical binaries. Results computed
+here are then comparable with everything already in the thesis.</p>
+
+<h3>Option B — rebuild it</h3>
+<pre>cd C:\work\modularBIMtoFEM
+docker build -f docker/opensees/Dockerfile -t modularbimtofem-opensees-mp:dev .</pre>
+<p class="small">Takes 20–40 minutes and needs internet. The build pins the
+versions that matter (MUMPS commit, OpenSees v3.8.0, Python 3.10.12, numpy,
+pandas, matplotlib, ifcopenshell), but the Ubuntu system packages are not
+pinned, so a rebuild months later is not guaranteed to be identical. Use
+Option A unless it is impossible.</p>
+
+<h2>4. Verify the machine reproduces the model</h2>
+<div class="stop"><strong>Do not skip this step.</strong> It takes about 20
+minutes and it is the difference between a 30-hour run that is usable and a
+30-hour run that has to be thrown away. It re-runs the whole pipeline and
+compares node counts, total volume, junction count, constraint count,
+self-weight, base reaction and all ten eigenvalues against reference values
+committed in the repository.</div>
+
+<p>Open <strong>PowerShell</strong> in <code>C:\work\modularBIMtoFEM</code> and run:</p>
+<pre>docker run --rm -v "${PWD}:/app" -w /app `
+  --entrypoint conda modularbimtofem-opensees-mp:dev `
+  run --no-capture-output -n appenv `
+  python docker/opensees/verify_environment.py</pre>
+
+<p>The last line must read:</p>
+<pre>PASS - this machine reproduces the reference model.</pre>
+
+<table>
+  <tr><th>If it says…</th><th>What it means</th><th>What to do</th></tr>
+  <tr><td>FAIL on <code>mesh_nodes</code> or <code>mesh_elements</code></td>
+      <td>gmsh or the OCC geometry kernel behaved differently, so the model was
+          meshed differently</td>
+      <td>You are not using the same image — use Option A</td></tr>
+  <tr><td>FAIL on <code>total_volume_m3</code></td>
+      <td>The input STEP geometry differs</td>
+      <td>The repository checkout is wrong or incomplete; re-clone</td></tr>
+  <tr><td>FAIL on <code>equaldof_constraints</code></td>
+      <td>The junction ties came out different — the walls are connected
+          differently than in the reference model</td>
+      <td>Stop and report this; do not run the analysis</td></tr>
+  <tr><td>FAIL on eigenvalues only, by ~1e-5 or more</td>
+      <td>Same model, different solver behaviour</td>
+      <td>Report the numbers before continuing</td></tr>
+  <tr><td>Killed with no message</td><td>Out of memory</td>
+      <td>Raise <code>memory</code> in <code>.wslconfig</code> (step 1a)</td></tr>
+</table>
+
+<h2>5. Smoke test — 10 minutes, and it checks two specific things</h2>
+<pre>docker run --rm -v "${PWD}:/app" -w /app `
+  --entrypoint conda modularbimtofem-opensees-mp:dev `
+  run --no-capture-output -n appenv `
+  python docker/opensees/timehistory_castelnuovo.py --smoke</pre>
+
+<p>This uses a coarse mesh and a handful of time steps. It is not a physical
+result — it exists to check the wiring. Two lines in its output matter more than
+anything else:</p>
+
+<h3>5a. The conflict guard</h3>
+<p>Look for either:</p>
+<pre>conflict guard passed: no tied node is also an interface duplicate</pre>
+<p>or:</p>
+<pre>ABORT: N node(s) are both tied and duplicated at a contact interface</pre>
+<div class="stop"><strong>If it aborts, stop and report it.</strong> This is a
+known, anticipated conflict, not a bug to work around. Two walls (volumes 91 and
+107) carry both a contact interface and junction ties. If a node belongs to
+both, the constraint ends up pointing at a node its own wall no longer uses:
+OpenSees accepts it, nothing errors, the constraint carries no load, and the
+wall junction is silently open again — which is the exact defect this model was
+built to fix. Resolving it is a modelling decision (which face should transmit
+contact and which continuity), so it is deliberately not automated.</div>
+
+<h3>5b. The recorder check</h3>
+<p>Look for the block beginning <code>--- recorder check after 5 steps ---</code>
+and note which recorders report <code>EMPTY</code>.</p>
+<div class="warn">The damage-output response names for this material
+(<code>ASDConcrete3D</code>) could not be verified in advance, because the
+analysis was not run on the laptop. OpenSees does <em>not</em> raise an error for
+an unknown element response — it creates the recorder and writes an empty file.
+So the script registers several candidate names and reports which ones actually
+produced data. <strong>Send that list back before starting the full run.</strong>
+The strain and stress recorders, the displacements and the reactions are
+standard and are expected to work; it is specifically the
+<code>solid_damage*</code> ones that need confirming.</div>
+
+<h2>6. The full run</h2>
+<p>Run it <strong>detached</strong>, so closing the window does not kill it:</p>
+<pre>docker run -d --name castelnuovo-th `
+  -v "${PWD}:/app" -w /app `
+  --memory=22g `
+  --entrypoint conda modularbimtofem-opensees-mp:dev `
+  run --no-capture-output -n appenv `
+  python docker/opensees/timehistory_castelnuovo.py</pre>
+
+<p>Follow the progress:</p>
+<pre>docker logs -f castelnuovo-th</pre>
+<p>or read the log file directly, which is also written as the run proceeds:</p>
+<pre>Get-Content -Wait output\castelnuovo\recorders_timehistory\progress.log</pre>
+
+<p>Every 2% of the run it prints a line like:</p>
+<pre>[14:32:07] step 780/3900  t=3.900 s  elapsed 3.41 h  ETA 13.65 h</pre>
+<p>The first such line gives a real estimate for this machine. The stages before
+the transient starts take their own time and are normal:</p>
+<table>
+  <tr><th>Stage</th><th>Roughly</th></tr>
+  <tr><td>Geometry, two-pass meshing</td><td>10–15 min</td></tr>
+  <tr><td>Building elements (one damage material per element)</td>
+      <td>20–60 min — the slowest setup stage, it is not stuck</td></tr>
+  <tr><td>Static self-weight (10 nonlinear steps)</td><td>5–15 min</td></tr>
+  <tr><td>Transient, 3900 steps</td><td>the rest</td></tr>
+</table>
+
+<h3>Protect the run</h3>
+<ul>
+  <li><strong>Disable automatic restarts:</strong> Settings → Windows Update →
+      Advanced options → set active hours, and turn off "Restart this device as
+      soon as possible".</li>
+  <li><strong>Disable sleep and hibernation:</strong> Settings → System → Power →
+      Screen and sleep → set both to <em>Never</em>. Sleeping the host suspends
+      the container.</li>
+  <li><strong>Leave Docker Desktop running.</strong> Do not sign out of Windows.</li>
+</ul>
+<div class="stop"><strong>There is no restart capability.</strong> The damage
+material keeps its state inside each element; that state cannot be rebuilt from
+the recorded displacements, and OpenSees' own save/restore does not cover it
+reliably. If the run dies at hour 20 it starts again from zero. This is why the
+three points above matter. The recorders are written continuously, so an
+interruption at least leaves the response up to that moment usable.</div>
+
+<h2>7. Post-processing</h2>
+<pre>docker run --rm -v "${PWD}:/app" -w /app `
+  --entrypoint conda modularbimtofem-opensees-mp:dev `
+  run --no-capture-output -n appenv `
+  python scripts/postprocess_timehistory.py `
+  output/castelnuovo/recorders_timehistory</pre>
+
+<p>This writes, into the same folder:</p>
+<table>
+  <tr><th>File</th><th>Contents</th></tr>
+  <tr><td><code>principal_strains.csv</code></td>
+      <td>Per element: peak tensile and peak compressive principal strain and
+          when each occurred. Computed here, not by OpenSees — principal strains
+          are the eigenvalues of the strain tensor, and OpenSees records only
+          the six components.</td></tr>
+  <tr><td><code>damage_map.csv</code></td>
+      <td>Per element: peak damage. The data behind a damage-pattern figure.</td></tr>
+  <tr><td><code>response.csv</code></td>
+      <td>Per step: roof displacement Rd, base shear BS, base shear coefficient
+          BS/W, global drift ratio. The hysteretic loops are BS/W against the
+          drift ratio.</td></tr>
+  <tr><td><code>energy.csv</code></td>
+      <td>Per step: cumulative dissipated hysteretic energy.</td></tr>
+  <tr><td><code>interface_opening.csv</code></td>
+      <td>Per step: maximum opening across the unit-to-unit contact interfaces
+          (Id).</td></tr>
+  <tr><td><code>summary_postprocess.json</code></td>
+      <td>All the peaks and totals in one place.</td></tr>
+</table>
+
+<h2>8. What to send back</h2>
+<p>The result files are small compared with the raw recorders. Zip and return:</p>
+<pre>Compress-Archive -Path output\castelnuovo\recorders_timehistory\*.csv,`
+  output\castelnuovo\recorders_timehistory\*.json,`
+  output\castelnuovo\recorders_timehistory\progress.log `
+  -DestinationPath castelnuovo-results.zip</pre>
+<p>Include <code>progress.log</code> — it records the wall-clock time, any steps
+that needed subdivision, and the recorder check, all of which belong in the
+thesis record.</p>
+
+<h2>9. Troubleshooting</h2>
+<table>
+  <tr><th>Symptom</th><th>Cause</th><th>Fix</th></tr>
+  <tr><td><code>docker: command not found</code></td><td>Docker Desktop not
+      running or not installed</td><td>Start Docker Desktop, wait for the icon
+      to settle</td></tr>
+  <tr><td><code>invalid reference format</code> or path errors</td>
+      <td>PowerShell vs cmd quoting</td>
+      <td>Use PowerShell, keep the quotes around
+          <code>"${PWD}:/app"</code>, and use the backtick <code>`</code> for
+          line continuation (not <code>\</code>)</td></tr>
+  <tr><td>Container exits immediately, no output</td><td>Out of memory</td>
+      <td>Raise <code>.wslconfig</code> memory; lower <code>--memory</code>
+          only if Windows itself becomes unusable</td></tr>
+  <tr><td><code>ABORT: gravity did not converge</code></td>
+      <td>The model cannot carry its own weight — a modelling problem, not a
+          machine problem</td>
+      <td>Stop and report. A time-history on such a model is meaningless.</td></tr>
+  <tr><td>Many <code>step N needed subdivision</code> lines</td>
+      <td>Normal with contact and cracking; the step is retried at one tenth</td>
+      <td>Nothing — but it slows the run, so the ETA will grow</td></tr>
+  <tr><td><code>ABORT: 5 steps failed to converge even subdivided</code></td>
+      <td>The analysis genuinely cannot proceed</td>
+      <td>Stop. The response up to that point is recorded and usable, but it
+          must be reported as a run that stopped early, not as a complete
+          one.</td></tr>
+  <tr><td>Run is much slower than the ETA suggested</td>
+      <td>Thermal throttling, or another heavy program is competing</td>
+      <td>Close other work; check the CPU is not being shared</td></tr>
+</table>
+
+<h2>10. Quick reference</h2>
+<table>
+  <tr><th>Purpose</th><th>Command</th></tr>
+  <tr><td>Verify the machine</td>
+      <td><code>python docker/opensees/verify_environment.py</code></td></tr>
+  <tr><td>Smoke test</td>
+      <td><code>python docker/opensees/timehistory_castelnuovo.py --smoke</code></td></tr>
+  <tr><td>Full run</td>
+      <td><code>python docker/opensees/timehistory_castelnuovo.py</code></td></tr>
+  <tr><td>Excite in Y instead of X</td>
+      <td><code>… timehistory_castelnuovo.py --dof 2</code></td></tr>
+  <tr><td>Shorter window (e.g. 5 s, for testing)</td>
+      <td><code>… timehistory_castelnuovo.py --duration 5</code></td></tr>
+  <tr><td>Post-process</td>
+      <td><code>python scripts/postprocess_timehistory.py &lt;run_dir&gt;</code></td></tr>
+  <tr><td>Stop a detached run</td><td><code>docker stop castelnuovo-th</code></td></tr>
+  <tr><td>Remove a finished container</td><td><code>docker rm castelnuovo-th</code></td></tr>
+</table>
+<p class="small">All the Python commands above are prefixed by the same Docker
+wrapper shown in step 4. Nothing is ever run with the Windows Python directly.</p>

@@ -97,10 +97,24 @@ STEP_PATH = "resources/ifc_examples/castelnuovo/example_clean_PRONTO.stp"
 SELECTION_PATH = "resources/survey_data/castelnuovo/interface_selection.json"
 OUT_DIR = argval("--out-dir", "output/castelnuovo/recorders_timehistory"
                  + ("_smoke" if SMOKE else ""))
-RECORD = argval("--record")
-RECORD_SCALE = argval("--record-scale", 9.81, float)  # g -> m/s^2 by default
-DURATION = argval("--duration", 0.05 if SMOKE else 20.0, float)
+# The Chapter 6 record, already converted to m/s^2 in the repository, so the
+# scale factor is 1.0 and not 9.81: applying a g-conversion on top would be
+# a silent factor of 10 on the input. See the file's own header.
+RECORD = argval("--record",
+                "resources/records/castelnuovo/montenegro1979_run21_long.txt")
+RECORD_SCALE = argval("--record-scale", 1.0, float)
+# 0.005 s and ~3900 increments are Chapter 6's own setup for this record
+# ("the transient analysis spans the strong motion window with a nominal
+# step of the same order ... for a total of approximately 3900
+# increments"), i.e. a 19.5 s window out of the record's full 38.9 s. The
+# PGA falls at t = 12.345 s, well inside it.
+DURATION = argval("--duration", 0.05 if SMOKE else 19.5, float)
 DT = argval("--dt", 0.005, float)
+# Chapter 6 applied the longitudinal component in y. Castelnuovo has its own
+# orientation and its mass-carrying modes are mode 1 in X (PRMx 20.98%) and
+# mode 7 in Y (PRMy 18.44%), so the direction is a parameter rather than
+# inherited: 1 = X, 2 = Y.
+EXC_DOF = argval("--dof", 1, int)
 
 # The smoke run exists to test the WIRING, not the physics: a coarse mesh
 # with no junction refinement builds in a couple of minutes instead of
@@ -138,14 +152,16 @@ KN_NOMINAL = 69000.0 * 1e9
 KT_NOMINAL = 0.001 * 1e9
 MU_FRICTION = 0.6
 
-# --- damping. Rayleigh anchored on the two modes that actually carry the
-# translational mass in this model, measured by the 80-mode tied run:
-# mode 1 at 5.786 Hz (PRMx 20.98%) and mode 7 at 9.101 Hz (PRMy 18.44%).
-# Anchoring on modes 1 and 2 by eigenvalue order would be the usual reflex
-# and wrong here - mode 2 carries 5.7%/5.7%, and the Y direction would be
-# left essentially undamped at its governing frequency.
-F1_HZ, F2_HZ = 5.786, 9.101
-XI = argval("--damping", 0.05, float)
+# --- damping. Chapter 6's own convention: "The target ratio of 3% is
+# imposed at the first and tenth modes" - so 3% anchored at modes 1 and 10,
+# not at modes 1 and 2. Frequencies from the 80-mode tied run: mode 1 =
+# 5.786 Hz, mode 10 = 10.695 Hz. That bracket happens to contain every mode
+# that carries appreciable mass here (modes 1-9 hold 51.7% X / 54.8% Y),
+# which is exactly why anchoring at 1 and 10 works: inside the bracket the
+# damping dips below the target, outside it rises, and the mass-carrying
+# modes are all inside.
+F1_HZ, F2_HZ = 5.786, 10.695
+XI = argval("--damping", 0.03, float)
 
 G_ACCEL = 9.81
 os.makedirs(OUT_DIR, exist_ok=True)
@@ -449,8 +465,8 @@ say(f"{n_contact} zeroLengthContactASDimplex elements on "
 ops.system("UmfPack")
 ops.numberer("RCM")
 ops.constraints("Transformation")   # mandatory: Plain ignores equalDOF
-ops.test("NormDispIncr", 1e-6, 50, 1)
-ops.algorithm("Newton")
+ops.test("EnergyIncr", 1e-3, 200, 1)
+ops.algorithm("NewtonLineSearch")
 GRAVITY_STEPS = 2 if SMOKE else 10
 ops.integrator("LoadControl", 1.0 / GRAVITY_STEPS)
 ops.analysis("Static")
@@ -484,25 +500,150 @@ say(f"Rayleigh: {XI*100:.1f}% at {F1_HZ} and {F2_HZ} Hz -> "
     f"alphaM={a0:.5f}, betaK={a1:.6f}")
 
 ops.timeSeries("Path", 1, "-dt", record_dt, "-values", *[float(a) for a in accel])
-ops.pattern("UniformExcitation", 1, 1, "-accel", 1)   # dof 1 = X
-say("UniformExcitation applied in X (dof 1)")
+ops.pattern("UniformExcitation", 1, EXC_DOF, "-accel", 1)
+say(f"UniformExcitation applied in dof {EXC_DOF} "
+    f"({'X' if EXC_DOF == 1 else 'Y' if EXC_DOF == 2 else 'Z'})")
 
-# Recorders written as the run goes, so a crash or a reboot loses only the
-# tail rather than everything. See the restart note at the end.
+# --- recorders -----------------------------------------------------------
+# The output quantities are the ones Chapter 6 reports, so the two chapters
+# can be compared without re-deriving anything: damage pattern, roof
+# displacement, base shear (for the hysteretic loops), interface opening,
+# and the strain tensor from which principal strains are computed in
+# post-processing.
+#
+# Written as the run proceeds, so an interruption loses only the tail.
+#
+# A caveat that has to be stated rather than hidden: the exact response
+# STRINGS for ASDConcrete3D through FourNodeTetrahedron are not verified
+# here, because this machine is not running the analysis. OpenSees does not
+# raise on an unknown element response - it creates the recorder and writes
+# an empty file - so several candidate names are registered and
+# check_recorders() below reports which ones actually produced data after
+# the first steps. Run --smoke on the target machine and read that report
+# before launching the full analysis; a 30-hour run that turns out to have
+# written empty damage files is the whole point of doing this.
+recorder_files = {}
+
+
+def add_recorder(label, *args):
+    path = f"{OUT_DIR}/{label}.txt"
+    try:
+        tag = ops.recorder(*(list(args[:1]) + ["-file", path] + list(args[1:])))
+        recorder_files[label] = path
+        return tag
+    except Exception as exc:            # noqa: BLE001 - report, do not abort
+        say(f"  recorder {label!r} rejected outright: {exc}")
+        return None
+
+
+# Roof displacement (Rd in Chapter 6's notation): the highest nodes.
 top_nodes = sorted(node_z, key=lambda n: -node_z[n])[:20]
-ops.recorder("Node", "-file", f"{OUT_DIR}/top_disp.txt", "-time",
+add_recorder("roof_disp", "Node", "-time",
              "-node", *[int(n) for n in top_nodes], "-dof", 1, 2, 3, "disp")
-ops.recorder("Node", "-file", f"{OUT_DIR}/base_reaction.txt", "-time",
-             "-node", *[int(n) for n in base_arr[:200]], "-dof", 1, 2, 3, "reaction")
+add_recorder("roof_accel", "Node", "-time",
+             "-node", *[int(n) for n in top_nodes], "-dof", 1, 2, 3, "accel")
+# Base shear (BS): every fixed node's reaction, summed in post-processing.
+add_recorder("base_reaction", "Node", "-time",
+             "-node", *[int(n) for n in base_arr], "-dof", 1, 2, 3, "reaction")
+# Interface opening (Id): both sides of every contact pair, so the relative
+# displacement across the joint is a subtraction in post-processing.
+if_pairs = [(o, d) for c in selected for o, d in c["node_map"].items()]
+if if_pairs:
+    if_nodes = sorted({int(n) for pair in if_pairs for n in pair})
+    add_recorder("interface_disp", "Node", "-time",
+                 "-node", *if_nodes, "-dof", 1, 2, 3, "disp")
+    with open(f"{OUT_DIR}/interface_node_pairs.txt", "w") as fh:
+        fh.write("# original_node,duplicate_node,interface_key\n")
+        for c in selected:
+            k = InterfaceSelection.key_for(c)
+            for o, d in c["node_map"].items():
+                fh.write(f"{o},{d},{k}\n")
+    say(f"{len(if_pairs)} interface node pairs recorded for the opening (Id)")
+
+# Contact element forces at the inter-unit joint.
+contact_eles = [e for c in contact for e in c["elements"]]
+if contact_eles:
+    add_recorder("contact_force", "Element", "-time",
+                 "-ele", *[int(e) for e in contact_eles], "force")
+
+# Damage and strain on the solid elements. Recording all 120k elements at
+# every step would write hundreds of GB, so a subset is sampled - every
+# SOLID_SAMPLE-th element - plus every element of the volumes that carry a
+# contact interface or a tie, which are where the damage is expected.
+SOLID_SAMPLE = 1 if SMOKE else 20
+interesting_vols = ({c["volume_a"] for c in selected} |
+                    {c["volume_b"] for c in selected} |
+                    {v for a, b, _g in open_junctions for v in (a, b)})
+focus_eles = set()
+for v in interesting_vols:
+    _et, etg, _en = gmsh.model.mesh.getElements(dim=3, tag=v)
+    for tags in etg:
+        focus_eles.update(int(t) for t in tags)
+sampled = set(int(e) for e in element_tags[::SOLID_SAMPLE]) | focus_eles
+sampled = sorted(sampled & set(int(e) for e in element_tags))
+say(f"{len(sampled)} of {len(element_tags)} solid elements recorded "
+    f"(every {SOLID_SAMPLE}th, plus all {len(focus_eles)} in the "
+    f"{len(interesting_vols)} volumes carrying an interface or a tie)")
+
+# Strain tensor: 6 components per element. Principal strains are the
+# eigenvalues of that tensor and are NOT an OpenSees output - they are
+# computed by scripts/postprocess_timehistory.py from this file.
+add_recorder("solid_strain", "Element", "-time",
+             "-ele", *sampled, "material", "1", "strain")
+add_recorder("solid_stress", "Element", "-time",
+             "-ele", *sampled, "material", "1", "stress")
+# ASDConcrete3D damage. Candidate response names, all registered: whichever
+# writes a non-empty file is the right one on this build.
+for cand in ("damage", "Damage", "damage_tension", "equivalent_plastic_strain",
+             "crack_width"):
+    add_recorder(f"solid_{cand}", "Element", "-time",
+                 "-ele", *sampled, "material", "1", cand)
+say(f"{len(recorder_files)} recorders registered")
 
 ops.wipeAnalysis()
 ops.system("UmfPack")
 ops.numberer("RCM")
 ops.constraints("Transformation")
-ops.test("NormDispIncr", 1e-5, 50, 0)
-ops.algorithm("Newton")
-ops.integrator("Newmark", 0.5, 0.25)
+# Chapter 6's setup, verbatim: "Convergence is checked with an energy
+# increment criterion, using a tolerance of 1e-3 and a limit of 200
+# iterations per step. The energy norm is preferred to a displacement or
+# force norm because it remains more balanced in the presence of localised
+# stiffness loss and distributed cracking." And "a Newton iteration
+# augmented by a line search, which improves robustness when the tangent
+# stiffness degrades as the masonry softens."
+ops.test("EnergyIncr", 1e-3, 200, 0)
+ops.algorithm("NewtonLineSearch")
+# TRBDF2, not Newmark. Chapter 6 again: the composite trapezoidal/backward-
+# difference scheme gives stronger numerical damping at high frequencies,
+# which suppresses the spurious oscillations that contact and softening
+# generate, while leaving the low-frequency response essentially
+# unaffected. A model with cracking, interface opening and pounding is
+# precisely the case it exists for - using Newmark here would depart from
+# the chapter's own method for no reason.
+ops.integrator("TRBDF2")
 ops.analysis("Transient")
+
+
+def check_recorders(after_what):
+    """Report which recorders actually wrote data. OpenSees accepts an
+    unknown element response and then writes nothing, so an empty file
+    means the response string is wrong on this build - not that the
+    quantity is zero."""
+    say(f"--- recorder check after {after_what} ---")
+    empty = []
+    for label, path in sorted(recorder_files.items()):
+        size = os.path.getsize(path) if os.path.exists(path) else -1
+        state = ("MISSING" if size < 0 else "EMPTY" if size == 0
+                 else f"{size/1024:.1f} kB")
+        say(f"    {label:34s} {state}")
+        if size <= 0:
+            empty.append(label)
+    if empty:
+        say(f"    {len(empty)} recorder(s) wrote nothing: {', '.join(empty)}. "
+            f"For the solid_* ones that means the response name is not valid "
+            f"on this OpenSees build; keep the ones that worked and drop the "
+            f"rest before the full run.")
+    return empty
 
 n_steps = int(round(DURATION / DT))
 say(f"transient: {n_steps} steps of {DT} s ({DURATION} s), "
@@ -532,6 +673,8 @@ for step in range(1, n_steps + 1):
                 break
         else:
             say(f"step {step}/{n_steps} needed subdivision into 10")
+    if step == 5:
+        check_recorders("5 steps")
     if step % max(1, n_steps // 50) == 0 or step == n_steps:
         el = time.perf_counter() - t_start
         eta = el / step * (n_steps - step)
@@ -540,6 +683,7 @@ for step in range(1, n_steps + 1):
 
 wall = time.perf_counter() - t_start
 say(f"transient finished: {wall/3600:.2f} h, {failures} non-converged step(s)")
+empty_recorders = check_recorders("the whole run")
 
 summary = {
     "run": "smoke" if SMOKE else "full",
@@ -575,6 +719,13 @@ summary = {
     "self_weight_N": weight,
     "base_reaction_N": abs(reaction_z),
     "wall_time_transient_h": wall / 3600.0,
+    "excitation_dof": EXC_DOF,
+    "integrator": "TRBDF2",
+    "algorithm": "NewtonLineSearch",
+    "convergence_test": "EnergyIncr 1e-3, 200 iterations",
+    "solid_elements_recorded": len(sampled),
+    "recorders_written": sorted(set(recorder_files) - set(empty_recorders)),
+    "recorders_empty": sorted(empty_recorders),
 }
 with open(f"{OUT_DIR}/summary.json", "w") as fh:
     json.dump(summary, fh, indent=2)
