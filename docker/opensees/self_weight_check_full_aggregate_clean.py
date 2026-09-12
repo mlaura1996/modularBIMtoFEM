@@ -41,7 +41,16 @@ N_PARTS = 6
 MODEL_PATH = "output/castelnuovo/self_weight_full_clean_model.tcl"
 RECORDER_DIR = "output/castelnuovo/recorders_full_aggregate_clean"
 GLOBAL_MESH_SIZE = 0.6  # m - coarse first pass, not the brief's 0.167 m target
-E, nu, rho = 700.0e6, 0.25, 2000.0
+# Weighted-average of the 4 HMO/MQI-calibrated masonry types (materials.md):
+# E = mean(1526.6, 1198.7, 987.8, 1198.7[type D=B]) = 1227.95 MPa, nu=0.2,
+# rho=1450 kg/m3 (same for all 4 types). Replaces the generic placeholder
+# (700 MPa/nu=0.25/2000 kg/m3, copy-pasted across this whole pipeline,
+# never the project's own calibrated material) - equal-weighted since a
+# real per-facade/unit material assignment needs a volume<->facade mapping
+# that doesn't exist yet (open_questions.md #6: unit subdivision is only
+# inferred from the cadastral map, not cross-referenced against the STEP
+# geometry).
+E, nu, rho = 1227.95e6, 0.2, 1450.0
 G_ACCEL = 9.81
 
 with apeGmsh(model_name="self_weight_full_clean") as g:
@@ -83,6 +92,18 @@ with apeGmsh(model_name="self_weight_full_clean") as g:
         volume_node_ids[vol] = vol_nodes
         volume_z_ranges[vol] = (min(zs), max(zs))
 
+    # Per-volume element ids, for the partition-by-volume export below -
+    # MUST happen before partition() (same reason as everywhere else in
+    # this project: partitioning mutates gmsh's element/entity bookkeeping,
+    # this same query silently returns empty afterward).
+    volume_element_ids = {}
+    for _dim, vol in all_vols:
+        _etypes, etags, _enodes = gmsh.model.mesh.getElements(dim=3, tag=vol)
+        ids = set()
+        for tags in etags:
+            ids.update(int(t) for t in tags)
+        volume_element_ids[vol] = ids
+
     ground_volumes = InterfaceDetection.find_ground_bearing_volumes(candidates, volume_z_ranges)
     print(f"{len(ground_volumes)}/{len(volume_z_ranges)} volumes identified as "
           f"ground-bearing (no other volume detected underneath)")
@@ -92,6 +113,38 @@ with apeGmsh(model_name="self_weight_full_clean") as g:
 
     fem = g.mesh.queries.get_fem_data(dim=3)
     print(f"FEMData: {len(fem.nodes.ids)} nodes, {len(fem.elements.ids)} elements")
+
+    # Partition-by-volume export, for LOCAL gmsh rendering
+    # (scripts/inspect_partition_gui.py, scripts/render_partition_views.py)
+    # - same reasoning as full_aggregate_with_interfaces_clean.py: real
+    # gmsh screenshots don't work inside this container (gmsh.write()
+    # hangs under its Xvfb/software-OpenGL stack), and centroid (not
+    # volume tag) is what's portable across apeGmsh/gmsh versions.
+    rank_element_ids = {}
+    for rank in range(N_PARTS):
+        er = fem.elements.get(pg="Masonry", partition=rank + 1)
+        ids = set()
+        for group in er:
+            for eid, _conn in group:
+                ids.add(int(eid))
+        rank_element_ids[rank] = ids
+
+    volume_rank = {}
+    for vol, elem_ids in volume_element_ids.items():
+        if not elem_ids:
+            continue
+        counts = [(rank, len(elem_ids & rank_element_ids[rank])) for rank in range(N_PARTS)]
+        volume_rank[vol] = max(counts, key=lambda t: t[1])[0]
+
+    volume_partition_export = []
+    for _dim, vol in all_vols:
+        cx, cy, cz = gmsh.model.occ.getCenterOfMass(3, vol)
+        volume_partition_export.append({"centroid": [cx, cy, cz], "rank": volume_rank.get(vol, 0)})
+    import json as _json
+    partition_export_path = "output/castelnuovo/plots/full_aggregate_clean_partition_by_volume.json"
+    with open(partition_export_path, "w") as _f:
+        _json.dump(volume_partition_export, _f, indent=2)
+    print(f"Wrote {partition_export_path} ({len(volume_partition_export)} volumes)")
 
     BASE_TOL = 0.05
     base_ids_set = set()
@@ -183,11 +236,24 @@ print("\nLoading results via apeGmsh.Results.from_recorders()...")
 results = Results.from_recorders(spec, output_dir=RECORDER_DIR, fem=fem)
 print(results)
 
-ax = results.plot.deformed(component="displacement_z", scale=200.0, ghost=False,
-                            cmap="Blues", edge_color=None)
-ax.set_title("Castelnuovo FULL aggregate (clean geometry) - self-weight, bonded, linear elastic - deformed x200")
+DEFORM_SCALE = 200.0
+# Same styling as full_aggregate_with_interfaces_clean.py's fix - real
+# mesh/geometry edges + undeformed ghost, not a flat edgeless blob; view
+# angle matched to scripts/inspect_partition_gui.py's default rotation.
+ax = results.plot.deformed(component="displacement_z", scale=DEFORM_SCALE,
+                            cmap="Blues", edge_color="#3a3a3a", linewidth=0.25, ghost=True)
+ax.view_init(elev=18, azim=-65)
+ax.set_title(f"Castelnuovo FULL aggregate (clean geometry) - self-weight, bonded, "
+             f"linear elastic - deformed ×{DEFORM_SCALE:g}", fontsize=10)
+ax.set_xlabel("X", fontsize=8)
+ax.set_ylabel("Y", fontsize=8)
+ax.set_zlabel("Z", fontsize=8)
+for axis in ax.figure.axes:
+    axis.tick_params(labelsize=7)
+    if axis is not ax:
+        axis.set_ylabel(axis.get_ylabel(), fontsize=8)
 deformed_path = "output/castelnuovo/plots/full_aggregate_clean_deformed_uz.png"
-ax.figure.savefig(deformed_path, dpi=150, bbox_inches="tight")
+ax.figure.savefig(deformed_path, dpi=200, bbox_inches="tight")
 print(f"Wrote {deformed_path}")
 
 print("\nDone.")

@@ -50,7 +50,13 @@ N_PARTS = 6
 MODEL_PATH = "output/castelnuovo/full_aggregate_interfaces_clean_model.tcl"
 RECORDER_DIR = "output/castelnuovo/recorders_full_aggregate_interfaces_clean"
 GLOBAL_MESH_SIZE = 0.6
-E, nu, rho = 700.0e6, 0.25, 2000.0
+# Weighted-average of the 4 HMO/MQI-calibrated masonry types (materials.md):
+# E = mean(1526.6, 1198.7, 987.8, 1198.7[type D=B]) = 1227.95 MPa, nu=0.2,
+# rho=1450 kg/m3 - replaces the generic placeholder (700 MPa/0.25/2000
+# kg/m3) copy-pasted across this pipeline; see
+# self_weight_check_full_aggregate_clean.py's comment for the full
+# rationale and the open per-facade-mapping question this sidesteps.
+E, nu, rho = 1227.95e6, 0.2, 1450.0
 G_ACCEL = 9.81
 
 # gmsh screenshots (the same technique scripts/select_interfaces_gui.py
