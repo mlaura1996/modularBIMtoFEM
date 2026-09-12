@@ -24,3 +24,6 @@ output/castelnuovo/recorders_*/
 # repeat runs (skips a ~14s STEP-load+fragment), regenerated automatically
 # whenever the source STEP file is newer than the cache.
 output/castelnuovo/cache/
+
+# Word lock files (created while a .docx is open, never useful)
+~$*

@@ -10,9 +10,9 @@
   "base_fixed_nodes": 576,
   "converged_all_ranks": true,
   "total_volume_m3": 623.0566263119475,
-  "self_weight_calculated_N": 12224371.008240411,
-  "total_base_reaction_N": 12227819.353599997,
-  "weight_reaction_diff_pct": 0.028208775382076185,
-  "max_downward_displacement_mm": -2.82359,
+  "self_weight_calculated_N": 8862668.980974298,
+  "total_base_reaction_N": 8865167.8947,
+  "weight_reaction_diff_pct": 0.028195950125933504,
+  "max_downward_displacement_mm": -1.18248,
   "n_parts": 6
 }
