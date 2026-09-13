@@ -182,9 +182,13 @@ def read_record(path):
 
     AT2 carries its own dt in the 4th header line ('NPTS=..., DT=...');
     a plain file does not, so --dt is used as the record's own step there.
-    Returned unscaled - RECORD_SCALE is applied by the caller, and is
-    9.81 by default because records are normally in g while this model is
-    in m/s^2. Getting that factor wrong is a silent 10x on the input.
+    Plain files may carry '#' comment lines (the committed Chapter 6 record
+    documents its source and units that way) and they are skipped - the
+    first version of this reader did not, and the smoke run on the target
+    machine died on the first '#'.
+    Returned unscaled - RECORD_SCALE is applied by the caller. It defaults
+    to 1.0 because the committed record is already in m/s^2; pass 9.81 for
+    a record in g. Getting that factor wrong is a silent 10x on the input.
     """
     with open(path) as fh:
         lines = fh.readlines()
@@ -203,7 +207,9 @@ def read_record(path):
             raise ValueError(f"could not read DT from the AT2 header: {header!r}")
         values = [float(x) for line in lines[4:] for x in line.split()]
         return np.asarray(values), rec_dt
-    values = [float(x) for line in lines for x in line.split()]
+    values = [float(x) for line in lines
+              if line.strip() and not line.lstrip().startswith("#")
+              for x in line.split()]
     return np.asarray(values), DT
 
 
@@ -215,14 +221,6 @@ if RECORD:
     say(f"record {os.path.basename(RECORD)}: {len(accel)} points, dt={record_dt} s, "
         f"peak {np.abs(accel).max():.3f} m/s^2 "
         f"({np.abs(accel).max()/G_ACCEL:.3f} g) after x{RECORD_SCALE}")
-elif SMOKE:
-    # A ramp, not a real record: the smoke run tests that the transient
-    # advances and the contact engages, and inventing a synthetic
-    # "earthquake" here would only invite someone to read physics off it.
-    record_dt = DT
-    accel = 0.5 * np.sin(2 * np.pi * F1_HZ * np.arange(0, DURATION + DT, DT))
-    say(f"smoke run: synthetic {F1_HZ} Hz sine, peak {np.abs(accel).max():.3f} m/s^2 "
-        f"- NOT a seismic input, do not interpret the response")
 else:
     sys.exit("--record is required for a full run (no ground motion is "
              "committed in this repository). Use --smoke to test the wiring.")
@@ -517,7 +515,8 @@ say(f"UniformExcitation applied in dof {EXC_DOF} "
 # STRINGS for ASDConcrete3D through FourNodeTetrahedron are not verified
 # here, because this machine is not running the analysis. OpenSees does not
 # raise on an unknown element response - it creates the recorder and writes
-# an empty file - so several candidate names are registered and
+# only the time column, with no data - so several candidate names are
+# registered and
 # check_recorders() below reports which ones actually produced data after
 # the first steps. Run --smoke on the target machine and read that report
 # before launching the full analysis; a 30-hour run that turns out to have
@@ -527,8 +526,15 @@ recorder_files = {}
 
 def add_recorder(label, *args):
     path = f"{OUT_DIR}/{label}.txt"
+    # In the smoke run every recorder closes its file after each write, so
+    # what check_recorders() reads after 5 steps is what OpenSees actually
+    # wrote rather than whatever has left its output buffer so far. Not in
+    # the full run: reopening the large solid recorders 3900 times is slow,
+    # and there the files are checked after the recorders are closed.
+    flush = ["-closeOnWrite"] if SMOKE else []
     try:
-        tag = ops.recorder(*(list(args[:1]) + ["-file", path] + list(args[1:])))
+        tag = ops.recorder(*(list(args[:1]) + ["-file", path] + flush
+                             + list(args[1:])))
         recorder_files[label] = path
         return tag
     except Exception as exc:            # noqa: BLE001 - report, do not abort
@@ -625,18 +631,35 @@ ops.analysis("Transient")
 
 
 def check_recorders(after_what):
-    """Report which recorders actually wrote data. OpenSees accepts an
-    unknown element response and then writes nothing, so an empty file
-    means the response string is wrong on this build - not that the
-    quantity is zero."""
+    """Report which recorders actually wrote DATA.
+
+    Judged by column count, not file size. Every recorder here is created
+    with -time, so a recorder whose response name OpenSees did not
+    recognise still writes one column per step - the time - and its file
+    is not empty. A size test (the first version of this check) would
+    therefore have passed exactly the bad damage-response names it was
+    written to catch. A recorder that produced data has at least one
+    column beyond the time.
+
+    EMPTY in the report means: no data columns, i.e. the response name is
+    not valid on this build - not that the quantity is zero.
+    """
     say(f"--- recorder check after {after_what} ---")
     empty = []
     for label, path in sorted(recorder_files.items()):
-        size = os.path.getsize(path) if os.path.exists(path) else -1
-        state = ("MISSING" if size < 0 else "EMPTY" if size == 0
-                 else f"{size/1024:.1f} kB")
+        n_cols = 0
+        if os.path.exists(path) and os.path.getsize(path) > 0:
+            with open(path) as fh:
+                first = fh.readline().split()
+            n_cols = len(first)
+        if not os.path.exists(path):
+            state = "MISSING"
+        elif n_cols <= 1:
+            state = "EMPTY (time column only)" if n_cols == 1 else "EMPTY"
+        else:
+            state = f"OK - {n_cols - 1} data column(s)"
         say(f"    {label:34s} {state}")
-        if size <= 0:
+        if n_cols <= 1:
             empty.append(label)
     if empty:
         say(f"    {len(empty)} recorder(s) wrote nothing: {', '.join(empty)}. "
@@ -673,7 +696,7 @@ for step in range(1, n_steps + 1):
                 break
         else:
             say(f"step {step}/{n_steps} needed subdivision into 10")
-    if step == 5:
+    if step == 5 and SMOKE:
         check_recorders("5 steps")
     if step % max(1, n_steps // 50) == 0 or step == n_steps:
         el = time.perf_counter() - t_start
@@ -683,7 +706,10 @@ for step in range(1, n_steps + 1):
 
 wall = time.perf_counter() - t_start
 say(f"transient finished: {wall/3600:.2f} h, {failures} non-converged step(s)")
-empty_recorders = check_recorders("the whole run")
+# Close the recorders first: that is what flushes their buffers to disk.
+# Checking before this can report a perfectly good recorder as empty.
+ops.remove("recorders")
+empty_recorders = check_recorders("the whole run (recorders closed)")
 
 summary = {
     "run": "smoke" if SMOKE else "full",

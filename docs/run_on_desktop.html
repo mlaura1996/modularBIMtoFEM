@@ -213,7 +213,9 @@ and note which recorders report <code>EMPTY</code>.</p>
 <div class="warn">The damage-output response names for this material
 (<code>ASDConcrete3D</code>) could not be verified in advance, because the
 analysis was not run on the laptop. OpenSees does <em>not</em> raise an error for
-an unknown element response — it creates the recorder and writes an empty file.
+an unknown element response — it creates the recorder and writes only the time
+column, with no data. The check counts data columns rather than file size for
+exactly that reason.
 So the script registers several candidate names and reports which ones actually
 produced data. <strong>Send that list back before starting the full run.</strong>
 The strain and stress recorders, the displacements and the reactions are
