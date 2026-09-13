@@ -36,9 +36,26 @@ wall to a node its own wall no longer uses: applied without error,
 carrying no load, and invisible in any output. The walls would silently be
 disconnected again - the exact defect this whole exercise was about.
 
-So the overlap is CHECKED, not assumed, and the run aborts if it exists
-(see "conflict guard" below). Whether it actually occurs depends on the
-mesh, which is why it is a runtime check and not a comment.
+It does occur: the first full run on the desktop found two such nodes,
+5827 and 5828, and stopped. That was NOT a modelling conflict between
+contact and continuity, as this docstring first claimed - both can hold at
+once. It was the ties being chosen in gmsh numbering while the elements of
+the split volume had already been renumbered onto duplicates. The fix is
+the rule now applied throughout section 4: a node chosen on behalf of a
+volume is the node that volume's ELEMENTS use (see element_node()). The
+ties then land on the duplicate, the contact pair is untouched, and the
+same rule also fixes the base: a split volume's foot nodes on an interface
+reaching the ground are duplicates, and were previously never fixed.
+
+Flipping the split side, which this docstring used to suggest, is NOT
+recommended: zeroLengthContactASDimplex has an orientation normal, and
+which body owns the duplicate may set the sign of compression versus
+opening. That was never verified, and remapping the ties avoids the
+question entirely.
+
+An invariant check follows the ties and stops the run if any endpoint is
+not a node its own volume's elements use. After the fix it should never
+fire; if it does, it is a bug to report, not a modelling question.
 
 WHAT THIS COSTS
 ---------------
@@ -377,21 +394,23 @@ duplicated_originals = {orig for m in substitution.values() for orig in m}
 say(f"{len(duplicated_originals)} interface nodes duplicated across "
     f"{len(substitution)} split volume(s)")
 
-t0 = time.perf_counter()
-material = Material(
-    name="Masonry", density=RHO, young_modulus=E_MPA, poisson_ratio=NU,
-    is_structural=True, material_model_type="PlasticDamage",
-    compressive_strength=FC_MPA, tensile_strength=FT_MPA,
-    compression_fracture_energy=0, tensile_fracture_energy=0,
-    compressive_elastic_behaviour=0,
-)
-say("building elements with ASDConcrete3D (one material per element - "
-    "this is the slow part, tens of minutes on the full mesh)...")
-element_tags = Element.add_elements_to_opensees(
-    gmsh.model, {"Masonry": material}, node_substitution=substitution)
-say(f"{len(element_tags)} elements added ({time.perf_counter()-t0:.1f} s)")
+# --- 4. base fixity, junction ties and the invariant check ---------------
+# All of this happens BEFORE the elements are built. It needs only the nodes
+# and the substitution map, and element building is the slow stage (one
+# ASDConcrete3D per element). The first version did it afterwards, so on
+# the desktop a problem found here cost the whole element build first.
+#
+# One rule runs through this section: whenever a node is chosen on behalf
+# of a volume, it is the node that volume's ELEMENTS use - the duplicate if
+# the volume is the split side of a contact interface and the node is on
+# that interface, the gmsh node otherwise. The first version applied that
+# rule to the elements only, and both the ties and the base fixity quietly
+# referenced gmsh tags instead.
+def element_node(vol, n):
+    """The tag volume `vol`'s tetrahedra reference for gmsh node `n`."""
+    return substitution.get(vol, {}).get(n, n)
 
-# --- 4. base fixity ------------------------------------------------------
+
 volume_node_ids, volume_z_ranges = {}, {}
 for vol in vol_tags:
     _et, _etg, en = gmsh.model.mesh.getElements(dim=3, tag=vol)
@@ -412,41 +431,71 @@ for vol in ground_volumes:
     zmin = volume_z_ranges[vol][0]
     for n in volume_node_ids[vol]:
         if node_z[n] <= zmin + BASE_TOL:
-            base_ids.add(n)
+            # The node THIS volume stands on. If the volume is the split
+            # side of an interface that reaches the ground, its foot nodes
+            # on that face are duplicates, and fixing the gmsh tag would
+            # leave them free.
+            base_ids.add(element_node(vol, n))
 base_arr = np.asarray(sorted(base_ids), dtype=np.int64)
-fix_nodes(base_arr, "XYZ")
+# ops.fix directly rather than g2o's fix_nodes: some of these tags are
+# duplicates that exist only in OpenSees, never in gmsh.
+for n in base_arr:
+    ops.fix(int(n), 1, 1, 1)
+n_base_dups = int(sum(1 for n in base_arr if n >= NodeSplitter.TAG_OFFSET))
 say(f"{len(base_arr)} base nodes fixed across {len(ground_volumes)} "
-    f"ground-bearing volumes")
+    f"ground-bearing volumes ({n_base_dups} of them interface duplicates)")
 
-# --- 5. junction ties, with the conflict guard ---------------------------
-ties, tie_counts = find_junction_ties(
+# --- 5. junction ties ----------------------------------------------------
+ties, tie_counts, tie_vols = find_junction_ties(
     open_junctions, volume_node_ids, coord_by_tag,
-    excluded_nodes=set(int(n) for n in base_arr),
-    max_tie_distance=MAX_TIE_DISTANCE)
+    excluded_nodes=base_ids,
+    max_tie_distance=MAX_TIE_DISTANCE,
+    node_substitution=substitution, return_volumes=True)
 
-# THE GUARD. See the module docstring: a node that is both tied and
-# duplicated makes its tie reference a node its own wall's elements no
-# longer use. equalDOF accepts it, nothing errors, and the junction is
-# silently open again.
-tie_nodes = {int(m) for m, _s, _d in ties} | {int(s) for _m, s, _d in ties}
-conflict = tie_nodes & duplicated_originals
-if conflict:
-    say(f"ABORT: {len(conflict)} node(s) are both tied and duplicated at a "
-        f"contact interface: {sorted(conflict)[:20]}")
-    say("Those ties would be applied and carry no load - the junction would "
-        "be open again with nothing in the output to show it. Resolve by "
-        "flipping the split side for the affected interface "
-        "(NodeSplitter.assign_split_side picks volume_b, which is 91 and "
-        "107 here - exactly the two volumes that also carry ties), or by "
-        "tying the duplicate instead of the original where the node is on "
-        "an interface. Not guessed at automatically: which is right depends "
-        "on whether that face should transmit contact or continuity.")
+retargeted = [(m, s, va, vb) for (m, s, _d), (va, vb) in zip(ties, tie_vols)
+              if m >= NodeSplitter.TAG_OFFSET or s >= NodeSplitter.TAG_OFFSET]
+say(f"{len(retargeted)} tie(s) reference an interface duplicate - the node "
+    f"a split volume's elements actually use")
+for m, s, va, vb in retargeted:
+    say(f"    junction {va}-{vb}: {m} <-> {s}")
+
+# INVARIANT CHECK. Every tie endpoint must be a node referenced by the
+# elements of the volume it was chosen for. By construction it now is; this
+# is here so that, if a later change breaks that, the run stops instead of
+# computing for a day on ties that carry no load. It is a bug if it fires,
+# not a modelling question.
+elem_nodes = {v: {element_node(v, n) for n in ns}
+              for v, ns in volume_node_ids.items()}
+dangling = [(m, s, va, vb) for (m, s, _d), (va, vb) in zip(ties, tie_vols)
+            if m not in elem_nodes.get(va, ()) or s not in elem_nodes.get(vb, ())]
+if dangling:
+    say(f"ABORT: {len(dangling)} tie(s) reference a node that the elements of "
+        f"their own volume do not use, so they would carry no load: "
+        f"{dangling[:10]}")
+    say("This is an inconsistency between the tie construction and the node "
+        "substitution, i.e. a bug in the script, not a modelling decision. "
+        "Report it rather than working around it.")
     sys.exit(2)
-say(f"conflict guard passed: no tied node is also an interface duplicate")
+say("invariant check passed: every tie endpoint belongs to its volume's elements")
 
 n_applied = apply_ties(ties, ops)
 say(f"{n_applied} equalDOF constraints across "
     f"{sum(1 for c in tie_counts.values() if c)} of {len(open_junctions)} junctions")
+
+# --- 5b. elements (the slow stage) ----------------------------------------
+t0 = time.perf_counter()
+material = Material(
+    name="Masonry", density=RHO, young_modulus=E_MPA, poisson_ratio=NU,
+    is_structural=True, material_model_type="PlasticDamage",
+    compressive_strength=FC_MPA, tensile_strength=FT_MPA,
+    compression_fracture_energy=0, tensile_fracture_energy=0,
+    compressive_elastic_behaviour=0,
+)
+say("building elements with ASDConcrete3D (one material per element - "
+    "this is the slow part, tens of minutes on the full mesh)...")
+element_tags = Element.add_elements_to_opensees(
+    gmsh.model, {"Masonry": material}, node_substitution=substitution)
+say(f"{len(element_tags)} elements added ({time.perf_counter()-t0:.1f} s)")
 
 # --- 6. contact elements -------------------------------------------------
 contact = ContactInterfaceGenerator.generate(
@@ -730,6 +779,8 @@ summary = {
     "tensile_strength_MPa": FT_MPA,
     "material_model": "ASDConcrete3D (implex, autoRegularization)",
     "equaldof_constraints": n_applied,
+    "ties_on_interface_duplicates": len(retargeted),
+    "base_nodes_on_interface_duplicates": n_base_dups,
     "open_junctions": len(open_junctions),
     "contact_elements": n_contact,
     "contact_interfaces": len(contact),

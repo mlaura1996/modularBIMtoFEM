@@ -56,7 +56,8 @@ def _pairwise_close(pts_a, pts_b, max_dist, chunk=256):
 
 
 def find_junction_ties(junctions, node_tags_by_volume, node_coords_by_tag,
-                       excluded_nodes=frozenset(), max_tie_distance=0.05):
+                       excluded_nodes=frozenset(), max_tie_distance=0.05,
+                       node_substitution=None, return_volumes=False):
     """Build the node pairs to tie.
 
     junctions:           iterable of (volume_a, volume_b, gap) - the open
@@ -67,6 +68,25 @@ def find_junction_ties(junctions, node_tags_by_volume, node_coords_by_tag,
                          nodes - a node cannot be both fixed and slaved
                          without the two constraints fighting)
     max_tie_distance:    only tie pairs at most this far apart (m)
+    node_substitution:   {volume: {gmsh_node: node_that_volume_uses}} - the
+                         map NodeSplitter.create_duplicate_nodes returns
+                         when contact interfaces are also in the model.
+                         Each tie endpoint is chosen ON BEHALF OF one
+                         volume, so it must be the node that volume's
+                         elements actually reference. Without this, a node
+                         on a contact face of a split volume is tied under
+                         its gmsh tag while the volume's tetrahedra use its
+                         duplicate: equalDOF accepts it, nothing errors,
+                         and the tie carries no load. Found on the full
+                         Castelnuovo model - nodes 5827 and 5828, on a
+                         Task A face of a volume that also closes an open
+                         junction. Coordinates are still looked up by gmsh
+                         tag (a duplicate sits at its original's position).
+                         excluded_nodes must then be given in the same,
+                         substituted numbering.
+    return_volumes:      also return the (volume_a, volume_b) each tie was
+                         built for, aligned with ties - what a caller needs
+                         to verify each endpoint belongs to its volume.
 
     Returns (ties, per_junction_counts) where ties is a list of
     (master_tag, slave_tag, distance). Each node appears at most once
@@ -74,6 +94,7 @@ def find_junction_ties(junctions, node_tags_by_volume, node_coords_by_tag,
     resolve chained or duplicated constraints on the same DOF.
     """
     ties = []
+    tie_volumes = []
     used = set(excluded_nodes)
     counts = {}
 
@@ -109,6 +130,13 @@ def find_junction_ties(junctions, node_tags_by_volume, node_coords_by_tag,
             continue
         tags_a = [tags_a[i] for i in idx_a]
         tags_b = [tags_b[i] for i in idx_b]
+        # Into the numbering each volume's elements use (see
+        # node_substitution in the docstring). pts_a/pts_b stay as they
+        # are - they were looked up by gmsh tag, and are the same points.
+        sub_a = (node_substitution or {}).get(va, {})
+        sub_b = (node_substitution or {}).get(vb, {})
+        tags_a = [sub_a.get(t, t) for t in tags_a]
+        tags_b = [sub_b.get(t, t) for t in tags_b]
         pts_a = pts_a_all[idx_a]
         pts_b = pts_b_all[idx_b]
 
@@ -118,11 +146,14 @@ def find_junction_ties(junctions, node_tags_by_volume, node_coords_by_tag,
             if ta in used or tb in used:
                 continue
             ties.append((ta, tb, dist))
+            tie_volumes.append((va, vb))
             used.add(ta)
             used.add(tb)
             n += 1
         counts[(va, vb)] = n
 
+    if return_volumes:
+        return ties, counts, tie_volumes
     return ties, counts
 
 

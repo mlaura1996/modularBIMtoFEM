@@ -118,10 +118,11 @@ swap=8GB</pre>
 </ol>
 
 <h2>6. Two things to report back before the full run starts</h2>
-<div class="stop"><strong>(a) The conflict guard.</strong> The smoke test prints
-either <code>conflict guard passed</code> or <code>ABORT: N node(s) are both
-tied and duplicated at a contact interface</code>. If it aborts, stop and report
-it — it is an anticipated modelling conflict, not something to work around.
+<div class="stop"><strong>(a) The tie check.</strong> Before the elements are
+built, the run prints <code>invariant check passed</code>. If it prints
+<code>ABORT: … tie(s) reference a node that the elements of their own volume do
+not use</code> instead, stop and report it — it would be a bug in the script, not
+something to work around.
 <br><br>
 <strong>(b) The recorder check.</strong> Find the block
 <code>--- recorder check after 5 steps ---</code> and send back the list of any

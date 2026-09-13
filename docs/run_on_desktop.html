@@ -193,19 +193,21 @@ committed in the repository.</div>
 result — it exists to check the wiring. Two lines in its output matter more than
 anything else:</p>
 
-<h3>5a. The conflict guard</h3>
-<p>Look for either:</p>
-<pre>conflict guard passed: no tied node is also an interface duplicate</pre>
-<p>or:</p>
-<pre>ABORT: N node(s) are both tied and duplicated at a contact interface</pre>
-<div class="stop"><strong>If it aborts, stop and report it.</strong> This is a
-known, anticipated conflict, not a bug to work around. Two walls (volumes 91 and
-107) carry both a contact interface and junction ties. If a node belongs to
-both, the constraint ends up pointing at a node its own wall no longer uses:
+<h3>5a. The tie check</h3>
+<p>Look for these two lines, which appear a few minutes in, <em>before</em> the
+slow element-building stage:</p>
+<pre>N tie(s) reference an interface duplicate - the node a split volume's elements actually use
+invariant check passed: every tie endpoint belongs to its volume's elements</pre>
+<p>On the full model the first line is expected to report 2 (nodes 5827 and
+5828, found by the first full run). The smoke run's coarse mesh may report 0 —
+also fine.</p>
+<div class="stop"><strong>If it prints <code>ABORT: … tie(s) reference a node that
+the elements of their own volume do not use</code>, stop and report it.</strong>
+Two walls (volumes 91 and 107) carry both a contact interface and junction ties.
+A tie there must land on the node the wall's own elements use — otherwise
 OpenSees accepts it, nothing errors, the constraint carries no load, and the
-wall junction is silently open again — which is the exact defect this model was
-built to fix. Resolving it is a modelling decision (which face should transmit
-contact and which continuity), so it is deliberately not automated.</div>
+wall junction is silently open again. The script now does this by construction,
+so this message would mean a bug, not a modelling question.</div>
 
 <h3>5b. The recorder check</h3>
 <p>Look for the block beginning <code>--- recorder check after 5 steps ---</code>
