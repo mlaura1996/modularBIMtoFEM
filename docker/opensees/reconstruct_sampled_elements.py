@@ -237,7 +237,14 @@ saved_model = gmsh.model.getCurrent()
 gmsh.model.setCurrent(saved_model)
 saved_ntags, saved_ncoords, _ = gmsh.model.mesh.getNodes()
 saved_coord = {int(t): c for t, c in zip(saved_ntags, saved_ncoords.reshape(-1, 3))}
-saved_n_ele = sum(len(e[0]) for e in gmsh.model.mesh.getElements(dim=3)[1] if len(e))
+# getElements(dim=3) with no `tag` returns one array PER ELEMENT TYPE
+# present anywhere in the model (not per volume) - each `e` here already
+# IS a tags array, so len(e) is the count; indexing into it first (e[0])
+# was a genuine bug (grabbed a single tag - a numpy scalar - and then
+# len() on that scalar raised TypeError). Different shape than the
+# per-volume query above, which is why the two loops look different.
+_all3_types, _all3_tags, _all3_nodes = gmsh.model.mesh.getElements(dim=3)
+saved_n_ele = sum(len(tags) for tags in _all3_tags)
 
 if len(recon_coord) != len(saved_coord):
     sys.exit(f"ABORT: reconstruction has {len(recon_coord)} nodes, "
