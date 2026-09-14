@@ -161,11 +161,39 @@ class Element:
 
             #Definition of the OpenSees material
             
+            # BUG FIX (found post-hoc, after a completed 39 GB time-history
+            # run showed essentially zero dynamic response - see chat log):
+            # this call never passed -rho. Per the official syntax
+            # (nDMaterial ASDConcrete3D $tag $E $v <-rho $rho> ...,
+            # https://opensees.github.io/OpenSeesDocumentation/user/manual/
+            # material/ndMaterials/ASDConcrete3D.html), density for MASS
+            # purposes comes from the MATERIAL, not from the element's body
+            # -force arguments (element(...) below's rho*G term only ever
+            # affected the GRAVITY load, never the mass matrix). Every
+            # FourNodeTetrahedron built with this material therefore had
+            # ZERO mass: UniformExcitation applies -M*ag(t), so with M=0 the
+            # earthquake load was exactly zero everywhere, Rayleigh's
+            # mass-proportional term (alphaM*M) vanished too, and the
+            # structure only ever felt gravity. Confirmed against the
+            # actual desktop run: 85,310/85,311 sampled elements peaked in
+            # tensile strain within the first second (gravity ramp-up, not
+            # the 12.345 s strong-motion window), roof displacement frozen
+            # to 6 significant figures for the full 19.5 s, cumulative
+            # dissipated energy ~1e-11 J against an 8.86 MN structure.
+            #
+            # Also added the leading '-' to implex/autoRegularization,
+            # which the same syntax requires as flags (-implex,
+            # -autoRegularization $lch_ref) - without it OpenSees appears to
+            # have silently ignored both as unrecognised trailing tokens
+            # (the material still built successfully, which a REQUIRED
+            # positional argument in the wrong place would not have
+            # allowed) rather than raising an error, so this was invisible
+            # until the syntax was checked against the reference.
             nDMaterial('ASDConcrete3D', solid_material_tag,
-            E, nu, # elasticity
+            E, nu, '-rho', rho, # elasticity + mass density
             '-Te', *Te, '-Ts', *Ts, '-Td', *Td, # tensile law
             '-Ce', *Ce, '-Cs', *Cs, '-Cd', *Cd, # compressive law
-            'implex', 'autoRegularization', side_length
+            '-implex', '-autoRegularization', side_length
             )
 
             #print('Plastic material created with tag: ', solid_material_tag)
