@@ -232,9 +232,17 @@ for v in vol_tags:
     if etg:
         recon_n_ele += len(etg[0])
 
+# Captured rather than assumed: the desktop run showed gmsh.open(STEP_PATH)
+# earlier does NOT necessarily keep the model named "reconstruct_sampled_
+# elements" (that name was never actually verified against a real run -
+# the live analysis script never needed to switch back to a model by name,
+# since it only ever has one). Whatever name gmsh actually gave it, THIS is
+# the name to come back to below - not a hard-coded guess.
+live_model = gmsh.model.getCurrent()
+say(f"live/reconstructed model is actually named {live_model!r}")
+
 gmsh.open(MESH_PATH)   # loads mesh.msh into a SEPARATE model, side by side
 saved_model = gmsh.model.getCurrent()
-gmsh.model.setCurrent(saved_model)
 saved_ntags, saved_ncoords, _ = gmsh.model.mesh.getNodes()
 saved_coord = {int(t): c for t, c in zip(saved_ntags, saved_ncoords.reshape(-1, 3))}
 # getElements(dim=3) with no `tag` returns one array PER ELEMENT TYPE
@@ -271,7 +279,7 @@ say("CHECK 1 PASSED: reconstruction matches the run's saved mesh.msh")
 # Back to the live (re-derived) model for everything after this - it is
 # the one with the volume/interface/junction structure the rest of the
 # pipeline needs; the loaded mesh.msh was only for the comparison above.
-gmsh.model.setCurrent("reconstruct_sampled_elements")
+gmsh.model.setCurrent(live_model)
 
 # --- element_tags in the SAME per-volume order Element.add_elements_to_
 # opensees uses: iterate the "Masonry" physical group's volumes and
