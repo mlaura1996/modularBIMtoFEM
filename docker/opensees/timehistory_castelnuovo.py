@@ -94,6 +94,7 @@ from external.gmsh2opensees.g2o_nodes_functions import (
 )
 from core.opensees_generation.model_builder import ModelBuilder, Element
 from core.opensees_generation.junction_ties import find_junction_ties, apply_ties
+from core.opensees_generation.element_sampling import select_recorded_elements
 from core.mesh_generation.geometry_healing import find_open_junctions
 from core.ifc_processing.data_extractor import Material
 from core.mesh_generation.wall_interfaces import (
@@ -625,20 +626,27 @@ if contact_eles:
 # every step would write hundreds of GB, so a subset is sampled - every
 # SOLID_SAMPLE-th element - plus every element of the volumes that carry a
 # contact interface or a tie, which are where the damage is expected.
+# select_recorded_elements() is shared with reconstruct_sampled_elements.py
+# specifically so the two can never disagree about what this list is.
 SOLID_SAMPLE = 1 if SMOKE else 20
-interesting_vols = ({c["volume_a"] for c in selected} |
-                    {c["volume_b"] for c in selected} |
-                    {v for a, b, _g in open_junctions for v in (a, b)})
-focus_eles = set()
-for v in interesting_vols:
-    _et, etg, _en = gmsh.model.mesh.getElements(dim=3, tag=v)
-    for tags in etg:
-        focus_eles.update(int(t) for t in tags)
-sampled = set(int(e) for e in element_tags[::SOLID_SAMPLE]) | focus_eles
-sampled = sorted(sampled & set(int(e) for e in element_tags))
+sampled, interesting_vols, focus_eles = select_recorded_elements(
+    element_tags, selected, open_junctions, SOLID_SAMPLE)
 say(f"{len(sampled)} of {len(element_tags)} solid elements recorded "
     f"(every {SOLID_SAMPLE}th, plus all {len(focus_eles)} in the "
     f"{len(interesting_vols)} volumes carrying an interface or a tie)")
+
+# Written explicitly so a results CSV's "element_index" (its position in
+# this sorted list - see select_recorded_elements's docstring) can be
+# mapped back to the real gmsh element tag, and from there to a location on
+# the model, without having to reconstruct this list from scratch. The
+# FIRST full run did not do this - see reconstruct_sampled_elements.py for
+# what recovering the mapping after the fact then takes.
+with open(f"{OUT_DIR}/sampled_elements.txt", "w") as fh:
+    fh.write("# element_index,element_tag - element_index is the column "
+             "position in solid_strain.txt / solid_stress.txt / solid_*.txt\n")
+    for i, tag in enumerate(sampled):
+        fh.write(f"{i},{tag}\n")
+say(f"wrote {OUT_DIR}/sampled_elements.txt")
 
 # Strain tensor: 6 components per element. Principal strains are the
 # eigenvalues of that tensor and are NOT an OpenSees output - they are
