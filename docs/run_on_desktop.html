@@ -225,7 +225,14 @@ standard and are expected to work; it is specifically the
 <code>solid_damage*</code> ones that need confirming.</div>
 
 <h2>6. The full run</h2>
-<p>Run it <strong>detached</strong>, so closing the window does not kill it:</p>
+<p>Run it <strong>detached</strong>, so closing the window does not kill it. If a
+container named <code>castelnuovo-th</code> already exists — from an earlier
+attempt, even one that finished hours or days ago — <code>docker run --name</code>
+refuses to reuse the name until it is removed:</p>
+<pre>docker rm castelnuovo-th</pre>
+<p class="small">Harmless to run even when no such container exists yet — it
+prints "No such container" and nothing else happens; just ignore that message
+and continue to the next command.</p>
 <pre>docker run -d --name castelnuovo-th `
   -v "${PWD}:/app" -w /app `
   --memory=22g `
@@ -322,6 +329,13 @@ thesis record.</p>
   <tr><td>Container exits immediately, no output</td><td>Out of memory</td>
       <td>Raise <code>.wslconfig</code> memory; lower <code>--memory</code>
           only if Windows itself becomes unusable</td></tr>
+  <tr><td><code>Conflict. The container name "/castelnuovo-th" is already
+      in use</code></td>
+      <td>A container with that name already exists — from an earlier attempt,
+          even one that finished hours or days ago. <code>docker run -d --name</code>
+          does not reuse or replace it automatically.</td>
+      <td><code>docker rm castelnuovo-th</code>, then run the full-run command
+          again</td></tr>
   <tr><td><code>ABORT: gravity did not converge</code></td>
       <td>The model cannot carry its own weight — a modelling problem, not a
           machine problem</td>
