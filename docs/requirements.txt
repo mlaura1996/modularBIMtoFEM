@@ -3,3 +3,10 @@ myst-parser>=3.0
 sphinx-rtd-theme>=2.0
 sphinx-copybutton>=0.5
 sphinx-design>=0.6
+
+# Not mocked in conf.py's autodoc_mock_imports (unlike gmsh/OCC/ifcopenshell/
+# openseespy): core/config.py imports these for real at module load time,
+# so autodoc needs them actually installed to import every module.
+numpy
+pandas
+matplotlib
