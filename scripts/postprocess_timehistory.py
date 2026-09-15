@@ -367,6 +367,20 @@ if damage is not None:
             fh.write("column_index,final_value\n")
             for j, v in enumerate(damage):
                 fh.write(f"{j},{v:.8e}\n")
+    elif per_ele == 2 and out.get("damage_response_used") in ("damage", "Damage"):
+        # ASDConcrete3D's "damage"/"Damage" response is documented as
+        # exactly (d+, d-) - tension damage, then compression damage, in
+        # that order (opensees.github.io/OpenSeesDocumentation/user/manual/
+        # material/ndMaterials/ASDConcrete3D.html). Confirmed against the
+        # reference rather than guessed, so the columns are named for what
+        # they are instead of "component 0/1".
+        vals = damage.reshape(n_ele, per_ele)
+        with open(out_path("damage_map.csv"), "w") as fh:
+            fh.write("element_index,damage_tension,damage_compression\n")
+            for j in range(n_ele):
+                fh.write(f"{j},{vals[j,0]:.8e},{vals[j,1]:.8e}\n")
+        out["peak_damage_tension"] = float(vals[:, 0].max())
+        out["peak_damage_compression"] = float(vals[:, 1].max())
     else:
         vals = damage.reshape(n_ele, per_ele)
         with open(out_path("damage_map.csv"), "w") as fh:
