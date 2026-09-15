@@ -33,8 +33,12 @@ RESULTS_DIR = Path(sys.argv[1]) if len(sys.argv) > 1 else (
     REPO_ROOT / "output/castelnuovo/results_timehistory")
 OUT_STEM = Path(sys.argv[2]) if len(sys.argv) > 2 else (
     REPO_ROOT / "output/castelnuovo/plots/response_timehistory")
-
-T_START, T_END = 5.0, 14.0   # Chapter 6's own strong-motion window
+# Defaults to Chapter 6's own strong-motion window (5-14 s); pass both to
+# see the whole run, e.g. for the tail after 14 s (peak |Rd| there is
+# 20.4 mm, about a third of the 5-14 s window's 56.2 mm - genuinely
+# decaying, not hiding anything the default window misses).
+T_START = float(sys.argv[3]) if len(sys.argv) > 3 else 5.0
+T_END = float(sys.argv[4]) if len(sys.argv) > 4 else 14.0
 
 FONT_CANDIDATES = [
     Path(os.environ["THESIS_FONT"]) if os.environ.get("THESIS_FONT") else None,
