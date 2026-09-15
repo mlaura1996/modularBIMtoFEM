@@ -1,0 +1,16 @@
+{
+  "peak_tensile_principal_strain": 0.6914902353191619,
+  "peak_compressive_principal_strain": -0.2051307743694164,
+  "solid_elements_recorded": 85311,
+  "damage_response_used": "damage",
+  "peak_damage_tension": 0.999981,
+  "peak_damage_compression": 0.999904,
+  "peak_damage": 0.999981,
+  "peak_roof_displacement_m": 0.0561836,
+  "peak_base_shear_N": 1397594746.8067718,
+  "peak_base_shear_coefficient": 157.6945669309123,
+  "model_height_m": 15.175876266060005,
+  "peak_drift_ratio": 0.0037021651346519917,
+  "cumulative_dissipated_energy_J": 33607177.297431886,
+  "peak_interface_opening_m": 0.04520959489583875
+}
