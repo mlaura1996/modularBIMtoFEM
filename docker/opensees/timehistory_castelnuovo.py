@@ -73,9 +73,19 @@ FourNodeTetrahedron takes nodal coordinates as given.
     # wiring check, coarse mesh, few steps - minutes, run this FIRST
     python docker/opensees/timehistory_castelnuovo.py --smoke
 
-    # the real thing
+    # get the REAL node/element count for a new --mesh-size before
+    # committing to a full run at it - minutes, not hours (stops right
+    # after meshing, before the slow element/material construction)
+    python docker/opensees/timehistory_castelnuovo.py --mesh-size 0.35 \
+        --mesh-only --out-dir output/castelnuovo/recorders_timehistory_mesh035
+
+    # the real thing. --solid-sample 1 records every element instead of
+    # the default 1-in-20 (plus every element touching an interface or a
+    # tie, which --solid-sample does not change - see
+    # core/opensees_generation/element_sampling.py)
     python docker/opensees/timehistory_castelnuovo.py \
-        --record resources/records/<name>.AT2 --duration 20 --dt 0.005
+        --record resources/records/<name>.AT2 --duration 20 --dt 0.005 \
+        --mesh-size 0.35 --solid-sample 1
 """
 import json
 import math
@@ -140,7 +150,14 @@ EXC_DOF = argval("--dof", 1, int)
 # elements engage and the transient advances. It will produce fewer ties
 # (the facing nodes end up ~0.6 m apart at this size - the reason the real
 # run refines locally at all), so do NOT read tie counts off a smoke run.
-GLOBAL_MESH_SIZE = 0.6
+# --mesh-size overrides the global size for a NON-smoke run (smoke always
+# uses 0.6 m - the wiring check does not need finer). Element count scales
+# roughly with (old/new)^3, and factorisation cost scales worse than
+# linearly with DOF count - going from 0.6 to 0.35 m is a ~5x jump in
+# elements and could plausibly be 30-70+ h, not the 6.84 h the 0.6 m run
+# measured. Get the real element count first with --mesh-only before
+# committing to a full run at a new size.
+GLOBAL_MESH_SIZE = 0.6 if SMOKE else argval("--mesh-size", 0.6, float)
 JUNCTION_MESH_SIZE = 0.6 if SMOKE else 0.10
 JUNCTION_REFINE_RADIUS = 0.4
 MAX_JUNCTION_GAP = 0.05
@@ -371,6 +388,20 @@ if not SMOKE:
 gmsh.option.setNumber("Mesh.SaveAll", 1)
 gmsh.write(f"{OUT_DIR}/mesh.msh")
 say(f"wrote {OUT_DIR}/mesh.msh")
+
+n_mesh_nodes = len(gmsh.model.mesh.getNodes()[0])
+n_mesh_elements = 0
+for v in vol_tags:
+    _et, etg, _en = gmsh.model.mesh.getElements(dim=3, tag=v)
+    if etg:
+        n_mesh_elements += len(etg[0])
+say(f"mesh: {n_mesh_nodes} nodes, {n_mesh_elements} elements "
+    f"(global size {GLOBAL_MESH_SIZE} m)")
+
+if "--mesh-only" in sys.argv:
+    say("--mesh-only: stopping before element/material construction.")
+    gmsh.finalize()
+    sys.exit(0)
 
 # --- 3. OpenSees model ---------------------------------------------------
 ops.wipe()
@@ -628,7 +659,7 @@ if contact_eles:
 # contact interface or a tie, which are where the damage is expected.
 # select_recorded_elements() is shared with reconstruct_sampled_elements.py
 # specifically so the two can never disagree about what this list is.
-SOLID_SAMPLE = 1 if SMOKE else 20
+SOLID_SAMPLE = 1 if SMOKE else argval("--solid-sample", 20, int)
 sampled, interesting_vols, focus_eles = select_recorded_elements(
     element_tags, selected, open_junctions, SOLID_SAMPLE)
 say(f"{len(sampled)} of {len(element_tags)} solid elements recorded "
@@ -779,6 +810,8 @@ summary = {
     "final_time_s": ops.getTime(),
     "mesh_nodes": n_nodes,
     "mesh_elements": len(element_tags),
+    "global_mesh_size_m": GLOBAL_MESH_SIZE,
+    "solid_sample_stride": SOLID_SAMPLE,
     "total_volume_m3": total_volume,
     "young_modulus_MPa": E_MPA,
     "poisson_ratio": NU,
