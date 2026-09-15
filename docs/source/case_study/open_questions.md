@@ -9,19 +9,19 @@ as of the current branch.
 
 * - Question (brief §8)
   - Status
-* - 1. Material parameters — Chapter 6 values or a separate characterisation?
+* - 1. Material parameters — SERA-AIMS reference values or a separate characterisation?
   - **Resolved**: separate characterisation from survey data via HMO/MQI — see {doc}`materials`.
 * - 2. Slabs — solids with masonry properties, a different material, or mass?
   - **Open.** Not decided or implemented. Slabs are meshed as solids in the
-    prepared geometry but nothing in the Task A/B/C pipeline assigns them a
+    prepared geometry but nothing in the pipeline assigns them a
     treatment yet.
 * - 3. Seismic input — which record, scaling, duration?
-  - **Open.** Chapter 6's Run 2.1 (shake-table campaign) does not transfer
+  - **Open.** The SERA-AIMS Run 2.1 shake-table record does not transfer
     to a real building; no replacement chosen.
 * - 4. Boundary conditions — fixed base at z = −1.50 m?
-  - **Open.** Not decided. The Task A/B test scripts fix an entire
-    arbitrarily-chosen volume's nodes as a stand-in "ground" side for
-    verification purposes only — not a foundation model.
+  - **Open.** Not decided. The interface-detection/parallel-export test
+    scripts fix an entire arbitrarily-chosen volume's nodes as a stand-in
+    "ground" side for verification purposes only — not a foundation model.
 * - 5. Windows/doors — structurally relevant, or structure-only geometry?
   - **Open**, though the brief itself leans toward structure-only ("probably
     what the analysis should use"). Not implemented either way; the 316-solid
@@ -29,9 +29,9 @@ as of the current branch.
 * - 6. Unit subdivision — which walls separate distinct structural units?
   - **Partially addressed.** The HSTO graph's quoin connections
     ({doc}`materials`) encode an inferred subdivision (417/418/419/420),
-    but from the cadastral-map row order, not from Task A's own
+    but from the cadastral-map row order, not from the pipeline's own
     independent, geometry-based interface detection — the two have not
-    been cross-referenced. Task A's interface *selection* has moved past a
+    been cross-referenced. Interface *selection* has moved past a
     small hand-picked test subset, though: a real selection (11
     interfaces, out of 885 candidates on the full aggregate) was made
     interactively against the actual building picture
@@ -61,7 +61,7 @@ item is discoverable from one page:
   contact interfaces (§4.2, currently μ = 0.6 generic) are ever meant to
   use a masonry-specific friction angle instead.
 - The HSTO graph's unit-adjacency order is inferred from a cadastral-map
-  excerpt, not checked against the IFC model's own geometry — Task A's
+  excerpt, not checked against the IFC model's own geometry —
   `InterfaceDetection` does that check independently, on the actual STEP
   geometry, and the two have not been cross-referenced.
 - HSTO's `HistoricOpening` inventory is one individual (the type-A door
@@ -75,7 +75,7 @@ The full-scale, brief-target Castelnuovo mesh (~279k nodes / 954k tets at
 the 0.167 m element size) has never actually been run. Update: the full
 279-volume *geometry* (cleaned, no slabs) has now been run end to end at a
 coarser 0.6 m mesh (17,700 nodes / 57,827 elements) with a real,
-interactively-selected set of Task A contact interfaces - converges on all
+interactively-selected set of contact interfaces - converges on all
 6 MPI ranks, 0.028% self-weight/reaction balance error (see {doc}`overview`).
 That closes the "does the whole aggregate + real interfaces even run"
 question; the remaining gap is purely resolution - going from 0.6 m to the

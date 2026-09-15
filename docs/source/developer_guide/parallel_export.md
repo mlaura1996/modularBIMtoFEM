@@ -1,8 +1,8 @@
-# Task B — parallel execution
+# Parallel export and execution
 
 Modules: `core/opensees_generation/tcl_export.py` (new), extensions to
 `core/opensees_generation/model_builder.py`. Implements PROJECT_BRIEF.md
-§6: `IFC → apeGmsh (mesh, partition) → Task A (interfaces) → TCL export →
+§6: `IFC → apeGmsh (mesh, partition) → interface detection → TCL export →
 OpenSeesMP -np N`.
 
 ## Why TCL, not OpenSeesPy
@@ -57,18 +57,19 @@ tolerance is roughly 1000× too coarse for this geometry. Switched to raw
 `gmsh.model.occ.fragment(gmsh.model.occ.getEntities(3), [])` instead, which
 does the same conformal-interface job without either problem.
 
-## Reconciling Task A and Task B
+## Reconciling interface detection and TCL export
 
-Task A's `InterfaceDetection`/`NodeSplitter` operate directly on
-`gmsh.model` (the raw Gmsh Python API); Task B's `TclWriter` consumes
-`FEMData` (apeGmsh's own snapshot). These are two different ID spaces in
-principle. Confirmed directly (`probe_femdata_ids.py`, not a standing test
-— a one-off check) that `FEMData` node/element IDs are identical to the
-underlying Gmsh tags for this apeGmsh version, so no translation layer was
-needed between the two Task's outputs. If apeGmsh's ID scheme ever changes,
-this is the assumption to re-verify first — `TclWriter.duplicate_nodes`
-and `.contact_elements` both call `NodeSplitter.compute_node_map` directly
-with `gmsh.model`, relying on it matching `fem`'s own node numbering.
+Interface detection's `InterfaceDetection`/`NodeSplitter` operate directly
+on `gmsh.model` (the raw Gmsh Python API); the TCL exporter's `TclWriter`
+consumes `FEMData` (apeGmsh's own snapshot). These are two different ID
+spaces in principle. Confirmed directly (`probe_femdata_ids.py`, not a
+standing test — a one-off check) that `FEMData` node/element IDs are
+identical to the underlying Gmsh tags for this apeGmsh version, so no
+translation layer was needed between the two stages' outputs. If apeGmsh's
+ID scheme ever changes, this is the assumption to re-verify first —
+`TclWriter.duplicate_nodes` and `.contact_elements` both call
+`NodeSplitter.compute_node_map` directly with `gmsh.model`, relying on it
+matching `fem`'s own node numbering.
 
 ## Verified
 

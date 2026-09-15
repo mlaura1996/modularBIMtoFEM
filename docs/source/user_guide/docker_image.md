@@ -40,7 +40,7 @@ docker run --rm --entrypoint sh modularbimtofem-opensees-mp:dev -c \
 
 Should print `2` from both ranks with no shared-library errors.
 
-## Run the Python side (IFC, mesh, interfaces — Task A/B)
+## Run the Python side (IFC, mesh, interfaces)
 
 ```bash
 docker run --rm -v "C:/path/to/repo:/app" --entrypoint sh \
@@ -51,7 +51,7 @@ This is the invocation used throughout development and testing — the whole
 repository is bind-mounted at `/app` so code changes on the host are picked
 up without rebuilding.
 
-## Run a parallel analysis (Task C)
+## Run a parallel analysis
 
 The default entrypoint is `run_analysis.sh <NP> <model.tcl> [extra tcl args...]`.
 `NP` is never baked into the image.
@@ -77,8 +77,8 @@ Everything under `/app/output` in the container is the bind-mounted host
 `output/` directory. Every run also writes
 `output/run_logs/<timestamp>_np<N>.log`, capturing wall-clock time, peak
 memory (`Maximum resident set size`), process/partition count, hostname and
-CPU count — the measurements the brief asks Chapter 7 to report for every
-run (§7.4).
+CPU count — the measurements worth recording for every run so performance
+claims are backed by numbers, not impressions.
 
 ## What's mounted vs. baked in
 

@@ -4,7 +4,7 @@ time-history.
 Recording all ~120k elements every step would write hundreds of GB
 (measured: 39 GB even sampled), so only a subset gets the expensive
 per-material recorders: every `sample_stride`-th element of the whole
-mesh, plus every element of every volume that carries a Task A contact
+mesh, plus every element of every volume that carries a contact
 interface or an open-junction tie - the elements where damage is actually
 expected.
 
@@ -22,28 +22,36 @@ import gmsh
 
 def select_recorded_elements(element_tags, selected_interfaces, open_junctions,
                              sample_stride):
-    """Returns (sampled, interesting_vols, focus_eles).
+    """Choose which solid elements get the expensive per-material recorders.
 
-    element_tags:        every solid element tag in the model, in the order
-                         Element.add_elements_to_opensees produced them
-    selected_interfaces: the Task A interfaces in this model (each a dict
-                         with 'volume_a'/'volume_b', as InterfaceSelection
-                         returns them)
-    open_junctions:      iterable of (volume_a, volume_b, gap) - the open
-                         junctions the equalDOF ties close
-    sample_stride:       1 element in this many, uniformly across the mesh
+    Args:
+        element_tags: Every solid element tag in the model, in the order
+            ``Element.add_elements_to_opensees`` produced them.
+        selected_interfaces: The confirmed contact interfaces in this
+            model (each a dict with ``volume_a``/``volume_b``, as
+            ``InterfaceSelection`` returns them).
+        open_junctions: Iterable of ``(volume_a, volume_b, gap)`` - the
+            open junctions the equalDOF ties close.
+        sample_stride: 1 element in this many, uniformly across the mesh.
 
-    Needs the CURRENT gmsh model to already hold the mesh element_tags was
-    taken from - it queries gmsh.model.mesh.getElements(dim=3, ...) per
-    volume, which only returns real data against a mesh that is actually
-    loaded/generated in this gmsh session.
+    Needs the CURRENT gmsh model to already hold the mesh
+    ``element_tags`` was taken from - it queries
+    ``gmsh.model.mesh.getElements(dim=3, ...)`` per volume, which only
+    returns real data against a mesh that is actually loaded/generated in
+    this gmsh session.
 
-    sampled is SORTED ascending: this is what
-    ops.recorder("Element", ..., "-ele", *sampled, ...) then uses as its
-    element list, and OpenSees writes the recorder's columns in exactly
-    that argument order, so this sort order IS the column order every
-    results CSV is built against - changing it silently would misalign
-    every "element index" already on record.
+    ``sampled`` is SORTED ascending: this is what
+    ``ops.recorder("Element", ..., "-ele", *sampled, ...)`` then uses as
+    its element list, and OpenSees writes the recorder's columns in
+    exactly that argument order, so this sort order IS the column order
+    every results CSV is built against - changing it silently would
+    misalign every "element index" already on record.
+
+    Returns:
+        ``(sampled, interesting_vols, focus_eles)`` - the sorted list of
+        recorded element tags, the set of volumes carrying a contact
+        interface or junction tie, and the set of element tags belonging
+        to those volumes.
     """
     interesting_vols = (
         {c["volume_a"] for c in selected_interfaces} |

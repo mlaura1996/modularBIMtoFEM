@@ -8,7 +8,7 @@ inside the Docker image (see {doc}`docker_image`).
 
 ## 1. IFC → STEP + material database
 
-Chapter 4-era stage, unchanged by this chapter's work — see
+An earlier, unchanged pipeline stage — see
 {doc}`../developer_guide/architecture` for what it produces. For
 Castelnuovo, the prepared geometry (already cleaned, imprinted, and
 verified — 316 solids, 663.71 m³) ships in the repository at
@@ -38,24 +38,24 @@ Use raw `gmsh.model.occ.fragment(gmsh.model.occ.getEntities(3), [])` for
 conformal interfaces, not apeGmsh's `make_conformal()` — the latter breaks
 meshing on this geometry (Tetgen PLC error) and its default tolerance is
 calibrated for millimetre-scale models, not this metre-scale one. See
-{doc}`../developer_guide/task_b_parallel`.
+{doc}`../developer_guide/parallel_export`.
 ```
 
 **Don't partition yet** — `g.mesh.partitioning.partition()` mutates
 gmsh's element/entity bookkeeping in a way that breaks both
 `InterfaceDetection.find_touching_surface_pairs()` and
 `gmsh.model.mesh.getElements(dim=3, tag=vol)` afterward (found the hard
-way — see {doc}`../developer_guide/task_a_interfaces`). Everything in
+way — see {doc}`../developer_guide/interface_detection`). Everything in
 step 3 below must run first.
 
-## 3. Task A — select wall-to-wall interfaces
+## 3. Select wall-to-wall interfaces
 
 Which candidate interfaces to select is an engineering judgement (see
-{doc}`../developer_guide/task_a_interfaces` for why, and a real case where
+{doc}`../developer_guide/interface_detection` for why, and a real case where
 selecting too many produced an unstable mechanism) — make that decision
 once, locally, with `scripts/select_interfaces_gui.py`
 ({doc}`installation`'s recommended path, screenshots and implementation
-notes in {doc}`../developer_guide/task_a_interfaces`), **before** running
+notes in {doc}`../developer_guide/interface_detection`), **before** running
 this step in Docker. It saves to
 `resources/survey_data/castelnuovo/interface_selection.json`; everything
 below just loads that file back.
@@ -79,7 +79,7 @@ substitution = NodeSplitter.compute_node_map(gmsh.model, selected)
 # split_volume; computed too late (i.e. inside solid_elements() itself,
 # after partitioning), gmsh.model.mesh.getElements() silently returns
 # empty and nothing gets substituted at all (see
-# {doc}`../developer_guide/task_a_interfaces`).
+# {doc}`../developer_guide/interface_detection`).
 split_element_ids = set()
 for vol in substitution:
     _etypes, etags, _enodes = gmsh.model.mesh.getElements(dim=3, tag=vol)
@@ -88,12 +88,12 @@ for vol in substitution:
 ```
 
 The first run prompts on the terminal (a numbered table: pair, area,
-centroid, normal — see {doc}`../developer_guide/task_a_interfaces`); the
+centroid, normal — see {doc}`../developer_guide/interface_detection`); the
 selection is saved to the given path, and every subsequent run with the
 same path is non-interactive. **Be deliberate about which interfaces you
 select as contact joints**: selecting every candidate interface can produce
 a mechanism that is unstable under self-weight alone (a real result hit
-during development — see {doc}`../developer_guide/task_a_interfaces` for
+during development — see {doc}`../developer_guide/interface_detection` for
 the full account, including a genuine implementation bug that turned out
 to produce the identical failure mode).
 
@@ -133,7 +133,7 @@ aggregate, cleaned geometry, a real interactively-selected interface set)
 is `docker/opensees/full_aggregate_with_interfaces_clean.py` — converges
 on all 6 ranks, 0.028% self-weight/reaction balance error. See
 {doc}`../case_study/overview` for the numbers and
-{doc}`../developer_guide/task_a_interfaces` for what building it surfaced.
+{doc}`../developer_guide/interface_detection` for what building it surfaced.
 
 ## 6. Run with OpenSeesMP
 

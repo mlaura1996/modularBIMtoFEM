@@ -1,4 +1,4 @@
-# Task C — the Docker image
+# The Docker image
 
 Files: `docker/opensees/Dockerfile`, `run_analysis.sh`, `README.md`.
 Implements PROJECT_BRIEF.md §7: OpenSeesMP + MPI + MUMPS, portable between
@@ -42,9 +42,9 @@ always an argument, never hard-coded, per brief §7.3 ("make the number of
 MPI processes a parameter... it differs between the two machines"). Every
 invocation writes `output/run_logs/<timestamp>_np<N>.log` with wall-clock
 time, peak memory (`Maximum resident set size`, from GNU `time -v`),
-process count, hostname, and CPU count — the specific measurements brief
-§7.4 asks Chapter 7 to report for every run, framed there as "a deliverable
-... not a by-product."
+process count, hostname, and CPU count — treated as a deliverable of every
+run, not an afterthought, since a performance claim without these numbers
+next to it isn't verifiable.
 
 ## Verified
 
@@ -52,8 +52,8 @@ A minimal `FourNodeTetrahedron` static model with `numberer ParallelRCM` +
 `system Mumps` converges to the same nodal displacement on every MPI rank,
 both compiled directly and through this image's `docker run` entrypoint
 with a bind-mounted model file (see `README.md`'s smoke test). Full
-Task A/B reconciliation (see {doc}`task_b_parallel`) also runs inside this
-image via real `mpirun`.
+interface-detection/TCL-export reconciliation (see {doc}`parallel_export`)
+also runs inside this image via real `mpirun`.
 
 **Not yet verified**: the full-scale (~279k node / 954k tet) Castelnuovo
 mesh, or a run on the actual workstation — its specifications are still an

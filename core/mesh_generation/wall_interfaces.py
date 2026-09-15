@@ -1,7 +1,6 @@
 """
 Wall-to-wall contact interface detection, semi-automatic selection, and
-ZeroLengthContactASDimplex generation (Chapter 7 - Task A, see
-PROJECT_BRIEF.md section 5).
+ZeroLengthContactASDimplex generation (see PROJECT_BRIEF.md section 5).
 
 Pipeline:
     1. InterfaceDetection.find_touching_surface_pairs() - after
@@ -177,6 +176,7 @@ class InterfaceSelection:
         rounded to mm, deliberately NOT including volume_a/volume_b.
 
         Two things had to be learned the hard way to land on this:
+
         1. volume_a-volume_b alone is NOT sufficient: 144 of the 1010
            Castelnuovo candidates are volume pairs that touch at more than
            one separate patch (e.g. an L-shaped wall meeting another at two
@@ -398,7 +398,7 @@ class ContactInterfaceGenerator:
 
 
 class NodeSplitter:
-    """Bridges Task A's confirmed interfaces to element creation in
+    """Bridges confirmed interfaces to element creation in
     core/opensees_generation/model_builder.py: decides which volume on each
     interface gets its nodes duplicated, creates the duplicates in
     OpenSees, and hands back a substitution map that
@@ -446,7 +446,7 @@ class NodeSplitter:
         backend (openseespy or Tcl text). Split out from
         create_duplicate_nodes() so both backends (direct openseespy calls
         - see that method - and TclWriter.duplicate_nodes for the apeGmsh/
-        Task B path) can share the same node-map logic instead of
+        TCL-export path) can share the same node-map logic instead of
         duplicating it; the two backends only differ in how they turn a
         (tag, coord) pair into an actual node.
 
@@ -483,7 +483,7 @@ class NodeSplitter:
         """openseespy backend: compute_node_map() plus an ops.node() call
         per duplicate. See compute_node_map for the shared logic and the
         known limitation; see TclWriter.duplicate_nodes for the Tcl-text
-        equivalent used by the apeGmsh/Task B path.
+        equivalent used by the apeGmsh/TCL-export path.
 
         Deduplicates ops.node() calls across interfaces - a node where
         three or more walls meet can belong to more than one selected

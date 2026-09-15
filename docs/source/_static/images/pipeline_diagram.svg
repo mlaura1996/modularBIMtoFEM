@@ -1,5 +1,5 @@
 <svg viewBox="0 0 1160 260" xmlns="http://www.w3.org/2000/svg" role="img" font-family="Helvetica, Arial, sans-serif">
-  <title>modularBIMtoFEM pipeline: IFC to parallel OpenSees analysis</title>
+  <title>openBIMtoFEM pipeline: IFC to parallel OpenSees analysis</title>
   <desc>IFC building model, through IfcOpenShell/OpenCASCADE geometry extraction and apeGmsh meshing/partitioning, to a TCL model run on OpenSeesMP, producing a colour-mapped stress result.</desc>
 
   <defs>

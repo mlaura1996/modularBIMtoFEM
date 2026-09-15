@@ -8,8 +8,8 @@ depends on what you're doing.
 The `docker/opensees/Dockerfile` image bundles everything: IfcOpenShell,
 OpenCASCADE (pythonocc-core), Gmsh + apeGmsh, and OpenSees built with
 **OpenSeesMP + MPI + MUMPS**. This is the only environment the parallel
-analysis (Task B/C) actually runs in — OpenSeesPy in parallel does not work
-for this project (see {doc}`../developer_guide/task_c_docker`), so there is
+analysis actually runs in — OpenSeesPy in parallel does not work
+for this project (see {doc}`../developer_guide/docker_image_build`), so there is
 no "just pip install openseespy" path for that part.
 
 ```bash
@@ -35,11 +35,11 @@ the Docker image above, which installs `ifcopenshell` and
 `pythonocc-core` via `conda` (they are not readily pip-installable on
 Windows).
 
-## Local conda environment for Task A interface selection
+## Local conda environment for interactive interface selection
 
 Neither of the two environments above can open a GUI window or (for the
 Docker image) run matplotlib to a file conveniently: visually inspecting
-where the Task A candidate wall-to-wall interfaces actually are on the
+where the candidate wall-to-wall interfaces actually are on the
 building needs a real window, on the host, not in a container.
 
 ```bash
@@ -95,9 +95,9 @@ only, no PySide/pyvista/Qt) that renders the repaired geometry
 `scripts/repair_step_geometry.py` for how it was produced from a
 slab-free IFC) with every candidate wall-to-wall interface numbered and
 highlighted, and lets you tick/untick each one against the picture. See
-{doc}`../developer_guide/task_a_interfaces` for the full walkthrough with
-screenshots and {doc}`running_the_pipeline`'s Task A section for how the
-file it produces feeds the rest of the pipeline.
+{doc}`../developer_guide/interface_detection` for the full walkthrough with
+screenshots and {doc}`running_the_pipeline`'s interface-selection section
+for how the file it produces feeds the rest of the pipeline.
 
 ```bash
 python scripts/select_interfaces_gui.py
@@ -126,12 +126,12 @@ here), so a number noted from one is the same interface in another.
 ```text
 core/                     # IFC parsing, mesh generation, OpenSees generation
   ifc_processing/         #   IFC -> STEP + material database
-  mesh_generation/        #   Gmsh meshing, wall-to-wall interface detection (Task A)
-  opensees_generation/    #   model_builder.py (element creation), tcl_export.py (Task B)
-external/gmsh2opensees/   # STKO-era gmsh -> OpenSees bridge (Chapter 4, kept for reference)
+  mesh_generation/        #   Gmsh meshing, wall-to-wall interface detection
+  opensees_generation/    #   model_builder.py (element creation), tcl_export.py (parallel export)
+external/gmsh2opensees/   # STKO-era gmsh -> OpenSees bridge (kept for reference)
 models/                   # constitutive-law helper formulas (damage_law.py, ...)
 utils/                    # shared helpers (dict/gmsh/math/string, tag numbering)
-docker/opensees/          # Task C image, run script, README, and the standing
+docker/opensees/          # Docker image, run script, README, and the standing
                            #   regression test scripts (test_*.py)
 scripts/                  # local (non-Docker) interactive tools, e.g. inspect_interfaces.py
 resources/                # input data: IFC/STEP geometry, survey data, ontologies-derived JSON

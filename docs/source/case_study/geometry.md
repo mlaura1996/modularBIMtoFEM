@@ -1,9 +1,9 @@
 # Geometry preparation
 
-Prepared outside this repository; documented here because Chapter 7's
+Prepared outside this repository; documented here because the
 mesh-generation results depend on the specific choices made, and they
-should travel with the case study rather than live only in
-PROJECT_BRIEF.md.
+should travel with the case study rather than live only in an internal
+note.
 
 ## Provenance
 
@@ -18,8 +18,8 @@ PROJECT_BRIEF.md.
   larger (0.2034 m³ removed).
 - **General fuse (imprint)** applied, fuzzy tolerance 1e-4, so touching
   faces are conformal. Not a boolean union — all 316 solids stay separate
-  bodies, which is what allows per-body material assignment (Task
-  materials) and per-body interface definition (Task A) at all.
+  bodies, which is what allows per-body material assignment and per-body
+  interface definition at all.
 
 ## Resulting geometry
 
@@ -47,6 +47,6 @@ waiting on.
 62 touching pairs in the geometry make contact only at a vertex or along
 an edge — no actual contact surface. `InterfaceDetection.find_touching_surface_pairs`'s
 `min_area` filter exists specifically to exclude these (see
-{doc}`../developer_guide/task_a_interfaces`); they must never generate
+{doc}`../developer_guide/interface_detection`); they must never generate
 interface elements, since a zero-area contact surface has no meaningful
 tributary area to scale Kn/Kt by.

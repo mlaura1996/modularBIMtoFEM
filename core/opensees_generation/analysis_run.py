@@ -1,3 +1,10 @@
+"""Static (self-weight) analysis driver for a single-material gmsh model.
+
+Legacy serial-workflow entry point (see
+:doc:`../developer_guide/architecture`), not the interface-detection
+parallel-export route.
+"""
+
 import openseespy.opensees as ops
 from core.config import *
 from external.gmsh2opensees import *
@@ -7,6 +14,14 @@ from utils.dict_helper import *
 from .model_builder import ModelBuilder, Element, BoundaryConditions, Loads
 
 def run_static_analysis(gmshmodel, materials_dict):
+    """Build the OpenSees model from a gmsh model + material database and run static self-weight analysis.
+
+    Initializes a 3-DOF/node model via :class:`ModelBuilder`, creates
+    elements via :meth:`Element.add_elements_to_opensees`, fixes base
+    nodes via :meth:`BoundaryConditions.fix_nodes`, applies self-weight
+    as a linear static load pattern, and runs the analysis to
+    completion.
+    """
     # Step 1: Initialize the Model (3D Model with 3 DOF per node)
     model = ModelBuilder(ndm=3, ndf=3)
     model.initialize_model()
@@ -130,23 +145,20 @@ def adaptive_analysis_step(total_duration, initial_num_incr, max_iter=20, desire
     print("Adaptive analysis loop completed.")
    
 
-@staticmethod
 def force_displacement_recorder(folder_name:str, analysis_name:str, control_point, reaction_points, dof):
-    """
-    Sets up recorders for capturing the displacement and reaction forces at specific nodes during the analysis.
+    """Set up OpenSees recorders for a control-point displacement and multi-node reaction forces.
 
-    This function configures two types of OpenSees recorders:
-    1. Displacement Recorder: Records the displacement at a control node across a specified degree of freedom (dof).
-    2. Reaction Force Recorder: Records the reaction forces at multiple nodes across the specified degree of freedom.
+    Configures two recorders: a displacement recorder at ``control_point``
+    and a reaction-force recorder at ``reaction_points``, both along
+    ``dof`` and both writing to timestamped ``.out`` files under
+    ``folder_name``, named from ``analysis_name``.
 
-    The recorded data is saved in files within the provided folder, with filenames generated using the given analysis name.
-
-    Parameters:
-    - folder_name (str): The path to the folder where the output files will be saved.
-    - analysis_name (str): The base name used for the output files.
-    - control_point: The node ID at which displacement is recorded.
-    - reaction_points: A list of node IDs at which reaction forces are recorded.
-    - dof: The degree of freedom (e.g., 1 for x-axis, 2 for y-axis, etc.) to be monitored.
+    Args:
+        folder_name: Path to the folder where the output files are saved.
+        analysis_name: Base name used for the output files.
+        control_point: Node tag at which displacement is recorded.
+        reaction_points: Node tag(s) at which reaction forces are recorded.
+        dof: Degree of freedom to monitor (1=x, 2=y, 3=z, ...).
     """
     
     ops.recorder("Node", "-file", folder_name + "/" + analysis_name + "_displacement.out", "-time", "-node", control_point, "-dof", dof, "disp")

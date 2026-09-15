@@ -1,3 +1,13 @@
+"""Import-time settings and shared constants for the whole pipeline.
+
+Centralizes the IfcOpenShell/OpenCASCADE geometry settings
+(``GEOMETRY_SETTINGS``), STEP export settings, the export/output
+directory layout, the standard-gravity constant ``G``, and the unit
+convention (``STEP_UNIT = 'M'`` - the pipeline works throughout in
+consistent SI: metres, Pascals, kilograms, Newtons, seconds; see
+:doc:`../developer_guide/architecture`).
+"""
+
 # IFC OpenShell
 import ifcopenshell
 import ifcopenshell.geom

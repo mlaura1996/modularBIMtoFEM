@@ -1,4 +1,4 @@
-# Task A — wall-to-wall interface selection
+# Wall-to-wall interface selection
 
 Module: `core/mesh_generation/wall_interfaces.py`. Implements
 PROJECT_BRIEF.md §5: after the geometry is imprinted (conformal, but not
@@ -147,9 +147,9 @@ Implementation notes for anyone touching this script:
 - `generate(selected, Kn_nominal, Kt_nominal, mu=0.6, int_type=1,
   get_new_ops_element_tag=None)` — emits one `zeroLengthContactASDimplex`
   element per split node pair, Kn/Kt scaled by tributary area, normal taken
-  from the interface's own geometry (**not** hard-coded to global X — the
-  brief is explicit, §4.2, that Castelnuovo has joints in several
-  directions, unlike the single-joint Chapter 6 specimen).
+  from the interface's own geometry (**not** hard-coded to global X —
+  Castelnuovo has joints in several directions, unlike the single-joint
+  SERA-AIMS reference specimen).
 
 ## `NodeSplitter`
 

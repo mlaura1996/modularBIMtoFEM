@@ -1,6 +1,14 @@
-from core.config import plt, csv, pd 
+"""Cyclic-test post-processing: displacement time series and force-displacement plots.
+
+Used by :mod:`core.opensees_generation.cyclic_test` (the legacy
+single-specimen cyclic-loading analysis, not the interface-detection
+aggregate route).
+"""
+
+from core.config import plt, csv, pd
 
 def visualize_timeseries(df):
+    """Plot a displacement time series from a DataFrame with "Estimated Time (s)" and "Ux_top [mm]" columns."""
     # Extract time and displacement values
     time_values = df['Estimated Time (s)'].values  # Time steps
     displacement_values = df['Ux_top [mm]'].values  # Displacement history at top of the wall
@@ -13,14 +21,19 @@ def visualize_timeseries(df):
     plt.grid(True)
     plt.show()
 
-@staticmethod
 def create_csv_file_for_force_displacement_recorder(reaction_file, displacement_file, output_csv_file):
-    """
-    Processes reaction and displacement data files and writes the combined results to a CSV file.
-    
-    :param reaction_file: Path to the file containing reaction data
-    :param displacement_file: Path to the file containing displacement data
-    :param output_csv_file: Path to the output CSV file
+    """Combine an OpenSees reaction-recorder file and a displacement-recorder file into one force-displacement CSV.
+
+    Sums every column but the first (per-node reactions at one time step)
+    in ``reaction_file``, reads the second column of ``displacement_file``
+    as the corresponding control-point displacement, prepends a
+    ``(0, 0)`` row, and writes ``TotalReaction, Displacement`` pairs to
+    ``output_csv_file``.
+
+    Args:
+        reaction_file: Path to the OpenSees reaction recorder output.
+        displacement_file: Path to the OpenSees displacement recorder output.
+        output_csv_file: Path to write the combined CSV to.
     """
     # Lists to store processed data
     reaction_sums = []
@@ -75,10 +88,11 @@ def create_csv_file_for_force_displacement_recorder(reaction_file, displacement_
             csv_writer.writerow([reaction, displacement])
 
 def plot_reaction_vs_displacement(file_path):
-        """
-        Reads a CSV file and plots Displacement (X-axis) vs Reaction Sum (Y-axis)
-        
-        :param file_path: Path to the CSV file containing the data
+        """Plot Displacement (x-axis) vs. total reaction (y-axis) from a `create_csv_file_for_force_displacement_recorder` CSV.
+
+        Args:
+            file_path: Path to the CSV file (``TotalReaction``,
+                ``Displacement`` columns).
         """
         data = pd.read_csv(file_path)
 

@@ -1,10 +1,31 @@
+"""Legacy single-material meshing and physical-group tagging (gmsh).
+
+The earlier, serial-workflow meshing path — still used by
+``main.py``/``in_plane_wall.py``/``out_of_plane_test.py`` (see
+:doc:`../developer_guide/architecture`), not by the interface-detection
+multi-volume aggregate route in
+:mod:`core.mesh_generation.wall_interfaces`.
+"""
+
 from core.config import EXPORT_DIR
 from core.config import gmsh, re, np
 #from . import connections
 
 class GmshModel:
-    @staticmethod 
+    """Builds a single gmsh model end to end: load STEP, tag materials, mesh."""
+
+    @staticmethod
     def createGmshModel(stepfile, labels, run_gmsh = True, use_adaptive_mesh = True):
+        """Load a STEP file into gmsh, fragment it, tag material physical groups, and mesh it.
+
+        ``labels`` names the per-volume materials, consumed by
+        :meth:`PhysicalGroups.add_material_physical_groups`. Meshes with
+        :meth:`Mesh.generate_adaptive_mesh` by default, or
+        :meth:`Mesh.fast_meshing` (fixed 0.3 m size) if
+        ``use_adaptive_mesh`` is ``False``. Opens the interactive gmsh
+        window (``gmsh.fltk.run()``) both mid-build and, if ``run_gmsh``,
+        again after meshing. Returns the ``gmsh.model`` module itself.
+        """
         gmsh.initialize()
         # Order 1 (linear Tet4), not 2: every element creator in
         # core.opensees_generation.model_builder.Element (both
@@ -34,9 +55,10 @@ class GmshModel:
 
 
 class Mesh:
+    """Mesh-generation strategies for a single-material gmsh model."""
 
     @staticmethod
-    def fast_meshing(gmshmodel, meshSize): 
+    def fast_meshing(gmshmodel, meshSize):
         """Generate a solid mesh without refinement"""
         gmshmodel.geo.removeAllDuplicates()
         gmsh.option.setNumber("Mesh.AngleToleranceFacetOverlap", 0.001)
@@ -99,9 +121,18 @@ class Mesh:
 
 
 class PhysicalGroups():
+    """Groups gmsh volumes/surfaces into named physical groups (materials, supports, loads)."""
 
     @staticmethod
     def add_material_physical_groups(labels):
+        """Group volumes into one physical group per material name, from per-volume entity names.
+
+        Matches each volume's gmsh entity name (set at STEP import,
+        typically ``<Material>_<thickness>_m``) against the material
+        prefix in ``labels`` (thickness suffix stripped), then creates one
+        3D physical group per distinct material covering all matching
+        volumes. Returns ``gmsh.model``.
+        """
         tridEleTags = gmsh.model.occ.getEntities(dim=3)
         OriginalDictionaryKeys = []
         OriginalDictionaryValues = []
@@ -136,6 +167,12 @@ class PhysicalGroups():
 
     @staticmethod
     def add_original_material_physical_groups(gmshmodel, labels):
+        """Same grouping as :meth:`add_material_physical_groups`, suffixed ``"original"``.
+
+        Used to keep a copy of the pre-modification material grouping
+        (each group named ``<material>original``) alongside a later,
+        possibly-edited set of physical groups on the same model.
+        """
         tridEleTags = gmshmodel.occ.getEntities(dim=3)
 
         OriginalDictionaryKeys = []
@@ -171,6 +208,14 @@ class PhysicalGroups():
 
     @staticmethod
     def add_supports_physical_groups(gmshmodel):
+        """Tag the downward-facing boundary surfaces of the "Footing" volume group as physical group "Fix".
+
+        Finds the volumes already grouped under the material name
+        containing ``"Footing"``, takes their boundary surfaces, and keeps
+        only the ones whose outward normal points straight down (the base
+        surfaces that should get a support boundary condition). Returns
+        ``gmsh.model``.
+        """
         for dim, tag in gmshmodel.getPhysicalGroups():
             if 'Footing' in gmshmodel.getPhysicalName(dim, tag):
                 footingTags = gmshmodel.getEntitiesForPhysicalGroup(3, tag)
@@ -191,6 +236,13 @@ class PhysicalGroups():
     
     @staticmethod
     def add_surface_loads_physical_groups(gmshmodel, runGmsh=True):
+        """Tag the upward-facing boundary surfaces of the "Steel" volume group as physical group "Load".
+
+        Mirrors :meth:`add_supports_physical_groups` but for the top
+        (load-application) surfaces of the material group whose name
+        contains ``"Steel"``: keeps boundary surfaces whose normal points
+        essentially straight up. Returns ``gmsh.model``.
+        """
         for dim, tag in gmshmodel.getPhysicalGroups():
             # Get the name of the physical group
             name = gmshmodel.getPhysicalName(dim, tag)

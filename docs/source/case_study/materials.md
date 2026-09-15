@@ -127,7 +127,8 @@ measured on this building specifically.
 
 **Tensile strength**: HMO has no rule for it either.
 `tensile_strength = compressive_strength × (0.17 / 1.30)` — the ft/fc ratio
-of the brief's own Chapter 6 (SERA-AIMS) reference masonry. Current values:
+of the SERA-AIMS reference masonry (an earlier experimentally-calibrated
+benchmark, see {doc}`../developer_guide/known_issues`). Current values:
 type A 0.451 MPa, types B/D 0.342 MPa, type C 0.274 MPa. See
 {doc}`../developer_guide/known_issues` for why this couldn't be left at 0.
 

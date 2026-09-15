@@ -80,20 +80,28 @@ def find_open_junctions(volume_tags, touching_pairs, max_gap=0.05,
                         measured_gaps=None):
     """Locate volume pairs that should be connected but are not.
 
-    volume_tags:    all 3-D entity tags (after fragment + synchronize)
-    touching_pairs: set of (min, max) volume-tag pairs fragment() already
-                    fused - i.e. what InterfaceDetection.
-                    find_touching_surface_pairs() reports
-    max_gap:        only bridge junctions closer than this (m)
-    only_pairs:     optional set of (min, max) volume-tag pairs to restrict
-                    to. STRONGLY recommended: screening on bounding boxes
-                    alone caught 208 "junctions" on this geometry (large
-                    faces whose boxes come close without the solids being
-                    anywhere near each other), which bridged far too much
-                    and left the model unmeshable. Pass the pairs whose
-                    real solid-to-solid distance was measured instead.
+    Args:
+        volume_tags: All 3-D entity tags (after fragment + synchronize).
+        touching_pairs: Set of ``(min, max)`` volume-tag pairs
+            ``fragment()`` already fused - i.e. what
+            ``InterfaceDetection.find_touching_surface_pairs()`` reports.
+        max_gap: Only bridge junctions closer than this (m).
+        min_bridge_area: Minimum bridging-face area (m²) for a candidate
+            junction to be considered real contact rather than a
+            near-miss.
+        only_pairs: Optional set of ``(min, max)`` volume-tag pairs to
+            restrict the search to. STRONGLY recommended: screening on
+            bounding boxes alone caught 208 "junctions" on this geometry
+            (large faces whose boxes come close without the solids being
+            anywhere near each other), which bridged far too much and
+            left the model unmeshable. Pass the pairs whose real
+            solid-to-solid distance was measured instead.
+        measured_gaps: Optional ``{(min, max): gap_m}`` map of
+            already-measured solid-to-solid distances, to skip
+            re-measuring pairs the caller has already checked.
 
-    Returns a list of dicts describing each bridge to build.
+    Returns:
+        A list of dicts describing each bridge to build.
     """
     vol_bbox = {v: gmsh.model.occ.getBoundingBox(3, v) for v in volume_tags}
     vol_faces = {}

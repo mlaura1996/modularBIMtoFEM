@@ -1,3 +1,15 @@
+"""Builds OpenSees elements/materials and boundary conditions from a gmsh model.
+
+The core of every route (legacy serial and interface-detection/parallel-export alike):
+:class:`ModelBuilder` opens an OpenSees `basicBuilder` model,
+:class:`Element` turns each material's gmsh volumes into
+``FourNodeTetrahedron`` elements (linear-elastic or ASDConcrete3D
+plastic-damage, per :attr:`Material.material_model_type
+<core.ifc_processing.data_extractor.Material>`), :class:`BoundaryConditions`
+fixes the "Fix" physical group, and :class:`Loads` wraps the
+self-weight/pushover load patterns.
+"""
+
 from core.config import G
 from openseespy.opensees import *
 from external.gmsh2opensees import *
@@ -11,28 +23,32 @@ import numpy as np
 
 
 class ModelBuilder:
-    
+    """Opens an OpenSees `basicBuilder` model with a fixed number of dimensions/DOFs per node."""
+
     def __init__(self, ndm: int, ndf: int):
         """Initialize instance variables to store model configuration."""
         self.ndm = ndm  # Number of dimensions
         self.ndf = ndf  # Number of degrees of freedom
-        
+
         # Initialize the model in OpenSees using instance variables
         model("basicBuilder", "-ndm", self.ndm, "-ndf", self.ndf)
 
     def initialize_model(self):
+        """Print a confirmation of the model's dimension/DOF configuration (the model itself is built in `__init__`)."""
         # Access the instance variables with self
         print(f"Building a solid model with {self.ndm} dimensions and {self.ndf} degrees of freedom")
 
 
 class Element:
+    """Element/material construction: linear-elastic and ASDConcrete3D plastic-damage tetrahedra."""
 
     def __init__(self):
+        """Placeholder instance state; every real method on this class is a `@staticmethod` and does not use it."""
         self.node_tags = []
         self.element_tag = 0
         self.element_name = ""
         self.side_lenght = 0
-    
+
     def get_element_side_lenght(element_tag: int):
         """This method returns the side lenght of a gmsh element given the element tag."""
         
@@ -43,6 +59,16 @@ class Element:
         
     @staticmethod
     def create_linear_elastic_element(gmshmodel, material, solid_material_tag, element_tags, node_tags) -> int:
+        """Build `ElasticIsotropic` + `FourNodeTetrahedron` elements for one material's elements.
+
+        Converts ``material.young_modulus`` from MPa to Pa (all other
+        properties are already SI); creates one shared
+        ``nDMaterial('ElasticIsotropic', ...)`` and one
+        ``FourNodeTetrahedron`` element per ``(element_tags, node_tags)``
+        pair, applying self-weight as each element's own body force.
+        Returns ``solid_material_tag`` unchanged, matching
+        :meth:`create_plastic_damage_elements`'s return convention.
+        """
 
         E = material.young_modulus #MPa - N/mm2
         E = (float(E))*1e6 #Pa - N/m2
@@ -391,6 +417,7 @@ class Element:
 
 
 class BoundaryConditions:
+    """Applies OpenSees support constraints from gmsh physical groups."""
 
     @staticmethod
     def fix_nodes(gmshmodel):
@@ -420,7 +447,10 @@ class BoundaryConditions:
 
 
 class Loads:
+    """Wraps an OpenSees `timeSeries`/`pattern` pair and the `eleLoad` self-weight/pushover helpers built on it."""
+
     def __init__(self, timeSeriesType: str, timeSeriesTag: int, patternType: str, patternTag: int):
+        """Create and register the OpenSees time series and load pattern this instance's loads will use."""
         self.timeSeriesType = timeSeriesType
         self.timeSeriesTag = timeSeriesTag
         self.patternType = patternType
@@ -431,14 +461,17 @@ class Loads:
 
     @staticmethod
     def addSelfWeight(elementTags):
+        """Apply downward (-z) self-weight body force to the given elements."""
         eleLoad("-ele", *elementTags, "-type", "-selfWeight", 0, 0, -1)
-    
+
     @staticmethod
     def addMassPushover_X_pos(elementTags):
+        """Apply a unit mass-proportional body force in +x to the given elements (static pushover surrogate)."""
         eleLoad("-ele", *elementTags, "-type", "-selfWeight", 1, 0, 0)
-    
+
     @staticmethod
     def addMassPushover_X_neg(elementTags):
+        """Apply a unit mass-proportional body force in -x to the given elements (static pushover surrogate)."""
         eleLoad("-ele", *elementTags, "-type", "-selfWeight", -1, 0, 0)
     
     

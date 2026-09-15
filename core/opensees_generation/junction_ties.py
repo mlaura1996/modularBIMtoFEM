@@ -18,7 +18,7 @@ So the connection is restored at the FE level instead, with multi-point
 constraints between the facing nodes - the standard way to couple
 non-matching meshes, and the exact reverse of
 ``core.mesh_generation.wall_interfaces.NodeSplitter``, which deliberately
-splits shared nodes to DEcouple a Task A contact interface.
+splits shared nodes to DEcouple a contact interface.
 
 What it does NOT do
 -------------------
@@ -60,38 +60,37 @@ def find_junction_ties(junctions, node_tags_by_volume, node_coords_by_tag,
                        node_substitution=None, return_volumes=False):
     """Build the node pairs to tie.
 
-    junctions:           iterable of (volume_a, volume_b, gap) - the open
-                         junctions to close
-    node_tags_by_volume: {volume_tag: set of mesh node tags}
-    node_coords_by_tag:  {node tag: (x, y, z)}
-    excluded_nodes:      nodes that must not become slaves (the fixed base
-                         nodes - a node cannot be both fixed and slaved
-                         without the two constraints fighting)
-    max_tie_distance:    only tie pairs at most this far apart (m)
-    node_substitution:   {volume: {gmsh_node: node_that_volume_uses}} - the
-                         map NodeSplitter.create_duplicate_nodes returns
-                         when contact interfaces are also in the model.
-                         Each tie endpoint is chosen ON BEHALF OF one
-                         volume, so it must be the node that volume's
-                         elements actually reference. Without this, a node
-                         on a contact face of a split volume is tied under
-                         its gmsh tag while the volume's tetrahedra use its
-                         duplicate: equalDOF accepts it, nothing errors,
-                         and the tie carries no load. Found on the full
-                         Castelnuovo model - nodes 5827 and 5828, on a
-                         Task A face of a volume that also closes an open
-                         junction. Coordinates are still looked up by gmsh
-                         tag (a duplicate sits at its original's position).
-                         excluded_nodes must then be given in the same,
-                         substituted numbering.
-    return_volumes:      also return the (volume_a, volume_b) each tie was
-                         built for, aligned with ties - what a caller needs
-                         to verify each endpoint belongs to its volume.
+    Args:
+        junctions: Iterable of ``(volume_a, volume_b, gap)`` - the open
+            junctions to close.
+        node_tags_by_volume: ``{volume_tag: set of mesh node tags}``.
+        node_coords_by_tag: ``{node tag: (x, y, z)}``.
+        excluded_nodes: Nodes that must not become slaves (the fixed base
+            nodes - a node cannot be both fixed and slaved without the
+            two constraints fighting).
+        max_tie_distance: Only tie pairs at most this far apart (m).
+        node_substitution: ``{volume: {gmsh_node: node_that_volume_uses}}``
+            - the map ``NodeSplitter.create_duplicate_nodes`` returns when
+            contact interfaces are also in the model. Each tie endpoint is
+            chosen ON BEHALF OF one volume, so it must be the node that
+            volume's elements actually reference. Without this, a node on
+            a contact face of a split volume is tied under its gmsh tag
+            while the volume's tetrahedra use its duplicate: ``equalDOF``
+            accepts it, nothing errors, and the tie carries no load.
+            Found on the full Castelnuovo model - nodes 5827 and 5828, on
+            an interface face of a volume that also closes an open junction.
+            Coordinates are still looked up by gmsh tag (a duplicate sits
+            at its original's position). ``excluded_nodes`` must then be
+            given in the same, substituted numbering.
+        return_volumes: Also return the ``(volume_a, volume_b)`` each tie
+            was built for, aligned with ``ties`` - what a caller needs to
+            verify each endpoint belongs to its volume.
 
-    Returns (ties, per_junction_counts) where ties is a list of
-    (master_tag, slave_tag, distance). Each node appears at most once
-    across the whole list, whether as master or slave: OpenSees cannot
-    resolve chained or duplicated constraints on the same DOF.
+    Returns:
+        ``(ties, per_junction_counts)`` where ``ties`` is a list of
+        ``(master_tag, slave_tag, distance)``. Each node appears at most
+        once across the whole list, whether as master or slave: OpenSees
+        cannot resolve chained or duplicated constraints on the same DOF.
     """
     ties = []
     tie_volumes = []

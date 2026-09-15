@@ -23,8 +23,8 @@ one unit with anomalously large displacement (~3.5 cm) versus the rest.
 find_ground_bearing_volumes()` - a volume counts as ground-bearing only if
 its own bottom face is not shared with another volume's top, reusing the
 existing `"horizontal_bearing"` touching-pair classification (previously
-only used to keep floor/slab contacts out of Task A's interface list -
-same geometric signal, opposite question). Each ground-bearing volume is
+only used to keep floor/slab contacts out of the interface-detection list
+- same geometric signal, opposite question). Each ground-bearing volume is
 then fixed at its *own* local z_min, not one global one.
 
 **Verified**: `docker/opensees/self_weight_check_full_aggregate.py` -
@@ -62,8 +62,8 @@ zero), since both cases sum to the right total.
 
 **The bug.** `Element.create_plastic_damage_elements`
 (`core/opensees_generation/model_builder.py`) was calibrated for an
-N-mm-t unit system (matching PROJECT_BRIEF.md §4.1's own reference table,
-which documents the *Chapter 6* STKO model — built at millimetre scale)
+N-mm-t unit system (matching the SERA-AIMS reference STKO model, built at
+millimetre scale)
 while every node coordinate reaching it, from `apeGmsh`/Gmsh via the STEP
 geometry, is in **metres** (`core/config.py`'s `STEP_UNIT = 'M'`). `E`,
 `fc`, `ft` stayed in MPa and density was converted to t/mm³, but geometry
@@ -103,9 +103,9 @@ actual softening branch, fed straight into `nDMaterial ASDConcrete3D`.
 strength," and the code had no way to distinguish the two.
 
 **The fix.** `tensile_strength = compressive_strength * (0.17 / 1.30)` —
-the ft/fc ratio of PROJECT_BRIEF.md's own Chapter 6 (SERA-AIMS) reference
-masonry, the closest documented precedent available, not a masonry-science
-formula (recorded as such in the JSON, not hidden).
+the ft/fc ratio of the SERA-AIMS reference masonry, the closest documented
+precedent available, not a masonry-science formula (recorded as such in
+the JSON, not hidden).
 
 **Verified**: re-ran the same tension-curve call and confirmed it now
 returns a real 21001-point exponential softening curve instead of the
@@ -171,8 +171,8 @@ runnable — see the next entry.
 
 ## Still open
 
-- **ASDConcrete3D + Task A contact interfaces don't converge together
-  yet.** `docker/opensees/test_asdconcrete3d_parallel.py` combines the
+- **ASDConcrete3D + contact interfaces don't converge together yet.**
+  `docker/opensees/test_asdconcrete3d_parallel.py` combines the
   real survey-derived material (`Tufelli_masonry_typeA`) with contact
   interfaces on the 18-volume/6-partition cluster - both pieces are
   individually verified elsewhere (material: {doc}`known_issues` units
@@ -182,7 +182,7 @@ runnable — see the next entry.
   root-caused: candidates are the material+contact nonlinear combination
   itself, the 18-volume cluster's specific topology (only 2 of many
   candidate interfaces selected, same shape of risk as the "unrestrained
-  mechanism" finding in {doc}`task_a_interfaces`), or the single-
+  mechanism" finding in {doc}`interface_detection`), or the single-
   representative-crack-band-length simplification documented in that
   script's own docstring. Kept as a standing repro case, not deleted.
 - **`in_plane_wall.py`/`out_of_plane_test.py` are missing more than config
@@ -213,9 +213,9 @@ runnable — see the next entry.
   runs cleanly and looks reasonable without actually being correct.
   Deliberately not guessed at.
 
-  **Deprioritised, on request**: these are Chapter 6 SERA-AIMS specimen
-  scripts, not part of this chapter's Castelnuovo case study. Left
-  documented as "not yet runnable" rather than implemented with guessed
+  **Deprioritised, on request**: these are SERA-AIMS reference-specimen
+  scripts, not part of the Castelnuovo case study. Left documented as
+  "not yet runnable" rather than implemented with guessed
   engineering logic. Revisit if/when they're back in scope, ideally with
   either the original working version of these two functions or an
   explicit specification of the control-point selection rule.

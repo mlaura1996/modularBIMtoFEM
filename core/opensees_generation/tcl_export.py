@@ -1,6 +1,6 @@
 """
-Hand-written, partition-aware OpenSeesMP TCL exporter (Task B,
-PROJECT_BRIEF.md section 6).
+Hand-written, partition-aware OpenSeesMP TCL exporter (PROJECT_BRIEF.md
+section 6).
 
 apeGmsh's own g.opensees.export.tcl() was evaluated (see chat log) and
 found unsuitable for this project's parallel route: its element registry
@@ -98,14 +98,14 @@ class TclWriter:
 
         node_substitution (optional): {volume_tag: {orig_node_tag: dup_node_tag}}
         from core.mesh_generation.wall_interfaces.NodeSplitter.compute_node_map,
-        for Task A/B reconciliation - a confirmed interface's "split side"
-        volume gets its connectivity reassigned to duplicate node tags
+        for interface-detection/TCL-export reconciliation - a confirmed
+        interface's "split side" volume gets its connectivity reassigned to duplicate node tags
         exactly as core.opensees_generation.model_builder.Element does for
         the direct-openseespy path (which scopes correctly - see below).
         split_element_ids (required together with node_substitution): the
         set of element ids belonging to any of node_substitution's split
         volumes - MUST be computed by the caller BEFORE
-        g.mesh.partitioning.partition() (see below for why), e.g.:
+        g.mesh.partitioning.partition() (see below for why), e.g.::
 
             split_element_ids = set()
             for vol in substitution:
@@ -116,6 +116,7 @@ class TclWriter:
         TWO real bugs, found and fixed here, both on the Castelnuovo full-
         aggregate + 11-interface run ("Matrix is Singular Numerically" at
         the very first load step):
+
         1. An earlier version flattened every volume's {orig: dup} into
            one global dict and applied it to every element in pg_name
            regardless of which volume that element actually belongs to -
