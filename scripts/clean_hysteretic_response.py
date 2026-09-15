@@ -90,8 +90,16 @@ left open here.
 results_dir defaults to output/castelnuovo/results_timehistory - the
 small, git-tracked postprocessing output, not the raw recorders. Writes
 response_clean.csv (all of response.csv's columns, plus BS_clean_N,
-BS_clean_over_W - despiked AND low-pass filtered - and spike_flag) into
-the same directory.
+BS_clean_over_W - despiked AND low-pass filtered - spike_flag, and
+cumulative_dissipated_energy_clean_J) into the same directory.
+
+The last of those matters beyond the hysteretic loop: energy.csv
+(postprocess_timehistory.py's own output) integrates the RAW base shear
+and is dominated by the same contamination - checked directly, 92% of its
+final total comes from the 12% of intervals touching a flagged spike.
+energy.csv is left as-is (an honest record of what the raw recording
+contains) rather than overwritten; cumulative_dissipated_energy_clean_J
+here is the one to plot or quote instead.
 """
 import csv
 import json
@@ -213,15 +221,35 @@ def main():
     i = np.argmax(np.abs(bs_clean))
     print(f"  final cleaned peak occurs at t = {t[i]:.3f} s")
 
+    # Cumulative dissipated hysteretic energy, recomputed from the CLEANED
+    # signal. The original energy.csv (postprocess_timehistory.py) used the
+    # raw BS_N and is dominated by the same contamination: checked directly
+    # against this run - 92% of its final total comes from the intervals
+    # touching a flagged spike (2.6e6 J from the clean 88% of intervals vs
+    # 3.10e7 J from the 12% touching a spike, out of a 3.36e7 J total), so
+    # it is not a small correction, it is most of the number. That file is
+    # NOT overwritten here (it is a direct, honestly-labelled record of what
+    # the raw recording contains) - this is the one to use instead.
+    d_rd = np.diff(rd)
+    bs_mid_raw = 0.5 * (bs[1:] + bs[:-1])
+    bs_mid_clean = 0.5 * (bs_clean[1:] + bs_clean[:-1])
+    incr_raw = np.abs(bs_mid_raw * d_rd)
+    incr_clean = np.abs(bs_mid_clean * d_rd)
+    cum_clean = np.concatenate(([0.0], np.cumsum(incr_clean)))
+    print(f"  cumulative dissipated energy: raw-signal total = "
+          f"{incr_raw.sum():.3e} J (dominated by spikes); "
+          f"cleaned total = {cum_clean[-1]:.3e} J")
+
     out_path = os.path.join(RESULTS_DIR, "response_clean.csv")
     with open(out_path, "w") as fh:
         fh.write("time_s,Rd_m,drift_ratio,BS_N,BS_over_W,"
-                 "BS_clean_N,BS_clean_over_W,spike_flag\n")
+                 "BS_clean_N,BS_clean_over_W,spike_flag,"
+                 "cumulative_dissipated_energy_clean_J\n")
         for i, r in enumerate(rows):
             fh.write(f"{t[i]:.4f},{rd[i]:.8e},{r['drift_ratio']},"
                      f"{bs[i]:.6e},{bs[i] / weight:.6e},"
                      f"{bs_clean[i]:.6e},{bs_clean[i] / weight:.6e},"
-                     f"{int(flag[i])}\n")
+                     f"{int(flag[i])},{cum_clean[i]:.6e}\n")
     print(f"Wrote {out_path}")
 
 
