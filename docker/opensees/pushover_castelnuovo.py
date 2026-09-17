@@ -493,27 +493,55 @@ upper_untied = [n for n in all_node_tags
 if not upper_untied:
     say("  no untied node in the upper half - falling back to all untied nodes")
     upper_untied = [n for n in all_node_tags if n not in tied_node_tags]
-control_node = max(upper_untied, key=lambda n: abs(best_phi.get(n, 0.0)))
-say(f"control node: {control_node} (z={node_z[control_node]:.3f} m, "
-    f"|phi_mode{best_mode}|={abs(best_phi[control_node]):.4e} - the largest "
-    f"mode-{best_mode} displacement among {len(upper_untied)} untied "
-    f"candidates in the upper half of the building)")
 
+# LOAD_PATTERN_TYPE: "mode1" (default) failed to converge on the real
+# desktop smoke test even after the mass and tied-node fixes - load
+# factor still in the millions on every step-size fallback, unchanged in
+# order of magnitude regardless of which node was tried. "mass" is a
+# deliberately simpler, diagnostic alternative (uniform mass-proportional
+# pattern, F_i = m_i - NTC18/EC8's "uniform" pattern, not the first-mode
+# one originally requested) to isolate whether the problem is specific to
+# the eigenvector-based pattern/control-node construction or is more
+# fundamental to a static DisplacementControl push on this contact+damage
+# model (which so far has only ever been solved with LoadControl, for
+# gravity, or Transient, for the earthquake - never a static
+# DisplacementControl push, so this combination is genuinely unverified
+# regardless of pattern shape).
+LOAD_PATTERN_TYPE = argval("--load-pattern", "mode1")
 model_height = max(node_z.values()) - min(node_z.values())
 
-# --- 10. first-mode-proportional load pattern --------------------------------
 ops.wipeAnalysis()
 ops.timeSeries("Linear", 2)
 ops.pattern("Plain", 2, 2)
 n_loaded = 0
-for n in all_node_tags:
-    fx = node_mass_x[n] * best_phi[n]
-    if fx != 0.0:
-        load_vec = [0.0, 0.0, 0.0]
-        load_vec[EXC_DOF - 1] = fx
-        ops.load(n, *load_vec)
-        n_loaded += 1
-say(f"first-mode-proportional load pattern applied to {n_loaded} nodes")
+
+if LOAD_PATTERN_TYPE == "mass":
+    control_node = max(upper_untied, key=lambda n: node_z[n])
+    say(f"control node: {control_node} (z={node_z[control_node]:.3f} m) - "
+        f"highest untied node, since a uniform mass-proportional pattern "
+        f"has no mode shape to pick a control point from")
+    for n in all_node_tags:
+        fx = node_mass_x[n]
+        if fx != 0.0:
+            load_vec = [0.0, 0.0, 0.0]
+            load_vec[EXC_DOF - 1] = fx
+            ops.load(n, *load_vec)
+            n_loaded += 1
+    say(f"mass-proportional (uniform) load pattern applied to {n_loaded} nodes")
+else:
+    control_node = max(upper_untied, key=lambda n: abs(best_phi.get(n, 0.0)))
+    say(f"control node: {control_node} (z={node_z[control_node]:.3f} m, "
+        f"|phi_mode{best_mode}|={abs(best_phi[control_node]):.4e} - the largest "
+        f"mode-{best_mode} displacement among {len(upper_untied)} untied "
+        f"candidates in the upper half of the building)")
+    for n in all_node_tags:
+        fx = node_mass_x[n] * best_phi[n]
+        if fx != 0.0:
+            load_vec = [0.0, 0.0, 0.0]
+            load_vec[EXC_DOF - 1] = fx
+            ops.load(n, *load_vec)
+            n_loaded += 1
+    say(f"first-mode-proportional load pattern applied to {n_loaded} nodes")
 
 # --- 11. pushover analysis settings - same robustness as the time-history's -
 # transient phase (EnergyIncr/NewtonLineSearch): this is the same contact +
@@ -649,6 +677,7 @@ summary = {
     "base_reaction_N": abs(reaction_z),
     "excitation_dof": EXC_DOF,
     "eigen_modes_scanned": N_MODES_SCAN,
+    "load_pattern_type": LOAD_PATTERN_TYPE,
     "load_pattern_mode": best_mode,
     "load_pattern_mode_X_participating_mass": best_participation,
     "control_node": control_node,
