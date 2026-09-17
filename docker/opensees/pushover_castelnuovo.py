@@ -520,14 +520,24 @@ if LOAD_PATTERN_TYPE == "mass":
     say(f"control node: {control_node} (z={node_z[control_node]:.3f} m) - "
         f"highest untied node, since a uniform mass-proportional pattern "
         f"has no mode shape to pick a control point from")
-    for n in all_node_tags:
-        fx = node_mass_x[n]
-        if fx != 0.0:
-            load_vec = [0.0, 0.0, 0.0]
-            load_vec[EXC_DOF - 1] = fx
-            ops.load(n, *load_vec)
-            n_loaded += 1
-    say(f"mass-proportional (uniform) load pattern applied to {n_loaded} nodes")
+    # eleLoad -selfWeight, not nodal ops.load() with the hand-computed
+    # tributary mass: this is the SAME mechanism gravity already uses
+    # successfully (Element.create_plastic_damage_elements bakes rho*G into
+    # every element's own body force; this is that same body-force command,
+    # horizontal instead of vertical, at unit "acceleration" so the
+    # DisplacementControl load factor is a physically legible multiple of
+    # g). Reuses proven code instead of the custom per-node mass computed
+    # above (which stays in use for the mode1 pattern below, since a modal
+    # shape varies per node and -selfWeight can only apply one uniform
+    # acceleration to a whole element set).
+    body_force = [0.0, 0.0, 0.0]
+    body_force[EXC_DOF - 1] = 1.0
+    ops.eleLoad("-ele", *[int(e) for e in element_tags], "-type", "-selfWeight",
+               *body_force)
+    n_loaded = len(element_tags)
+    say(f"mass-proportional (uniform) load pattern applied via eleLoad "
+        f"-selfWeight to {n_loaded} elements - the same body-force "
+        f"mechanism gravity uses, horizontal instead of vertical")
 else:
     control_node = max(upper_untied, key=lambda n: abs(best_phi.get(n, 0.0)))
     say(f"control node: {control_node} (z={node_z[control_node]:.3f} m, "
