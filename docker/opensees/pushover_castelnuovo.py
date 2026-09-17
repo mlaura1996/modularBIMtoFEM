@@ -605,6 +605,15 @@ add_recorder("control_disp", "Node", "-time", "-node", control_node,
              "-dof", 1, 2, 3, "disp")
 add_recorder("base_reaction", "Node", "-time",
              "-node", *[int(n) for n in base_arr], "-dof", 1, 2, 3, "reaction")
+# Full-field nodal displacement - every node, all 3 DOFs, every step. Not
+# recorded in timehistory_castelnuovo.py at all (only roof_disp's 20-node
+# subset, per-step there was already the bottleneck at 3900 steps) - a
+# pushover has far fewer steps (tens, not thousands), so recording every
+# node is tractable here, and this is what a deformed-shape view in gmsh
+# actually needs: per-node displacement, not the per-element strain/damage
+# fields the time-history's viewer scripts use.
+add_recorder("node_disp", "Node", "-time",
+             "-node", *all_node_tags, "-dof", 1, 2, 3, "disp")
 add_recorder("solid_strain", "Element", "-time",
              "-ele", *sampled, "material", "1", "strain")
 for cand in ("damage", "Damage", "damage_tension"):
