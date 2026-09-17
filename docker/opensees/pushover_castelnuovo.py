@@ -393,13 +393,53 @@ eigenvalues = ops.eigen(N_MODES_SCAN)
 say(f"eigen done ({time.perf_counter()-t0:.1f} s)")
 
 all_node_tags = [int(t) for t in node_tags_all]
-node_mass_x = {}
-for n in all_node_tags:
+
+# Nodal mass, computed directly from element geometry (tributary volume x
+# RHO / 4 per tetrahedron corner) rather than queried via ops.nodeMass().
+# ops.nodeMass() only reports mass assigned through an explicit `mass`
+# command - it does NOT reflect the mass contribution FourNodeTetrahedron
+# + ASDConcrete3D's own `-rho` bakes into the assembled mass matrix (the
+# same mass UniformExcitation's -M*ag(t) and Rayleigh's alphaM*M actually
+# use). Querying it here returned exactly 0.0 for every node on the real
+# desktop run (confirmed: 0.00% X participating mass on all 10 scanned
+# modes, and a load pattern with 0 nodes loaded) - not a subtle numerical
+# issue, ops.nodeMass() simply is not the right query for element-implied
+# mass. Recomputed independently here so it never depends on that guess
+# again; checked against the known total (RHO * total_volume, already
+# verified via the gravity self-weight check above).
+coord_by_tag_full = dict(coord_by_tag)
+for vol_map in substitution.values():
+    for orig, dup in vol_map.items():
+        if orig in coord_by_tag_full:
+            coord_by_tag_full[dup] = coord_by_tag_full[orig]
+
+node_mass_x = {n: 0.0 for n in all_node_tags}
+n_mass_warnings = 0
+for tag in element_tags:
     try:
-        node_mass_x[n] = ops.nodeMass(n, EXC_DOF)
+        ele_nodes = ops.eleNodes(int(tag))
     except Exception:
-        node_mass_x[n] = 0.0
+        n_mass_warnings += 1
+        continue
+    if len(ele_nodes) != 4:
+        n_mass_warnings += 1
+        continue
+    try:
+        p = np.array([coord_by_tag_full[int(n)] for n in ele_nodes], dtype=float)
+    except KeyError:
+        n_mass_warnings += 1
+        continue
+    vol = abs(np.dot(p[1] - p[0], np.cross(p[2] - p[0], p[3] - p[0]))) / 6.0
+    m_corner = RHO * vol / 4.0
+    for n in ele_nodes:
+        n = int(n)
+        node_mass_x[n] = node_mass_x.get(n, 0.0) + m_corner
+if n_mass_warnings:
+    say(f"  WARNING: {n_mass_warnings} element(s) skipped while computing "
+        f"nodal mass (unexpected node count or missing coordinates)")
 total_mass_x = sum(node_mass_x.values())
+say(f"  computed total mass {total_mass_x:,.1f} kg vs RHO*total_volume "
+    f"{RHO*total_volume:,.1f} kg (should match closely)")
 
 best_mode, best_participation, best_phi = None, -1.0, None
 for mode in range(1, N_MODES_SCAN + 1):
