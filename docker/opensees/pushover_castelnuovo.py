@@ -461,13 +461,35 @@ for mode in range(1, N_MODES_SCAN + 1):
 say(f"using mode {best_mode} ({best_participation*100:.2f}% X mass) for the "
     f"first-mode-proportional load pattern")
 
-# --- 9. control node - same criterion postprocess_timehistory.py's Rd uses -
-top_nodes = sorted(node_z, key=lambda n: -node_z[n])[:20]
+# --- 9. control node - same criterion postprocess_timehistory.py's Rd uses,
+# but skipping any node that is a master or slave in a junction tie. A tie
+# is an equalDOF constraint (see junction_ties.apply_ties): a slave node's
+# DOFs are eliminated from the system by the Transformation constraint
+# handler and fully determined by its master, so a DisplacementControl
+# integrator targeting a tied node's own DOF fights the constraint instead
+# of loading the structure - a real candidate for the divergence
+# (load factor 6.7e7 on the first attempt) seen on the real desktop smoke
+# test. Untested whether this was actually the cause; it is the most
+# concrete, checkable suspect, and avoiding a tied control node is good
+# practice for a pushover regardless.
+tied_node_tags = {int(m) for m, s, _d in ties} | {int(s) for m, s, _d in ties}
+top_nodes_all = sorted(node_z, key=lambda n: -node_z[n])
+top_nodes_untied = [n for n in top_nodes_all if n not in tied_node_tags]
+n_tied_skipped = len([n for n in top_nodes_all[:20] if n in tied_node_tags])
+if n_tied_skipped:
+    say(f"  {n_tied_skipped} of the 20 highest nodes are involved in a "
+        f"junction tie - skipped for the control node choice")
+top_nodes = top_nodes_untied[:20]
 CONTROL_NODE_INDEX = argval("--control-node-index", 18, int)
+if CONTROL_NODE_INDEX >= len(top_nodes):
+    say(f"  only {len(top_nodes)} untied candidate(s) available, "
+        f"falling back to index 0")
+    CONTROL_NODE_INDEX = 0
 control_node = int(top_nodes[CONTROL_NODE_INDEX])
 say(f"control node: {control_node} (index {CONTROL_NODE_INDEX} of the 20 "
-    f"highest nodes by z, z={node_z[control_node]:.3f} m) - matches the "
-    f"time-history's own dominant Rd node on the same mesh settings")
+    f"highest UNTIED nodes by z, z={node_z[control_node]:.3f} m) - chosen "
+    f"with the same height criterion the time-history's Rd uses, but not "
+    f"necessarily the identical node if that one turned out to be tied")
 
 model_height = max(node_z.values()) - min(node_z.values())
 
