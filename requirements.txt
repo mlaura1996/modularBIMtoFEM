@@ -10,6 +10,11 @@ ifcopenshell==0.8.5
 numpy==2.2.6
 pandas==2.3.3
 matplotlib==3.10.9
+# Unpinned for now - scripts/clean_hysteretic_response.py's Butterworth
+# filter (scipy.signal.butter/filtfilt) needs it, but no image build has
+# resolved it yet to read a version off. Pin it here once one has, per
+# the same reproducibility rationale as the packages above.
+scipy
 
 # pythonocc-core (imported by core/config.py) is not reliably pip-installable
 # on Windows - the Docker image (docker/opensees/Dockerfile) installs it via
