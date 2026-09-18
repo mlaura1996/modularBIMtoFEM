@@ -494,6 +494,49 @@ if not upper_untied:
     say("  no untied node in the upper half - falling back to all untied nodes")
     upper_untied = [n for n in all_node_tags if n not in tied_node_tags]
 
+# Further restrict to the volumes that belong to the SAME connected
+# component in the equalDOF tie graph as the largest such component (the
+# building's "main body"). A volume that only touches its neighbours
+# through the unilateral contact interfaces (no equalDOF tie - some
+# open_junctions never qualify for one, see "n_applied ... of {len(open_
+# junctions)} junctions" above) offers little resistance in some
+# directions, so a control node picked there needs a disproportionate
+# global force to move by even a small amount - the same failure mode as
+# the earlier "highest untied node" bug, one level deeper. This is checked
+# even for the reference-step-selected "mass" control node above (recomputed
+# there too), since a locally-weak point can still look like "the biggest
+# response" to a tiny reference load without being a structurally sound
+# place to drive a whole pushover from.
+vol_adjacency = {}
+for va, vb in tie_vols:
+    vol_adjacency.setdefault(va, set()).add(vb)
+    vol_adjacency.setdefault(vb, set()).add(va)
+visited_vols, components = set(), []
+for v in volume_node_ids:
+    if v in visited_vols:
+        continue
+    comp, stack = set(), [v]
+    while stack:
+        cur = stack.pop()
+        if cur in comp:
+            continue
+        comp.add(cur)
+        visited_vols.add(cur)
+        stack.extend(vol_adjacency.get(cur, set()) - comp)
+    components.append(comp)
+main_component = max(
+    components, key=lambda c: sum(len(volume_node_ids[v]) for v in c))
+say(f"  {len(components)} volume cluster(s) by tie connectivity - main "
+    f"cluster has {len(main_component)} of {len(volume_node_ids)} volumes")
+main_component_nodes = {element_node(v, n) for v in main_component
+                        for n in volume_node_ids[v]}
+upper_untied_main = [n for n in upper_untied if n in main_component_nodes]
+if upper_untied_main:
+    upper_untied = upper_untied_main
+else:
+    say("  no untied upper candidate in the main tie-connected cluster - "
+        "keeping the unrestricted candidate list")
+
 # LOAD_PATTERN_TYPE: "mode1" (default) failed to converge on the real
 # desktop smoke test even after the mass and tied-node fixes - load
 # factor still in the millions on every step-size fallback, unchanged in
