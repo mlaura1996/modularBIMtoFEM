@@ -348,8 +348,17 @@ material = Material(
     compressive_elastic_behaviour=0,
 )
 say("building elements with ASDConcrete3D...")
+# --no-gravity: diagnostic for whether the pushover's diffuse strain
+# envelope comes from the lateral pattern itself, isolated from self-
+# weight - the rho*G body force is baked into each FourNodeTetrahedron at
+# creation time (not a Pattern/eleLoad call), so it can only be removed
+# here, not by skipping the "static gravity" analyze() step below.
+GRAVITY_SCALE = 0.0 if "--no-gravity" in sys.argv else 1.0
+if GRAVITY_SCALE == 0.0:
+    say("--no-gravity: building elements with ZERO self-weight body force")
 element_tags = Element.add_elements_to_opensees(
-    gmsh.model, {"Masonry": material}, node_substitution=substitution)
+    gmsh.model, {"Masonry": material}, node_substitution=substitution,
+    gravity_scale=GRAVITY_SCALE)
 say(f"{len(element_tags)} elements added ({time.perf_counter()-t0:.1f} s)")
 
 # --- 6. contact elements ------------------------------------------------------
@@ -380,9 +389,17 @@ reaction_z = 0.0
 ops.reactions()
 for n in base_arr:
     reaction_z += ops.nodeReaction(int(n), 3)
-weight = RHO * G_ACCEL * total_volume
-say(f"self-weight check: calculated {weight:,.1f} N vs reaction "
-    f"{abs(reaction_z):,.1f} N -> {abs(abs(reaction_z)-weight)/weight*100:.3f} %")
+weight = RHO * G_ACCEL * total_volume    # the building's real weight,
+                                          # kept as the base_shear_over_W
+                                          # denominator regardless of
+                                          # GRAVITY_SCALE, so that ratio
+                                          # stays comparable across runs
+if GRAVITY_SCALE == 0.0:
+    say(f"self-weight check skipped (--no-gravity): vertical reaction is "
+        f"{abs(reaction_z):,.1f} N (expected ~0)")
+else:
+    say(f"self-weight check: calculated {weight:,.1f} N vs reaction "
+        f"{abs(reaction_z):,.1f} N -> {abs(abs(reaction_z)-weight)/weight*100:.3f} %")
 
 ops.loadConst("-time", 0.0)
 
@@ -791,6 +808,7 @@ summary = {
     "contact_elements": n_contact,
     "contact_interfaces": len(contact),
     "base_nodes_fixed": len(base_arr),
+    "gravity_scale": GRAVITY_SCALE,
     "self_weight_N": weight,
     "base_reaction_N": abs(reaction_z),
     "excitation_dof": EXC_DOF,

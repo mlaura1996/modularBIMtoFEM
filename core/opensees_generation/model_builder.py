@@ -91,7 +91,7 @@ class Element:
         return solid_material_tag
     
     @staticmethod
-    def create_plastic_damage_elements(gmshmodel, material, solid_material_tag, element_tags, node_tags) -> int:
+    def create_plastic_damage_elements(gmshmodel, material, solid_material_tag, element_tags, node_tags, gravity_scale=1.0) -> int:
         """Builds ASDConcrete3D + FourNodeTetrahedron elements.
 
         UNIT FIX (see chat log for the full trace): this function used to
@@ -226,7 +226,7 @@ class Element:
 
             #Add the tetrahedron
 
-            element('FourNodeTetrahedron', element_tag, *node_tag, solid_material_tag, 0, 0, rho*G)
+            element('FourNodeTetrahedron', element_tag, *node_tag, solid_material_tag, 0, 0, rho*G*gravity_scale)
             #print('Nonlinear element added!')
     
         return (solid_material_tag)
@@ -266,7 +266,7 @@ class Element:
         return element_tags[0].tolist(), node_tags.tolist()
 
     @staticmethod
-    def add_elements_to_opensees(gmshmodel, materials_dict, node_substitution=None):
+    def add_elements_to_opensees(gmshmodel, materials_dict, node_substitution=None, gravity_scale=1.0):
         """This method create the opensees elements to add to the model.
 
         node_substitution (optional): {volume_tag: {orig_node_tag: dup_node_tag}},
@@ -277,6 +277,14 @@ class Element:
         zeroLengthContactASDimplex elements built on top of those
         duplicates (ContactInterfaceGenerator.generate) actually decouple
         the two sides instead of connecting to a rigidly-shared node.
+
+        gravity_scale (optional, default 1.0): multiplies the vertical
+        body force (rho*G) baked into every FourNodeTetrahedron at
+        creation time (PlasticDamage path only - see
+        create_plastic_damage_elements). This body force is a permanent
+        element property, not a Pattern/eleLoad call, so it cannot be
+        "turned off" later by skipping a load step - pass 0.0 here, at
+        element-creation time, for a lateral-only run with no self-weight.
         """
         names = get_solid_physical_groups(gmshmodel)
         materials_dict = filter_materials_by_name(materials_dict, names)
@@ -312,7 +320,7 @@ class Element:
             if material.material_model_type == 'LinearElastic':
                 tag = Element.create_linear_elastic_element(gmshmodel, material, solid_material_tag, element_tags, node_tags)
             elif material.material_model_type == 'PlasticDamage':
-                tag = Element.create_plastic_damage_elements(gmshmodel, material, solid_material_tag, element_tags, node_tags)
+                tag = Element.create_plastic_damage_elements(gmshmodel, material, solid_material_tag, element_tags, node_tags, gravity_scale=gravity_scale)
             tags.append(tag)
             all_element_tags.extend(element_tags)
 
