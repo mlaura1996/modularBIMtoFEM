@@ -536,49 +536,6 @@ if not upper_untied:
     say("  no untied node in the upper half - falling back to all untied nodes")
     upper_untied = [n for n in all_node_tags if n not in tied_node_tags]
 
-# Further restrict to the volumes that belong to the SAME connected
-# component in the equalDOF tie graph as the largest such component (the
-# building's "main body"). A volume that only touches its neighbours
-# through the unilateral contact interfaces (no equalDOF tie - some
-# open_junctions never qualify for one, see "n_applied ... of {len(open_
-# junctions)} junctions" above) offers little resistance in some
-# directions, so a control node picked there needs a disproportionate
-# global force to move by even a small amount - the same failure mode as
-# the earlier "highest untied node" bug, one level deeper. This is checked
-# even for the reference-step-selected "mass" control node above (recomputed
-# there too), since a locally-weak point can still look like "the biggest
-# response" to a tiny reference load without being a structurally sound
-# place to drive a whole pushover from.
-vol_adjacency = {}
-for va, vb in tie_vols:
-    vol_adjacency.setdefault(va, set()).add(vb)
-    vol_adjacency.setdefault(vb, set()).add(va)
-visited_vols, components = set(), []
-for v in volume_node_ids:
-    if v in visited_vols:
-        continue
-    comp, stack = set(), [v]
-    while stack:
-        cur = stack.pop()
-        if cur in comp:
-            continue
-        comp.add(cur)
-        visited_vols.add(cur)
-        stack.extend(vol_adjacency.get(cur, set()) - comp)
-    components.append(comp)
-main_component = max(
-    components, key=lambda c: sum(len(volume_node_ids[v]) for v in c))
-say(f"  {len(components)} volume cluster(s) by tie connectivity - main "
-    f"cluster has {len(main_component)} of {len(volume_node_ids)} volumes")
-main_component_nodes = {element_node(v, n) for v in main_component
-                        for n in volume_node_ids[v]}
-upper_untied_main = [n for n in upper_untied if n in main_component_nodes]
-if upper_untied_main:
-    upper_untied = upper_untied_main
-else:
-    say("  no untied upper candidate in the main tie-connected cluster - "
-        "keeping the unrestricted candidate list")
-
 # LOAD_PATTERN_TYPE: "mode1" (default) failed to converge on the real
 # desktop smoke test even after the mass and tied-node fixes - load
 # factor still in the millions on every step-size fallback, unchanged in
@@ -601,6 +558,10 @@ ops.pattern("Plain", 2, 2)
 n_loaded = 0
 
 if LOAD_PATTERN_TYPE == "mass":
+    control_node = max(upper_untied, key=lambda n: node_z[n])
+    say(f"control node: {control_node} (z={node_z[control_node]:.3f} m) - "
+        f"highest untied node, since a uniform mass-proportional pattern "
+        f"has no mode shape to pick a control point from")
     # eleLoad -selfWeight, not nodal ops.load() with the hand-computed
     # tributary mass: this is the SAME mechanism gravity already uses
     # successfully (Element.create_plastic_damage_elements bakes rho*G into
@@ -619,41 +580,6 @@ if LOAD_PATTERN_TYPE == "mass":
     say(f"mass-proportional (uniform) load pattern applied via eleLoad "
         f"-selfWeight to {n_loaded} elements - the same body-force "
         f"mechanism gravity uses, horizontal instead of vertical")
-
-    # Control node: NOT simply the highest untied node (tried that on the
-    # real desktop full run - it converged, but produced a vertical
-    # displacement 2.6-3x larger than the horizontal one it was supposed to
-    # be controlling, consistently from the very first step, not something
-    # that developed alongside the later base-shear jump). That means the
-    # chosen point responds poorly to THIS pattern in the X direction, so
-    # reaching even a small target displacement there needs a
-    # disproportionately large load factor, which then over-drives the
-    # rest of the structure. Fixed the same way as the mode1 pattern's own
-    # control-node problem: measure the actual response to the pattern
-    # rather than guess from height alone - here, empirically, with a
-    # small real reference step under LoadControl before switching to
-    # DisplacementControl, since a uniform pattern has no eigenvector to
-    # consult instead.
-    ops.system("UmfPack")
-    ops.numberer("RCM")
-    ops.constraints("Transformation")
-    ops.test("EnergyIncr", 1e-3, 200, 0)
-    ops.algorithm("NewtonLineSearch")
-    REFERENCE_LOAD_FACTOR = 0.01
-    ops.integrator("LoadControl", REFERENCE_LOAD_FACTOR)
-    ops.analysis("Static")
-    ref_ok = ops.analyze(1)
-    if ref_ok != 0:
-        say("ABORT: the small reference LoadControl step (to calibrate the "
-            "control node) did not even converge - the mass pattern itself "
-            "cannot be carried, independent of which node controls it.")
-        sys.exit(4)
-    control_node = max(upper_untied, key=lambda n: abs(ops.nodeDisp(n, EXC_DOF)))
-    say(f"control node: {control_node} (z={node_z[control_node]:.3f} m, "
-        f"X-disp under the {REFERENCE_LOAD_FACTOR} reference load factor = "
-        f"{ops.nodeDisp(control_node, EXC_DOF)*1000:.4f} mm) - the untied "
-        f"candidate that actually responds most to this pattern in X, not "
-        f"just the tallest one")
 else:
     control_node = max(upper_untied, key=lambda n: abs(best_phi.get(n, 0.0)))
     say(f"control node: {control_node} (z={node_z[control_node]:.3f} m, "
