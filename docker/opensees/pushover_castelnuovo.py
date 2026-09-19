@@ -386,6 +386,31 @@ say(f"self-weight check: calculated {weight:,.1f} N vs reaction "
 
 ops.loadConst("-time", 0.0)
 
+# --gravity-only: quick diagnostic for whether the pushover's diffuse
+# tensile-strain envelope is already present from self-weight alone,
+# before any lateral pattern is even applied - if so, the "diffuse vs
+# localized" difference against the time-history isn't a pushover-specific
+# artifact at all. Much cheaper than a full pushover run: gravity alone
+# converges in ~3 minutes (see the "static gravity returned" line above),
+# no eigen/pattern/DisplacementControl loop needed.
+if "--gravity-only" in sys.argv:
+    say("--gravity-only: recording strain right after gravity, before any "
+        "lateral pattern, then exiting")
+    SOLID_SAMPLE = argval("--solid-sample", 1, int)
+    sampled, interesting_vols, focus_eles = select_recorded_elements(
+        element_tags, selected, open_junctions, SOLID_SAMPLE)
+    with open(f"{OUT_DIR}/sampled_elements.txt", "w") as fh:
+        fh.write("# element_index,element_tag\n")
+        for i, tag in enumerate(sampled):
+            fh.write(f"{i},{tag}\n")
+    with open(f"{OUT_DIR}/gravity_only_strain.txt", "w") as fh:
+        row = [0.0]
+        for tag in sampled:
+            row.extend(ops.eleResponse(int(tag), "material", "1", "strain"))
+        fh.write(" ".join(f"{v:.8e}" for v in row) + "\n")
+    say(f"wrote {OUT_DIR}/gravity_only_strain.txt ({len(sampled)} elements)")
+    sys.exit(0)
+
 # --- 8. eigenvalue analysis on the gravity-loaded model, to find the mode ---
 # that actually carries the X-direction mass on THIS mesh. Not assumed to
 # be mode 1: the tied modal analysis that found mode 1 = X-dominant (PRMx
