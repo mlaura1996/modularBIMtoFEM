@@ -1,0 +1,399 @@
+{
+  "_meta": {
+    "description": "Survey record of the Castelnuovo di Porto aggregate: who did what, which documents exist, and which facade each photograph shows. Consumed by docker/opensees/castelnuovo_knowledge_graph.py together with masonry_classification.json.",
+    "photos_source": "Downloads/A-417..A-420 zips, one folder per facade; timestamps parsed from the WhatsApp file names (the images carry no EXIF data)."
+  },
+  "organisations": {
+    "CNR_ISPC": "Institute of Heritage Science (ISPC), National Research Council of Italy (CNR)",
+    "ISISE_UMinho": "Institute for Sustainability and Innovation in Structural Engineering (ISISE), University of Minho"
+  },
+  "people": {
+    "MariaLauraLeonardi": {
+      "name": "Maria Laura Leonardi",
+      "affiliation": "ISISE_UMinho"
+    },
+    "MicheleCalvano": {
+      "name": "Michele Calvano",
+      "affiliation": "CNR_ISPC"
+    },
+    "LetiziaMartinelli": {
+      "name": "Letizia Martinelli",
+      "affiliation": "CNR_ISPC"
+    },
+    "StefanoCursi": {
+      "name": "Stefano Cursi",
+      "affiliation": "CNR_ISPC"
+    },
+    "ElenaVerticchio": {
+      "name": "Elena Verticchio",
+      "affiliation": "CNR_ISPC"
+    },
+    "ElenaGigliarelli": {
+      "name": "Elena Gigliarelli",
+      "affiliation": "CNR_ISPC"
+    },
+    "FilippoCalcerano": {
+      "name": "Filippo Calcerano",
+      "affiliation": "CNR_ISPC"
+    }
+  },
+  "activities": {
+    "PreSurveyDeskStudy": {
+      "label": "Pre-survey desk study on the cadastral map and aerial imagery",
+      "people": [
+        "MariaLauraLeonardi",
+        "FilippoCalcerano"
+      ]
+    },
+    "BibliographicResearch": {
+      "label": "Bibliographic and documentary research",
+      "people": [
+        "MariaLauraLeonardi",
+        "ElenaGigliarelli"
+      ]
+    },
+    "PhotographicCampaign": {
+      "label": "Photographic survey campaign",
+      "date": "2023-06-01",
+      "people": [
+        "MariaLauraLeonardi",
+        "StefanoCursi",
+        "ElenaVerticchio"
+      ]
+    },
+    "LaserScanningCampaign": {
+      "label": "Handheld SLAM laser scanning campaign",
+      "date": "2023-07-04",
+      "start": "2023-07-04T16:58:25Z",
+      "end": "2023-07-04T17:16:49Z",
+      "people": [
+        "MariaLauraLeonardi",
+        "LetiziaMartinelli"
+      ],
+      "instrument": "GeoSLAM ZEB Horizon RT with ZEB Vision imaging module"
+    },
+    "PointCloudProcessing": {
+      "label": "Point cloud processing",
+      "people": [
+        "MariaLauraLeonardi",
+        "MicheleCalvano"
+      ]
+    },
+    "BIMModelling": {
+      "label": "BIM modelling in Autodesk Revit 2027",
+      "people": [
+        "MariaLauraLeonardi"
+      ]
+    }
+  },
+  "documents": {
+    "PreSurveyCadastralMap": {
+      "class": "Drawing",
+      "label": "Cadastral map annotated with the block identifiers",
+      "authors": [
+        "MariaLauraLeonardi",
+        "FilippoCalcerano"
+      ],
+      "activity": "PreSurveyDeskStudy"
+    },
+    "PreSurveyAerialStudy": {
+      "class": "Document",
+      "label": "Study of the accessible fronts on aerial imagery",
+      "authors": [
+        "MariaLauraLeonardi",
+        "FilippoCalcerano"
+      ],
+      "activity": "PreSurveyDeskStudy"
+    },
+    "CadastralPlans": {
+      "class": "Drawing",
+      "label": "Existing cadastral plans of the individual units",
+      "used_by": "PreSurveyDeskStudy"
+    },
+    "ReferenceTextTuffMasonry": {
+      "class": "Publication",
+      "label": "Reference text on tuff masonry in the Roman area (typology comparison tables, citing Carbonara)",
+      "used_by": "BibliographicResearch"
+    },
+    "Circolare_7_2019": {
+      "class": "Publication",
+      "label": "Circolare n. 7/2019 to the Italian Building Code (NTC 2018), Table C8.5.I",
+      "used_by": "BibliographicResearch"
+    },
+    "RawScan": {
+      "class": "PointCloud",
+      "label": "2023-07-04_castelnuovo_v2.geoslam",
+      "activity": "LaserScanningCampaign",
+      "acquired_by": [
+        "MariaLauraLeonardi",
+        "LetiziaMartinelli"
+      ],
+      "created": "2023-07-04"
+    },
+    "EditedPointCloud": {
+      "class": "PointCloud",
+      "label": "CleanedIsolato.ply (CloudCompare 2.13), 13401258 points",
+      "derived_from": "RawScan",
+      "activity": "PointCloudProcessing",
+      "post_processed_by": [
+        "MariaLauraLeonardi",
+        "MicheleCalvano"
+      ]
+    },
+    "ReCapProject": {
+      "class": "PointCloud",
+      "label": "CastelnuovoDiPorto.rcp with scan ColoredAggr.rcs (Autodesk ReCap Pro 2026)",
+      "derived_from": "EditedPointCloud",
+      "activity": "PointCloudProcessing",
+      "post_processed_by": [
+        "MariaLauraLeonardi",
+        "MicheleCalvano"
+      ]
+    },
+    "BIMModel": {
+      "class": "BuildingInformationModel",
+      "label": "final_example.ifc (IFC4), exported from Autodesk Revit 2027",
+      "derived_from": "ReCapProject",
+      "activity": "BIMModelling",
+      "authors": [
+        "MariaLauraLeonardi"
+      ]
+    }
+  },
+  "facades": {
+    "Facade_417a": {
+      "unit": "417",
+      "masonry_type": "Tufelli_masonry_typeC",
+      "photos": [
+        {
+          "file": "A-417/417_a/WhatsApp Image 2023-06-01 at 14.50.43 (1).jpeg",
+          "taken": "2023-06-01T14:50:43"
+        },
+        {
+          "file": "A-417/417_a/WhatsApp Image 2023-06-01 at 14.50.44 (1).jpeg",
+          "taken": "2023-06-01T14:50:44"
+        },
+        {
+          "file": "A-417/417_a/WhatsApp Image 2023-06-01 at 14.50.44.jpeg",
+          "taken": "2023-06-01T14:50:44"
+        },
+        {
+          "file": "A-417/417_a/WhatsApp Image 2023-06-01 at 14.50.45 (1).jpeg",
+          "taken": "2023-06-01T14:50:45"
+        },
+        {
+          "file": "A-417/417_a/WhatsApp Image 2023-06-01 at 14.50.45.jpeg",
+          "taken": "2023-06-01T14:50:45"
+        },
+        {
+          "file": "A-417/417_a/WhatsApp Image 2023-06-01 at 14.50.46.jpeg",
+          "taken": "2023-06-01T14:50:46"
+        },
+        {
+          "file": "A-417/417_a/WhatsApp Image 2023-06-01 at 14.51.48.jpeg",
+          "taken": "2023-06-01T14:51:48"
+        },
+        {
+          "file": "A-417/417_a/WhatsApp Image 2023-06-01 at 14.51.49 (1).jpeg",
+          "taken": "2023-06-01T14:51:49"
+        },
+        {
+          "file": "A-417/417_a/WhatsApp Image 2023-06-01 at 14.51.49.jpeg",
+          "taken": "2023-06-01T14:51:49"
+        },
+        {
+          "file": "A-417/417_a/WhatsApp Image 2023-06-01 at 14.51.50 (1).jpeg",
+          "taken": "2023-06-01T14:51:50"
+        },
+        {
+          "file": "A-417/417_a/WhatsApp Image 2023-06-01 at 14.51.50.jpeg",
+          "taken": "2023-06-01T14:51:50"
+        },
+        {
+          "file": "A-417/417_a/WhatsApp Image 2023-06-01 at 2.43.33 PM (4).jpeg",
+          "taken": null
+        },
+        {
+          "file": "A-417/417_a/WhatsApp Image 2023-06-01 at 2.43.34 PM.jpeg",
+          "taken": null
+        }
+      ]
+    },
+    "Facade_417b": {
+      "unit": "417",
+      "masonry_type": "Tufelli_masonry_typeD",
+      "photos": [
+        {
+          "file": "A-417/417_b/WhatsApp Image 2023-06-01 at 14.51.52 (1).jpeg",
+          "taken": "2023-06-01T14:51:52"
+        },
+        {
+          "file": "A-417/417_b/WhatsApp Image 2023-06-01 at 14.51.52.jpeg",
+          "taken": "2023-06-01T14:51:52"
+        }
+      ]
+    },
+    "Facade_417c": {
+      "unit": "417",
+      "masonry_type": "Tufelli_masonry_typeB",
+      "photos": [
+        {
+          "file": "A-417/417_c/WhatsApp Image 2023-06-01 at 14.50.40.jpeg",
+          "taken": "2023-06-01T14:50:40"
+        },
+        {
+          "file": "A-417/417_c/WhatsApp Image 2023-06-01 at 14.50.41 (1).jpeg",
+          "taken": "2023-06-01T14:50:41"
+        },
+        {
+          "file": "A-417/417_c/WhatsApp Image 2023-06-01 at 14.50.41.jpeg",
+          "taken": "2023-06-01T14:50:41"
+        },
+        {
+          "file": "A-417/417_c/WhatsApp Image 2023-06-01 at 14.50.42 (1).jpeg",
+          "taken": "2023-06-01T14:50:42"
+        },
+        {
+          "file": "A-417/417_c/WhatsApp Image 2023-06-01 at 14.50.42.jpeg",
+          "taken": "2023-06-01T14:50:42"
+        },
+        {
+          "file": "A-417/417_c/WhatsApp Image 2023-06-01 at 14.50.43.jpeg",
+          "taken": "2023-06-01T14:50:43"
+        },
+        {
+          "file": "A-417/417_c/WhatsApp Image 2023-06-01 at 14.50.55 (1).jpeg",
+          "taken": "2023-06-01T14:50:55"
+        },
+        {
+          "file": "A-417/417_c/WhatsApp Image 2023-06-01 at 14.51.51.jpeg",
+          "taken": "2023-06-01T14:51:51"
+        },
+        {
+          "file": "A-417/417_c/WhatsApp Image 2023-06-01 at 2.43.33 PM (1).jpeg",
+          "taken": null
+        },
+        {
+          "file": "A-417/417_c/WhatsApp Image 2023-06-01 at 2.43.33 PM (2).jpeg",
+          "taken": null
+        },
+        {
+          "file": "A-417/417_c/WhatsApp Image 2023-06-01 at 2.43.33 PM (3).jpeg",
+          "taken": null
+        }
+      ]
+    },
+    "Facade_418a": {
+      "unit": "418",
+      "masonry_type": "Tufelli_masonry_typeB",
+      "photos": [
+        {
+          "file": "A-418/418-a/WhatsApp Image 2023-06-01 at 14.50.47 (1).jpeg",
+          "taken": "2023-06-01T14:50:47"
+        },
+        {
+          "file": "A-418/418-a/WhatsApp Image 2023-06-01 at 14.50.47.jpeg",
+          "taken": "2023-06-01T14:50:47"
+        },
+        {
+          "file": "A-418/418-a/WhatsApp Image 2023-06-01 at 14.50.48 (1).jpeg",
+          "taken": "2023-06-01T14:50:48"
+        },
+        {
+          "file": "A-418/418-a/WhatsApp Image 2023-06-01 at 14.50.48.jpeg",
+          "taken": "2023-06-01T14:50:48"
+        },
+        {
+          "file": "A-418/418-a/WhatsApp Image 2023-06-01 at 14.50.49 (1).jpeg",
+          "taken": "2023-06-01T14:50:49"
+        }
+      ]
+    },
+    "Facade_418b": {
+      "unit": "418",
+      "masonry_type": "Tufelli_masonry_typeD",
+      "photos": [
+        {
+          "file": "A-418/418b/WhatsApp Image 2023-06-01 at 14.51.53 (1).jpeg",
+          "taken": "2023-06-01T14:51:53"
+        },
+        {
+          "file": "A-418/418b/WhatsApp Image 2023-06-01 at 14.51.53.jpeg",
+          "taken": "2023-06-01T14:51:53"
+        },
+        {
+          "file": "A-418/418b/WhatsApp Image 2023-06-01 at 14.51.54 (1).jpeg",
+          "taken": "2023-06-01T14:51:54"
+        },
+        {
+          "file": "A-418/418b/WhatsApp Image 2023-06-01 at 14.51.54.jpeg",
+          "taken": "2023-06-01T14:51:54"
+        },
+        {
+          "file": "A-418/418b/WhatsApp Image 2023-06-01 at 14.51.55.jpeg",
+          "taken": "2023-06-01T14:51:55"
+        }
+      ]
+    },
+    "Facade_419": {
+      "unit": "419",
+      "masonry_type": "Tufelli_masonry_typeA",
+      "photos": [
+        {
+          "file": "A-419/a419/WhatsApp Image 2023-06-01 at 14.50.49.jpeg",
+          "taken": "2023-06-01T14:50:49"
+        },
+        {
+          "file": "A-419/a419/WhatsApp Image 2023-06-01 at 14.50.50 (1).jpeg",
+          "taken": "2023-06-01T14:50:50"
+        },
+        {
+          "file": "A-419/a419/WhatsApp Image 2023-06-01 at 14.50.50.jpeg",
+          "taken": "2023-06-01T14:50:50"
+        },
+        {
+          "file": "A-419/a419/WhatsApp Image 2023-06-01 at 14.50.51 (1).jpeg",
+          "taken": "2023-06-01T14:50:51"
+        },
+        {
+          "file": "A-419/a419/WhatsApp Image 2023-06-01 at 14.50.51.jpeg",
+          "taken": "2023-06-01T14:50:51"
+        }
+      ]
+    },
+    "Facade_420": {
+      "unit": "420",
+      "masonry_type": "Tufelli_masonry_typeD",
+      "photos": [
+        {
+          "file": "A-420/a420/WhatsApp Image 2023-06-01 at 14.50.52 (1).jpeg",
+          "taken": "2023-06-01T14:50:52"
+        },
+        {
+          "file": "A-420/a420/WhatsApp Image 2023-06-01 at 14.50.52.jpeg",
+          "taken": "2023-06-01T14:50:52"
+        },
+        {
+          "file": "A-420/a420/WhatsApp Image 2023-06-01 at 14.50.53 (1).jpeg",
+          "taken": "2023-06-01T14:50:53"
+        },
+        {
+          "file": "A-420/a420/WhatsApp Image 2023-06-01 at 14.50.53.jpeg",
+          "taken": "2023-06-01T14:50:53"
+        },
+        {
+          "file": "A-420/a420/WhatsApp Image 2023-06-01 at 14.50.54 (1).jpeg",
+          "taken": "2023-06-01T14:50:54"
+        },
+        {
+          "file": "A-420/a420/WhatsApp Image 2023-06-01 at 14.50.54.jpeg",
+          "taken": "2023-06-01T14:50:54"
+        },
+        {
+          "file": "A-420/a420/WhatsApp Image 2023-06-01 at 14.50.55.jpeg",
+          "taken": "2023-06-01T14:50:55"
+        }
+      ]
+    }
+  }
+}

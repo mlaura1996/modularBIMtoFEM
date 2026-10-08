@@ -40,11 +40,15 @@ whose README lists each correction and what goes wrong without it.
 `core/ifc_processing/hmo_reasoner.py` runs those corrected rules with
 Pellet, and
 
-    python docker/opensees/castelnuovo_hmo_graph.py --reasoner
+    python docker/opensees/castelnuovo_knowledge_graph.py
 
-derives the material database from the reasoner, stopping if its values
-and this module's disagree. The two are independent implementations of the
+builds the case-study knowledge graph (HSV, HSTO and HMO, one wall per
+facade), has Pellet derive every wall's quality index and properties, and
+writes the material database from the reasoner, stopping if its values and
+this module's disagree. The two are independent implementations of the
 same rules, and for the four Castelnuovo types they agree within rounding.
+`docker/opensees/castelnuovo_material_engine.py` writes the same database
+from this module alone, for environments without Java.
 
 ## The Masonry Quality Index
 
@@ -123,7 +127,8 @@ travels with the data, not buried in code.
 ## Feeding results into the pipeline
 
 `output/castelnuovo/material_database.json` (written by
-`docker/opensees/castelnuovo_hmo_graph.py`) is field-compatible with
+`docker/opensees/castelnuovo_knowledge_graph.py` or
+`castelnuovo_material_engine.py`) is field-compatible with
 `core.ifc_processing.data_extractor.Material` — same field names, same
 `{name: Material}` output shape as `Material.create_material_database`.
 `utils/dict_helper.py`'s `load_material_objects(json_path)` is the loader

@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "description": "MQI classification of the 4 masonry types found in Castelnuovo di Porto's IFC model (Tufelli_masonry_typeA-D), from on-site survey photographs and the case-study manuscript. Consumed by docker/opensees/castelnuovo_hmo_graph.py.",
+    "description": "MQI classification of the 4 masonry types found in Castelnuovo di Porto's IFC model (Tufelli_masonry_typeA-D), from on-site survey photographs and the case-study manuscript. Consumed by docker/opensees/castelnuovo_knowledge_graph.py (reasoning route) and docker/opensees/castelnuovo_material_engine.py (engine route).",
     "sources": {
       "manuscript": "Downloads/Manuscript (3).docx - 'Application to a real masonry aggregate' section (historical/technical context: muratura a tufelli, local construction technique, quality discriminators)",
       "photos": "Downloads/A-417/418/419/420 zips (WhatsApp survey photos, 2023-06-01), extracted to Downloads/castelnuovo_extract/",

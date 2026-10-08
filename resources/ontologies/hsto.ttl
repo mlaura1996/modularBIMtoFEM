@@ -1,0 +1,375 @@
+@prefix : <https://w3id.org/hsto#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <https://w3id.org/hsto#> .
+
+<https://w3id.org/hsto> rdf:type owl:Ontology ;
+                         owl:imports <https://w3id.org/beo> ,
+                                     <https://w3id.org/dot> ,
+                                     <https://w3id.org/hsv> ;
+                         <http://purl.org/dc/terms/creator> _:genid1 ,
+                                                            _:genid2 ,
+                                                            _:genid3 ,
+                                                            _:genid4 ,
+                                                            _:genid5 ,
+                                                            _:genid6 ;
+                         <http://purl.org/dc/terms/isReferencedBy> <https://doi.org/10.19282/acs.13.2025.16> ;
+                         <http://purl.org/dc/terms/license> <https://creativecommons.org/licenses/by/4.0/> ;
+                         <http://purl.org/dc/terms/title> "Historic Structure Ontology (HSTO)"@en ;
+                         <http://purl.org/vocab/vann/preferredNamespacePrefix> "hsto" ;
+                         <http://purl.org/vocab/vann/preferredNamespaceUri> "https://w3id.org/hsto#" ;
+                         owl:versionInfo "1.0.0" .
+
+_:genid1 rdf:type <http://xmlns.com/foaf/0.1/Person> ;
+          <http://xmlns.com/foaf/0.1/name> "Maria Laura Leonardi" .
+
+_:genid2 rdf:type <http://xmlns.com/foaf/0.1/Person> ;
+          <http://xmlns.com/foaf/0.1/name> "Stefano Cursi" .
+
+_:genid3 rdf:type <http://xmlns.com/foaf/0.1/Person> ;
+          <http://xmlns.com/foaf/0.1/name> "Letizia Martinelli" .
+
+_:genid4 rdf:type <http://xmlns.com/foaf/0.1/Person> ;
+          <http://xmlns.com/foaf/0.1/name> "Elena Gigliarelli" .
+
+_:genid5 rdf:type <http://xmlns.com/foaf/0.1/Person> ;
+          <http://xmlns.com/foaf/0.1/name> "Miguel Azenha" .
+
+_:genid6 rdf:type <http://xmlns.com/foaf/0.1/Person> ;
+          <http://xmlns.com/foaf/0.1/name> "Daniel V. Oliveira" .
+
+#################################################################
+#    Annotation properties
+#################################################################
+
+###  http://purl.org/dc/terms/isReferencedBy
+<http://purl.org/dc/terms/isReferencedBy> rdf:type owl:AnnotationProperty .
+
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  https://w3id.org/hsto#hasDamage
+:hasDamage rdf:type owl:ObjectProperty ;
+           rdfs:domain :StructuralPart ;
+           rdfs:range <https://w3id.org/dot#Damage> ;
+           rdfs:comment "Associates a structural part with one or more damage instances described using the Damage Typology Ontology (DOT)."@en ;
+           rdfs:label "has damage"@en .
+
+
+###  https://w3id.org/hsto#hasHistoricOpening
+:hasHistoricOpening rdf:type owl:ObjectProperty ;
+                    rdfs:domain :Facade ;
+                    rdfs:range :HistoricOpening ;
+                    rdfs:comment "Links a facade to one or more historic openings present on its surface."@en ;
+                    rdfs:label "has historic opening"@en .
+
+
+###  https://w3id.org/hsto#hasJoist
+:hasJoist rdf:type owl:ObjectProperty ;
+          rdfs:domain :TimberFloor ;
+          rdfs:range :Joist ;
+          rdfs:comment "Links a timber floor to its joist elements."@en ;
+          rdfs:label "has joist"@en .
+
+
+###  https://w3id.org/hsto#hasMainBeam
+:hasMainBeam rdf:type owl:ObjectProperty ;
+             rdfs:domain :TimberFloor ;
+             rdfs:range :MainBeam ;
+             rdfs:comment "Links a timber floor to its primary beam elements."@en ;
+             rdfs:label "has main beam"@en .
+
+
+###  https://w3id.org/hsto#hasOpeningComponent
+:hasOpeningComponent rdf:type owl:ObjectProperty ;
+                     rdfs:domain <https://w3id.org/beo#BuildingElementPart> ;
+                     rdfs:range [ rdf:type owl:Class ;
+                                  owl:unionOf ( :Arch
+                                                :Header
+                                                :Jamb
+                                                :Lintel
+                                                :Sill
+                                              )
+                                ] ;
+                     rdfs:comment "Links a BEO building element part to a heritage-specific opening component (sill, jamb, header, lintel, arch)."@en ;
+                     rdfs:label "has opening component"@en .
+
+
+###  https://w3id.org/hsto#hasPlank
+:hasPlank rdf:type owl:ObjectProperty ;
+          rdfs:domain :TimberFloor ;
+          rdfs:range :Plank ;
+          rdfs:comment "Links a timber floor to its plank elements forming the floor deck."@en ;
+          rdfs:label "has plank"@en .
+
+
+###  https://w3id.org/hsto#hasVaultPart
+:hasVaultPart rdf:type owl:ObjectProperty ;
+              rdfs:domain :Vault ;
+              rdfs:range :VaultPart ;
+              rdfs:comment "Links a vault to its constituent parts, articulated at ABox level to capture specific typologies and geometries."@en ;
+              rdfs:label "has vault part"@en .
+
+
+###  https://w3id.org/hsto#isBuiltWithTraditionalConstructionTechnique
+:isBuiltWithTraditionalConstructionTechnique rdf:type owl:ObjectProperty ;
+                                             rdfs:domain :StructuralPart ;
+                                             rdfs:range <https://w3id.org/hsv#TraditionalConstructionTechnique> ;
+                                             rdfs:comment "Links a structural part to a traditional construction technique as documented in the HSV ontology."@en ;
+                                             rdfs:label "is built with traditional construction technique"@en .
+
+
+###  https://w3id.org/hsto#isConnectedTo
+:isConnectedTo rdf:type owl:ObjectProperty ;
+               rdfs:domain :StructuralPart ;
+               rdfs:range :Connection ;
+               rdfs:comment "Links a structural part to a connection instance representing the physical interface with another structural part."@en ;
+               rdfs:label "is connected to"@en .
+
+
+###  https://w3id.org/hsto#isCoveredBy
+:isCoveredBy rdf:type owl:ObjectProperty ;
+             rdfs:domain :HorizontalStructure ;
+             rdfs:range <https://w3id.org/beo#Covering> ;
+             rdfs:comment "Links a horizontal structure to the BEO covering element (floor finish or roof covering) overlying it."@en ;
+             rdfs:label "is covered by"@en .
+
+
+###  https://w3id.org/hsto#isHostedByDoor
+:isHostedByDoor rdf:type owl:ObjectProperty ;
+                rdfs:domain :HistoricOpening ;
+                rdfs:range <https://w3id.org/beo#Door> ;
+                rdfs:comment "Links a historic opening to the BEO door element that hosts it."@en ;
+                rdfs:label "is hosted by door"@en .
+
+
+###  https://w3id.org/hsto#isHostedByWindow
+:isHostedByWindow rdf:type owl:ObjectProperty ;
+                  rdfs:domain :HistoricOpening ;
+                  rdfs:range <https://w3id.org/beo#Window> ;
+                  rdfs:comment "Links a historic opening to the BEO window element that hosts it."@en ;
+                  rdfs:label "is hosted by window"@en .
+
+
+###  https://w3id.org/hsto#isMadeOf
+:isMadeOf rdf:type owl:ObjectProperty ;
+          rdfs:domain :Facade ;
+          rdfs:range <https://w3id.org/hmo#MasonryWall> ;
+          rdfs:comment "Links a facade to the masonry wall instances that compose it, each corresponding to a portion with homogeneous geometric and constructional characteristics."@en ;
+          rdfs:label "is made of"@en .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  https://w3id.org/hsto#hasAbsoluteDatation
+:hasAbsoluteDatation rdf:type owl:DatatypeProperty ;
+                     rdfs:domain [ rdf:type owl:Class ;
+                                   owl:unionOf ( :HistoricOpening
+                                                 :StructuralPart
+                                               )
+                                 ] ;
+                     rdfs:range xsd:string ;
+                     rdfs:comment "Records the absolute construction date or date range of a structural part or historic opening."@en ;
+                     rdfs:label "has absolute datation"@en .
+
+
+###  https://w3id.org/hsto#hasAccessibility
+:hasAccessibility rdf:type owl:DatatypeProperty ;
+                  rdfs:domain :StructuralPart ;
+                  rdfs:range xsd:boolean ;
+                  rdfs:comment "Indicates whether a structural part is accessible for detailed survey, helping quantify the level of structural knowledge available."@en ;
+                  rdfs:label "has accessibility"@en .
+
+
+###  https://w3id.org/hsto#hasConnectionQuality
+:hasConnectionQuality rdf:type owl:DatatypeProperty ;
+                      rdfs:domain :Connection ;
+                      rdfs:range xsd:string ;
+                      rdfs:comment "A qualitative assessment of connection effectiveness (e.g. good/poor) used to inform modelling strategies such as rigid vs. flexible connections in FEM analysis."@en ;
+                      rdfs:label "has connection quality"@en .
+
+
+###  https://w3id.org/hsto#hasHeight
+:hasHeight rdf:type owl:DatatypeProperty ;
+           rdfs:domain :Facade ;
+           rdfs:range xsd:decimal ;
+           rdfs:comment "The height of a facade, in metres."@en ;
+           rdfs:label "has height"@en .
+
+
+###  https://w3id.org/hsto#hasLength
+:hasLength rdf:type owl:DatatypeProperty ;
+           rdfs:domain :Facade ;
+           rdfs:range xsd:decimal ;
+           rdfs:comment "The length of a facade, in metres."@en ;
+           rdfs:label "has length"@en .
+
+
+###  https://w3id.org/hsto#hasRelativeDatation
+:hasRelativeDatation rdf:type owl:DatatypeProperty ;
+                     rdfs:domain [ rdf:type owl:Class ;
+                                   owl:unionOf ( :HistoricOpening
+                                                 :StructuralPart
+                                               )
+                                 ] ;
+                     rdfs:range xsd:string ;
+                     rdfs:comment "Records the relative construction chronology of a structural part or historic opening with respect to adjacent elements."@en ;
+                     rdfs:label "has relative datation"@en .
+
+
+###  https://w3id.org/hsto#stiffness
+:stiffness rdf:type owl:DatatypeProperty ;
+           rdfs:domain :HorizontalStructure ;
+           rdfs:range xsd:string ;
+           rdfs:comment "A qualitative or quantitative measure of the in-plane stiffness of a horizontal structural element (e.g. rigid/flexible)."@en ;
+           rdfs:label "stiffness"@en .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  https://w3id.org/hmo#MasonryWall
+<https://w3id.org/hmo#MasonryWall> rdf:type owl:Class .
+
+
+###  https://w3id.org/hsto#Arch
+:Arch rdf:type owl:Class ;
+      rdfs:subClassOf :Header ;
+      rdfs:comment "A curved spanning element closing the top of a historic opening, typically featuring a keystone."@en ;
+      rdfs:label "Arch"@en .
+
+
+###  https://w3id.org/hsto#Connection
+:Connection rdf:type owl:Class ;
+            rdfs:comment "An explicit first-class object representing the physical interface between exactly two structural parts, enabling qualitative assessment of connection effectiveness."@en ;
+            rdfs:label "Connection"@en .
+
+
+###  https://w3id.org/hsto#Facade
+:Facade rdf:type owl:Class ;
+        rdfs:subClassOf :StructuralPart ;
+        rdfs:comment "A distinct structural object representing the exterior wall surface of a structural unit, capturing opening layout regularity, masonry typology variations, and damage patterns."@en ;
+        rdfs:label "Facade"@en .
+
+
+###  https://w3id.org/hsto#Header
+:Header rdf:type owl:Class ;
+        rdfs:subClassOf <https://w3id.org/beo#BuildingElementPart> ;
+        rdfs:comment "The horizontal spanning element at the top of a historic opening; superclass of hsto:Lintel and hsto:Arch."@en ;
+        rdfs:label "Header"@en .
+
+
+###  https://w3id.org/hsto#HistoricOpening
+:HistoricOpening rdf:type owl:Class ;
+                 rdfs:comment "A wall opening considered historic, associated with both relative and absolute dating, whose configuration is relevant for seismic assessment."@en ;
+                 rdfs:label "Historic Opening"@en .
+
+
+###  https://w3id.org/hsto#HorizontalStructure
+:HorizontalStructure rdf:type owl:Class ;
+                     rdfs:subClassOf :StructuralPart ;
+                     rdfs:comment "A horizontal structural element such as a floor or roof assembly, providing diaphragm rigidity to the masonry aggregate."@en ;
+                     rdfs:label "Horizontal Structure"@en .
+
+
+###  https://w3id.org/hsto#Jamb
+:Jamb rdf:type owl:Class ;
+      rdfs:subClassOf <https://w3id.org/beo#BuildingElementPart> ;
+      rdfs:comment "The vertical side framing element of a historic opening."@en ;
+      rdfs:label "Jamb"@en .
+
+
+###  https://w3id.org/hsto#Joist
+:Joist rdf:type owl:Class ;
+       rdfs:comment "A secondary timber element spanning between main beams or walls, supporting the floor planking."@en ;
+       rdfs:label "Joist"@en .
+
+
+###  https://w3id.org/hsto#Lintel
+:Lintel rdf:type owl:Class ;
+        rdfs:subClassOf :Header ;
+        rdfs:comment "A flat horizontal spanning element closing the top of a historic opening."@en ;
+        rdfs:label "Lintel"@en .
+
+
+###  https://w3id.org/hsto#MainBeam
+:MainBeam rdf:type owl:Class ;
+          rdfs:comment "A primary timber beam supporting smaller joists in a timber floor assembly."@en ;
+          rdfs:label "Main Beam"@en .
+
+
+###  https://w3id.org/hsto#Plank
+:Plank rdf:type owl:Class ;
+       rdfs:comment "A timber plank forming the floor deck, providing diaphragm rigidity when overlaid."@en ;
+       rdfs:label "Plank"@en .
+
+
+###  https://w3id.org/hsto#Quoin
+:Quoin rdf:type owl:Class ;
+       rdfs:subClassOf :Connection ;
+       rdfs:comment "A connection formed by regularly cut interlocking corner stones providing enhanced mechanical interlocking between orthogonal walls."@en ;
+       rdfs:label "Quoin"@en .
+
+
+###  https://w3id.org/hsto#Sill
+:Sill rdf:type owl:Class ;
+      rdfs:subClassOf <https://w3id.org/beo#BuildingElementPart> ;
+      rdfs:comment "The base threshold element of a historic opening."@en ;
+      rdfs:label "Sill"@en .
+
+
+###  https://w3id.org/hsto#StructuralPart
+:StructuralPart rdf:type owl:Class ;
+                rdfs:comment "The main category for modelling individual structural components of a historic masonry aggregate, exhibiting material and construction homogeneity."@en ;
+                rdfs:label "Structural Part"@en .
+
+
+###  https://w3id.org/hsto#Tie
+:Tie rdf:type owl:Class ;
+     rdfs:subClassOf :Connection ;
+     rdfs:comment "A connection formed by metallic or wooden anchors used to tie structural parts together in historic masonry construction."@en ;
+     rdfs:label "Tie"@en .
+
+
+###  https://w3id.org/hsto#TimberFloor
+:TimberFloor rdf:type owl:Class ;
+             rdfs:subClassOf :HorizontalStructure ;
+             rdfs:comment "A horizontal structural assembly composed of timber elements such as beams, joists, and planks."@en ;
+             rdfs:label "Timber Floor"@en .
+
+
+###  https://w3id.org/hsto#Vault
+:Vault rdf:type owl:Class ;
+       rdfs:subClassOf :HorizontalStructure ;
+       rdfs:comment "A masonry vault used as a horizontal structural element, typically in lower storeys. Kept generic at TBox level; specific vault typologies are articulated at ABox level through hsto:VaultPart instances."@en ;
+       rdfs:label "Vault"@en .
+
+
+###  https://w3id.org/hsto#VaultPart
+:VaultPart rdf:type owl:Class ;
+           rdfs:comment "A constituent part of a masonry vault, used at ABox level to articulate specific vault typologies and geometries."@en ;
+           rdfs:label "Vault Part"@en .
+
+
+###  https://w3id.org/hsv#TraditionalConstructionTechnique
+<https://w3id.org/hsv#TraditionalConstructionTechnique> rdf:type owl:Class .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  https://w3id.org/hsto
+<https://w3id.org/hsto> rdf:type owl:NamedIndividual ;
+                        <http://purl.org/dc/terms/description> "The Historic Structure Ontology (HSTO) provides a formal representation of the physical configuration of masonry aggregates by explicitly modelling the relationships among their structural components, including facades, horizontal structures, openings, and connections."@en .
+
+
+###  Generated by the OWL API (version 5.1.18) https://github.com/owlcs/owlapi/

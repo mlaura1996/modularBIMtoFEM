@@ -118,25 +118,28 @@ def build_individuals(classification):
     return g
 
 
-def derive(classification, ontology_path):
-    """Runs Pellet and returns {type: {"mqi_total": {...}, "mechanical_properties": {...}}}.
+def run_pellet(kb, name="hmo_reasoner_kb"):
+    """Runs Pellet over an rdflib graph and returns the reasoned owlready2 world.
 
-    Raises RuntimeError if the knowledge base is inconsistent, or if a
-    quantity is not derived or is derived with more than one value: either
-    means the rules or the individuals are not what this module assumes,
-    and silently picking a value would hide it.
+    Raises RuntimeError if the graph is inconsistent, naming the file to
+    pass to `pellet explain`.
     """
-    import rdflib
     import owlready2 as ow
+    import rdflib
+    from rdflib import OWL
 
-    kb = rdflib.Graph()
-    kb.parse(ontology_path, format="turtle")
-    kb += build_individuals(classification)
     # owlready2's own N-Triples reader mis-parses files with CRLF endings,
-    # so the merged graph is always re-serialised by rdflib first
-    path = os.path.join(tempfile.gettempdir(), "hmo_reasoner_kb.nt")
-    kb.serialize(path, format="nt", encoding="utf-8")
-
+    # so the graph is always serialised by rdflib first. owl:imports are
+    # dropped: the caller passes everything to reason over, and owlready2
+    # would otherwise fetch the imported ontologies from the web (HSTO
+    # imports BEO and DOT), depending on which ontology it takes as the
+    # one being loaded
+    path = os.path.join(tempfile.gettempdir(), f"{name}.nt")
+    flat = rdflib.Graph()
+    for t in kb:
+        if t[1] != OWL.imports:
+            flat.add(t)
+    flat.serialize(path, format="nt", encoding="utf-8")
     world = ow.World()
     world.get_ontology("file://" + path.replace("\\", "/")).load(format="ntriples")
     try:
@@ -146,26 +149,49 @@ def derive(classification, ontology_path):
         raise RuntimeError(
             "knowledge base inconsistent; explain with: java -cp <owlready2 pellet jars> "
             f"pellet.Pellet explain --inconsistent {path}") from exc
+    return world
 
+
+def read_derived(world, mqi_iri, property_iris, what):
+    """MQI totals and property values the reasoner derived for one wall.
+
+    property_iris maps a PROPERTY_CLASSES key to the IRI of the individual
+    carrying it. Raises RuntimeError if a quantity is missing or has more
+    than one value: either means the rules or the individuals are not what
+    this module assumes, and silently picking a value would hide it.
+    """
     has_value = world[SAREF_HAS_VALUE]
 
-    def one(values, what):
+    def one(values, label):
         values = [float(v) for v in values]
         if len(values) != 1:
-            raise RuntimeError(f"{what}: expected one derived value, got {values}")
+            raise RuntimeError(f"{what} {label}: expected one derived value, got {values}")
         return values[0]
 
+    mqi = world[mqi_iri]
+    return {
+        "mqi_total": {d: one(getattr(mqi, f"MQITotal{suffix}"), f"MQI {d}")
+                      for d, suffix in DIRECTIONS.items()},
+        "mechanical_properties": {key: one(has_value[world[iri]], key)
+                                  for key, iri in property_iris.items()},
+    }
+
+
+def derive(classification, ontology_path):
+    """Runs Pellet on one test wall per type and returns
+    {type: {"mqi_total": {...}, "mechanical_properties": {...}}}."""
+    import rdflib
+
+    kb = rdflib.Graph()
+    kb.parse(ontology_path, format="turtle")
+    kb += build_individuals(classification)
+    world = run_pellet(kb)
     out = {}
     for name in classification["types"]:
         k = _local(name)
-        mqi = world[CASE + f"MQI_{k}"]
-        out[name] = {
-            "mqi_total": {d: one(getattr(mqi, f"MQITotal{suffix}"), f"{name} MQI {d}")
-                          for d, suffix in DIRECTIONS.items()},
-            "mechanical_properties": {
-                key: one(has_value[world[CASE + f"{cls}_{k}"]], f"{name} {key}")
-                for key, cls in PROPERTY_CLASSES.items()},
-        }
+        out[name] = read_derived(
+            world, CASE + f"MQI_{k}",
+            {key: CASE + f"{cls}_{k}" for key, cls in PROPERTY_CLASSES.items()}, name)
     return out
 
 

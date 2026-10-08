@@ -1,0 +1,315 @@
+@prefix : <https://w3id.org/hsv#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <https://w3id.org/hsv#> .
+
+<https://w3id.org/hsv> rdf:type owl:Ontology ;
+                        <http://purl.org/dc/terms/creator> _:genid1 ,
+                                                           _:genid2 ,
+                                                           _:genid3 ,
+                                                           _:genid4 ,
+                                                           _:genid5 ,
+                                                           _:genid6 ,
+                                                           _:genid7 ,
+                                                           _:genid8 ;
+                        <http://purl.org/dc/terms/description> "The Historic Survey Ontology (HSV) organises the knowledge involved in historic survey activities by explicitly modelling both the information sources and actors directly or indirectly involved in the survey."@en ;
+                        <http://purl.org/dc/terms/isReferencedBy> <https://doi.org/10.19282/acs.13.2025.16> ;
+                        <http://purl.org/dc/terms/license> <https://creativecommons.org/licenses/by/4.0/> ;
+                        <http://purl.org/dc/terms/title> "Historic Survey Ontology (HSV)"@en ;
+                        <http://purl.org/vocab/vann/preferredNamespacePrefix> "hsv" ;
+                        <http://purl.org/vocab/vann/preferredNamespaceUri> "https://w3id.org/hsv#" ;
+                        owl:versionInfo "1.0.0" .
+
+_:genid1 rdf:type <http://xmlns.com/foaf/0.1/Person> ;
+          <http://xmlns.com/foaf/0.1/name> "Maria Laura Leonardi" .
+
+_:genid2 rdf:type <http://xmlns.com/foaf/0.1/Person> ;
+          <http://xmlns.com/foaf/0.1/name> "Stefano Cursi" .
+
+_:genid3 rdf:type <http://xmlns.com/foaf/0.1/Person> ;
+          <http://xmlns.com/foaf/0.1/name> "Letizia Martinelli" .
+
+_:genid4 rdf:type <http://xmlns.com/foaf/0.1/Person> ;
+          <http://xmlns.com/foaf/0.1/name> "Elena Gigliarelli" .
+
+_:genid5 rdf:type <http://xmlns.com/foaf/0.1/Person> ;
+          <http://xmlns.com/foaf/0.1/name> "Filippo Calcerano" .
+
+_:genid6 rdf:type <http://xmlns.com/foaf/0.1/Person> ;
+          <http://xmlns.com/foaf/0.1/name> "Miguel Azenha" .
+
+_:genid7 rdf:type <http://xmlns.com/foaf/0.1/Person> ;
+          <http://xmlns.com/foaf/0.1/name> "Daniel V. Oliveira" .
+
+_:genid8 rdf:type <http://xmlns.com/foaf/0.1/Person> ;
+          <http://xmlns.com/foaf/0.1/name> "Michele Calvano" .
+
+#################################################################
+#    Annotation properties
+#################################################################
+
+###  http://purl.org/dc/terms/creator
+<http://purl.org/dc/terms/creator> rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/terms/description
+<http://purl.org/dc/terms/description> rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/terms/isReferencedBy
+<http://purl.org/dc/terms/isReferencedBy> rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/terms/license
+<http://purl.org/dc/terms/license> rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/terms/title
+<http://purl.org/dc/terms/title> rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/vocab/vann/preferredNamespacePrefix
+<http://purl.org/vocab/vann/preferredNamespacePrefix> rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/vocab/vann/preferredNamespaceUri
+<http://purl.org/vocab/vann/preferredNamespaceUri> rdf:type owl:AnnotationProperty .
+
+
+###  http://xmlns.com/foaf/0.1/name
+<http://xmlns.com/foaf/0.1/name> rdf:type owl:AnnotationProperty .
+
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  https://w3id.org/hsv#acquiredBy
+:acquiredBy rdf:type owl:ObjectProperty ;
+            rdfs:domain :Document ;
+            rdfs:range :Inspector ;
+            rdfs:comment "Links a survey resource to the inspector who acquired it."@en ;
+            rdfs:label "acquired by"@en .
+
+
+###  https://w3id.org/hsv#contains
+:contains rdf:type owl:ObjectProperty ;
+          rdfs:domain [ rdf:type owl:Class ;
+                        owl:unionOf ( :Aggregate
+                                      :HistoricCentre
+                                      :Region
+                                    )
+                      ] ;
+          rdfs:range [ rdf:type owl:Class ;
+                       owl:unionOf ( :Aggregate
+                                     :HistoricCentre
+                                     :StructuralUnit
+                                   )
+                     ] ;
+          rdfs:comment "A generic spatial containment property linking a larger spatial entity to a smaller one nested within it."@en ;
+          rdfs:label "contains"@en .
+
+
+###  https://w3id.org/hsv#hasAuthor
+:hasAuthor rdf:type owl:ObjectProperty ;
+           rdfs:domain :Document ;
+           rdfs:range :Author ;
+           rdfs:comment "Links a document or publication to its author."@en ;
+           rdfs:label "has author"@en .
+
+
+###  https://w3id.org/hsv#hasDocument
+:hasDocument rdf:type owl:ObjectProperty ;
+             rdfs:domain [ rdf:type owl:Class ;
+                           owl:unionOf ( :Aggregate
+                                         :Facade
+                                         :HistoricCentre
+                                         :Region
+                                         :StructuralUnit
+                                       )
+                         ] ;
+             rdfs:range :Document ;
+             rdfs:comment "Links a spatial, structural, or material entity to a document that provides evidence for its characterisation."@en ;
+             rdfs:label "has document"@en .
+
+
+###  https://w3id.org/hsv#hasInspector
+:hasInspector rdf:type owl:ObjectProperty ;
+              rdfs:subPropertyOf :acquiredBy ;
+              rdfs:domain :Document ;
+              rdfs:range :Inspector ;
+              rdfs:comment "Associates a survey resource with the inspector responsible for its field acquisition."@en ;
+              rdfs:label "has inspector"@en .
+
+
+###  https://w3id.org/hsv#hasPostProcesser
+:hasPostProcesser rdf:type owl:ObjectProperty ;
+                  rdfs:subPropertyOf :postProcessedBy ;
+                  rdfs:domain :Document ;
+                  rdfs:range :PostProcesser ;
+                  rdfs:comment "Associates a survey resource with the post-processer responsible for its elaboration."@en ;
+                  rdfs:label "has post-processer"@en .
+
+
+###  https://w3id.org/hsv#hasSeismicZone
+:hasSeismicZone rdf:type owl:ObjectProperty ;
+                rdfs:domain [ rdf:type owl:Class ;
+                              owl:unionOf ( :HistoricCentre
+                                            :Region
+                                          )
+                            ] ;
+                rdfs:range :SeismicZone ;
+                rdfs:comment "Associates a region or historic centre with its seismic zone classification."@en ;
+                rdfs:label "has seismic zone"@en .
+
+
+###  https://w3id.org/hsv#hasTraditionalConstructionTechnique
+:hasTraditionalConstructionTechnique rdf:type owl:ObjectProperty ;
+                                     rdfs:domain [ rdf:type owl:Class ;
+                                                   owl:unionOf ( :HistoricCentre
+                                                                 :Region
+                                                               )
+                                                 ] ;
+                                     rdfs:range :TraditionalConstructionTechnique ;
+                                     rdfs:comment "Associates a region or historic centre with a traditional construction technique typical of that context."@en ;
+                                     rdfs:label "has traditional construction technique"@en .
+
+
+###  https://w3id.org/hsv#isContainedBy
+:isContainedBy rdf:type owl:ObjectProperty ;
+               owl:inverseOf :contains ;
+               rdfs:comment "Inverse of hsv:contains."@en ;
+               rdfs:label "is contained by"@en .
+
+
+###  https://w3id.org/hsv#isDocumentOf
+:isDocumentOf rdf:type owl:ObjectProperty ;
+              owl:inverseOf :hasDocument ;
+              rdfs:comment "Inverse of hsv:hasDocument."@en ;
+              rdfs:label "is document of"@en .
+
+
+###  https://w3id.org/hsv#postProcessedBy
+:postProcessedBy rdf:type owl:ObjectProperty ;
+                 rdfs:domain :Document ;
+                 rdfs:range :PostProcesser ;
+                 rdfs:comment "Links a survey resource to the person who post-processed it."@en ;
+                 rdfs:label "post-processed by"@en .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://xmlns.com/foaf/0.1/Person
+<http://xmlns.com/foaf/0.1/Person> rdf:type owl:Class .
+
+
+###  https://w3id.org/hsv#Aggregate
+:Aggregate rdf:type owl:Class ;
+           rdfs:comment "A building aggregate typical of historic urban fabrics, composed of one or more structural units."@en ;
+           rdfs:label "Aggregate"@en .
+
+
+###  https://w3id.org/hsv#Author
+:Author rdf:type owl:Class ;
+        rdfs:subClassOf <http://xmlns.com/foaf/0.1/Person> ;
+        rdfs:comment "A person who authored a document or publication related to the survey."@en ;
+        rdfs:label "Author"@en .
+
+
+###  https://w3id.org/hsv#BuildingInformationModel
+:BuildingInformationModel rdf:type owl:Class ;
+                          rdfs:subClassOf :Document ;
+                          rdfs:comment "A digital model representing the physical and functional characteristics of a heritage asset (BIM)."@en ;
+                          rdfs:label "Building Information Model"@en .
+
+
+###  https://w3id.org/hsv#Document
+:Document rdf:type owl:Class ;
+          rdfs:comment "A central class representing any survey output or information source associated with a heritage asset or its components."@en ;
+          rdfs:label "Document"@en .
+
+
+###  https://w3id.org/hsv#Drawing
+:Drawing rdf:type owl:Class ;
+         rdfs:subClassOf :Document ;
+         rdfs:comment "A graphical representation such as a plan, section, or elevation produced during a survey."@en ;
+         rdfs:label "Drawing"@en .
+
+
+###  https://w3id.org/hsv#Facade
+:Facade rdf:type owl:Class ;
+        rdfs:comment "The exterior face of a structural unit or building, treated as a distinct survey entity."@en ;
+        rdfs:label "Facade"@en .
+
+
+###  https://w3id.org/hsv#HistoricCentre
+:HistoricCentre rdf:type owl:Class ;
+                rdfs:comment "A historic urban centre, typically nested within a region, that may contain one or more building aggregates."@en ;
+                rdfs:label "Historic Centre"@en .
+
+
+###  https://w3id.org/hsv#Inspector
+:Inspector rdf:type owl:Class ;
+           rdfs:subClassOf <http://xmlns.com/foaf/0.1/Person> ;
+           rdfs:comment "A person responsible for acquiring survey data in the field."@en ;
+           rdfs:label "Inspector"@en .
+
+
+###  https://w3id.org/hsv#Photo
+:Photo rdf:type owl:Class ;
+       rdfs:subClassOf :Document ;
+       rdfs:comment "A photographic record of a heritage asset or its components acquired during survey activities."@en ;
+       rdfs:label "Photo"@en .
+
+
+###  https://w3id.org/hsv#PointCloud
+:PointCloud rdf:type owl:Class ;
+            rdfs:subClassOf :Document ;
+            rdfs:comment "A set of data points in 3D space acquired through laser scanning or photogrammetry."@en ;
+            rdfs:label "Point Cloud"@en .
+
+
+###  https://w3id.org/hsv#PostProcesser
+:PostProcesser rdf:type owl:Class ;
+               rdfs:subClassOf <http://xmlns.com/foaf/0.1/Person> ;
+               rdfs:comment "A person responsible for the post-processing of raw survey data into usable outputs."@en ;
+               rdfs:label "Post-Processer"@en .
+
+
+###  https://w3id.org/hsv#Publication
+:Publication rdf:type owl:Class ;
+             rdfs:subClassOf :Document ;
+             rdfs:comment "A scholarly or technical text documenting survey findings, research, or heritage knowledge."@en ;
+             rdfs:label "Publication"@en .
+
+
+###  https://w3id.org/hsv#Region
+:Region rdf:type owl:Class ;
+        rdfs:comment "A geographic or administrative region that may contain one or more historic centres."@en ;
+        rdfs:label "Region"@en .
+
+
+###  https://w3id.org/hsv#SeismicZone
+:SeismicZone rdf:type owl:Class ;
+             rdfs:comment "A zone characterised by a specific seismic hazard level, associated with a region or historic centre."@en ;
+             rdfs:label "Seismic Zone"@en .
+
+
+###  https://w3id.org/hsv#StructuralUnit
+:StructuralUnit rdf:type owl:Class ;
+                rdfs:comment "A building-scale structural entity representing an individual unit within an aggregate."@en ;
+                rdfs:label "Structural Unit"@en .
+
+
+###  https://w3id.org/hsv#TraditionalConstructionTechnique
+:TraditionalConstructionTechnique rdf:type owl:Class ;
+                                  rdfs:comment "A construction technique or masonry system historically used in a region or historic centre."@en ;
+                                  rdfs:label "Traditional Construction Technique"@en .
+
+
+###  Generated by the OWL API (version 5.1.18) https://github.com/owlcs/owlapi/

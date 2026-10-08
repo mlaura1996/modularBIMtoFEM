@@ -156,7 +156,7 @@ before step 2:
 ```bash
 docker run --rm -v "C:/path/to/repo:/app" --entrypoint sh \
     modularbimtofem-opensees-mp:dev -c \
-    "conda run -n appenv python docker/opensees/castelnuovo_hmo_graph.py"
+    "conda run -n appenv python docker/opensees/castelnuovo_material_engine.py"
 ```
 
 writes `output/castelnuovo/material_database.json`, then:

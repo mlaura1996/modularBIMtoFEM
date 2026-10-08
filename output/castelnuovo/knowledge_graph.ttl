@@ -1,0 +1,1310 @@
+@prefix : <https://example.org/castelnuovo#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix hmo: <https://w3id.org/hmo#> .
+@prefix hsto: <https://w3id.org/hsto#> .
+@prefix hsv: <https://w3id.org/hsv#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix saref: <https://saref.etsi.org/core/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+:BibliographicResearch a owl:NamedIndividual,
+        prov:Activity ;
+    rdfs:label "Bibliographic and documentary research"@en ;
+    prov:used :Circolare_7_2019,
+        :ReferenceTextTuffMasonry ;
+    prov:wasAssociatedWith :ElenaGigliarelli,
+        :MariaLauraLeonardi .
+
+:CNR_ISPC a owl:NamedIndividual,
+        foaf:Organization ;
+    foaf:member :ElenaGigliarelli,
+        :ElenaVerticchio,
+        :FilippoCalcerano,
+        :LetiziaMartinelli,
+        :MicheleCalvano,
+        :StefanoCursi ;
+    foaf:name "Institute of Heritage Science (ISPC), National Research Council of Italy (CNR)" .
+
+:CastelnuovoDiPorto a owl:NamedIndividual,
+        hsv:HistoricCentre ;
+    rdfs:label "Historic centre of Castelnuovo di Porto"@en ;
+    hsv:contains :Aggregate ;
+    hsv:hasTraditionalConstructionTechnique :MuraturaATufelli .
+
+:ISISE_UMinho a owl:NamedIndividual,
+        foaf:Organization ;
+    foaf:member :MariaLauraLeonardi ;
+    foaf:name "Institute for Sustainability and Innovation in Structural Engineering (ISISE), University of Minho" .
+
+:KnowledgeGraph a owl:Ontology ;
+    rdfs:comment "Castelnuovo di Porto case study, built on HSV, HSTO and HMO. Quality indices and homogenised properties were derived by Pellet from the HMO rules (resources/ontologies/hmo.ttl) and checked against core/ifc_processing/hmo_mqi.py."@en ;
+    owl:imports <https://w3id.org/hmo>,
+        <https://w3id.org/hsto>,
+        <https://w3id.org/hsv> .
+
+:Aggregate a owl:NamedIndividual,
+        hsv:Aggregate ;
+    rdfs:label "Aggregate between Piazza Garibaldi and Via Umberto I"@en ;
+    hsv:contains :Unit_417,
+        :Unit_418,
+        :Unit_419,
+        :Unit_420 ;
+    hsv:hasDocument :BIMModel,
+        :CadastralPlans,
+        :EditedPointCloud,
+        :PreSurveyAerialStudy,
+        :PreSurveyCadastralMap,
+        :RawScan,
+        :ReCapProject .
+
+:BIMModel a owl:NamedIndividual,
+        hsv:BuildingInformationModel ;
+    rdfs:label "final_example.ifc (IFC4), exported from Autodesk Revit 2027"@en ;
+    prov:wasDerivedFrom :ReCapProject ;
+    prov:wasGeneratedBy :BIMModelling ;
+    hsv:hasAuthor :MariaLauraLeonardi .
+
+:BIMModelling a owl:NamedIndividual,
+        prov:Activity ;
+    rdfs:label "BIM modelling in Autodesk Revit 2027"@en ;
+    prov:wasAssociatedWith :MariaLauraLeonardi .
+
+:Circolare_7_2019 a owl:NamedIndividual,
+        hsv:Publication ;
+    rdfs:label "Circolare n. 7/2019 to the Italian Building Code (NTC 2018), Table C8.5.I"@en .
+
+:CompressiveStrength_417a a owl:NamedIndividual,
+        hmo:CompressiveStrength ;
+    saref:hasValue "2.099"^^xsd:float .
+
+:CompressiveStrength_417b a owl:NamedIndividual,
+        hmo:CompressiveStrength ;
+    saref:hasValue "2.616"^^xsd:float .
+
+:CompressiveStrength_417c a owl:NamedIndividual,
+        hmo:CompressiveStrength ;
+    saref:hasValue "2.616"^^xsd:float .
+
+:CompressiveStrength_418a a owl:NamedIndividual,
+        hmo:CompressiveStrength ;
+    saref:hasValue "2.616"^^xsd:float .
+
+:CompressiveStrength_418b a owl:NamedIndividual,
+        hmo:CompressiveStrength ;
+    saref:hasValue "2.616"^^xsd:float .
+
+:CompressiveStrength_419 a owl:NamedIndividual,
+        hmo:CompressiveStrength ;
+    saref:hasValue "3.445"^^xsd:float .
+
+:CompressiveStrength_420 a owl:NamedIndividual,
+        hmo:CompressiveStrength ;
+    saref:hasValue "2.616"^^xsd:float .
+
+:Floor_417 a owl:NamedIndividual,
+        hsto:TimberFloor ;
+    rdfs:label "Timber floors of unit 417"@en ;
+    rdfs:comment "Generic: timber floors alla romana documented for the aggregate as a whole; the interiors of the case-study units could not be inspected."@en ;
+    hsto:hasAccessibility false .
+
+:Floor_418 a owl:NamedIndividual,
+        hsto:TimberFloor ;
+    rdfs:label "Timber floors of unit 418"@en ;
+    rdfs:comment "Generic: timber floors alla romana documented for the aggregate as a whole; the interiors of the case-study units could not be inspected."@en ;
+    hsto:hasAccessibility false .
+
+:Floor_419 a owl:NamedIndividual,
+        hsto:TimberFloor ;
+    rdfs:label "Timber floors of unit 419"@en ;
+    rdfs:comment "Generic: timber floors alla romana documented for the aggregate as a whole; the interiors of the case-study units could not be inspected."@en ;
+    hsto:hasAccessibility false .
+
+:Floor_420 a owl:NamedIndividual,
+        hsto:TimberFloor ;
+    rdfs:label "Timber floors of unit 420"@en ;
+    rdfs:comment "Generic: timber floors alla romana documented for the aggregate as a whole; the interiors of the case-study units could not be inspected."@en ;
+    hsto:hasAccessibility false .
+
+:LaserScanningCampaign a owl:NamedIndividual,
+        prov:Activity ;
+    rdfs:label "Handheld SLAM laser scanning campaign"@en ;
+    dcterms:date "2023-07-04"^^xsd:date ;
+    rdfs:comment "Instrument: GeoSLAM ZEB Horizon RT with ZEB Vision imaging module"@en ;
+    prov:endedAtTime "2023-07-04T17:16:49+00:00"^^xsd:dateTime ;
+    prov:startedAtTime "2023-07-04T16:58:25+00:00"^^xsd:dateTime ;
+    prov:wasAssociatedWith :LetiziaMartinelli,
+        :MariaLauraLeonardi .
+
+:MQI_417a a owl:NamedIndividual,
+        hmo:MasonryQualityIndex ;
+    prov:wasDerivedFrom :Photo_417a_01,
+        :Photo_417a_02,
+        :Photo_417a_03,
+        :Photo_417a_04,
+        :Photo_417a_05,
+        :Photo_417a_06,
+        :Photo_417a_07,
+        :Photo_417a_08,
+        :Photo_417a_09,
+        :Photo_417a_10,
+        :Photo_417a_11,
+        :Photo_417a_12,
+        :Photo_417a_13 ;
+    hmo:MQITotalInPlane "1.4"^^xsd:float ;
+    hmo:MQITotalOutOfPlane "1.05"^^xsd:float ;
+    hmo:MQITotalVertical "1.4"^^xsd:float .
+
+:MQI_417b a owl:NamedIndividual,
+        hmo:MasonryQualityIndex ;
+    prov:wasDerivedFrom :Photo_417b_01,
+        :Photo_417b_02 ;
+    hmo:MQITotalInPlane "3.15"^^xsd:float ;
+    hmo:MQITotalOutOfPlane "2.8"^^xsd:float ;
+    hmo:MQITotalVertical "2.8"^^xsd:float .
+
+:MQI_417c a owl:NamedIndividual,
+        hmo:MasonryQualityIndex ;
+    prov:wasDerivedFrom :Photo_417c_01,
+        :Photo_417c_02,
+        :Photo_417c_03,
+        :Photo_417c_04,
+        :Photo_417c_05,
+        :Photo_417c_06,
+        :Photo_417c_07,
+        :Photo_417c_08,
+        :Photo_417c_09,
+        :Photo_417c_10,
+        :Photo_417c_11 ;
+    hmo:MQITotalInPlane "3.15"^^xsd:float ;
+    hmo:MQITotalOutOfPlane "2.8"^^xsd:float ;
+    hmo:MQITotalVertical "2.8"^^xsd:float .
+
+:MQI_418a a owl:NamedIndividual,
+        hmo:MasonryQualityIndex ;
+    prov:wasDerivedFrom :Photo_418a_01,
+        :Photo_418a_02,
+        :Photo_418a_03,
+        :Photo_418a_04,
+        :Photo_418a_05 ;
+    hmo:MQITotalInPlane "3.15"^^xsd:float ;
+    hmo:MQITotalOutOfPlane "2.8"^^xsd:float ;
+    hmo:MQITotalVertical "2.8"^^xsd:float .
+
+:MQI_418b a owl:NamedIndividual,
+        hmo:MasonryQualityIndex ;
+    prov:wasDerivedFrom :Photo_418b_01,
+        :Photo_418b_02,
+        :Photo_418b_03,
+        :Photo_418b_04,
+        :Photo_418b_05 ;
+    hmo:MQITotalInPlane "3.15"^^xsd:float ;
+    hmo:MQITotalOutOfPlane "2.8"^^xsd:float ;
+    hmo:MQITotalVertical "2.8"^^xsd:float .
+
+:MQI_419 a owl:NamedIndividual,
+        hmo:MasonryQualityIndex ;
+    prov:wasDerivedFrom :Photo_419_01,
+        :Photo_419_02,
+        :Photo_419_03,
+        :Photo_419_04,
+        :Photo_419_05 ;
+    hmo:MQITotalInPlane "4.2"^^xsd:float ;
+    hmo:MQITotalOutOfPlane "4.2"^^xsd:float ;
+    hmo:MQITotalVertical "4.55"^^xsd:float .
+
+:MQI_420 a owl:NamedIndividual,
+        hmo:MasonryQualityIndex ;
+    prov:wasDerivedFrom :Photo_420_01,
+        :Photo_420_02,
+        :Photo_420_03,
+        :Photo_420_04,
+        :Photo_420_05,
+        :Photo_420_06,
+        :Photo_420_07 ;
+    hmo:MQITotalInPlane "3.15"^^xsd:float ;
+    hmo:MQITotalOutOfPlane "2.8"^^xsd:float ;
+    hmo:MQITotalVertical "2.8"^^xsd:float .
+
+:MassDensity_417a a owl:NamedIndividual,
+        hmo:MassDensity ;
+    rdfs:comment "Asserted, not derived: HMO has no rule for mass density. Same as typeA - see density_note there."@en ;
+    saref:hasValue "1450.0"^^xsd:float .
+
+:MassDensity_417b a owl:NamedIndividual,
+        hmo:MassDensity ;
+    rdfs:comment "Asserted, not derived: HMO has no rule for mass density. Same as typeA - see density_note there."@en ;
+    saref:hasValue "1450.0"^^xsd:float .
+
+:MassDensity_417c a owl:NamedIndividual,
+        hmo:MassDensity ;
+    rdfs:comment "Asserted, not derived: HMO has no rule for mass density. Same as typeA - see density_note there."@en ;
+    saref:hasValue "1450.0"^^xsd:float .
+
+:MassDensity_418a a owl:NamedIndividual,
+        hmo:MassDensity ;
+    rdfs:comment "Asserted, not derived: HMO has no rule for mass density. Same as typeA - see density_note there."@en ;
+    saref:hasValue "1450.0"^^xsd:float .
+
+:MassDensity_418b a owl:NamedIndividual,
+        hmo:MassDensity ;
+    rdfs:comment "Asserted, not derived: HMO has no rule for mass density. Same as typeA - see density_note there."@en ;
+    saref:hasValue "1450.0"^^xsd:float .
+
+:MassDensity_419 a owl:NamedIndividual,
+        hmo:MassDensity ;
+    rdfs:comment "Asserted, not derived: HMO has no rule for mass density. Not derivable from MQI (HMO has no density rule - density is a material constant, not a workmanship-quality output). Taken as the midpoint of NTC18 C8.5.I's tufo/calcarenite range (1300-1600 kg/m3), not measured on this specific building."@en ;
+    saref:hasValue "1450.0"^^xsd:float .
+
+:MassDensity_420 a owl:NamedIndividual,
+        hmo:MassDensity ;
+    rdfs:comment "Asserted, not derived: HMO has no rule for mass density. Same as typeA - see density_note there."@en ;
+    saref:hasValue "1450.0"^^xsd:float .
+
+:Opening_419 a owl:NamedIndividual,
+        hsto:HistoricOpening ;
+    rdfs:label "Opening with an arch of dressed tuff voussoirs, facade 419"@en .
+
+:Pattern_417a a owl:NamedIndividual,
+        hmo:Pattern ;
+    hmo:hasDominantPatternEntities :Units_417a,
+        hmo:IrregularSoftstone,
+        hmo:LimeMortarJoints,
+        hmo:NoHeaders,
+        hmo:NotContinuousHorizontalJoints,
+        hmo:RoughlyCutStone,
+        hmo:VerticallyAlignedJoints .
+
+:Pattern_417b a owl:NamedIndividual,
+        hmo:Pattern ;
+    hmo:hasDominantPatternEntities :Units_417b,
+        hmo:IrregularSoftstone,
+        hmo:LimeMortarJoints,
+        hmo:NotContinuousHorizontalJoints,
+        hmo:PartiallyStaggeredJoints,
+        hmo:RoughlyCutStone ;
+    hmo:hasSparsePatternEntities hmo:HeadersBondUnits .
+
+:Pattern_417c a owl:NamedIndividual,
+        hmo:Pattern ;
+    hmo:hasDominantPatternEntities :Units_417c,
+        hmo:IrregularSoftstone,
+        hmo:LimeMortarJoints,
+        hmo:NotContinuousHorizontalJoints,
+        hmo:PartiallyStaggeredJoints,
+        hmo:RoughlyCutStone ;
+    hmo:hasSparsePatternEntities hmo:HeadersBondUnits .
+
+:Pattern_418a a owl:NamedIndividual,
+        hmo:Pattern ;
+    hmo:hasDominantPatternEntities :Units_418a,
+        hmo:IrregularSoftstone,
+        hmo:LimeMortarJoints,
+        hmo:NotContinuousHorizontalJoints,
+        hmo:PartiallyStaggeredJoints,
+        hmo:RoughlyCutStone ;
+    hmo:hasSparsePatternEntities hmo:HeadersBondUnits .
+
+:Pattern_418b a owl:NamedIndividual,
+        hmo:Pattern ;
+    hmo:hasDominantPatternEntities :Units_418b,
+        hmo:IrregularSoftstone,
+        hmo:LimeMortarJoints,
+        hmo:NotContinuousHorizontalJoints,
+        hmo:PartiallyStaggeredJoints,
+        hmo:RoughlyCutStone ;
+    hmo:hasSparsePatternEntities hmo:HeadersBondUnits .
+
+:Pattern_419 a owl:NamedIndividual,
+        hmo:Pattern ;
+    hmo:hasDominantPatternEntities :Units_419,
+        hmo:LimeMortarJoints,
+        hmo:PartiallyContinuousHorizontalJoints,
+        hmo:PartiallyStaggeredJoints,
+        hmo:SquaredSoftstone ;
+    hmo:hasSparsePatternEntities hmo:HeadersBondUnits .
+
+:Pattern_420 a owl:NamedIndividual,
+        hmo:Pattern ;
+    hmo:hasDominantPatternEntities :Units_420,
+        hmo:IrregularSoftstone,
+        hmo:LimeMortarJoints,
+        hmo:NotContinuousHorizontalJoints,
+        hmo:PartiallyStaggeredJoints,
+        hmo:RoughlyCutStone ;
+    hmo:hasSparsePatternEntities hmo:HeadersBondUnits .
+
+:PreSurveyAerialStudy a owl:NamedIndividual,
+        hsv:Document ;
+    rdfs:label "Study of the accessible fronts on aerial imagery"@en ;
+    prov:wasGeneratedBy :PreSurveyDeskStudy ;
+    hsv:hasAuthor :FilippoCalcerano,
+        :MariaLauraLeonardi .
+
+:PreSurveyCadastralMap a owl:NamedIndividual,
+        hsv:Drawing ;
+    rdfs:label "Cadastral map annotated with the block identifiers"@en ;
+    prov:wasGeneratedBy :PreSurveyDeskStudy ;
+    hsv:hasAuthor :FilippoCalcerano,
+        :MariaLauraLeonardi .
+
+:RVE_417a a owl:NamedIndividual,
+        hmo:RepresentativeVolumeElement ;
+    hmo:hasHomogenisedMechanicalProperty :CompressiveStrength_417a,
+        :MassDensity_417a,
+        :ShearModulus_417a,
+        :ShearStrengthTC_417a,
+        :YoungModulus_417a ;
+    hmo:hasPattern :Pattern_417a .
+
+:RVE_417b a owl:NamedIndividual,
+        hmo:RepresentativeVolumeElement ;
+    hmo:hasHomogenisedMechanicalProperty :CompressiveStrength_417b,
+        :MassDensity_417b,
+        :ShearModulus_417b,
+        :ShearStrengthTC_417b,
+        :YoungModulus_417b ;
+    hmo:hasPattern :Pattern_417b .
+
+:RVE_417c a owl:NamedIndividual,
+        hmo:RepresentativeVolumeElement ;
+    hmo:hasHomogenisedMechanicalProperty :CompressiveStrength_417c,
+        :MassDensity_417c,
+        :ShearModulus_417c,
+        :ShearStrengthTC_417c,
+        :YoungModulus_417c ;
+    hmo:hasPattern :Pattern_417c .
+
+:RVE_418a a owl:NamedIndividual,
+        hmo:RepresentativeVolumeElement ;
+    hmo:hasHomogenisedMechanicalProperty :CompressiveStrength_418a,
+        :MassDensity_418a,
+        :ShearModulus_418a,
+        :ShearStrengthTC_418a,
+        :YoungModulus_418a ;
+    hmo:hasPattern :Pattern_418a .
+
+:RVE_418b a owl:NamedIndividual,
+        hmo:RepresentativeVolumeElement ;
+    hmo:hasHomogenisedMechanicalProperty :CompressiveStrength_418b,
+        :MassDensity_418b,
+        :ShearModulus_418b,
+        :ShearStrengthTC_418b,
+        :YoungModulus_418b ;
+    hmo:hasPattern :Pattern_418b .
+
+:RVE_419 a owl:NamedIndividual,
+        hmo:RepresentativeVolumeElement ;
+    hmo:hasHomogenisedMechanicalProperty :CompressiveStrength_419,
+        :MassDensity_419,
+        :ShearModulus_419,
+        :ShearStrengthTC_419,
+        :YoungModulus_419 ;
+    hmo:hasPattern :Pattern_419 .
+
+:RVE_420 a owl:NamedIndividual,
+        hmo:RepresentativeVolumeElement ;
+    hmo:hasHomogenisedMechanicalProperty :CompressiveStrength_420,
+        :MassDensity_420,
+        :ShearModulus_420,
+        :ShearStrengthTC_420,
+        :YoungModulus_420 ;
+    hmo:hasPattern :Pattern_420 .
+
+:ReferenceTextTuffMasonry a owl:NamedIndividual,
+        hsv:Publication ;
+    rdfs:label "Reference text on tuff masonry in the Roman area (typology comparison tables, citing Carbonara)"@en .
+
+:ShearModulus_417a a owl:NamedIndividual,
+        hmo:ShearModulus ;
+    saref:hasValue "335.62"^^xsd:float .
+
+:ShearModulus_417b a owl:NamedIndividual,
+        hmo:ShearModulus ;
+    saref:hasValue "421.27"^^xsd:float .
+
+:ShearModulus_417c a owl:NamedIndividual,
+        hmo:ShearModulus ;
+    saref:hasValue "421.27"^^xsd:float .
+
+:ShearModulus_418a a owl:NamedIndividual,
+        hmo:ShearModulus ;
+    saref:hasValue "421.27"^^xsd:float .
+
+:ShearModulus_418b a owl:NamedIndividual,
+        hmo:ShearModulus ;
+    saref:hasValue "421.27"^^xsd:float .
+
+:ShearModulus_419 a owl:NamedIndividual,
+        hmo:ShearModulus ;
+    saref:hasValue "482.82"^^xsd:float .
+
+:ShearModulus_420 a owl:NamedIndividual,
+        hmo:ShearModulus ;
+    saref:hasValue "421.27"^^xsd:float .
+
+:ShearStrengthTC_417a a owl:NamedIndividual,
+        hmo:ShearStrengthTC ;
+    saref:hasValue "0.0305"^^xsd:float .
+
+:ShearStrengthTC_417b a owl:NamedIndividual,
+        hmo:ShearStrengthTC ;
+    saref:hasValue "0.0475"^^xsd:float .
+
+:ShearStrengthTC_417c a owl:NamedIndividual,
+        hmo:ShearStrengthTC ;
+    saref:hasValue "0.0475"^^xsd:float .
+
+:ShearStrengthTC_418a a owl:NamedIndividual,
+        hmo:ShearStrengthTC ;
+    saref:hasValue "0.0475"^^xsd:float .
+
+:ShearStrengthTC_418b a owl:NamedIndividual,
+        hmo:ShearStrengthTC ;
+    saref:hasValue "0.0475"^^xsd:float .
+
+:ShearStrengthTC_419 a owl:NamedIndividual,
+        hmo:ShearStrengthTC ;
+    saref:hasValue "0.0591"^^xsd:float .
+
+:ShearStrengthTC_420 a owl:NamedIndividual,
+        hmo:ShearStrengthTC ;
+    saref:hasValue "0.0475"^^xsd:float .
+
+:Tufelli_masonry_typeA a owl:NamedIndividual,
+        skos:Concept ;
+    rdfs:label "Tufelli_masonry_typeA"@en ;
+    rdfs:comment "Mortar scored plain 'lime' (conservative) rather than crediting the pozzolana content mentioned in the manuscript with a hydraulic-lime-level score - the pozzolana's real contribution to mortar performance was not tested, only described qualitatively"@en,
+        "Vertical joint staggering scored 'partially_staggered' (conservative) rather than 'properly_staggered' - not directly measurable from the available photos at typical phone-camera resolution/angle"@en ;
+    skos:definition "Regular tufo masonry, fairly continuous coursing, well-cut stone voussoirs at openings"@en .
+
+:Tufelli_masonry_typeC a owl:NamedIndividual,
+        skos:Concept ;
+    rdfs:label "Tufelli_masonry_typeC"@en ;
+    rdfs:comment "Scores kept uniformly low across all 7 parameters per the manuscript's explicit statement that this residential fabric has 'more frequent use of reused bricks, and greater variability in coursing and joint execution' than the representative architecture its local-technique description is based on - a stated characterisation from the manuscript, not read off any single photo"@en ;
+    skos:definition "Patched/reworked masonry, mixed exposed stone and infill/repairs, brick dentil cornice, evidence of blocked former openings"@en .
+
+:Unit_417 a owl:NamedIndividual,
+        hsv:StructuralUnit ;
+    rdfs:label "Structural unit 417 (cadastral identifier)"@en ;
+    dcterms:hasPart :Facade_417a,
+        :Facade_417b,
+        :Facade_417c,
+        :Floor_417 .
+
+:Unit_418 a owl:NamedIndividual,
+        hsv:StructuralUnit ;
+    rdfs:label "Structural unit 418 (cadastral identifier)"@en ;
+    dcterms:hasPart :Facade_418a,
+        :Facade_418b,
+        :Floor_418 .
+
+:Unit_419 a owl:NamedIndividual,
+        hsv:StructuralUnit ;
+    rdfs:label "Structural unit 419 (cadastral identifier)"@en ;
+    dcterms:hasPart :Facade_419,
+        :Floor_419 .
+
+:Unit_420 a owl:NamedIndividual,
+        hsv:StructuralUnit ;
+    rdfs:label "Structural unit 420 (cadastral identifier)"@en ;
+    dcterms:hasPart :Facade_420,
+        :Floor_420 .
+
+:Units_417a a owl:NamedIndividual,
+        hmo:Units ;
+    rdfs:comment "Representative length range for the 'small' category recorded by the survey, not measured unit lengths."@en ;
+    hmo:unitsLengthHasMinimumValue "10.0"^^xsd:float ;
+    hmo:unitsLengthMaximumValue "20.0"^^xsd:float .
+
+:Units_417b a owl:NamedIndividual,
+        hmo:Units ;
+    rdfs:comment "Representative length range for the 'medium' category recorded by the survey, not measured unit lengths."@en ;
+    hmo:unitsLengthHasMinimumValue "20.0"^^xsd:float ;
+    hmo:unitsLengthMaximumValue "40.0"^^xsd:float .
+
+:Units_417c a owl:NamedIndividual,
+        hmo:Units ;
+    rdfs:comment "Representative length range for the 'medium' category recorded by the survey, not measured unit lengths."@en ;
+    hmo:unitsLengthHasMinimumValue "20.0"^^xsd:float ;
+    hmo:unitsLengthMaximumValue "40.0"^^xsd:float .
+
+:Units_418a a owl:NamedIndividual,
+        hmo:Units ;
+    rdfs:comment "Representative length range for the 'medium' category recorded by the survey, not measured unit lengths."@en ;
+    hmo:unitsLengthHasMinimumValue "20.0"^^xsd:float ;
+    hmo:unitsLengthMaximumValue "40.0"^^xsd:float .
+
+:Units_418b a owl:NamedIndividual,
+        hmo:Units ;
+    rdfs:comment "Representative length range for the 'medium' category recorded by the survey, not measured unit lengths."@en ;
+    hmo:unitsLengthHasMinimumValue "20.0"^^xsd:float ;
+    hmo:unitsLengthMaximumValue "40.0"^^xsd:float .
+
+:Units_419 a owl:NamedIndividual,
+        hmo:Units ;
+    rdfs:comment "Representative length range for the 'medium' category recorded by the survey, not measured unit lengths."@en ;
+    hmo:unitsLengthHasMinimumValue "20.0"^^xsd:float ;
+    hmo:unitsLengthMaximumValue "40.0"^^xsd:float .
+
+:Units_420 a owl:NamedIndividual,
+        hmo:Units ;
+    rdfs:comment "Representative length range for the 'medium' category recorded by the survey, not measured unit lengths."@en ;
+    hmo:unitsLengthHasMinimumValue "20.0"^^xsd:float ;
+    hmo:unitsLengthMaximumValue "40.0"^^xsd:float .
+
+:Wall_417a a owl:NamedIndividual,
+        hmo:MasonryWall ;
+    rdfs:label "Masonry wall of facade 417a"@en ;
+    dcterms:type :Tufelli_masonry_typeC ;
+    hmo:hasMasonryQualityIndex :MQI_417a ;
+    hmo:hasRepresentativeVolumeElement :RVE_417a .
+
+:Wall_417b a owl:NamedIndividual,
+        hmo:MasonryWall ;
+    rdfs:label "Masonry wall of facade 417b"@en ;
+    dcterms:type :Tufelli_masonry_typeD ;
+    hmo:hasMasonryQualityIndex :MQI_417b ;
+    hmo:hasRepresentativeVolumeElement :RVE_417b .
+
+:Wall_417c a owl:NamedIndividual,
+        hmo:MasonryWall ;
+    rdfs:label "Masonry wall of facade 417c"@en ;
+    dcterms:type :Tufelli_masonry_typeB ;
+    hmo:hasMasonryQualityIndex :MQI_417c ;
+    hmo:hasRepresentativeVolumeElement :RVE_417c .
+
+:Wall_418a a owl:NamedIndividual,
+        hmo:MasonryWall ;
+    rdfs:label "Masonry wall of facade 418a"@en ;
+    dcterms:type :Tufelli_masonry_typeB ;
+    hmo:hasMasonryQualityIndex :MQI_418a ;
+    hmo:hasRepresentativeVolumeElement :RVE_418a .
+
+:Wall_418b a owl:NamedIndividual,
+        hmo:MasonryWall ;
+    rdfs:label "Masonry wall of facade 418b"@en ;
+    dcterms:type :Tufelli_masonry_typeD ;
+    hmo:hasMasonryQualityIndex :MQI_418b ;
+    hmo:hasRepresentativeVolumeElement :RVE_418b .
+
+:Wall_419 a owl:NamedIndividual,
+        hmo:MasonryWall ;
+    rdfs:label "Masonry wall of facade 419"@en ;
+    dcterms:type :Tufelli_masonry_typeA ;
+    hmo:hasMasonryQualityIndex :MQI_419 ;
+    hmo:hasRepresentativeVolumeElement :RVE_419 .
+
+:Wall_420 a owl:NamedIndividual,
+        hmo:MasonryWall ;
+    rdfs:label "Masonry wall of facade 420"@en ;
+    dcterms:type :Tufelli_masonry_typeD ;
+    hmo:hasMasonryQualityIndex :MQI_420 ;
+    hmo:hasRepresentativeVolumeElement :RVE_420 .
+
+:YoungModulus_417a a owl:NamedIndividual,
+        hmo:YoungModulus ;
+    saref:hasValue "987.8"^^xsd:float .
+
+:YoungModulus_417b a owl:NamedIndividual,
+        hmo:YoungModulus ;
+    saref:hasValue "1198.7"^^xsd:float .
+
+:YoungModulus_417c a owl:NamedIndividual,
+        hmo:YoungModulus ;
+    saref:hasValue "1198.7"^^xsd:float .
+
+:YoungModulus_418a a owl:NamedIndividual,
+        hmo:YoungModulus ;
+    saref:hasValue "1198.7"^^xsd:float .
+
+:YoungModulus_418b a owl:NamedIndividual,
+        hmo:YoungModulus ;
+    saref:hasValue "1198.7"^^xsd:float .
+
+:YoungModulus_419 a owl:NamedIndividual,
+        hmo:YoungModulus ;
+    saref:hasValue "1526.6"^^xsd:float .
+
+:YoungModulus_420 a owl:NamedIndividual,
+        hmo:YoungModulus ;
+    saref:hasValue "1198.7"^^xsd:float .
+
+:CadastralPlans a owl:NamedIndividual,
+        hsv:Drawing ;
+    rdfs:label "Existing cadastral plans of the individual units"@en .
+
+:EditedPointCloud a owl:NamedIndividual,
+        hsv:PointCloud ;
+    rdfs:label "CleanedIsolato.ply (CloudCompare 2.13), 13401258 points"@en ;
+    prov:wasDerivedFrom :RawScan ;
+    prov:wasGeneratedBy :PointCloudProcessing ;
+    hsv:postProcessedBy :MariaLauraLeonardi,
+        :MicheleCalvano .
+
+:ElenaGigliarelli a owl:NamedIndividual,
+        foaf:Person ;
+    foaf:name "Elena Gigliarelli" .
+
+:Photo_417a_01 a owl:NamedIndividual,
+        hsv:Photo ;
+    dcterms:created "2023-06-01T14:50:43"^^xsd:dateTime ;
+    dcterms:identifier "A-417/417_a/WhatsApp Image 2023-06-01 at 14.50.43 (1).jpeg" ;
+    prov:wasGeneratedBy :PhotographicCampaign ;
+    hsv:acquiredBy :ElenaVerticchio,
+        :MariaLauraLeonardi,
+        :StefanoCursi ;
+    hsv:isDocumentOf :Facade_417a .
+
+:Photo_417a_02 a owl:NamedIndividual,
+        hsv:Photo ;
+    dcterms:created "2023-06-01T14:50:44"^^xsd:dateTime ;
+    dcterms:identifier "A-417/417_a/WhatsApp Image 2023-06-01 at 14.50.44 (1).jpeg" ;
+    prov:wasGeneratedBy :PhotographicCampaign ;
+    hsv:acquiredBy :ElenaVerticchio,
+        :MariaLauraLeonardi,
+        :StefanoCursi ;
+    hsv:isDocumentOf :Facade_417a .
+
+:Photo_417a_03 a owl:NamedIndividual,
+        hsv:Photo ;
+    dcterms:created "2023-06-01T14:50:44"^^xsd:dateTime ;
+    dcterms:identifier "A-417/417_a/WhatsApp Image 2023-06-01 at 14.50.44.jpeg" ;
+    prov:wasGeneratedBy :PhotographicCampaign ;
+    hsv:acquiredBy :ElenaVerticchio,
+        :MariaLauraLeonardi,
+        :StefanoCursi ;
+    hsv:isDocumentOf :Facade_417a .
+
+:Photo_417a_04 a owl:NamedIndividual,
+        hsv:Photo ;
+    dcterms:created "2023-06-01T14:50:45"^^xsd:dateTime ;
+    dcterms:identifier "A-417/417_a/WhatsApp Image 2023-06-01 at 14.50.45 (1).jpeg" ;
+    prov:wasGeneratedBy :PhotographicCampaign ;
+    hsv:acquiredBy :ElenaVerticchio,
+        :MariaLauraLeonardi,
+        :StefanoCursi ;
+    hsv:isDocumentOf :Facade_417a .
+
+:Photo_417a_05 a owl:NamedIndividual,
+        hsv:Photo ;
+    dcterms:created "2023-06-01T14:50:45"^^xsd:dateTime ;
+    dcterms:identifier "A-417/417_a/WhatsApp Image 2023-06-01 at 14.50.45.jpeg" ;
+    prov:wasGeneratedBy :PhotographicCampaign ;
+    hsv:acquiredBy :ElenaVerticchio,
+        :MariaLauraLeonardi,
+        :StefanoCursi ;
+    hsv:isDocumentOf :Facade_417a .
+
+:Photo_417a_06 a owl:NamedIndividual,
+        hsv:Photo ;
+    dcterms:created "2023-06-01T14:50:46"^^xsd:dateTime ;
+    dcterms:identifier "A-417/417_a/WhatsApp Image 2023-06-01 at 14.50.46.jpeg" ;
+    prov:wasGeneratedBy :PhotographicCampaign ;
+    hsv:acquiredBy :ElenaVerticchio,
+        :MariaLauraLeonardi,
+        :StefanoCursi ;
+    hsv:isDocumentOf :Facade_417a .
+
+:Photo_417a_07 a owl:NamedIndividual,
+        hsv:Photo ;
+    dcterms:created "2023-06-01T14:51:48"^^xsd:dateTime ;
+    dcterms:identifier "A-417/417_a/WhatsApp Image 2023-06-01 at 14.51.48.jpeg" ;
+    prov:wasGeneratedBy :PhotographicCampaign ;
+    hsv:acquiredBy :ElenaVerticchio,
+        :MariaLauraLeonardi,
+        :StefanoCursi ;
+    hsv:isDocumentOf :Facade_417a .
+
+:Photo_417a_08 a owl:NamedIndividual,
+        hsv:Photo ;
+    dcterms:created "2023-06-01T14:51:49"^^xsd:dateTime ;
+    dcterms:identifier "A-417/417_a/WhatsApp Image 2023-06-01 at 14.51.49 (1).jpeg" ;
+    prov:wasGeneratedBy :PhotographicCampaign ;
+    hsv:acquiredBy :ElenaVerticchio,
+        :MariaLauraLeonardi,
+        :StefanoCursi ;
+    hsv:isDocumentOf :Facade_417a .
+
+:Photo_417a_09 a owl:NamedIndividual,
+        hsv:Photo ;
+    dcterms:created "2023-06-01T14:51:49"^^xsd:dateTime ;
+    dcterms:identifier "A-417/417_a/WhatsApp Image 2023-06-01 at 14.51.49.jpeg" ;
+    prov:wasGeneratedBy :PhotographicCampaign ;
+    hsv:acquiredBy :ElenaVerticchio,
+        :MariaLauraLeonardi,
+        :StefanoCursi ;
+    hsv:isDocumentOf :Facade_417a .
+
+:Photo_417a_10 a owl:NamedIndividual,
+        hsv:Photo ;
+    dcterms:created "2023-06-01T14:51:50"^^xsd:dateTime ;
+    dcterms:identifier "A-417/417_a/WhatsApp Image 2023-06-01 at 14.51.50 (1).jpeg" ;
+    prov:wasGeneratedBy :PhotographicCampaign ;
+    hsv:acquiredBy :ElenaVerticchio,
+        :MariaLauraLeonardi,
+        :StefanoCursi ;
+    hsv:isDocumentOf :Facade_417a .
+
+:Photo_417a_11 a owl:NamedIndividual,
+        hsv:Photo ;
+    dcterms:created "2023-06-01T14:51:50"^^xsd:dateTime ;
+    dcterms:identifier "A-417/417_a/WhatsApp Image 2023-06-01 at 14.51.50.jpeg" ;
+    prov:wasGeneratedBy :PhotographicCampaign ;
+    hsv:acquiredBy :ElenaVerticchio,
+        :MariaLauraLeonardi,
+        :StefanoCursi ;
+    hsv:isDocumentOf :Facade_417a .
+
+:Photo_417a_12 a owl:NamedIndividual,
+        hsv:Photo ;
+    dcterms:identifier "A-417/417_a/WhatsApp Image 2023-06-01 at 2.43.33 PM (4).jpeg" ;
+    prov:wasGeneratedBy :PhotographicCampaign ;
+    hsv:acquiredBy :ElenaVerticchio,
+        :MariaLauraLeonardi,
+        :StefanoCursi ;
+    hsv:isDocumentOf :Facade_417a .
+
+:Photo_417a_13 a owl:NamedIndividual,
+        hsv:Photo ;
+    dcterms:identifier "A-417/417_a/WhatsApp Image 2023-06-01 at 2.43.34 PM.jpeg" ;
+    prov:wasGeneratedBy :PhotographicCampaign ;
+    hsv:acquiredBy :ElenaVerticchio,
+        :MariaLauraLeonardi,
+        :StefanoCursi ;
+    hsv:isDocumentOf :Facade_417a .
+
+:Photo_417b_01 a owl:NamedIndividual,
+        hsv:Photo ;
+    dcterms:created "2023-06-01T14:51:52"^^xsd:dateTime ;
+    dcterms:identifier "A-417/417_b/WhatsApp Image 2023-06-01 at 14.51.52 (1).jpeg" ;
+    prov:wasGeneratedBy :PhotographicCampaign ;
+    hsv:acquiredBy :ElenaVerticchio,
+        :MariaLauraLeonardi,
+        :StefanoCursi ;
+    hsv:isDocumentOf :Facade_417b .
+
+:Photo_417b_02 a owl:NamedIndividual,
+        hsv:Photo ;
+    dcterms:created "2023-06-01T14:51:52"^^xsd:dateTime ;
+    dcterms:identifier "A-417/417_b/WhatsApp Image 2023-06-01 at 14.51.52.jpeg" ;
+    prov:wasGeneratedBy :PhotographicCampaign ;
+    hsv:acquiredBy :ElenaVerticchio,
+        :MariaLauraLeonardi,
+        :StefanoCursi ;
+    hsv:isDocumentOf :Facade_417b .
+
+:Photo_417c_01 a owl:NamedIndividual,
+        hsv:Photo ;
+    dcterms:created "2023-06-01T14:50:40"^^xsd:dateTime ;
+    dcterms:identifier "A-417/417_c/WhatsApp Image 2023-06-01 at 14.50.40.jpeg" ;
+    prov:wasGeneratedBy :PhotographicCampaign ;
+    hsv:acquiredBy :ElenaVerticchio,
+        :MariaLauraLeonardi,
+        :StefanoCursi ;
+    hsv:isDocumentOf :Facade_417c .
+
+:Photo_417c_02 a owl:NamedIndividual,
+        hsv:Photo ;
+    dcterms:created "2023-06-01T14:50:41"^^xsd:dateTime ;
+    dcterms:identifier "A-417/417_c/WhatsApp Image 2023-06-01 at 14.50.41 (1).jpeg" ;
+    prov:wasGeneratedBy :PhotographicCampaign ;
+    hsv:acquiredBy :ElenaVerticchio,
+        :MariaLauraLeonardi,
+        :StefanoCursi ;
+    hsv:isDocumentOf :Facade_417c .
+
+:Photo_417c_03 a owl:NamedIndividual,
+        hsv:Photo ;
+    dcterms:created "2023-06-01T14:50:41"^^xsd:dateTime ;
+    dcterms:identifier "A-417/417_c/WhatsApp Image 2023-06-01 at 14.50.41.jpeg" ;
+    prov:wasGeneratedBy :PhotographicCampaign ;
+    hsv:acquiredBy :ElenaVerticchio,
+        :MariaLauraLeonardi,
+        :StefanoCursi ;
+    hsv:isDocumentOf :Facade_417c .
+
+:Photo_417c_04 a owl:NamedIndividual,
+        hsv:Photo ;
+    dcterms:created "2023-06-01T14:50:42"^^xsd:dateTime ;
+    dcterms:identifier "A-417/417_c/WhatsApp Image 2023-06-01 at 14.50.42 (1).jpeg" ;
+    prov:wasGeneratedBy :PhotographicCampaign ;
+    hsv:acquiredBy :ElenaVerticchio,
+        :MariaLauraLeonardi,
+        :StefanoCursi ;
+    hsv:isDocumentOf :Facade_417c .
+
+:Photo_417c_05 a owl:NamedIndividual,
+        hsv:Photo ;
+    dcterms:created "2023-06-01T14:50:42"^^xsd:dateTime ;
+    dcterms:identifier "A-417/417_c/WhatsApp Image 2023-06-01 at 14.50.42.jpeg" ;
+    prov:wasGeneratedBy :PhotographicCampaign ;
+    hsv:acquiredBy :ElenaVerticchio,
+        :MariaLauraLeonardi,
+        :StefanoCursi ;
+    hsv:isDocumentOf :Facade_417c .
+
+:Photo_417c_06 a owl:NamedIndividual,
+        hsv:Photo ;
+    dcterms:created "2023-06-01T14:50:43"^^xsd:dateTime ;
+    dcterms:identifier "A-417/417_c/WhatsApp Image 2023-06-01 at 14.50.43.jpeg" ;
+    prov:wasGeneratedBy :PhotographicCampaign ;
+    hsv:acquiredBy :ElenaVerticchio,
+        :MariaLauraLeonardi,
+        :StefanoCursi ;
+    hsv:isDocumentOf :Facade_417c .
+
+:Photo_417c_07 a owl:NamedIndividual,
+        hsv:Photo ;
+    dcterms:created "2023-06-01T14:50:55"^^xsd:dateTime ;
+    dcterms:identifier "A-417/417_c/WhatsApp Image 2023-06-01 at 14.50.55 (1).jpeg" ;
+    prov:wasGeneratedBy :PhotographicCampaign ;
+    hsv:acquiredBy :ElenaVerticchio,
+        :MariaLauraLeonardi,
+        :StefanoCursi ;
+    hsv:isDocumentOf :Facade_417c .
+
+:Photo_417c_08 a owl:NamedIndividual,
+        hsv:Photo ;
+    dcterms:created "2023-06-01T14:51:51"^^xsd:dateTime ;
+    dcterms:identifier "A-417/417_c/WhatsApp Image 2023-06-01 at 14.51.51.jpeg" ;
+    prov:wasGeneratedBy :PhotographicCampaign ;
+    hsv:acquiredBy :ElenaVerticchio,
+        :MariaLauraLeonardi,
+        :StefanoCursi ;
+    hsv:isDocumentOf :Facade_417c .
+
+:Photo_417c_09 a owl:NamedIndividual,
+        hsv:Photo ;
+    dcterms:identifier "A-417/417_c/WhatsApp Image 2023-06-01 at 2.43.33 PM (1).jpeg" ;
+    prov:wasGeneratedBy :PhotographicCampaign ;
+    hsv:acquiredBy :ElenaVerticchio,
+        :MariaLauraLeonardi,
+        :StefanoCursi ;
+    hsv:isDocumentOf :Facade_417c .
+
+:Photo_417c_10 a owl:NamedIndividual,
+        hsv:Photo ;
+    dcterms:identifier "A-417/417_c/WhatsApp Image 2023-06-01 at 2.43.33 PM (2).jpeg" ;
+    prov:wasGeneratedBy :PhotographicCampaign ;
+    hsv:acquiredBy :ElenaVerticchio,
+        :MariaLauraLeonardi,
+        :StefanoCursi ;
+    hsv:isDocumentOf :Facade_417c .
+
+:Photo_417c_11 a owl:NamedIndividual,
+        hsv:Photo ;
+    dcterms:identifier "A-417/417_c/WhatsApp Image 2023-06-01 at 2.43.33 PM (3).jpeg" ;
+    prov:wasGeneratedBy :PhotographicCampaign ;
+    hsv:acquiredBy :ElenaVerticchio,
+        :MariaLauraLeonardi,
+        :StefanoCursi ;
+    hsv:isDocumentOf :Facade_417c .
+
+:Photo_418a_01 a owl:NamedIndividual,
+        hsv:Photo ;
+    dcterms:created "2023-06-01T14:50:47"^^xsd:dateTime ;
+    dcterms:identifier "A-418/418-a/WhatsApp Image 2023-06-01 at 14.50.47 (1).jpeg" ;
+    prov:wasGeneratedBy :PhotographicCampaign ;
+    hsv:acquiredBy :ElenaVerticchio,
+        :MariaLauraLeonardi,
+        :StefanoCursi ;
+    hsv:isDocumentOf :Facade_418a .
+
+:Photo_418a_02 a owl:NamedIndividual,
+        hsv:Photo ;
+    dcterms:created "2023-06-01T14:50:47"^^xsd:dateTime ;
+    dcterms:identifier "A-418/418-a/WhatsApp Image 2023-06-01 at 14.50.47.jpeg" ;
+    prov:wasGeneratedBy :PhotographicCampaign ;
+    hsv:acquiredBy :ElenaVerticchio,
+        :MariaLauraLeonardi,
+        :StefanoCursi ;
+    hsv:isDocumentOf :Facade_418a .
+
+:Photo_418a_03 a owl:NamedIndividual,
+        hsv:Photo ;
+    dcterms:created "2023-06-01T14:50:48"^^xsd:dateTime ;
+    dcterms:identifier "A-418/418-a/WhatsApp Image 2023-06-01 at 14.50.48 (1).jpeg" ;
+    prov:wasGeneratedBy :PhotographicCampaign ;
+    hsv:acquiredBy :ElenaVerticchio,
+        :MariaLauraLeonardi,
+        :StefanoCursi ;
+    hsv:isDocumentOf :Facade_418a .
+
+:Photo_418a_04 a owl:NamedIndividual,
+        hsv:Photo ;
+    dcterms:created "2023-06-01T14:50:48"^^xsd:dateTime ;
+    dcterms:identifier "A-418/418-a/WhatsApp Image 2023-06-01 at 14.50.48.jpeg" ;
+    prov:wasGeneratedBy :PhotographicCampaign ;
+    hsv:acquiredBy :ElenaVerticchio,
+        :MariaLauraLeonardi,
+        :StefanoCursi ;
+    hsv:isDocumentOf :Facade_418a .
+
+:Photo_418a_05 a owl:NamedIndividual,
+        hsv:Photo ;
+    dcterms:created "2023-06-01T14:50:49"^^xsd:dateTime ;
+    dcterms:identifier "A-418/418-a/WhatsApp Image 2023-06-01 at 14.50.49 (1).jpeg" ;
+    prov:wasGeneratedBy :PhotographicCampaign ;
+    hsv:acquiredBy :ElenaVerticchio,
+        :MariaLauraLeonardi,
+        :StefanoCursi ;
+    hsv:isDocumentOf :Facade_418a .
+
+:Photo_418b_01 a owl:NamedIndividual,
+        hsv:Photo ;
+    dcterms:created "2023-06-01T14:51:53"^^xsd:dateTime ;
+    dcterms:identifier "A-418/418b/WhatsApp Image 2023-06-01 at 14.51.53 (1).jpeg" ;
+    prov:wasGeneratedBy :PhotographicCampaign ;
+    hsv:acquiredBy :ElenaVerticchio,
+        :MariaLauraLeonardi,
+        :StefanoCursi ;
+    hsv:isDocumentOf :Facade_418b .
+
+:Photo_418b_02 a owl:NamedIndividual,
+        hsv:Photo ;
+    dcterms:created "2023-06-01T14:51:53"^^xsd:dateTime ;
+    dcterms:identifier "A-418/418b/WhatsApp Image 2023-06-01 at 14.51.53.jpeg" ;
+    prov:wasGeneratedBy :PhotographicCampaign ;
+    hsv:acquiredBy :ElenaVerticchio,
+        :MariaLauraLeonardi,
+        :StefanoCursi ;
+    hsv:isDocumentOf :Facade_418b .
+
+:Photo_418b_03 a owl:NamedIndividual,
+        hsv:Photo ;
+    dcterms:created "2023-06-01T14:51:54"^^xsd:dateTime ;
+    dcterms:identifier "A-418/418b/WhatsApp Image 2023-06-01 at 14.51.54 (1).jpeg" ;
+    prov:wasGeneratedBy :PhotographicCampaign ;
+    hsv:acquiredBy :ElenaVerticchio,
+        :MariaLauraLeonardi,
+        :StefanoCursi ;
+    hsv:isDocumentOf :Facade_418b .
+
+:Photo_418b_04 a owl:NamedIndividual,
+        hsv:Photo ;
+    dcterms:created "2023-06-01T14:51:54"^^xsd:dateTime ;
+    dcterms:identifier "A-418/418b/WhatsApp Image 2023-06-01 at 14.51.54.jpeg" ;
+    prov:wasGeneratedBy :PhotographicCampaign ;
+    hsv:acquiredBy :ElenaVerticchio,
+        :MariaLauraLeonardi,
+        :StefanoCursi ;
+    hsv:isDocumentOf :Facade_418b .
+
+:Photo_418b_05 a owl:NamedIndividual,
+        hsv:Photo ;
+    dcterms:created "2023-06-01T14:51:55"^^xsd:dateTime ;
+    dcterms:identifier "A-418/418b/WhatsApp Image 2023-06-01 at 14.51.55.jpeg" ;
+    prov:wasGeneratedBy :PhotographicCampaign ;
+    hsv:acquiredBy :ElenaVerticchio,
+        :MariaLauraLeonardi,
+        :StefanoCursi ;
+    hsv:isDocumentOf :Facade_418b .
+
+:Photo_419_01 a owl:NamedIndividual,
+        hsv:Photo ;
+    dcterms:created "2023-06-01T14:50:49"^^xsd:dateTime ;
+    dcterms:identifier "A-419/a419/WhatsApp Image 2023-06-01 at 14.50.49.jpeg" ;
+    prov:wasGeneratedBy :PhotographicCampaign ;
+    hsv:acquiredBy :ElenaVerticchio,
+        :MariaLauraLeonardi,
+        :StefanoCursi ;
+    hsv:isDocumentOf :Facade_419 .
+
+:Photo_419_02 a owl:NamedIndividual,
+        hsv:Photo ;
+    dcterms:created "2023-06-01T14:50:50"^^xsd:dateTime ;
+    dcterms:identifier "A-419/a419/WhatsApp Image 2023-06-01 at 14.50.50 (1).jpeg" ;
+    prov:wasGeneratedBy :PhotographicCampaign ;
+    hsv:acquiredBy :ElenaVerticchio,
+        :MariaLauraLeonardi,
+        :StefanoCursi ;
+    hsv:isDocumentOf :Facade_419 .
+
+:Photo_419_03 a owl:NamedIndividual,
+        hsv:Photo ;
+    dcterms:created "2023-06-01T14:50:50"^^xsd:dateTime ;
+    dcterms:identifier "A-419/a419/WhatsApp Image 2023-06-01 at 14.50.50.jpeg" ;
+    prov:wasGeneratedBy :PhotographicCampaign ;
+    hsv:acquiredBy :ElenaVerticchio,
+        :MariaLauraLeonardi,
+        :StefanoCursi ;
+    hsv:isDocumentOf :Facade_419 .
+
+:Photo_419_04 a owl:NamedIndividual,
+        hsv:Photo ;
+    dcterms:created "2023-06-01T14:50:51"^^xsd:dateTime ;
+    dcterms:identifier "A-419/a419/WhatsApp Image 2023-06-01 at 14.50.51 (1).jpeg" ;
+    prov:wasGeneratedBy :PhotographicCampaign ;
+    hsv:acquiredBy :ElenaVerticchio,
+        :MariaLauraLeonardi,
+        :StefanoCursi ;
+    hsv:isDocumentOf :Facade_419 .
+
+:Photo_419_05 a owl:NamedIndividual,
+        hsv:Photo ;
+    dcterms:created "2023-06-01T14:50:51"^^xsd:dateTime ;
+    dcterms:identifier "A-419/a419/WhatsApp Image 2023-06-01 at 14.50.51.jpeg" ;
+    prov:wasGeneratedBy :PhotographicCampaign ;
+    hsv:acquiredBy :ElenaVerticchio,
+        :MariaLauraLeonardi,
+        :StefanoCursi ;
+    hsv:isDocumentOf :Facade_419 .
+
+:Photo_420_01 a owl:NamedIndividual,
+        hsv:Photo ;
+    dcterms:created "2023-06-01T14:50:52"^^xsd:dateTime ;
+    dcterms:identifier "A-420/a420/WhatsApp Image 2023-06-01 at 14.50.52 (1).jpeg" ;
+    prov:wasGeneratedBy :PhotographicCampaign ;
+    hsv:acquiredBy :ElenaVerticchio,
+        :MariaLauraLeonardi,
+        :StefanoCursi ;
+    hsv:isDocumentOf :Facade_420 .
+
+:Photo_420_02 a owl:NamedIndividual,
+        hsv:Photo ;
+    dcterms:created "2023-06-01T14:50:52"^^xsd:dateTime ;
+    dcterms:identifier "A-420/a420/WhatsApp Image 2023-06-01 at 14.50.52.jpeg" ;
+    prov:wasGeneratedBy :PhotographicCampaign ;
+    hsv:acquiredBy :ElenaVerticchio,
+        :MariaLauraLeonardi,
+        :StefanoCursi ;
+    hsv:isDocumentOf :Facade_420 .
+
+:Photo_420_03 a owl:NamedIndividual,
+        hsv:Photo ;
+    dcterms:created "2023-06-01T14:50:53"^^xsd:dateTime ;
+    dcterms:identifier "A-420/a420/WhatsApp Image 2023-06-01 at 14.50.53 (1).jpeg" ;
+    prov:wasGeneratedBy :PhotographicCampaign ;
+    hsv:acquiredBy :ElenaVerticchio,
+        :MariaLauraLeonardi,
+        :StefanoCursi ;
+    hsv:isDocumentOf :Facade_420 .
+
+:Photo_420_04 a owl:NamedIndividual,
+        hsv:Photo ;
+    dcterms:created "2023-06-01T14:50:53"^^xsd:dateTime ;
+    dcterms:identifier "A-420/a420/WhatsApp Image 2023-06-01 at 14.50.53.jpeg" ;
+    prov:wasGeneratedBy :PhotographicCampaign ;
+    hsv:acquiredBy :ElenaVerticchio,
+        :MariaLauraLeonardi,
+        :StefanoCursi ;
+    hsv:isDocumentOf :Facade_420 .
+
+:Photo_420_05 a owl:NamedIndividual,
+        hsv:Photo ;
+    dcterms:created "2023-06-01T14:50:54"^^xsd:dateTime ;
+    dcterms:identifier "A-420/a420/WhatsApp Image 2023-06-01 at 14.50.54 (1).jpeg" ;
+    prov:wasGeneratedBy :PhotographicCampaign ;
+    hsv:acquiredBy :ElenaVerticchio,
+        :MariaLauraLeonardi,
+        :StefanoCursi ;
+    hsv:isDocumentOf :Facade_420 .
+
+:Photo_420_06 a owl:NamedIndividual,
+        hsv:Photo ;
+    dcterms:created "2023-06-01T14:50:54"^^xsd:dateTime ;
+    dcterms:identifier "A-420/a420/WhatsApp Image 2023-06-01 at 14.50.54.jpeg" ;
+    prov:wasGeneratedBy :PhotographicCampaign ;
+    hsv:acquiredBy :ElenaVerticchio,
+        :MariaLauraLeonardi,
+        :StefanoCursi ;
+    hsv:isDocumentOf :Facade_420 .
+
+:Photo_420_07 a owl:NamedIndividual,
+        hsv:Photo ;
+    dcterms:created "2023-06-01T14:50:55"^^xsd:dateTime ;
+    dcterms:identifier "A-420/a420/WhatsApp Image 2023-06-01 at 14.50.55.jpeg" ;
+    prov:wasGeneratedBy :PhotographicCampaign ;
+    hsv:acquiredBy :ElenaVerticchio,
+        :MariaLauraLeonardi,
+        :StefanoCursi ;
+    hsv:isDocumentOf :Facade_420 .
+
+:PointCloudProcessing a owl:NamedIndividual,
+        prov:Activity ;
+    rdfs:label "Point cloud processing"@en ;
+    prov:wasAssociatedWith :MariaLauraLeonardi,
+        :MicheleCalvano .
+
+:PreSurveyDeskStudy a owl:NamedIndividual,
+        prov:Activity ;
+    rdfs:label "Pre-survey desk study on the cadastral map and aerial imagery"@en ;
+    prov:used :CadastralPlans ;
+    prov:wasAssociatedWith :FilippoCalcerano,
+        :MariaLauraLeonardi .
+
+:RawScan a owl:NamedIndividual,
+        hsv:PointCloud ;
+    rdfs:label "2023-07-04_castelnuovo_v2.geoslam"@en ;
+    dcterms:created "2023-07-04"^^xsd:date ;
+    prov:wasGeneratedBy :LaserScanningCampaign ;
+    hsv:acquiredBy :LetiziaMartinelli,
+        :MariaLauraLeonardi .
+
+:ReCapProject a owl:NamedIndividual,
+        hsv:PointCloud ;
+    rdfs:label "CastelnuovoDiPorto.rcp with scan ColoredAggr.rcs (Autodesk ReCap Pro 2026)"@en ;
+    prov:wasDerivedFrom :EditedPointCloud ;
+    prov:wasGeneratedBy :PointCloudProcessing ;
+    hsv:postProcessedBy :MariaLauraLeonardi,
+        :MicheleCalvano .
+
+:Tufelli_masonry_typeB a owl:NamedIndividual,
+        skos:Concept ;
+    rdfs:label "Tufelli_masonry_typeB"@en ;
+    rdfs:comment "Same conservative mortar assumption as typeA (plain lime, not hydraulic-boosted)"@en,
+        "Vertical joint staggering scored 'partially_staggered' from the visibly less regular coursing - not measured"@en ;
+    skos:definition "Irregular tufo masonry, discontinuous coursing, brick relieving arches at openings, squared corner quoins"@en .
+
+:Facade_417b a owl:NamedIndividual,
+        hsto:Facade,
+        hsv:Facade ;
+    rdfs:label "Facade 417b of unit 417"@en ;
+    hsto:isBuiltWithTraditionalConstructionTechnique :MuraturaATufelli ;
+    hsto:isMadeOf :Wall_417b ;
+    hsv:hasDocument :Photo_417b_01,
+        :Photo_417b_02 .
+
+:LetiziaMartinelli a owl:NamedIndividual,
+        foaf:Person,
+        hsv:Inspector ;
+    foaf:name "Letizia Martinelli" .
+
+:Tufelli_masonry_typeD a owl:NamedIndividual,
+        skos:Concept ;
+    rdfs:label "Tufelli_masonry_typeD"@en ;
+    rdfs:comment "ENTIRELY assumed, not observed: scored identically to typeB (the 'ordinary/irregular' type) as the most defensible default for an unexceptional rendered facade in the same aggregate, rather than typeA (visibly higher quality, tied to specific observed stonework at door openings that this facade's render gives no evidence for) or typeC (visibly patched/reworked, again no evidence either way). This is the weakest-grounded of the four classifications - revisit first if render is ever removed, or if there is independent reason (archival, structural survey) to place this facade in a specific construction phase."@en ;
+    skos:definition "Fully rendered facade, masonry not directly observable - assumed by construction-era analogy to typeB"@en .
+
+:FilippoCalcerano a owl:NamedIndividual,
+        foaf:Person,
+        hsv:Author ;
+    foaf:name "Filippo Calcerano" .
+
+:MicheleCalvano a owl:NamedIndividual,
+        foaf:Person,
+        hsv:PostProcesser ;
+    foaf:name "Michele Calvano" .
+
+:Facade_418a a owl:NamedIndividual,
+        hsto:Facade,
+        hsv:Facade ;
+    rdfs:label "Facade 418a of unit 418"@en ;
+    hsto:isBuiltWithTraditionalConstructionTechnique :MuraturaATufelli ;
+    hsto:isMadeOf :Wall_418a ;
+    hsv:hasDocument :Photo_418a_01,
+        :Photo_418a_02,
+        :Photo_418a_03,
+        :Photo_418a_04,
+        :Photo_418a_05 .
+
+:Facade_418b a owl:NamedIndividual,
+        hsto:Facade,
+        hsv:Facade ;
+    rdfs:label "Facade 418b of unit 418"@en ;
+    hsto:isBuiltWithTraditionalConstructionTechnique :MuraturaATufelli ;
+    hsto:isMadeOf :Wall_418b ;
+    hsv:hasDocument :Photo_418b_01,
+        :Photo_418b_02,
+        :Photo_418b_03,
+        :Photo_418b_04,
+        :Photo_418b_05 .
+
+:Facade_419 a owl:NamedIndividual,
+        hsto:Facade,
+        hsv:Facade ;
+    rdfs:label "Facade 419 of unit 419"@en ;
+    hsto:hasHistoricOpening :Opening_419 ;
+    hsto:isBuiltWithTraditionalConstructionTechnique :MuraturaATufelli ;
+    hsto:isMadeOf :Wall_419 ;
+    hsv:hasDocument :Photo_419_01,
+        :Photo_419_02,
+        :Photo_419_03,
+        :Photo_419_04,
+        :Photo_419_05 .
+
+:Facade_420 a owl:NamedIndividual,
+        hsto:Facade,
+        hsv:Facade ;
+    rdfs:label "Facade 420 of unit 420"@en ;
+    hsto:isBuiltWithTraditionalConstructionTechnique :MuraturaATufelli ;
+    hsto:isMadeOf :Wall_420 ;
+    hsv:hasDocument :Photo_420_01,
+        :Photo_420_02,
+        :Photo_420_03,
+        :Photo_420_04,
+        :Photo_420_05,
+        :Photo_420_06,
+        :Photo_420_07 .
+
+:MuraturaATufelli a owl:NamedIndividual,
+        hsv:TraditionalConstructionTechnique ;
+    rdfs:label "Muratura a tufelli"@en .
+
+:Facade_417c a owl:NamedIndividual,
+        hsto:Facade,
+        hsv:Facade ;
+    rdfs:label "Facade 417c of unit 417"@en ;
+    hsto:isBuiltWithTraditionalConstructionTechnique :MuraturaATufelli ;
+    hsto:isMadeOf :Wall_417c ;
+    hsv:hasDocument :Photo_417c_01,
+        :Photo_417c_02,
+        :Photo_417c_03,
+        :Photo_417c_04,
+        :Photo_417c_05,
+        :Photo_417c_06,
+        :Photo_417c_07,
+        :Photo_417c_08,
+        :Photo_417c_09,
+        :Photo_417c_10,
+        :Photo_417c_11 .
+
+:Facade_417a a owl:NamedIndividual,
+        hsto:Facade,
+        hsv:Facade ;
+    rdfs:label "Facade 417a of unit 417"@en ;
+    hsto:isBuiltWithTraditionalConstructionTechnique :MuraturaATufelli ;
+    hsto:isMadeOf :Wall_417a ;
+    hsv:hasDocument :Photo_417a_01,
+        :Photo_417a_02,
+        :Photo_417a_03,
+        :Photo_417a_04,
+        :Photo_417a_05,
+        :Photo_417a_06,
+        :Photo_417a_07,
+        :Photo_417a_08,
+        :Photo_417a_09,
+        :Photo_417a_10,
+        :Photo_417a_11,
+        :Photo_417a_12,
+        :Photo_417a_13 .
+
+:PhotographicCampaign a owl:NamedIndividual,
+        prov:Activity ;
+    rdfs:label "Photographic survey campaign"@en ;
+    dcterms:date "2023-06-01"^^xsd:date ;
+    prov:wasAssociatedWith :ElenaVerticchio,
+        :MariaLauraLeonardi,
+        :StefanoCursi .
+
+:ElenaVerticchio a owl:NamedIndividual,
+        foaf:Person,
+        hsv:Inspector ;
+    foaf:name "Elena Verticchio" .
+
+:StefanoCursi a owl:NamedIndividual,
+        foaf:Person,
+        hsv:Inspector ;
+    foaf:name "Stefano Cursi" .
+
+:MariaLauraLeonardi a owl:NamedIndividual,
+        foaf:Person,
+        hsv:Author,
+        hsv:Inspector,
+        hsv:PostProcesser ;
+    foaf:name "Maria Laura Leonardi" .
+

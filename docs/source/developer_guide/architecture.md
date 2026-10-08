@@ -58,8 +58,11 @@ OpenCASCADE settings, the `G` gravity constant, `STEP_UNIT`, `EXPORT_DIR`.
   two scripts is still broken independently of that fix.
 - **`docker/opensees/*.py`** — the interface-detection/parallel-export
   entry points and their standing regression tests (see below).
-- **`docker/opensees/castelnuovo_hmo_graph.py`** — the material
-  characterisation entry point (§7 in the case study).
+- **`docker/opensees/castelnuovo_knowledge_graph.py`** — the material
+  characterisation entry point (§7 in the case study): builds the
+  case-study knowledge graph (HSV, HSTO, HMO) and has Pellet derive the
+  masonry properties. `castelnuovo_material_engine.py` writes the same
+  database from the Python engine alone, without Java.
 
 ## The `Material` database shape
 

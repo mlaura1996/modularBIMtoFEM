@@ -147,34 +147,41 @@ triaxial damage-plasticity formulation, not an explicit input. Kept in the
 JSON under `_shear_strength_turnsek_cacovic_MPa` for traceability, excluded
 from the actual `Material()` object.
 
-## HSTO instance graph
+## Knowledge graph
 
-`docker/opensees/castelnuovo_hmo_graph.py` also writes
-`output/castelnuovo/hmo_graph.ttl`: an RDF/Turtle graph instantiating HSV
-(survey-document provenance), HSTO (structural decomposition), and HMO
-(masonry characterisation) individuals for the four types. Hand-written
-Turtle — no `rdflib` in the Docker image, and not needed for something
-this straightforward.
+`docker/opensees/castelnuovo_knowledge_graph.py` writes
+`output/castelnuovo/knowledge_graph.ttl`, the case study as one graph over
+the three ontologies in `resources/ontologies/` (see the README there for
+how they meet and what each lacks). It reads two data files:
+`masonry_classification.json` (the classification above) and
+`resources/survey_data/castelnuovo/survey_record.json` (people,
+organisations, activities, documents, and which facade each photograph
+shows).
 
-One real finding from reading `Historic-Structure-Ontology/ontology.ttl` in
-full (375 lines) to verify class/property usage before writing this:
-**HSTO has no object property linking a `hsto:StructuralPart` to the
-`hsto:Facade`/`hsto:HorizontalStructure` instances that decompose it** —
-composition is presumably left to BEO/IFC spatial containment instead.
-Recorded as an `rdfs:comment` rather than forced through a property with
-the wrong domain/range, which would have silently produced an invalid
-graph.
+- **HSV**: historic centre, aggregate, the four structural units, the
+  seven facades; the 48 photographs (each `hsv:isDocumentOf` its facade,
+  with its timestamp), the raw, cleaned and indexed point clouds, the BIM
+  model, the pre-survey drawings and the publications, with the people who
+  acquired, processed or authored them.
+- **HSTO**: each facade is a structural part built with the muratura a
+  tufelli technique and `hsto:isMadeOf` one masonry wall; one generic
+  `hsto:TimberFloor` per unit (timber floors alla romana are documented for
+  the aggregate, not surveyed per unit; `hasAccessibility false`); the
+  arched opening of facade 419 as an `hsto:HistoricOpening`.
+- **HMO**: one `hmo:MasonryWall` per facade (seven walls, four types),
+  each with its representative volume element, pattern, unit range and
+  quality index. Pellet derives the quality indices and the four
+  properties of all seven walls; the script checks that walls of the same
+  type agree and that every value matches `hmo_mqi.py`, writes the derived
+  values into the graph, and writes the material database from them. Each
+  quality index is `prov:wasDerivedFrom` the photographs of its facade.
 
-Four structural units (417–420) each get their facades, one generic
-`hsto:TimberFloor` ("timber floors alla romana" per the manuscript, not
-surveyed per unit), and `hsto:Quoin` connections to their row-neighbours.
-The quoins' *existence* is documentary evidence (manuscript: "quoined
-corners indicating originally detached buildings that were later
-physically and structurally joined"), but which specific unit pairs is
-inferred from the cadastral-map row order, not confirmed on site or
-against the IFC model's own geometry (see {doc}`open_questions`). One
-`hsto:HistoricOpening` is recorded — the dressed-stone door arch on
-`Facade_419`.
+Not asserted, for lack of evidence at facade level: connections between
+units. The manuscript documents quoined corners in the aggregate
+generally, not which pair of facades they join; the earlier hand-written
+graph had placed `hsto:Quoin` connections between units in cadastral-map
+row order, which was an inference, not an observation. The date of the
+third survey campaign is not recorded either.
 
 ### Visualising it
 
@@ -185,7 +192,7 @@ via the WebVOWL instance each ontology repository bundles:
 - HMO: `mlaura1996.github.io/HistoricMasonryOntology/webvowl/`
 - HSTO: `mlaura1996.github.io/Historic-Structure-Ontology/webvowl/`
 
-**This case study's instance graph** (`hmo_graph.ttl`) is not what WebVOWL
+**This case study's knowledge graph** (`knowledge_graph.ttl`) is not what WebVOWL
 is for (it visualises schemas, not arbitrary instance data). To view it:
 convert to WebVOWL's JSON with the
 [VOWL converter](https://github.com/VisualDataWeb/OWL2VOWL) and drop the
@@ -199,11 +206,16 @@ relationships.
 ## Reproducing this
 
 ```bash
-docker run --rm -v "C:/path/to/repo:/app" --entrypoint sh \
-    modularbimtofem-opensees-mp:dev -c \
-    "conda run -n appenv python docker/opensees/castelnuovo_hmo_graph.py"
+pip install owlready2==0.48 rdflib    # and a Java runtime
+python docker/opensees/castelnuovo_knowledge_graph.py
 ```
 
-Reads `resources/survey_data/castelnuovo/masonry_classification.json`,
-runs each type through `hmo_mqi.py`, and writes `hmo_graph.ttl` +
-`material_database.json`.
+writes `knowledge_graph.ttl` and `material_database.json`. Inside the
+Docker image, which has no Java, the engine route writes the same
+database:
+
+```bash
+docker run --rm -v "C:/path/to/repo:/app" --entrypoint sh \
+    modularbimtofem-opensees-mp:dev -c \
+    "conda run -n appenv python docker/opensees/castelnuovo_material_engine.py"
+```

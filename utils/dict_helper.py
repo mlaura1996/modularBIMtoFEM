@@ -20,7 +20,7 @@ def load_material_objects(json_path):
     by in_plane_wall.py / out_of_plane_test.py (`from utils.dict_helper
     import load_material_objects`) but had never actually been implemented -
     those two scripts have been unable to run without it. See
-    docker/opensees/castelnuovo_hmo_graph.py for a generator that produces
+    docker/opensees/castelnuovo_material_engine.py (or castelnuovo_knowledge_graph.py) for a generator that produces
     a compatible JSON file (output/castelnuovo/material_database.json) from
     survey-derived (HMO/MQI) properties rather than from an IFC file.
 
@@ -28,7 +28,7 @@ def load_material_objects(json_path):
     same field names as Material.__init__ (name, density, young_modulus,
     poisson_ratio, is_structural, material_model_type, compressive_strength,
     tensile_strength, compression_fracture_energy, tensile_fracture_energy,
-    compressive_elastic_behaviour). Extra keys (e.g. castelnuovo_hmo_graph.py
+    compressive_elastic_behaviour). Extra keys (e.g. castelnuovo_material_engine.py
     writes "_evidence", "_flags", "_mqi_total" alongside the Material fields
     for traceability) are ignored - only known fields are passed to Material().
     Any Material field that is JSON `null` (e.g. tensile_strength when the

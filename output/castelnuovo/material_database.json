@@ -23,7 +23,7 @@
       "Vertical joint staggering scored 'partially_staggered' (conservative) rather than 'properly_staggered' - not directly measurable from the available photos at typical phone-camera resolution/angle",
       "Mortar scored plain 'lime' (conservative) rather than crediting the pozzolana content mentioned in the manuscript with a hydraulic-lime-level score - the pozzolana's real contribution to mortar performance was not tested, only described qualitatively"
     ],
-    "_derivation": "Pellet over the SWRL rules of resources/ontologies/hmo.ttl, cross-checked against core/ifc_processing/hmo_mqi.py"
+    "_derivation": "Pellet over the knowledge graph (HSV, HSTO, HMO; HMO rules from resources/ontologies/hmo.ttl), cross-checked against core/ifc_processing/hmo_mqi.py"
   },
   "Tufelli_masonry_typeB": {
     "name": "Tufelli_masonry_typeB",
@@ -49,7 +49,7 @@
       "Same conservative mortar assumption as typeA (plain lime, not hydraulic-boosted)",
       "Vertical joint staggering scored 'partially_staggered' from the visibly less regular coursing - not measured"
     ],
-    "_derivation": "Pellet over the SWRL rules of resources/ontologies/hmo.ttl, cross-checked against core/ifc_processing/hmo_mqi.py"
+    "_derivation": "Pellet over the knowledge graph (HSV, HSTO, HMO; HMO rules from resources/ontologies/hmo.ttl), cross-checked against core/ifc_processing/hmo_mqi.py"
   },
   "Tufelli_masonry_typeC": {
     "name": "Tufelli_masonry_typeC",
@@ -74,7 +74,7 @@
     "_flags": [
       "Scores kept uniformly low across all 7 parameters per the manuscript's explicit statement that this residential fabric has 'more frequent use of reused bricks, and greater variability in coursing and joint execution' than the representative architecture its local-technique description is based on - a stated characterisation from the manuscript, not read off any single photo"
     ],
-    "_derivation": "Pellet over the SWRL rules of resources/ontologies/hmo.ttl, cross-checked against core/ifc_processing/hmo_mqi.py"
+    "_derivation": "Pellet over the knowledge graph (HSV, HSTO, HMO; HMO rules from resources/ontologies/hmo.ttl), cross-checked against core/ifc_processing/hmo_mqi.py"
   },
   "Tufelli_masonry_typeD": {
     "name": "Tufelli_masonry_typeD",
@@ -99,6 +99,6 @@
     "_flags": [
       "ENTIRELY assumed, not observed: scored identically to typeB (the 'ordinary/irregular' type) as the most defensible default for an unexceptional rendered facade in the same aggregate, rather than typeA (visibly higher quality, tied to specific observed stonework at door openings that this facade's render gives no evidence for) or typeC (visibly patched/reworked, again no evidence either way). This is the weakest-grounded of the four classifications - revisit first if render is ever removed, or if there is independent reason (archival, structural survey) to place this facade in a specific construction phase."
     ],
-    "_derivation": "Pellet over the SWRL rules of resources/ontologies/hmo.ttl, cross-checked against core/ifc_processing/hmo_mqi.py"
+    "_derivation": "Pellet over the knowledge graph (HSV, HSTO, HMO; HMO rules from resources/ontologies/hmo.ttl), cross-checked against core/ifc_processing/hmo_mqi.py"
   }
 }
