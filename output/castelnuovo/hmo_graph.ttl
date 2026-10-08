@@ -47,8 +47,8 @@
 
 :Tufelli_masonry_typeA_MQI a hmo:MasonryQualityIndex ;
     hmo:MQITotalVertical 4.55 ;
-    hmo:MQITotalOutOfPlane 4.9 ;
-    hmo:MQITotalInPlane 3.5 .
+    hmo:MQITotalOutOfPlane 4.2 ;
+    hmo:MQITotalInPlane 4.2 .
 
 :Tufelli_masonry_typeA_CompressiveStrength a hmo:CompressiveStrength ;
     saref:hasValue 3.445 ;
@@ -59,11 +59,11 @@
     saref:hasUnitOfMeasurement "MPa" .
 
 :Tufelli_masonry_typeA_ShearModulus a hmo:ShearModulus ;
-    saref:hasValue 440.86 ;
+    saref:hasValue 482.82 ;
     saref:hasUnitOfMeasurement "MPa" .
 
 :Tufelli_masonry_typeA_ShearStrengthTC a hmo:ShearStrengthTC ;
-    saref:hasValue 0.0512 ;
+    saref:hasValue 0.0591 ;
     saref:hasUnitOfMeasurement "MPa" .
 
 :Tufelli_masonry_typeA_MassDensity a hmo:MassDensity ;
@@ -91,8 +91,8 @@
 
 :Tufelli_masonry_typeB_MQI a hmo:MasonryQualityIndex ;
     hmo:MQITotalVertical 2.8 ;
-    hmo:MQITotalOutOfPlane 3.5 ;
-    hmo:MQITotalInPlane 2.45 .
+    hmo:MQITotalOutOfPlane 2.8 ;
+    hmo:MQITotalInPlane 3.15 .
 
 :Tufelli_masonry_typeB_CompressiveStrength a hmo:CompressiveStrength ;
     saref:hasValue 2.616 ;
@@ -103,11 +103,11 @@
     saref:hasUnitOfMeasurement "MPa" .
 
 :Tufelli_masonry_typeB_ShearModulus a hmo:ShearModulus ;
-    saref:hasValue 384.66 ;
+    saref:hasValue 421.27 ;
     saref:hasUnitOfMeasurement "MPa" .
 
 :Tufelli_masonry_typeB_ShearStrengthTC a hmo:ShearStrengthTC ;
-    saref:hasValue 0.0403 ;
+    saref:hasValue 0.0475 ;
     saref:hasUnitOfMeasurement "MPa" .
 
 :Tufelli_masonry_typeB_MassDensity a hmo:MassDensity ;
@@ -134,8 +134,8 @@
 
 :Tufelli_masonry_typeC_MQI a hmo:MasonryQualityIndex ;
     hmo:MQITotalVertical 1.4 ;
-    hmo:MQITotalOutOfPlane 1.4 ;
-    hmo:MQITotalInPlane 1.05 .
+    hmo:MQITotalOutOfPlane 1.05 ;
+    hmo:MQITotalInPlane 1.4 .
 
 :Tufelli_masonry_typeC_CompressiveStrength a hmo:CompressiveStrength ;
     saref:hasValue 2.099 ;
@@ -146,11 +146,11 @@
     saref:hasUnitOfMeasurement "MPa" .
 
 :Tufelli_masonry_typeC_ShearModulus a hmo:ShearModulus ;
-    saref:hasValue 320.71 ;
+    saref:hasValue 335.62 ;
     saref:hasUnitOfMeasurement "MPa" .
 
 :Tufelli_masonry_typeC_ShearStrengthTC a hmo:ShearStrengthTC ;
-    saref:hasValue 0.0275 ;
+    saref:hasValue 0.0305 ;
     saref:hasUnitOfMeasurement "MPa" .
 
 :Tufelli_masonry_typeC_MassDensity a hmo:MassDensity ;
@@ -177,8 +177,8 @@
 
 :Tufelli_masonry_typeD_MQI a hmo:MasonryQualityIndex ;
     hmo:MQITotalVertical 2.8 ;
-    hmo:MQITotalOutOfPlane 3.5 ;
-    hmo:MQITotalInPlane 2.45 .
+    hmo:MQITotalOutOfPlane 2.8 ;
+    hmo:MQITotalInPlane 3.15 .
 
 :Tufelli_masonry_typeD_CompressiveStrength a hmo:CompressiveStrength ;
     saref:hasValue 2.616 ;
@@ -189,11 +189,11 @@
     saref:hasUnitOfMeasurement "MPa" .
 
 :Tufelli_masonry_typeD_ShearModulus a hmo:ShearModulus ;
-    saref:hasValue 384.66 ;
+    saref:hasValue 421.27 ;
     saref:hasUnitOfMeasurement "MPa" .
 
 :Tufelli_masonry_typeD_ShearStrengthTC a hmo:ShearStrengthTC ;
-    saref:hasValue 0.0403 ;
+    saref:hasValue 0.0475 ;
     saref:hasUnitOfMeasurement "MPa" .
 
 :Tufelli_masonry_typeD_MassDensity a hmo:MassDensity ;

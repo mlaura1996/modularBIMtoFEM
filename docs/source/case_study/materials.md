@@ -70,6 +70,14 @@ staggered," applied to all four types.
 
 ## Final results
 
+```{note}
+The out-of-plane and in-plane columns, and so G and τ0, were corrected
+after a rule-by-rule comparison with the published HMO ontology: the scores
+of lime mortar and of partially staggered vertical joints had these two
+directions transposed. The vertical totals, and therefore fm and E, were
+never affected.
+```
+
 ```{list-table}
 :header-rows: 1
 
@@ -81,38 +89,39 @@ staggered," applied to all four types.
   - τ0 (MPa)
   - vs. NTC tufo range
 * - A
-  - 4.55 / 4.90 / 3.50
+  - 4.55 / 4.20 / 4.20
   - 3.445
   - 1526.6
-  - 440.9
-  - 0.0512
-  - fm ~10% above upper bound; E, G, τ0 inside
+  - 482.8
+  - 0.0591
+  - fm ~10% above upper bound; E, G, τ0 inside (G near its upper limit)
 * - B
-  - 2.80 / 3.50 / 2.45
+  - 2.80 / 2.80 / 3.15
   - 2.616
   - 1198.7
-  - 384.7
-  - 0.0403
-  - fm ~21% above upper bound; E, G, τ0 inside (τ0 at top)
+  - 421.3
+  - 0.0475
+  - fm ~21%, τ0 ~16% and G ~2% above upper bound; only E inside
 * - C
-  - 1.40 / 1.40 / 1.05
+  - 1.40 / 1.05 / 1.40
   - 2.099
   - 987.8
-  - 320.7
-  - 0.0275
+  - 335.6
+  - 0.0305
   - **fully inside** the NTC irregular-tufo range
 * - D
   - = B (by construction)
   - 2.616
   - 1198.7
-  - 384.7
-  - 0.0403
+  - 421.3
+  - 0.0475
   - = B
 ```
 
 Types A and B still exceed the NTC compressive-strength upper bound by a
-residual 10–21% after the conservative revision — accepted rather than
-tuned further to force a match (see `ntc_comparison.note` per type in the
+residual 10–21% after the conservative revision, and type B (so also D)
+exceeds it for shear strength (~16%) and shear modulus (~2%) as well —
+accepted rather than tuned further to force a match (see `ntc_comparison.note` per type in the
 classification JSON for the specific reasoning; type A's voussoir-quality
 stonework at openings is *observed* evidence, not an assumption, so some
 excess over a generic code table is expected specifically for that type).

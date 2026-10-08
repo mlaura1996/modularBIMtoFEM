@@ -11,6 +11,28 @@ not from the published documentation page, which lists rule names but not
 their thresholds) - so this module IS the machine-readable form of those
 rules, kept in sync with the ontology by construction.
 
+VERIFICATION AGAINST THE PUBLISHED ONTOLOGY. The 26 score tables below were
+compared one by one with the consequents of the SWRL rules in the published
+ontology.ttl, direction by direction. Two had out-of-plane and in-plane
+transposed (lime mortar, partially staggered vertical joints) and were
+corrected; the other 24 matched. The four property formulas (G, shear
+strength, compressive strength, Young's modulus) match the published
+coefficients exactly.
+
+Where this module implements the INTENDED rule and not its literal text,
+because the published text cannot be executed as written:
+  - The three unit-dimension rules (MQI_SD_PresenceOf{Little,Medium,Large}
+    Units) bind unitsLengthHasMinimumValue twice, where the second should be
+    the maximum, and compute the "average" as divide(min, max) instead of
+    (min + max) / 2. Here the category is an input (see UNIT_DIMENSIONS).
+  - The three total rules (MQI_Vertical, MQI_OutOfPlane, MQI_InPlane) end in
+    a swrlb:multiply with two arguments instead of three, missing the sum
+    of the six additive parameters. mqi_total() multiplies that sum by the
+    unit-material score, which is what the surrounding rule structure and
+    the documented MQI formulation require.
+A reasoner run on the ontology as published would therefore not reproduce
+these results until those six rules are corrected.
+
 Two things this module deliberately does NOT do:
   - It does not classify a wall from photos or measurements itself. That
     judgement (which score each of the 7 parameters gets, for a given
@@ -74,7 +96,10 @@ UNIT_MATERIAL = {
 
 MORTAR_QUALITY = {
     "earth": (0, 0, 0),
-    "lime": (0.5, 1, 0.5),
+    # Out-of-plane and in-plane were transposed here until checked against
+    # the published rule: MQI_MM_LimeMortar sets Vert 0.5, OutOfPlane 0.5,
+    # InPlane 1. Vertical totals, and so E and fc, were never affected.
+    "lime": (0.5, 0.5, 1),
     "hydraulic_lime_or_roman_cement": (2, 1, 1),
     "dry_joints": (0, 0, 0),
 }
@@ -87,7 +112,9 @@ HORIZONTAL_JOINTS = {
 
 VERTICAL_JOINTS = {
     "aligned": (0, 0, 0),
-    "partially_staggered": (0.5, 1, 0.5),
+    # Same transposition as lime mortar above, corrected against
+    # MQI_VJ_PartiallyStaggeredJoints: Vert 0.5, OutOfPlane 0.5, InPlane 1.
+    "partially_staggered": (0.5, 0.5, 1),
     "properly_staggered": (1, 1, 2),
 }
 

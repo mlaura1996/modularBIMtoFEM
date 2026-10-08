@@ -32,7 +32,7 @@
       "ntc_comparison": {
         "category": "Regular soft stone ashlar (tufo/calcarenite), NTC18 Circolare Tab. C8.5.I",
         "range": {"fm_MPa": [1.96, 3.14], "tau0_MPa": [0.039, 0.079], "E_MPa": [1177, 1589], "G_MPa": [392, 490]},
-        "note": "Computed fm (3.445 MPa) is ~10% above the NTC upper bound; E, G, tau0 fall inside the range. Accepted as-is: HMO's own stated logic is that MQI-derived values may legitimately exceed a generic code table for masonry executed better than the code's baseline assumption (voussoir-quality stonework at openings is real, observed evidence, not an assumption) - flagged here rather than force-fit into the NTC range."
+        "note": "Computed fm (3.445 MPa) is ~10% above the NTC upper bound; E, G, tau0 fall inside the range, G (482.8) close to its upper limit (490). Accepted as-is: HMO's own stated logic is that MQI-derived values may legitimately exceed a generic code table for masonry executed better than the code's baseline assumption (voussoir-quality stonework at openings is real, observed evidence, not an assumption) - flagged here rather than force-fit into the NTC range."
       }
     },
     "Tufelli_masonry_typeB": {
@@ -56,7 +56,7 @@
       "ntc_comparison": {
         "category": "Irregular soft stone (tufo/calcarenite), NTC18 Circolare Tab. C8.5.I",
         "range": {"fm_MPa": [1.37, 2.16], "tau0_MPa": [0.028, 0.041], "E_MPa": [883, 1236], "G_MPa": [294, 412]},
-        "note": "Computed fm (2.616 MPa) is ~21% above the NTC upper bound; E, G fall inside the range; tau0 (0.0403) is at the top of the range. Same acceptance rationale as typeA, with a larger residual gap - worth revisiting first if better evidence becomes available (e.g. if unit-dimension measurements from the point cloud turn out smaller than the 'medium' assumption used here)."
+        "note": "Computed fm (2.616 MPa) is ~21% above the NTC upper bound; tau0 (0.0475) is ~16% above and G (421.3) ~2% above; only E falls inside the range. Same acceptance rationale as typeA, with a larger residual gap - worth revisiting first if better evidence becomes available (e.g. if unit-dimension measurements from the point cloud turn out smaller than the 'medium' assumption used here)."
       }
     },
     "Tufelli_masonry_typeC": {
@@ -79,7 +79,7 @@
       "ntc_comparison": {
         "category": "Irregular soft stone (tufo/calcarenite), NTC18 Circolare Tab. C8.5.I",
         "range": {"fm_MPa": [1.37, 2.16], "tau0_MPa": [0.028, 0.041], "E_MPa": [883, 1236], "G_MPa": [294, 412]},
-        "note": "Computed values (fm=2.099, E=987.8, G=320.7, tau0=0.0275) all fall inside the NTC range - the only one of the four types that does, consistent with it being the visually lowest-quality masonry surveyed."
+        "note": "Computed values (fm=2.099, E=987.8, G=335.6, tau0=0.0305) all fall inside the NTC range - the only one of the four types that does, consistent with it being the visually lowest-quality masonry surveyed."
       }
     },
     "Tufelli_masonry_typeD": {
