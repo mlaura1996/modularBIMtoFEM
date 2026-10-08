@@ -30,8 +30,11 @@ because the published text cannot be executed as written:
     of the six additive parameters. mqi_total() multiplies that sum by the
     unit-material score, which is what the surrounding rule structure and
     the documented MQI formulation require.
-A reasoner run on the ontology as published would therefore not reproduce
-these results until those six rules are corrected.
+These and the other defects that keep the published rules from executing
+are corrected in resources/ontologies/hmo.ttl (see the README there).
+core/ifc_processing/hmo_reasoner.py runs those rules with Pellet, and this
+module is kept as the independent implementation the reasoner's results
+are checked against.
 
 Two things this module deliberately does NOT do:
   - It does not classify a wall from photos or measurements itself. That

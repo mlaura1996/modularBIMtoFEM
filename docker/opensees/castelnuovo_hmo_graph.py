@@ -332,9 +332,41 @@ def write_material_database(results, path):
             "_shear_strength_turnsek_cacovic_MPa": mech["shear_strength_turnsek_cacovic_MPa"],
             "_evidence": r["evidence"],
             "_flags": r["flags"],
+            "_derivation": r.get("derivation", ENGINE_DERIVATION),
         }
     with open(path, "w", encoding="utf-8") as f:
         json.dump(db, f, indent=2)
+
+
+ENGINE_DERIVATION = "core/ifc_processing/hmo_mqi.py (Python implementation of the HMO rules)"
+DEFAULT_ONTOLOGY = "resources/ontologies/hmo.ttl"
+
+
+def apply_reasoner(classification, results, ontology_path):
+    """Replaces the engine's values with those Pellet derives from the HMO
+    rules, after checking the two agree.
+
+    The engine still runs first and stays as the independent check: if the
+    reasoner and the engine disagree beyond their rounding, the script
+    stops instead of writing either, since a disagreement means one of the
+    two implementations of the rules is wrong.
+    """
+    from core.ifc_processing.hmo_reasoner import derive, cross_check, ENGINE_DECIMALS
+
+    derived = derive(classification, ontology_path)
+    problems = cross_check(derived, results)
+    if problems:
+        raise SystemExit("reasoner and engine disagree:\n  " + "\n  ".join(problems))
+    note = (f"Pellet over the SWRL rules of {ontology_path}, "
+            f"cross-checked against {ENGINE_DERIVATION.split(' ')[0]}")
+    for name, d in derived.items():
+        r = results[name]
+        r["mqi_total"] = {k: round(v, ENGINE_DECIMALS["mqi"]) for k, v in d["mqi_total"].items()}
+        for key, v in d["mechanical_properties"].items():
+            r["mechanical_properties"][key] = round(v, ENGINE_DECIMALS[key])
+        r["derivation"] = note
+    print(f"reasoner: values derived by Pellet from {ontology_path}, "
+          f"in agreement with the engine for all {len(derived)} types")
 
 
 def main():
@@ -343,6 +375,10 @@ def main():
         classification = json.load(f)
 
     results = compute_all(classification)
+    if "--reasoner" in sys.argv:
+        i = sys.argv.index("--reasoner")
+        given = sys.argv[i + 1] if i + 1 < len(sys.argv) and not sys.argv[i + 1].startswith("--") else None
+        apply_reasoner(classification, results, given or DEFAULT_ONTOLOGY)
     print_summary(results)
 
     write_ttl(results, os.path.join(OUT_DIR, "hmo_graph.ttl"))

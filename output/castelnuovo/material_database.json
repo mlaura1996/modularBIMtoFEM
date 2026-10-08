@@ -22,7 +22,8 @@
     "_flags": [
       "Vertical joint staggering scored 'partially_staggered' (conservative) rather than 'properly_staggered' - not directly measurable from the available photos at typical phone-camera resolution/angle",
       "Mortar scored plain 'lime' (conservative) rather than crediting the pozzolana content mentioned in the manuscript with a hydraulic-lime-level score - the pozzolana's real contribution to mortar performance was not tested, only described qualitatively"
-    ]
+    ],
+    "_derivation": "Pellet over the SWRL rules of resources/ontologies/hmo.ttl, cross-checked against core/ifc_processing/hmo_mqi.py"
   },
   "Tufelli_masonry_typeB": {
     "name": "Tufelli_masonry_typeB",
@@ -47,7 +48,8 @@
     "_flags": [
       "Same conservative mortar assumption as typeA (plain lime, not hydraulic-boosted)",
       "Vertical joint staggering scored 'partially_staggered' from the visibly less regular coursing - not measured"
-    ]
+    ],
+    "_derivation": "Pellet over the SWRL rules of resources/ontologies/hmo.ttl, cross-checked against core/ifc_processing/hmo_mqi.py"
   },
   "Tufelli_masonry_typeC": {
     "name": "Tufelli_masonry_typeC",
@@ -71,7 +73,8 @@
     "_evidence": "A-417/417_a (WhatsApp Image 2023-06-01 at 14.50.44/45/46, 14.51.48/49/50): exposed stone interspersed with rendered patches and a decorative brick course",
     "_flags": [
       "Scores kept uniformly low across all 7 parameters per the manuscript's explicit statement that this residential fabric has 'more frequent use of reused bricks, and greater variability in coursing and joint execution' than the representative architecture its local-technique description is based on - a stated characterisation from the manuscript, not read off any single photo"
-    ]
+    ],
+    "_derivation": "Pellet over the SWRL rules of resources/ontologies/hmo.ttl, cross-checked against core/ifc_processing/hmo_mqi.py"
   },
   "Tufelli_masonry_typeD": {
     "name": "Tufelli_masonry_typeD",
@@ -95,6 +98,7 @@
     "_evidence": "A-417/417_b (WhatsApp Image 2023-06-01 at 14.51.52/53) and A-420/a420 (WhatsApp Image 2023-06-01 at 14.50.52-55): fully plastered in every available survey photo, no exposed masonry",
     "_flags": [
       "ENTIRELY assumed, not observed: scored identically to typeB (the 'ordinary/irregular' type) as the most defensible default for an unexceptional rendered facade in the same aggregate, rather than typeA (visibly higher quality, tied to specific observed stonework at door openings that this facade's render gives no evidence for) or typeC (visibly patched/reworked, again no evidence either way). This is the weakest-grounded of the four classifications - revisit first if render is ever removed, or if there is independent reason (archival, structural survey) to place this facade in a specific construction phase."
-    ]
+    ],
+    "_derivation": "Pellet over the SWRL rules of resources/ontologies/hmo.ttl, cross-checked against core/ifc_processing/hmo_mqi.py"
   }
 }

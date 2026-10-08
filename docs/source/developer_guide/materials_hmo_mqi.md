@@ -25,6 +25,27 @@ its logic in plain English, and the rule bodies carry the exact numeric
 literals — both were read directly rather than trusting a secondary
 description.
 
+## Verified against the rule bodies, and run by a reasoner
+
+Transcribing from the comments was not enough. A rule-by-rule comparison
+of the 26 score tables with the rule *bodies* found two (lime mortar,
+partially staggered vertical joints) with out-of-plane and in-plane
+transposed; both now follow the rules. The vertical totals, and so
+compressive strength and Young's modulus, were never affected.
+
+The same comparison showed that the published rules cannot be executed by
+a reasoner at all: Pellet reports the ontology inconsistent, and several
+rules are malformed. They are corrected in `resources/ontologies/hmo.ttl`,
+whose README lists each correction and what goes wrong without it.
+`core/ifc_processing/hmo_reasoner.py` runs those corrected rules with
+Pellet, and
+
+    python docker/opensees/castelnuovo_hmo_graph.py --reasoner
+
+derives the material database from the reasoner, stopping if its values
+and this module's disagree. The two are independent implementations of the
+same rules, and for the four Castelnuovo types they agree within rounding.
+
 ## The Masonry Quality Index
 
 Seven parameters, each scored 0–3, in three load directions (vertical,
