@@ -1,0 +1,10 @@
+{
+  "_meta": {
+    "description": "Material names of the SERA-AIMS benchmark model. aggregate_1_revit_export.ifc is the model as exported from Revit 2027, with default material names; scripts/rename_ifc_materials.py applies this map to it and writes aggregate_1.ifc.",
+    "open_question": "The 15 windows carry the material 'Bricks'; it is left unchanged until it is confirmed whether it is intended."
+  },
+  "names": {
+    "Default Wall": "Double_leaf_stone_masonry",
+    "Default Floor": "Timber_floor"
+  }
+}

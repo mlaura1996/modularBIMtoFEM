@@ -42,6 +42,10 @@ SHAPE_AND_MATERIAL = {
     ("cut_or_squared", "irregular_soft_stone"): ["SquaredSoftstone"],
     ("roughly_cut_or_irregular_soft", "irregular_soft_stone"): ["RoughlyCutStone", "IrregularSoftstone"],
     ("rubble", "irregular_soft_stone"): ["RubbleStones", "IrregularSoftstone"],
+    # hard stone that is not squared: IrregularHardstone sets the material
+    # only (F9), the shape comes from its own constant
+    ("roughly_cut", "irregular_hard_stone"): ["RoughlyCutStone", "IrregularHardstone"],
+    ("rubble", "irregular_hard_stone"): ["RubbleStones", "IrregularHardstone"],
 }
 MORTAR = {"lime": "LimeMortarJoints",
           "hydraulic_lime_or_roman_cement": "HydraulicLimeMortarJoints",

@@ -31,13 +31,14 @@ ontology repository, are:
 | F8 | `MasonryQualityIndex` no longer a subclass of a class it is declared disjoint with | inconsistent |
 | F6 | added: unit-material rule for squared soft stone | 4 of 16 values missing (type A) |
 | F7 | added: `NoHeaders` and its rule, absence of headers in non-rubble masonry | 4 of 16 values missing (type C) |
+| F9 | added: `IrregularHardstone` and its rule, unit material of hard stone that is not squared | SERA-AIMS benchmark: no values at all |
 
 The "without it" column is the result of removing that one correction and
 running Pellet again; each is necessary. With all of them, Pellet derives
 one value per quantity for every type, equal to those of
 `core/ifc_processing/hmo_mqi.py` within its rounding.
 
-F6 and F7 add vocabulary rather than correct it, and are the two changes
+F6, F7 and F9 add vocabulary rather than correct it, and are the changes
 the ontology's author should review as design decisions.
 
 ## How the three meet

@@ -86,6 +86,7 @@ UNIT_DIMENSIONS = {
 UNIT_SHAPE = {
     "rubble": (0, 0, 0),
     "roughly_cut_or_irregular_soft": (1.5, 1, 1),
+    "roughly_cut": (1.5, 1, 1),          # same score; the name for stone that is not soft
     "cut_or_squared": (3, 2, 2),
 }
 
@@ -97,6 +98,9 @@ UNIT_MATERIAL = {
     "damaged": (0.3, 0.5, 0.3),
     "irregular_soft_stone": (0.7, 0.7, 0.7),
     "squared_hard_stone": (1, 1, 1),
+    # hard stone that is not squared: the material score does not depend on
+    # the shape (correction F9 of resources/ontologies/hmo.ttl)
+    "irregular_hard_stone": (1, 1, 1),
 }
 
 MORTAR_QUALITY = {

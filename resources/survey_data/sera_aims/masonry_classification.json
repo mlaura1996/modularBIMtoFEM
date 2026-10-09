@@ -1,0 +1,64 @@
+{
+  "_meta": {
+    "description": "MQI classification of the masonry of the SERA-AIMS benchmark (Double_leaf_stone_masonry in aggregate_1.ifc), from the published description of the specimen. The masonry classified is the full-scale masonry the half-scale specimen reproduces, not the specimen itself: the MQI correlations are calibrated on real masonry, and the EPS added to the specimen mortar to halve its stiffness and strength is not a feature the MQI can see.",
+    "sources": [
+      "Tomic I, Penna A, DeJong M, Butenweg C, Correia AA, Candeias PX, Senaldi I, Guerrini G, Malomo D, Beyer K (2024) Shake table testing of a half-scale stone masonry building aggregate. Bull Earthquake Eng 22:5963-5991. doi:10.1007/s10518-023-01810-y (CC BY 4.0), Section 2.1 and Fig. 5",
+      "Tomic I et al. (2024) Shake-table testing of a stone masonry building aggregate: overview of blind prediction study. Bull Earthquake Eng 22:5993-6035. doi:10.1007/s10518-022-01582-x (CC BY 4.0), Section 2.1 and Table 4"
+    ]
+  },
+  "types": {
+    "Double_leaf_stone_masonry": {
+      "description": "Double-leaf masonry of undressed, irregular sandstone (Credaro Berrettino stone) in approximately horizontal courses, with stone chips and mortar filling the core and through stones only at corners and opening edges; the typology of historic aggregates in Basel.",
+      "observation": {
+        "unit_dimensions": "medium",
+        "unit_shape": "roughly_cut",
+        "unit_material": "irregular_hard_stone",
+        "mortar_quality": "lime",
+        "horizontal_joints": "partially_continuous",
+        "vertical_joints": "partially_staggered",
+        "wall_connections": "none"
+      },
+      "evidence": {
+        "unit_dimensions": "Stones of 10 to 25 cm in the half-scale specimen (Tomic et al. 2024a, Section 2.1), so 20 to 50 cm at full scale: medium.",
+        "unit_shape": "Undressed, irregular stones, more irregular than those of the earlier Pavia specimen (Tomic et al. 2024a, Section 2.1; Fig. 5a-b): roughly cut.",
+        "unit_material": "Credaro Berrettino stone, a sandstone with a compressive strength of 144 MPa (Tomic et al. 2024b, Table 4): hard stone, not squared.",
+        "mortar_quality": "Commercial hydraulic lime mortar with EPS spheres added to halve stiffness and strength for the scale (Tomic et al. 2024a, Section 2.1). At full scale the mortar it stands for is a weak lime mortar, so it is scored as lime and not as hydraulic lime.",
+        "horizontal_joints": "Stones arranged in approximately horizontal courses (Tomic et al. 2024a, Section 2.1): partially continuous.",
+        "vertical_joints": "Not described in the text; from the masonry texture of Fig. 5a-b the vertical joints are partly staggered.",
+        "wall_connections": "No interlocking between the leaves except through stones at opening edges and building corners (Tomic et al. 2024a, Section 2.1; blind prediction study, poor interlocking): none in the body of the wall."
+      },
+      "flags": [
+        "Classified at full scale: the specimen is half-scale with EPS-modified mortar, so the properties derived here are to be compared with the measured ones brought back to full scale, not with the measured ones directly.",
+        "Vertical joint staggering is read from the published photographs, not stated in the text.",
+        "Through stones exist at corners and opening edges; counting them as sparse headers instead of none raises the quality index (upper variant)."
+      ],
+      "variants": {
+        "lower": {"unit_shape": "rubble"},
+        "upper": {"wall_connections": "sparse"}
+      },
+      "measured": {
+        "specimen": {
+          "compressive_strength_MPa": 1.37,
+          "tensile_strength_MPa": 0.21,
+          "cohesion_MPa": 0.29,
+          "source": "SERA-AIMS wallettes, vertical and diagonal compression (Tomic et al. 2024a, Table 1)"
+        },
+        "specimen_same_typology": {
+          "compressive_strength_MPa": 1.30,
+          "tensile_strength_MPa": 0.17,
+          "young_modulus_MPa": 3462,
+          "shear_modulus_MPa": [1524, 1898],
+          "density_kg_m3": 1980,
+          "source": "EUCENTRE (Pavia) characterisation of the same typology, given to the blind prediction participants (Tomic et al. 2024b, Table 4)"
+        },
+        "scale_note": "The EPS mortar halves stiffness and strength (Tomic et al. 2024a, Section 2.1), so full-scale values are taken as twice the measured ones. The exact stress scale factor is in Guerrini et al. (2019) and Senaldi et al. (2019a), not open access, and should be checked there."
+      },
+      "mass_density_kg_m3": 1980,
+      "density_note": "Measured masonry density of the same typology, 1980 kg/m3 (Tomic et al. 2024b, Table 4); the density is not scaled by the similitude law adopted.",
+      "ntc_comparison": {
+        "category": "Muratura a conci sbozzati, con paramenti di spessore disomogeneo (roughly cut stone masonry with uneven leaves), Circular 7/2019 Table C8.5.I",
+        "note": "For comparison only; to be completed with the range of the Circular."
+      }
+    }
+  }
+}
