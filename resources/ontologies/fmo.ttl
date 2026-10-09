@@ -6,6 +6,7 @@
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 dcterms:creator a owl:AnnotationProperty .
@@ -20,6 +21,10 @@ dcterms:modified a owl:AnnotationProperty .
 
 dcterms:title a owl:AnnotationProperty .
 
+vann:preferredNamespacePrefix a owl:AnnotationProperty .
+
+vann:preferredNamespaceUri a owl:AnnotationProperty .
+
 ns2:isRuleEnabled a owl:AnnotationProperty .
 
 <https://w3id.org/fmo> a owl:Ontology ;
@@ -27,12 +32,12 @@ ns2:isRuleEnabled a owl:AnnotationProperty .
     dcterms:description "An ontology to represent the failure mechanism of unreinforced masonry structures" ;
     dcterms:issued "2024-04-29" ;
     dcterms:license "https://creativecommons.org/licenses/by/1.0" ;
-    dcterms:modified "2024-04-29" ;
+    dcterms:modified "2026-10-09"^^xsd:date ;
     dcterms:title "Failure Mechanism Ontology"@en ;
-    rdfs:comment "Version 0.1" ;
-    owl:versionInfo 0.1 ;
-    :preferredNamespacePrexif "fmo" ;
-    :preferredNamespaceUri "https://w3id.org/fmo#" .
+    vann:preferredNamespacePrefix "fmo" ;
+    vann:preferredNamespaceUri "https://w3id.org/fmo#" ;
+    rdfs:comment "Version 0.2: rules corrected so that a reasoner can execute them; see CHANGELOG.md."@en ;
+    owl:versionInfo "0.2" .
 
 :DiagonalAndVerticalCracks a owl:NamedIndividual,
         ns3:StructuralDamage,
@@ -77,10 +82,6 @@ ns2:isRuleEnabled a owl:AnnotationProperty .
     rdfs:label "Vertical crack near intersection" ;
     rdfs:comment "A vertical crack occurring at the intersection between walls."@en ;
     ns3:hasCausation :TotalOverturn .
-
-:preferredNamespacePrexif a owl:AnnotationProperty .
-
-:preferredNamespaceUri a owl:AnnotationProperty .
 
 ns3:hasCausation a owl:ObjectProperty ;
     rdfs:label "Has causation" ;
@@ -321,9 +322,233 @@ ns3:StructuralDamage a owl:Class ;
 :wl a ns1:Variable .
 
 [] a ns1:Imp ;
-    rdfs:label "Good in plane behaviour" ;
+    rdfs:label "Average out of plane behaviour" ;
     ns2:isRuleEnabled true ;
-    rdfs:comment "If a Masonry Wall has a Masonry Quality Index, which has a Masonry Quality Index Total In Plane Value less or equal than 10 and greater than 5, than the Masonry Wall has an good in plane behaviour" ;
+    rdfs:comment "If a Masonry Wall has a Masonry Quality Index, which has a Masonry Quality Index Total Out Of Plane Value less or equal than 7 and greater than 4, than the Masonry Wall has an average out of Plane behaviour" ;
+    ns1:body [ a ns1:AtomList ;
+            rdf:first [ a ns1:ClassAtom ;
+                    ns1:argument1 :wl ;
+                    ns1:classPredicate <https://w3id.org/hmo#MasonryWall> ] ;
+            rdf:rest [ a ns1:AtomList ;
+                    rdf:first [ a ns1:IndividualPropertyAtom ;
+                            ns1:argument1 :wl ;
+                            ns1:argument2 :MQI ;
+                            ns1:propertyPredicate <https://w3id.org/hmo#hasMasonryQualityIndex> ] ;
+                    rdf:rest [ a ns1:AtomList ;
+                            rdf:first [ a ns1:DatavaluedPropertyAtom ;
+                                    ns1:argument1 :MQI ;
+                                    ns1:argument2 :MQIv ;
+                                    ns1:propertyPredicate <https://w3id.org/hmo#MQITotalOutOfPlane> ] ;
+                            rdf:rest [ a ns1:AtomList ;
+                                    rdf:first [ a ns1:BuiltinAtom ;
+                                            ns1:arguments ( :MQIv "7.0"^^xsd:float ) ;
+                                            ns1:builtin <http://www.w3.org/2003/11/swrlb#lessThanOrEqual> ] ;
+                                    rdf:rest [ a ns1:AtomList ;
+                                            rdf:first [ a ns1:BuiltinAtom ;
+                                                    ns1:arguments ( :MQIv "4.0"^^xsd:float ) ;
+                                                    ns1:builtin <http://www.w3.org/2003/11/swrlb#greaterThanOrEqual> ] ;
+                                            rdf:rest () ] ] ] ] ] ;
+    ns1:head [ a ns1:AtomList ;
+            rdf:first [ a ns1:IndividualPropertyAtom ;
+                    ns1:argument1 :wl ;
+                    ns1:argument2 :AverageOutOfPlaneBehaviour ;
+                    ns1:propertyPredicate :hasBehaviour ] ;
+            rdf:rest () ] .
+
+[] a ns1:Imp ;
+    rdfs:label "Average vertical Behaviour" ;
+    ns2:isRuleEnabled true ;
+    rdfs:comment "If a Masonry Wall has a Masonry Quality Index, which has a Masonry Quality Index Total Vertical value less or equal than 5 and greater than 2.5, than the Masonry Wall has an average vertical behaviour" ;
+    ns1:body [ a ns1:AtomList ;
+            rdf:first [ a ns1:ClassAtom ;
+                    ns1:argument1 :wl ;
+                    ns1:classPredicate <https://w3id.org/hmo#MasonryWall> ] ;
+            rdf:rest [ a ns1:AtomList ;
+                    rdf:first [ a ns1:IndividualPropertyAtom ;
+                            ns1:argument1 :wl ;
+                            ns1:argument2 :MQI ;
+                            ns1:propertyPredicate <https://w3id.org/hmo#hasMasonryQualityIndex> ] ;
+                    rdf:rest [ a ns1:AtomList ;
+                            rdf:first [ a ns1:DatavaluedPropertyAtom ;
+                                    ns1:argument1 :MQI ;
+                                    ns1:argument2 :MQIv ;
+                                    ns1:propertyPredicate <https://w3id.org/hmo#MQITotalVertical> ] ;
+                            rdf:rest [ a ns1:AtomList ;
+                                    rdf:first [ a ns1:BuiltinAtom ;
+                                            ns1:arguments ( :MQIv "5.0"^^xsd:float ) ;
+                                            ns1:builtin <http://www.w3.org/2003/11/swrlb#lessThanOrEqual> ] ;
+                                    rdf:rest [ a ns1:AtomList ;
+                                            rdf:first [ a ns1:BuiltinAtom ;
+                                                    ns1:arguments ( :MQIv "2.5"^^xsd:float ) ;
+                                                    ns1:builtin <http://www.w3.org/2003/11/swrlb#greaterThanOrEqual> ] ;
+                                            rdf:rest () ] ] ] ] ] ;
+    ns1:head [ a ns1:AtomList ;
+            rdf:first [ a ns1:IndividualPropertyAtom ;
+                    ns1:argument1 :wl ;
+                    ns1:argument2 :AverageVerticalBehaviour ;
+                    ns1:propertyPredicate :hasBehaviour ] ;
+            rdf:rest () ] .
+
+[] a ns1:Imp ;
+    rdfs:label "Inadequate vertical behaviour" ;
+    ns2:isRuleEnabled true ;
+    rdfs:comment "If a Masonry Wall has a Masonry Quality Index, which has a Masonry Quality Index Total vertical value less or equal than 2.5 and greater or equal than 0, than the Masonry Wall has an inadequate vertical behaviour" ;
+    ns1:body [ a ns1:AtomList ;
+            rdf:first [ a ns1:ClassAtom ;
+                    ns1:argument1 :wl ;
+                    ns1:classPredicate <https://w3id.org/hmo#MasonryWall> ] ;
+            rdf:rest [ a ns1:AtomList ;
+                    rdf:first [ a ns1:IndividualPropertyAtom ;
+                            ns1:argument1 :wl ;
+                            ns1:argument2 :MQI ;
+                            ns1:propertyPredicate <https://w3id.org/hmo#hasMasonryQualityIndex> ] ;
+                    rdf:rest [ a ns1:AtomList ;
+                            rdf:first [ a ns1:DatavaluedPropertyAtom ;
+                                    ns1:argument1 :MQI ;
+                                    ns1:argument2 :MQIv ;
+                                    ns1:propertyPredicate <https://w3id.org/hmo#MQITotalVertical> ] ;
+                            rdf:rest [ a ns1:AtomList ;
+                                    rdf:first [ a ns1:BuiltinAtom ;
+                                            ns1:arguments ( :MQIv "2.5"^^xsd:float ) ;
+                                            ns1:builtin <http://www.w3.org/2003/11/swrlb#lessThan> ] ;
+                                    rdf:rest [ a ns1:AtomList ;
+                                            rdf:first [ a ns1:BuiltinAtom ;
+                                                    ns1:arguments ( :MQIv "0.0"^^xsd:float ) ;
+                                                    ns1:builtin <http://www.w3.org/2003/11/swrlb#greaterThanOrEqual> ] ;
+                                            rdf:rest () ] ] ] ] ] ;
+    ns1:head [ a ns1:AtomList ;
+            rdf:first [ a ns1:IndividualPropertyAtom ;
+                    ns1:argument1 :wl ;
+                    ns1:argument2 :InadequateVerticalBehaviour ;
+                    ns1:propertyPredicate :hasBehaviour ] ;
+            rdf:rest () ] .
+
+[] a ns1:Imp ;
+    rdfs:label "Mechanism and damage" ;
+    ns2:isRuleEnabled true ;
+    rdfs:comment "If a wall has a damage, and the damage is caused by a specific mechanism, than the wall has a ongoing mechanism" ;
+    ns1:body [ a ns1:AtomList ;
+            rdf:first [ a ns1:IndividualPropertyAtom ;
+                    ns1:argument1 :wl ;
+                    ns1:argument2 :dmg ;
+                    ns1:propertyPredicate ns3:hasDamage ] ;
+            rdf:rest [ a ns1:AtomList ;
+                    rdf:first [ a ns1:IndividualPropertyAtom ;
+                            ns1:argument1 :dmg ;
+                            ns1:argument2 :mcn ;
+                            ns1:propertyPredicate ns3:hasCausation ] ;
+                    rdf:rest () ] ] ;
+    ns1:head [ a ns1:AtomList ;
+            rdf:first [ a ns1:IndividualPropertyAtom ;
+                    ns1:argument1 :wl ;
+                    ns1:argument2 :mcn ;
+                    ns1:propertyPredicate :hasOccurringMechanism ] ;
+            rdf:rest () ] .
+
+[] a ns1:Imp ;
+    rdfs:label "Total overtun - chains" ;
+    ns2:isRuleEnabled true ;
+    rdfs:comment "If a masonry wall has a vulnerability that is ‘absence of intermediate chains’ and has a vulnerability that is ‘absence of top chains’, then it has an occurring mechanism that is ‘total overturn'." ;
+    ns1:body [ a ns1:AtomList ;
+            rdf:first [ a ns1:IndividualPropertyAtom ;
+                    ns1:argument1 :wl ;
+                    ns1:argument2 :AbsenceOfIntermediateChains ;
+                    ns1:propertyPredicate :hasVulnerability ] ;
+            rdf:rest [ a ns1:AtomList ;
+                    rdf:first [ a ns1:IndividualPropertyAtom ;
+                            ns1:argument1 :wl ;
+                            ns1:argument2 :AbsenceOfTopChains ;
+                            ns1:propertyPredicate :hasVulnerability ] ;
+                    rdf:rest () ] ] ;
+    ns1:head [ a ns1:AtomList ;
+            rdf:first [ a ns1:IndividualPropertyAtom ;
+                    ns1:argument1 :wl ;
+                    ns1:argument2 :TotalOverturn ;
+                    ns1:propertyPredicate :hasOccurringMechanism ] ;
+            rdf:rest () ] .
+
+[] a ns1:Imp ;
+    rdfs:label "Good vertical behaviour" ;
+    ns2:isRuleEnabled true ;
+    rdfs:comment "If a Masonry Wall has a Masonry Quality Index, which has a Masonry Quality Index Total vertical value less or equal than 10 and greater than 5, than the Masonry Wall has a good vertical behaviour" ;
+    ns1:body [ a ns1:AtomList ;
+            rdf:first [ a ns1:ClassAtom ;
+                    ns1:argument1 :wl ;
+                    ns1:classPredicate <https://w3id.org/hmo#MasonryWall> ] ;
+            rdf:rest [ a ns1:AtomList ;
+                    rdf:first [ a ns1:IndividualPropertyAtom ;
+                            ns1:argument1 :wl ;
+                            ns1:argument2 :MQI ;
+                            ns1:propertyPredicate <https://w3id.org/hmo#hasMasonryQualityIndex> ] ;
+                    rdf:rest [ a ns1:AtomList ;
+                            rdf:first [ a ns1:DatavaluedPropertyAtom ;
+                                    ns1:argument1 :MQI ;
+                                    ns1:argument2 :MQIv ;
+                                    ns1:propertyPredicate <https://w3id.org/hmo#MQITotalVertical> ] ;
+                            rdf:rest [ a ns1:AtomList ;
+                                    rdf:first [ a ns1:BuiltinAtom ;
+                                            ns1:arguments ( :MQIv "10.0"^^xsd:float ) ;
+                                            ns1:builtin <http://www.w3.org/2003/11/swrlb#lessThanOrEqual> ] ;
+                                    rdf:rest [ a ns1:AtomList ;
+                                            rdf:first [ a ns1:BuiltinAtom ;
+                                                    ns1:arguments ( :MQIv "5.0"^^xsd:float ) ;
+                                                    ns1:builtin <http://www.w3.org/2003/11/swrlb#greaterThan> ] ;
+                                            rdf:rest () ] ] ] ] ] ;
+    ns1:head [ a ns1:AtomList ;
+            rdf:first [ a ns1:IndividualPropertyAtom ;
+                    ns1:argument1 :wl ;
+                    ns1:argument2 :GoodVerticalBehaviour ;
+                    ns1:propertyPredicate :hasBehaviour ] ;
+            rdf:rest () ] .
+
+[] a ns1:Imp ;
+    rdfs:label "Total overturn chain - curbston" ;
+    ns2:isRuleEnabled true ;
+    rdfs:comment "If a masonry wall has a vulnerability that is ‘absence of intermediate chains' and has a vulnerability that is ‘absence of top curbstone', then it has an occurring mechanism that is ‘total overturn." ;
+    ns1:body [ a ns1:AtomList ;
+            rdf:first [ a ns1:IndividualPropertyAtom ;
+                    ns1:argument1 :wl ;
+                    ns1:argument2 :AbsenceOfIntermediateChains ;
+                    ns1:propertyPredicate :hasVulnerability ] ;
+            rdf:rest [ a ns1:AtomList ;
+                    rdf:first [ a ns1:IndividualPropertyAtom ;
+                            ns1:argument1 :wl ;
+                            ns1:argument2 :AbsenceOfTopCurbstone ;
+                            ns1:propertyPredicate :hasVulnerability ] ;
+                    rdf:rest () ] ] ;
+    ns1:head [ a ns1:AtomList ;
+            rdf:first [ a ns1:IndividualPropertyAtom ;
+                    ns1:argument1 :wl ;
+                    ns1:argument2 :TotalOverturn ;
+                    ns1:propertyPredicate :hasOccurringMechanism ] ;
+            rdf:rest () ] .
+
+[] a ns1:Imp ;
+    rdfs:label "Total overturn - curstone -chain" ;
+    ns2:isRuleEnabled true ;
+    rdfs:comment "If a masonry wall has a vulnerability that is ‘absence of intermediate curbstone’ and has a vulnerability that is ‘absence of top chains', then it has an occurring mechanism that is ‘total overturn." ;
+    ns1:body [ a ns1:AtomList ;
+            rdf:first [ a ns1:IndividualPropertyAtom ;
+                    ns1:argument1 :wl ;
+                    ns1:argument2 :AbsenceOfIntermediateCurbstone ;
+                    ns1:propertyPredicate :hasVulnerability ] ;
+            rdf:rest [ a ns1:AtomList ;
+                    rdf:first [ a ns1:IndividualPropertyAtom ;
+                            ns1:argument1 :wl ;
+                            ns1:argument2 :AbsenceOfTopChains ;
+                            ns1:propertyPredicate :hasVulnerability ] ;
+                    rdf:rest () ] ] ;
+    ns1:head [ a ns1:AtomList ;
+            rdf:first [ a ns1:IndividualPropertyAtom ;
+                    ns1:argument1 :wl ;
+                    ns1:argument2 :TotalOverturn ;
+                    ns1:propertyPredicate :hasOccurringMechanism ] ;
+            rdf:rest () ] .
+
+[] a ns1:Imp ;
+    rdfs:label "Inadequate in plane behavior" ;
+    ns2:isRuleEnabled true ;
+    rdfs:comment "If a Masonry Wall has a Masonry Quality Index, which has a Masonry Quality Index Total in plane value less or equal than 3 and greater or equal than 0, than the Masonry Wall has an inadequate In plane behaviour" ;
     ns1:body [ a ns1:AtomList ;
             rdf:first [ a ns1:ClassAtom ;
                     ns1:argument1 :wl ;
@@ -340,17 +565,17 @@ ns3:StructuralDamage a owl:Class ;
                                     ns1:propertyPredicate <https://w3id.org/hmo#MQITotalInPlane> ] ;
                             rdf:rest [ a ns1:AtomList ;
                                     rdf:first [ a ns1:BuiltinAtom ;
-                                            ns1:arguments ( :MQIv "10.0"^^xsd:float ) ;
-                                            ns1:builtin <http://www.w3.org/2003/11/swrlb#lessThanOrEqual> ] ;
+                                            ns1:arguments ( :MQIv "3.0"^^xsd:float ) ;
+                                            ns1:builtin <http://www.w3.org/2003/11/swrlb#lessThan> ] ;
                                     rdf:rest [ a ns1:AtomList ;
                                             rdf:first [ a ns1:BuiltinAtom ;
-                                                    ns1:arguments ( :MQIv "5.0"^^xsd:float ) ;
-                                                    ns1:builtin <http://www.w3.org/2003/11/swrlb#greaterThan> ] ;
+                                                    ns1:arguments ( :MQIv "0.0"^^xsd:float ) ;
+                                                    ns1:builtin <http://www.w3.org/2003/11/swrlb#greaterThanOrEqual> ] ;
                                             rdf:rest () ] ] ] ] ] ;
     ns1:head [ a ns1:AtomList ;
             rdf:first [ a ns1:IndividualPropertyAtom ;
                     ns1:argument1 :wl ;
-                    ns1:argument2 :GoodInPlaneBehaviour ;
+                    ns1:argument2 :InadequateInPlaneBehaviour ;
                     ns1:propertyPredicate :hasBehaviour ] ;
             rdf:rest () ] .
 
@@ -575,40 +800,6 @@ ns3:StructuralDamage a owl:Class ;
             rdf:rest () ] .
 
 [] a ns1:Imp ;
-    rdfs:label "Good vertical behaviour" ;
-    ns2:isRuleEnabled true ;
-    rdfs:comment "If a Masonry Wall has a Masonry Quality Index, which has a Masonry Quality Index Total vertical value less or equal than 10 and greater than 5, than the Masonry Wall has a good vertical behaviour" ;
-    ns1:body [ a ns1:AtomList ;
-            rdf:first [ a ns1:ClassAtom ;
-                    ns1:argument1 :wl ;
-                    ns1:classPredicate <https://w3id.org/hmo#MasonryWall> ] ;
-            rdf:rest [ a ns1:AtomList ;
-                    rdf:first [ a ns1:IndividualPropertyAtom ;
-                            ns1:argument1 :wl ;
-                            ns1:argument2 :MQI ;
-                            ns1:propertyPredicate <https://w3id.org/hmo#hasMasonryQualityIndex> ] ;
-                    rdf:rest [ a ns1:AtomList ;
-                            rdf:first [ a ns1:DatavaluedPropertyAtom ;
-                                    ns1:argument1 :MQI ;
-                                    ns1:argument2 :MQIv ;
-                                    ns1:propertyPredicate <https://w3id.org/hmo#MQITotalVertical> ] ;
-                            rdf:rest [ a ns1:AtomList ;
-                                    rdf:first [ a ns1:BuiltinAtom ;
-                                            ns1:arguments ( :MQIv "10.0"^^xsd:float ) ;
-                                            ns1:builtin <http://www.w3.org/2003/11/swrlb#lessThanOrEqual> ] ;
-                                    rdf:rest [ a ns1:AtomList ;
-                                            rdf:first [ a ns1:BuiltinAtom ;
-                                                    ns1:arguments ( :MQIv "5.0"^^xsd:float ) ;
-                                                    ns1:builtin <http://www.w3.org/2003/11/swrlb#greaterThan> ] ;
-                                            rdf:rest () ] ] ] ] ] ;
-    ns1:head [ a ns1:AtomList ;
-            rdf:first [ a ns1:IndividualPropertyAtom ;
-                    ns1:argument1 :wl ;
-                    ns1:argument2 :GoodVerticalBehaviour ;
-                    ns1:propertyPredicate :hasBehaviour ] ;
-            rdf:rest () ] .
-
-[] a ns1:Imp ;
     rdfs:label "Average in plane behaviour" ;
     ns2:isRuleEnabled true ;
     rdfs:comment "If a Masonry Wall has a Masonry Quality Index, which has a Masonry Quality Index Total In Plane Value less or equal than 5  and greater than 3, than the Masonry Wall has an average in Plane behaviour" ;
@@ -711,199 +902,9 @@ ns3:StructuralDamage a owl:Class ;
             rdf:rest () ] .
 
 [] a ns1:Imp ;
-    rdfs:label "Average out of plane behaviour" ;
+    rdfs:label "Good in plane behaviour" ;
     ns2:isRuleEnabled true ;
-    rdfs:comment "If a Masonry Wall has a Masonry Quality Index, which has a Masonry Quality Index Total Out Of Plane Value less or equal than 7 and greater than 4, than the Masonry Wall has an average out of Plane behaviour" ;
-    ns1:body [ a ns1:AtomList ;
-            rdf:first [ a ns1:ClassAtom ;
-                    ns1:argument1 :wl ;
-                    ns1:classPredicate <https://w3id.org/hmo#MasonryWall> ] ;
-            rdf:rest [ a ns1:AtomList ;
-                    rdf:first [ a ns1:IndividualPropertyAtom ;
-                            ns1:argument1 :wl ;
-                            ns1:argument2 :MQI ;
-                            ns1:propertyPredicate <https://w3id.org/hmo#hasMasonryQualityIndex> ] ;
-                    rdf:rest [ a ns1:AtomList ;
-                            rdf:first [ a ns1:DatavaluedPropertyAtom ;
-                                    ns1:argument1 :MQI ;
-                                    ns1:argument2 :MQIv ;
-                                    ns1:propertyPredicate <https://w3id.org/hmo#MQITotalOutOfPlane> ] ;
-                            rdf:rest [ a ns1:AtomList ;
-                                    rdf:first [ a ns1:BuiltinAtom ;
-                                            ns1:arguments ( :MQIv "7.0"^^xsd:float ) ;
-                                            ns1:builtin <http://www.w3.org/2003/11/swrlb#lessThanOrEqual> ] ;
-                                    rdf:rest [ a ns1:AtomList ;
-                                            rdf:first [ a ns1:BuiltinAtom ;
-                                                    ns1:arguments ( :MQIv "4.0"^^xsd:float ) ;
-                                                    ns1:builtin <http://www.w3.org/2003/11/swrlb#greaterThanOrEqual> ] ;
-                                            rdf:rest () ] ] ] ] ] ;
-    ns1:head [ a ns1:AtomList ;
-            rdf:first [ a ns1:IndividualPropertyAtom ;
-                    ns1:argument1 :wl ;
-                    ns1:argument2 :AverageOutOfPlaneBehaviour ;
-                    ns1:propertyPredicate :hasBehaviour ] ;
-            rdf:rest () ] .
-
-[] a ns1:Imp ;
-    rdfs:label "Average vertical Behaviour" ;
-    ns2:isRuleEnabled true ;
-    rdfs:comment "If a Masonry Wall has a Masonry Quality Index, which has a Masonry Quality Index Total Vertical value less or equal than 5 and greater than 2.5, than the Masonry Wall has an average vertical behaviour" ;
-    ns1:body [ a ns1:AtomList ;
-            rdf:first [ a ns1:ClassAtom ;
-                    ns1:argument1 :wl ;
-                    ns1:classPredicate <https://w3id.org/hmo#MasonryWall> ] ;
-            rdf:rest [ a ns1:AtomList ;
-                    rdf:first [ a ns1:IndividualPropertyAtom ;
-                            ns1:argument1 :wl ;
-                            ns1:argument2 :MQI ;
-                            ns1:propertyPredicate <https://w3id.org/hmo#hasMasonryQualityIndex> ] ;
-                    rdf:rest [ a ns1:AtomList ;
-                            rdf:first [ a ns1:DatavaluedPropertyAtom ;
-                                    ns1:argument1 :MQI ;
-                                    ns1:argument2 :MQIv ;
-                                    ns1:propertyPredicate <https://w3id.org/hmo#MQITotalVertical> ] ;
-                            rdf:rest [ a ns1:AtomList ;
-                                    rdf:first [ a ns1:BuiltinAtom ;
-                                            ns1:arguments ( :MQIv "5.0"^^xsd:float ) ;
-                                            ns1:builtin <http://www.w3.org/2003/11/swrlb#lessThanOrEqual> ] ;
-                                    rdf:rest [ a ns1:AtomList ;
-                                            rdf:first [ a ns1:BuiltinAtom ;
-                                                    ns1:arguments ( :MQIv "2.5"^^xsd:float ) ;
-                                                    ns1:builtin <http://www.w3.org/2003/11/swrlb#greaterThanOrEqual> ] ;
-                                            rdf:rest () ] ] ] ] ] ;
-    ns1:head [ a ns1:AtomList ;
-            rdf:first [ a ns1:IndividualPropertyAtom ;
-                    ns1:argument1 :wl ;
-                    ns1:argument2 :AverageVerticalBehaviour ;
-                    ns1:propertyPredicate :hasBehaviour ] ;
-            rdf:rest () ] .
-
-[] a ns1:Imp ;
-    rdfs:label "Inadequate vertical behaviour" ;
-    ns2:isRuleEnabled true ;
-    rdfs:comment "If a Masonry Wall has a Masonry Quality Index, which has a Masonry Quality Index Total vertical value less or equal than 2.5 and greater or equal than 0, than the Masonry Wall has an inadequate vertical behaviour" ;
-    ns1:body [ a ns1:AtomList ;
-            rdf:first [ a ns1:ClassAtom ;
-                    ns1:argument1 :wl ;
-                    ns1:classPredicate <https://w3id.org/hmo#MasonryWall> ] ;
-            rdf:rest [ a ns1:AtomList ;
-                    rdf:first [ a ns1:IndividualPropertyAtom ;
-                            ns1:argument1 :wl ;
-                            ns1:argument2 :MQI ;
-                            ns1:propertyPredicate <https://w3id.org/hmo#hasMasonryQualityIndex> ] ;
-                    rdf:rest [ a ns1:AtomList ;
-                            rdf:first [ a ns1:DatavaluedPropertyAtom ;
-                                    ns1:argument1 :MQI ;
-                                    ns1:argument2 :MQIv ;
-                                    ns1:propertyPredicate <https://w3id.org/hmo#MQITotalVertical> ] ;
-                            rdf:rest [ a ns1:AtomList ;
-                                    rdf:first [ a ns1:BuiltinAtom ;
-                                            ns1:arguments ( :MQIv "2.5"^^xsd:float ) ;
-                                            ns1:builtin <http://www.w3.org/2003/11/swrlb#lessThan> ] ;
-                                    rdf:rest [ a ns1:AtomList ;
-                                            rdf:first [ a ns1:BuiltinAtom ;
-                                                    ns1:arguments ( :MQIv "0.0"^^xsd:float ) ;
-                                                    ns1:builtin <http://www.w3.org/2003/11/swrlb#greaterThanOrEqual> ] ;
-                                            rdf:rest () ] ] ] ] ] ;
-    ns1:head [ a ns1:AtomList ;
-            rdf:first [ a ns1:IndividualPropertyAtom ;
-                    ns1:argument1 :wl ;
-                    ns1:argument2 :InadequateVerticalBehaviour ;
-                    ns1:propertyPredicate :hasBehaviour ] ;
-            rdf:rest () ] .
-
-[] a ns1:Imp ;
-    rdfs:label "Mechanism and damage" ;
-    ns2:isRuleEnabled true ;
-    rdfs:comment "If a wall has a damage, and the damage is caused by a specific mechanism, than the wall has a ongoing mechanism" ;
-    ns1:body [ a ns1:AtomList ;
-            rdf:first [ a ns1:IndividualPropertyAtom ;
-                    ns1:argument1 :wl ;
-                    ns1:argument2 :dmg ;
-                    ns1:propertyPredicate ns3:hasDamage ] ;
-            rdf:rest [ a ns1:AtomList ;
-                    rdf:first [ a ns1:IndividualPropertyAtom ;
-                            ns1:argument1 :dmg ;
-                            ns1:argument2 :mcn ;
-                            ns1:propertyPredicate ns3:hasCausation ] ;
-                    rdf:rest () ] ] ;
-    ns1:head [ a ns1:AtomList ;
-            rdf:first [ a ns1:IndividualPropertyAtom ;
-                    ns1:argument1 :wl ;
-                    ns1:argument2 :mcn ;
-                    ns1:propertyPredicate :hasOccurringMechanism ] ;
-            rdf:rest () ] .
-
-[] a ns1:Imp ;
-    rdfs:label "Total overtun - chains" ;
-    ns2:isRuleEnabled true ;
-    rdfs:comment "If a masonry wall has a vulnerability that is ‘absence of intermediate chains’ and has a vulnerability that is ‘absence of top chains’, then it has an occurring mechanism that is ‘total overturn'." ;
-    ns1:body [ a ns1:AtomList ;
-            rdf:first [ a ns1:IndividualPropertyAtom ;
-                    ns1:argument1 :wl ;
-                    ns1:argument2 :AbsenceOfIntermediateChains ;
-                    ns1:propertyPredicate :hasVulnerability ] ;
-            rdf:rest [ a ns1:AtomList ;
-                    rdf:first [ a ns1:IndividualPropertyAtom ;
-                            ns1:argument1 :wl ;
-                            ns1:argument2 :AbsenceOfTopChains ;
-                            ns1:propertyPredicate :hasVulnerability ] ;
-                    rdf:rest () ] ] ;
-    ns1:head [ a ns1:AtomList ;
-            rdf:first [ a ns1:IndividualPropertyAtom ;
-                    ns1:argument1 :wl ;
-                    ns1:argument2 :TotalOverturn ;
-                    ns1:propertyPredicate :hasOccurringMechanism ] ;
-            rdf:rest () ] .
-
-[] a ns1:Imp ;
-    rdfs:label "Total overturn chain - curbston" ;
-    ns2:isRuleEnabled true ;
-    rdfs:comment "If a masonry wall has a vulnerability that is ‘absence of intermediate chains' and has a vulnerability that is ‘absence of top curbstone', then it has an occurring mechanism that is ‘total overturn." ;
-    ns1:body [ a ns1:AtomList ;
-            rdf:first [ a ns1:IndividualPropertyAtom ;
-                    ns1:argument1 :wl ;
-                    ns1:argument2 :AbsenceOfIntermediateChains ;
-                    ns1:propertyPredicate :hasVulnerability ] ;
-            rdf:rest [ a ns1:AtomList ;
-                    rdf:first [ a ns1:IndividualPropertyAtom ;
-                            ns1:argument1 :wl ;
-                            ns1:argument2 :AbsenceOfTopCurbstone ;
-                            ns1:propertyPredicate :hasVulnerability ] ;
-                    rdf:rest () ] ] ;
-    ns1:head [ a ns1:AtomList ;
-            rdf:first [ a ns1:IndividualPropertyAtom ;
-                    ns1:argument1 :wl ;
-                    ns1:argument2 :TotalOverturn ;
-                    ns1:propertyPredicate :hasOccurringMechanism ] ;
-            rdf:rest () ] .
-
-[] a ns1:Imp ;
-    rdfs:label "Total overturn - curstone -chain" ;
-    ns2:isRuleEnabled true ;
-    rdfs:comment "If a masonry wall has a vulnerability that is ‘absence of intermediate curbstone’ and has a vulnerability that is ‘absence of top chains', then it has an occurring mechanism that is ‘total overturn." ;
-    ns1:body [ a ns1:AtomList ;
-            rdf:first [ a ns1:IndividualPropertyAtom ;
-                    ns1:argument1 :wl ;
-                    ns1:argument2 :AbsenceOfIntermediateCurbstone ;
-                    ns1:propertyPredicate :hasVulnerability ] ;
-            rdf:rest [ a ns1:AtomList ;
-                    rdf:first [ a ns1:IndividualPropertyAtom ;
-                            ns1:argument1 :wl ;
-                            ns1:argument2 :AbsenceOfTopChains ;
-                            ns1:propertyPredicate :hasVulnerability ] ;
-                    rdf:rest () ] ] ;
-    ns1:head [ a ns1:AtomList ;
-            rdf:first [ a ns1:IndividualPropertyAtom ;
-                    ns1:argument1 :wl ;
-                    ns1:argument2 :TotalOverturn ;
-                    ns1:propertyPredicate :hasOccurringMechanism ] ;
-            rdf:rest () ] .
-
-[] a ns1:Imp ;
-    rdfs:label "Inadequate in plane behavior" ;
-    ns2:isRuleEnabled true ;
-    rdfs:comment "If a Masonry Wall has a Masonry Quality Index, which has a Masonry Quality Index Total in plane value less or equal than 3 and greater or equal than 0, than the Masonry Wall has an inadequate In plane behaviour" ;
+    rdfs:comment "If a Masonry Wall has a Masonry Quality Index, which has a Masonry Quality Index Total In Plane Value less or equal than 10 and greater than 5, than the Masonry Wall has an good in plane behaviour" ;
     ns1:body [ a ns1:AtomList ;
             rdf:first [ a ns1:ClassAtom ;
                     ns1:argument1 :wl ;
@@ -920,17 +921,17 @@ ns3:StructuralDamage a owl:Class ;
                                     ns1:propertyPredicate <https://w3id.org/hmo#MQITotalInPlane> ] ;
                             rdf:rest [ a ns1:AtomList ;
                                     rdf:first [ a ns1:BuiltinAtom ;
-                                            ns1:arguments ( :MQIv "3.0"^^xsd:float ) ;
-                                            ns1:builtin <http://www.w3.org/2003/11/swrlb#lessThan> ] ;
+                                            ns1:arguments ( :MQIv "10.0"^^xsd:float ) ;
+                                            ns1:builtin <http://www.w3.org/2003/11/swrlb#lessThanOrEqual> ] ;
                                     rdf:rest [ a ns1:AtomList ;
                                             rdf:first [ a ns1:BuiltinAtom ;
-                                                    ns1:arguments ( :MQIv "0.0"^^xsd:float ) ;
-                                                    ns1:builtin <http://www.w3.org/2003/11/swrlb#greaterThanOrEqual> ] ;
+                                                    ns1:arguments ( :MQIv "5.0"^^xsd:float ) ;
+                                                    ns1:builtin <http://www.w3.org/2003/11/swrlb#greaterThan> ] ;
                                             rdf:rest () ] ] ] ] ] ;
     ns1:head [ a ns1:AtomList ;
             rdf:first [ a ns1:IndividualPropertyAtom ;
                     ns1:argument1 :wl ;
-                    ns1:argument2 :InadequateInPlaneBehaviour ;
+                    ns1:argument2 :GoodInPlaneBehaviour ;
                     ns1:propertyPredicate :hasBehaviour ] ;
             rdf:rest () ] .
 

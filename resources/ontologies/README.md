@@ -9,8 +9,8 @@ the case-study individuals.
 |---|---|---|
 | `hsv.ttl` | Historic Survey Ontology (HSV) | <https://github.com/mlaura1996/Historic-Survey-Ontology> @ `bb719ac` (2026-05-20), unchanged |
 | `hsto.ttl` | Historic Structure Ontology (HSTO) | <https://github.com/mlaura1996/Historic-Structure-Ontology> @ `04dd898` (2026-05-20), unchanged |
-| `hmo.ttl` | Historic Masonry Ontology (HMO), corrected rules | <https://github.com/mlaura1996/HistoricMasonryOntology>, branch `fix-swrl-rules` |
-| `fmo.ttl` | Failure Mechanism Ontology (FMO), corrected rules | <https://github.com/mlaura1996/FailureMechanismOntology>, branch `fix-rules` |
+| `hmo.ttl` | Historic Masonry Ontology (HMO), corrected rules | <https://github.com/mlaura1996/HistoricMasonryOntology>, version 0.2 (`main`) |
+| `fmo.ttl` | Failure Mechanism Ontology (FMO), corrected rules | <https://github.com/mlaura1996/FailureMechanismOntology>, version 0.2 (`main`) |
 
 ## `hmo.ttl` — Historic Masonry Ontology, corrected rules
 
