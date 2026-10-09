@@ -35,6 +35,366 @@
     hsv:contains :Aggregate ;
     hsv:hasTraditionalConstructionTechnique :MuraturaATufelli .
 
+:IFC_07H4IE3N17quz_RDvElapV a owl:NamedIndividual ;
+    rdfs:label "IfcWall big_column:big_column:1738268"@en ;
+    dcterms:identifier "07H4IE3N17quz_RDvElapV" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeB .
+
+:IFC_08pzrbE8X9reLLOmu2mM9m a owl:NamedIndividual ;
+    rdfs:label "IfcWindow archi_window_closed:StoneWindowArch:1700425"@en ;
+    dcterms:identifier "08pzrbE8X9reLLOmu2mM9m" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeD .
+
+:IFC_08pzrbE8X9reLLOmu2mNts a owl:NamedIndividual ;
+    rdfs:label "IfcWindow archi_window_closed:StoneWindowArch:1699279"@en ;
+    dcterms:identifier "08pzrbE8X9reLLOmu2mNts" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeD .
+
+:IFC_0CvVHHujLB8fkhpCAWbiT3 a owl:NamedIndividual ;
+    rdfs:label "IfcWall Castelnuovo3:Castelnuovo3:1707835"@en ;
+    dcterms:identifier "0CvVHHujLB8fkhpCAWbiT3" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeB .
+
+:IFC_0F0gJxCaz6DgMK0q1JiO7L a owl:NamedIndividual ;
+    rdfs:label "IfcWall Basic Wall:Castelnuovo_typeA:1722907"@en ;
+    dcterms:identifier "0F0gJxCaz6DgMK0q1JiO7L" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeA .
+
+:IFC_0GisCWViz2PeUrBi4wgUZp a owl:NamedIndividual ;
+    rdfs:label "IfcWall Basic Wall:Castelnuovo_typeA:1675325"@en ;
+    dcterms:identifier "0GisCWViz2PeUrBi4wgUZp" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeA .
+
+:IFC_0GisCWViz2PeUrBi4wgUa5 a owl:NamedIndividual ;
+    rdfs:label "IfcWall Basic Wall:Castelnuovo_typeA:1675723"@en ;
+    dcterms:identifier "0GisCWViz2PeUrBi4wgUa5" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeA .
+
+:IFC_0GisCWViz2PeUrBi4wgUdW a owl:NamedIndividual ;
+    rdfs:label "IfcWall Basic Wall:Castelnuovo_typeA:1675566"@en ;
+    dcterms:identifier "0GisCWViz2PeUrBi4wgUdW" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeA .
+
+:IFC_0GisCWViz2PeUrBi4wgVRW a owl:NamedIndividual ;
+    rdfs:label "IfcWall Basic Wall:Castelnuovo_typeA:1674798"@en ;
+    dcterms:identifier "0GisCWViz2PeUrBi4wgVRW" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeA .
+
+:IFC_0GisCWViz2PeUrBi4wgVUt a owl:NamedIndividual ;
+    rdfs:label "IfcWall Basic Wall:Castelnuovo_typeA:1675129"@en ;
+    dcterms:identifier "0GisCWViz2PeUrBi4wgVUt" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeA .
+
+:IFC_0M1S9S_Qr3IPBMDqinoabk a owl:NamedIndividual ;
+    rdfs:label "IfcWall Castelnuovo:Castelnuovo:1680661"@en ;
+    dcterms:identifier "0M1S9S_Qr3IPBMDqinoabk" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeA .
+
+:IFC_0QfxonMDT2A8cO_M93-yp8 a owl:NamedIndividual ;
+    rdfs:label "IfcWall Castelnuovo10:Castelnuovo10:1727088"@en ;
+    dcterms:identifier "0QfxonMDT2A8cO_M93$yp8" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeD .
+
+:IFC_0QfxonMDT2A8cO_M93-yye a owl:NamedIndividual ;
+    rdfs:label "IfcWall Castelnuovo9:Castelnuovo9:1726864"@en ;
+    dcterms:identifier "0QfxonMDT2A8cO_M93$yye" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeD .
+
+:IFC_112HIUctr2yw5OqZgr3kPa a owl:NamedIndividual ;
+    rdfs:label "IfcWall Basic Wall:Castelnuovo_typeA:1676344"@en ;
+    dcterms:identifier "112HIUctr2yw5OqZgr3kPa" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeA .
+
+:IFC_112HIUctr2yw5OqZgr3kPe a owl:NamedIndividual ;
+    rdfs:label "IfcWall Basic Wall:Castelnuovo_typeA:1676340"@en ;
+    dcterms:identifier "112HIUctr2yw5OqZgr3kPe" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeA .
+
+:IFC_112HIUctr2yw5OqZgr3kPf a owl:NamedIndividual ;
+    rdfs:label "IfcWall Basic Wall:Castelnuovo_typeA:1676341"@en ;
+    dcterms:identifier "112HIUctr2yw5OqZgr3kPf" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeA .
+
+:IFC_112HIUctr2yw5OqZgr3kPg a owl:NamedIndividual ;
+    rdfs:label "IfcWall Basic Wall:Castelnuovo_typeA:1676342"@en ;
+    dcterms:identifier "112HIUctr2yw5OqZgr3kPg" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeA .
+
+:IFC_112HIUctr2yw5OqZgr3kPh a owl:NamedIndividual ;
+    rdfs:label "IfcWall Basic Wall:Castelnuovo_typeA:1676343"@en ;
+    dcterms:identifier "112HIUctr2yw5OqZgr3kPh" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeA .
+
+:IFC_112HIUctr2yw5OqZgr3kPi a owl:NamedIndividual ;
+    rdfs:label "IfcWall Basic Wall:Castelnuovo_typeA:1676336"@en ;
+    dcterms:identifier "112HIUctr2yw5OqZgr3kPi" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeA .
+
+:IFC_112HIUctr2yw5OqZgr3kPj a owl:NamedIndividual ;
+    rdfs:label "IfcWall Basic Wall:Castelnuovo_typeA:1676337"@en ;
+    dcterms:identifier "112HIUctr2yw5OqZgr3kPj" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeA .
+
+:IFC_112HIUctr2yw5OqZgr3kPn a owl:NamedIndividual ;
+    rdfs:label "IfcWall Basic Wall:Castelnuovo_typeA:1676333"@en ;
+    dcterms:identifier "112HIUctr2yw5OqZgr3kPn" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeA .
+
+:IFC_112HIUctr2yw5OqZgr3kPo a owl:NamedIndividual ;
+    rdfs:label "IfcWall Basic Wall:Castelnuovo_typeA:1676334"@en ;
+    dcterms:identifier "112HIUctr2yw5OqZgr3kPo" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeA .
+
+:IFC_112HIUctr2yw5OqZgr3kPp a owl:NamedIndividual ;
+    rdfs:label "IfcWall Basic Wall:Castelnuovo_typeA:1676335"@en ;
+    dcterms:identifier "112HIUctr2yw5OqZgr3kPp" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeA .
+
+:IFC_112HIUctr2yw5OqZgr3kXe a owl:NamedIndividual ;
+    rdfs:label "IfcWall Basic Wall:Castelnuovo_typeC:1677876"@en ;
+    dcterms:identifier "112HIUctr2yw5OqZgr3kXe" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeC .
+
+:IFC_112HIUctr2yw5OqZgr3kYs a owl:NamedIndividual ;
+    rdfs:label "IfcWall Basic Wall:Castelnuovo_typeC:1678058"@en ;
+    dcterms:identifier "112HIUctr2yw5OqZgr3kYs" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeC .
+
+:IFC_112HIUctr2yw5OqZgr3kaS a owl:NamedIndividual ;
+    rdfs:label "IfcWall Basic Wall:Castelnuovo_typeC:1678144"@en ;
+    dcterms:identifier "112HIUctr2yw5OqZgr3kaS" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeC .
+
+:IFC_112HIUctr2yw5OqZgr3kla a owl:NamedIndividual ;
+    rdfs:label "IfcWall Basic Wall:Castelnuovo_typeC:1677752"@en ;
+    dcterms:identifier "112HIUctr2yw5OqZgr3kla" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeC .
+
+:IFC_112HIUctr2yw5OqZgr3ksc a owl:NamedIndividual ;
+    rdfs:label "IfcWall Basic Wall:Castelnuovo_typeA:1679354"@en ;
+    dcterms:identifier "112HIUctr2yw5OqZgr3ksc" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeA .
+
+:IFC_1FujFrxrb7ouwnZEeyzKU0 a owl:NamedIndividual ;
+    rdfs:label "IfcWall first_column:first_column:1733994"@en ;
+    dcterms:identifier "1FujFrxrb7ouwnZEeyzKU0" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeC .
+
+:IFC_1HfLPk-M547Aaac6ue3X0L a owl:NamedIndividual ;
+    rdfs:label "IfcWall Castelnuovo5:Castelnuovo3:1707943"@en ;
+    dcterms:identifier "1HfLPk$M547Aaac6ue3X0L" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeB .
+
+:IFC_1HfLPk-M547Aaac6ue3X1s a owl:NamedIndividual ;
+    rdfs:label "IfcDoor enclosed_archv2:enclosed_archv2:1707972"@en ;
+    dcterms:identifier "1HfLPk$M547Aaac6ue3X1s" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeD .
+
+:IFC_1HfLPk-M547Aaac6ue3X37 a owl:NamedIndividual ;
+    rdfs:label "IfcWall Castelnuovo2:Castelnuovo3:1707893"@en ;
+    dcterms:identifier "1HfLPk$M547Aaac6ue3X37" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeB .
+
+:IFC_1aMTge6B9DK9-RHbrOwo4u a owl:NamedIndividual ;
+    rdfs:label "IfcWall Wall_ontop:Wall_ontop:1770791"@en ;
+    dcterms:identifier "1aMTge6B9DK9$RHbrOwo4u" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeA .
+
+:IFC_2HmFfYHsL2OPZKrO6tYf-1 a owl:NamedIndividual ;
+    rdfs:label "IfcWall first_column:first_column:1734630"@en ;
+    dcterms:identifier "2HmFfYHsL2OPZKrO6tYf$1" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeC .
+
+:IFC_2QEzj1Im5478gG84LIeYTv a owl:NamedIndividual ;
+    rdfs:label "IfcWall Castelnuovo_wall6:Castelnuovo_wall3:1716643"@en ;
+    dcterms:identifier "2QEzj1Im5478gG84LIeYTv" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeB .
+
+:IFC_2QEzj1Im5478gG84LIeYU2 a owl:NamedIndividual ;
+    rdfs:label "IfcWall Castelnuovo6:Castelnuovo3:1716568"@en ;
+    dcterms:identifier "2QEzj1Im5478gG84LIeYU2" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeB .
+
+:IFC_2SDwapJ-z32OyuRGCv33co a owl:NamedIndividual ;
+    rdfs:label "IfcWall Castelnuovo7:Castelnuovo:1718527"@en ;
+    dcterms:identifier "2SDwapJ$z32OyuRGCv33co" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeA .
+
+:IFC_2XzZEtRJH75fftbZbcqwCB a owl:NamedIndividual ;
+    rdfs:label "IfcWall Castelnuovo_wall5:Castelnuovo_wall3:1690932"@en ;
+    dcterms:identifier "2XzZEtRJH75fftbZbcqwCB" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeB .
+
+:IFC_2XzZEtRJH75fftbZbcqwCR a owl:NamedIndividual ;
+    rdfs:label "IfcWall Castelnuovo_wall4:Castelnuovo_wall3:1690916"@en ;
+    dcterms:identifier "2XzZEtRJH75fftbZbcqwCR" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeB .
+
+:IFC_2XzZEtRJH75fftbZbcqwH8 a owl:NamedIndividual ;
+    rdfs:label "IfcWall Castelnuovo_wall1:Castelnuovo_wall:1690231"@en ;
+    dcterms:identifier "2XzZEtRJH75fftbZbcqwH8" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeB .
+
+:IFC_2XzZEtRJH75fftbZbcqwJ5 a owl:NamedIndividual ;
+    rdfs:label "IfcWall Castelnuovo_wall2:Castelnuovo_wall:1690362"@en ;
+    dcterms:identifier "2XzZEtRJH75fftbZbcqwJ5" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeB .
+
+:IFC_2XzZEtRJH75fftbZbcqwNS a owl:NamedIndividual ;
+    rdfs:label "IfcWall Castelnuovo_wall3:Castelnuovo_wall3:1690595"@en ;
+    dcterms:identifier "2XzZEtRJH75fftbZbcqwNS" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeB .
+
+:IFC_2XzZEtRJH75fftbZbcqwO2 a owl:NamedIndividual ;
+    rdfs:label "IfcWall Castelnuovo_wall:Castelnuovo_wall:1689661"@en ;
+    dcterms:identifier "2XzZEtRJH75fftbZbcqwO2" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeB .
+
+:IFC_2XzZEtRJH75fftbZbcqwY_ a owl:NamedIndividual ;
+    rdfs:label "IfcWall Castelnuovo1:Castelnuovo:1689217"@en ;
+    dcterms:identifier "2XzZEtRJH75fftbZbcqwY_" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeA .
+
+:IFC_2XzZEtRJH75fftbZbcqwZb a owl:NamedIndividual ;
+    rdfs:label "IfcWall Castelnuovo4:Castelnuovo:1689306"@en ;
+    dcterms:identifier "2XzZEtRJH75fftbZbcqwZb" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeA .
+
+:IFC_2jXvyeVVHFE9GajLekYx3J a owl:NamedIndividual ;
+    rdfs:label "IfcDoor enclosed_arch:enclosed_arch:1693023"@en ;
+    dcterms:identifier "2jXvyeVVHFE9GajLekYx3J" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeD .
+
+:IFC_2tiNzAytfCwQOKJzMPcwjv a owl:NamedIndividual ;
+    rdfs:label "IfcWall Castelnuovo8:Castelnuovo13:1761266"@en ;
+    dcterms:identifier "2tiNzAytfCwQOKJzMPcwjv" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeB .
+
+:IFC_37gWW_uGL459BrbCF-MAq8 a owl:NamedIndividual ;
+    rdfs:label "IfcWall Basic Wall:Castelnuovo_typeA:1682705"@en ;
+    dcterms:identifier "37gWW_uGL459BrbCF$MAq8" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeA .
+
+:IFC_3PDcirDNvFvA6IW_GuYSIZ a owl:NamedIndividual ;
+    rdfs:label "IfcWindow archi_window_closed:StoneWindowArch:1712441"@en ;
+    dcterms:identifier "3PDcirDNvFvA6IW_GuYSIZ" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeD .
+
+:IFC_3_wR1BNVfAMeWWIaQS4y2L a owl:NamedIndividual ;
+    rdfs:label "IfcWall Castelnuovo_inside:Castelnuovo_inside:1719200"@en ;
+    dcterms:identifier "3_wR1BNVfAMeWWIaQS4y2L" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeA .
+
+:IFC_3_wR1BNVfAMeWWIaQS4yS9 a owl:NamedIndividual ;
+    rdfs:label "IfcWall Castelnuovo_inside2:Castelnuovo_inside:1719356"@en ;
+    dcterms:identifier "3_wR1BNVfAMeWWIaQS4yS9" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeA .
+
+:IFC_3_wR1BNVfAMeWWIaQS4ySL a owl:NamedIndividual ;
+    rdfs:label "IfcWall Castelnuovo_inside1:Castelnuovo_inside:1719328"@en ;
+    dcterms:identifier "3_wR1BNVfAMeWWIaQS4ySL" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeA .
+
+:IFC_3c8HC29-17vfNgcUAdeh00 a owl:NamedIndividual ;
+    rdfs:label "IfcWall Basic Wall:Castelnuovo_typeD:1683107"@en ;
+    dcterms:identifier "3c8HC29$17vfNgcUAdeh00" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeD .
+
+:IFC_3c8HC29-17vfNgcUAdeh01 a owl:NamedIndividual ;
+    rdfs:label "IfcWall Basic Wall:Castelnuovo_typeD:1683106"@en ;
+    dcterms:identifier "3c8HC29$17vfNgcUAdeh01" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeD .
+
+:IFC_3c8HC29-17vfNgcUAdeh06 a owl:NamedIndividual ;
+    rdfs:label "IfcWall Basic Wall:Castelnuovo_typeD:1683109"@en ;
+    dcterms:identifier "3c8HC29$17vfNgcUAdeh06" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeD .
+
+:IFC_3c8HC29-17vfNgcUAdeh07 a owl:NamedIndividual ;
+    rdfs:label "IfcWall Basic Wall:Castelnuovo_typeD:1683108"@en ;
+    dcterms:identifier "3c8HC29$17vfNgcUAdeh07" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeD .
+
+:IFC_3c8HC29-17vfNgcUAdeh3G a owl:NamedIndividual ;
+    rdfs:label "IfcWall Basic Wall:Castelnuovo_typeC:1683059"@en ;
+    dcterms:identifier "3c8HC29$17vfNgcUAdeh3G" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeC .
+
+:IFC_3c8HC29-17vfNgcUAdeh3H a owl:NamedIndividual ;
+    rdfs:label "IfcWall Basic Wall:Castelnuovo_typeC:1683058"@en ;
+    dcterms:identifier "3c8HC29$17vfNgcUAdeh3H" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeC .
+
+:IFC_3c8HC29-17vfNgcUAdeh3I a owl:NamedIndividual ;
+    rdfs:label "IfcWall Basic Wall:Castelnuovo_typeC:1683057"@en ;
+    dcterms:identifier "3c8HC29$17vfNgcUAdeh3I" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeC .
+
+:IFC_3c8HC29-17vfNgcUAdeh3J a owl:NamedIndividual ;
+    rdfs:label "IfcWall Basic Wall:Castelnuovo_typeC:1683056"@en ;
+    dcterms:identifier "3c8HC29$17vfNgcUAdeh3J" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Tufelli_masonry_typeC .
+
 :ISISE_UMinho a owl:NamedIndividual,
         foaf:Organization ;
     foaf:member :DanielOliveira,
@@ -72,16 +432,6 @@
         :PreSurveyCadastralMap,
         :RawScan,
         :ReCapProject .
-
-:BIMModel a owl:NamedIndividual,
-        hsv:BuildingInformationModel ;
-    rdfs:label "final_example.ifc (IFC4), exported from Autodesk Revit 2027"@en ;
-    prov:wasDerivedFrom :ReCapProject ;
-    prov:wasGeneratedBy :BIMModelling ;
-    hsv:hasAuthor :MariaLauraLeonardi ;
-    hsv:postProcessedBy :DanielOliveira,
-        :ElenaGigliarelli,
-        :MiguelAzenha .
 
 :BIMModelling a owl:NamedIndividual,
         prov:Activity ;
@@ -503,19 +853,6 @@
         prov:Association ;
     prov:agent :MiguelAzenha ;
     prov:hadRole :Role_Supervisor .
-
-:Tufelli_masonry_typeA a owl:NamedIndividual,
-        skos:Concept ;
-    rdfs:label "Tufelli_masonry_typeA"@en ;
-    rdfs:comment "Mortar scored plain 'lime' (conservative) rather than crediting the pozzolana content mentioned in the manuscript with a hydraulic-lime-level score - the pozzolana's real contribution to mortar performance was not tested, only described qualitatively"@en,
-        "Vertical joint staggering scored 'partially_staggered' (conservative) rather than 'properly_staggered' - not directly measurable from the available photos at typical phone-camera resolution/angle"@en ;
-    skos:definition "Regular tufo masonry, fairly continuous coursing, well-cut stone voussoirs at openings"@en .
-
-:Tufelli_masonry_typeC a owl:NamedIndividual,
-        skos:Concept ;
-    rdfs:label "Tufelli_masonry_typeC"@en ;
-    rdfs:comment "Scores kept uniformly low across all 7 parameters per the manuscript's explicit statement that this residential fabric has 'more frequent use of reused bricks, and greater variability in coursing and joint execution' than the representative architecture its local-technique description is based on - a stated characterisation from the manuscript, not read off any single photo"@en ;
-    skos:definition "Patched/reworked masonry, mixed exposed stone and infill/repairs, brick dentil cornice, evidence of blocked former openings"@en .
 
 :Unit_417 a owl:NamedIndividual,
         hsv:StructuralUnit ;
@@ -1179,13 +1516,6 @@
     hsv:postProcessedBy :MariaLauraLeonardi,
         :MicheleCalvano .
 
-:Tufelli_masonry_typeB a owl:NamedIndividual,
-        skos:Concept ;
-    rdfs:label "Tufelli_masonry_typeB"@en ;
-    rdfs:comment "Same conservative mortar assumption as typeA (plain lime, not hydraulic-boosted)"@en,
-        "Vertical joint staggering scored 'partially_staggered' from the visibly less regular coursing - not measured"@en ;
-    skos:definition "Irregular tufo masonry, discontinuous coursing, brick relieving arches at openings, squared corner quoins"@en .
-
 :Facade_417b a owl:NamedIndividual,
         hsto:Facade,
         hsv:Facade ;
@@ -1203,12 +1533,6 @@
 :Role_Supervisor a owl:NamedIndividual,
         prov:Role ;
     rdfs:label "Supervisor"@en .
-
-:Tufelli_masonry_typeD a owl:NamedIndividual,
-        skos:Concept ;
-    rdfs:label "Tufelli_masonry_typeD"@en ;
-    rdfs:comment "ENTIRELY assumed, not observed: scored identically to typeB (the 'ordinary/irregular' type) as the most defensible default for an unexceptional rendered facade in the same aggregate, rather than typeA (visibly higher quality, tied to specific observed stonework at door openings that this facade's render gives no evidence for) or typeC (visibly patched/reworked, again no evidence either way). This is the weakest-grounded of the four classifications - revisit first if render is ever removed, or if there is independent reason (archival, structural survey) to place this facade in a specific construction phase."@en ;
-    skos:definition "Fully rendered facade, masonry not directly observable - assumed by construction-era analogy to typeB"@en .
 
 :DanielOliveira a owl:NamedIndividual,
         foaf:Person,
@@ -1290,6 +1614,12 @@
         hsv:TraditionalConstructionTechnique ;
     rdfs:label "Muratura a tufelli"@en .
 
+:Tufelli_masonry_typeC a owl:NamedIndividual,
+        skos:Concept ;
+    rdfs:label "Tufelli_masonry_typeC"@en ;
+    rdfs:comment "Scores kept uniformly low across all 7 parameters per the manuscript's explicit statement that this residential fabric has 'more frequent use of reused bricks, and greater variability in coursing and joint execution' than the representative architecture its local-technique description is based on - a stated characterisation from the manuscript, not read off any single photo"@en ;
+    skos:definition "Patched/reworked masonry, mixed exposed stone and infill/repairs, brick dentil cornice, evidence of blocked former openings"@en .
+
 :Facade_417c a owl:NamedIndividual,
         hsto:Facade,
         hsv:Facade ;
@@ -1328,6 +1658,26 @@
         :Photo_417a_12,
         :Photo_417a_13 .
 
+:Tufelli_masonry_typeD a owl:NamedIndividual,
+        skos:Concept ;
+    rdfs:label "Tufelli_masonry_typeD"@en ;
+    rdfs:comment "ENTIRELY assumed, not observed: scored identically to typeB (the 'ordinary/irregular' type) as the most defensible default for an unexceptional rendered facade in the same aggregate, rather than typeA (visibly higher quality, tied to specific observed stonework at door openings that this facade's render gives no evidence for) or typeC (visibly patched/reworked, again no evidence either way). This is the weakest-grounded of the four classifications - revisit first if render is ever removed, or if there is independent reason (archival, structural survey) to place this facade in a specific construction phase."@en ;
+    skos:definition "Fully rendered facade, masonry not directly observable - assumed by construction-era analogy to typeB"@en .
+
+:Tufelli_masonry_typeB a owl:NamedIndividual,
+        skos:Concept ;
+    rdfs:label "Tufelli_masonry_typeB"@en ;
+    rdfs:comment "Same conservative mortar assumption as typeA (plain lime, not hydraulic-boosted)"@en,
+        "Vertical joint staggering scored 'partially_staggered' from the visibly less regular coursing - not measured"@en ;
+    skos:definition "Irregular tufo masonry, discontinuous coursing, brick relieving arches at openings, squared corner quoins"@en .
+
+:Tufelli_masonry_typeA a owl:NamedIndividual,
+        skos:Concept ;
+    rdfs:label "Tufelli_masonry_typeA"@en ;
+    rdfs:comment "Mortar scored plain 'lime' (conservative) rather than crediting the pozzolana content mentioned in the manuscript with a hydraulic-lime-level score - the pozzolana's real contribution to mortar performance was not tested, only described qualitatively"@en,
+        "Vertical joint staggering scored 'partially_staggered' (conservative) rather than 'properly_staggered' - not directly measurable from the available photos at typical phone-camera resolution/angle"@en ;
+    skos:definition "Regular tufo masonry, fairly continuous coursing, well-cut stone voussoirs at openings"@en .
+
 :PhotographicCampaign a owl:NamedIndividual,
         prov:Activity ;
     rdfs:label "Photographic survey campaign"@en ;
@@ -1345,6 +1695,16 @@
         foaf:Person,
         hsv:Inspector ;
     foaf:name "Stefano Cursi" .
+
+:BIMModel a owl:NamedIndividual,
+        hsv:BuildingInformationModel ;
+    rdfs:label "final_example.ifc (IFC4), exported from Autodesk Revit 2027"@en ;
+    prov:wasDerivedFrom :ReCapProject ;
+    prov:wasGeneratedBy :BIMModelling ;
+    hsv:hasAuthor :MariaLauraLeonardi ;
+    hsv:postProcessedBy :DanielOliveira,
+        :ElenaGigliarelli,
+        :MiguelAzenha .
 
 :MariaLauraLeonardi a owl:NamedIndividual,
         foaf:Person,

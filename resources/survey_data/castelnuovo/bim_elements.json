@@ -1,0 +1,1403 @@
+{
+  "_meta": {
+    "source": "resources/ifc_examples/castelnuovo/final_example.ifc",
+    "description": "Building elements of the BIM model and their materials, exported by scripts/export_bim_for_web.py. masonry_type is the tufelli material of the element, which links it to the masonry type of the knowledge graph."
+  },
+  "elements": [
+    {
+      "global_id": "2jXvyeVVHFE9GajLekYx5r",
+      "ifc_class": "IfcDoor",
+      "name": "Arch1:Arch1:1692921",
+      "materials": [
+        "Stone"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "2jXvyeVVHFE9GajLekYx_G",
+      "ifc_class": "IfcDoor",
+      "name": "Door:Door:1694236",
+      "materials": [
+        "Steel",
+        "Stone"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "0F0gJxCaz6DgMK0q1JiOZq",
+      "ifc_class": "IfcDoor",
+      "name": "DoorV2:DoorV2:1721146",
+      "materials": [
+        "Bricks"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "0F0gJxCaz6DgMK0q1JiO6j",
+      "ifc_class": "IfcDoor",
+      "name": "DoorV2:DoorV2:1722979",
+      "materials": [
+        "Bricks"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "0F0gJxCaz6DgMK0q1JiOR2",
+      "ifc_class": "IfcDoor",
+      "name": "DoorV2:DoorV2:1723660",
+      "materials": [
+        "Bricks"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "0F0gJxCaz6DgMK0q1JiON_",
+      "ifc_class": "IfcDoor",
+      "name": "DoorV2:DoorV2:1723952",
+      "materials": [
+        "Bricks"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "0$ZVtLQ75EtvwV7Alme$6k",
+      "ifc_class": "IfcDoor",
+      "name": "DoorV2:DoorV2:1727402",
+      "materials": [
+        "Bricks"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "0aLNXoc1TDjApGVJTVMWi8",
+      "ifc_class": "IfcDoor",
+      "name": "DoorV2:DoorV2:1753723",
+      "materials": [
+        "Bricks"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "2LX1lxEB13yROcdsYV7Vts",
+      "ifc_class": "IfcDoor",
+      "name": "DoorV2:DoorV2:1757903",
+      "materials": [
+        "Bricks"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "1L7Qk_WJzBIfm4Xr$$3Aef",
+      "ifc_class": "IfcDoor",
+      "name": "DoorV2:DoorV2:1765621",
+      "materials": [
+        "Bricks"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "0tST5p$2H8xxCcbRWOQUWP",
+      "ifc_class": "IfcDoor",
+      "name": "DoorV2:DoorV2:1768706",
+      "materials": [
+        "Bricks"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "0tST5p$2H8xxCcbRWOQUXK",
+      "ifc_class": "IfcDoor",
+      "name": "DoorV2:DoorV2:1768783",
+      "materials": [
+        "Bricks"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "2jXvyeVVHFE9GajLekYx3J",
+      "ifc_class": "IfcDoor",
+      "name": "enclosed_arch:enclosed_arch:1693023",
+      "materials": [
+        "Stone",
+        "Tufelli_masonry_typeD",
+        "Timber"
+      ],
+      "masonry_type": "Tufelli_masonry_typeD"
+    },
+    {
+      "global_id": "1HfLPk$M547Aaac6ue3X1s",
+      "ifc_class": "IfcDoor",
+      "name": "enclosed_archv2:enclosed_archv2:1707972",
+      "materials": [
+        "Timber",
+        "Stone",
+        "Tufelli_masonry_typeD"
+      ],
+      "masonry_type": "Tufelli_masonry_typeD"
+    },
+    {
+      "global_id": "08pzrbE8X9reLLOmu2mMEv",
+      "ifc_class": "IfcDoor",
+      "name": "simple_arch_door:simple_arch_door:1700736",
+      "materials": [
+        "Stone"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "1HfLPk$M547Aaac6ue3Wlx",
+      "ifc_class": "IfcDoor",
+      "name": "simple_arch_door:simple_arch_door:1709129",
+      "materials": [
+        "Stone"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "2ZoDGSMBbEOf6SBMxlu$bS",
+      "ifc_class": "IfcSlab",
+      "name": "Floor:Historic_timber_floor:1686129",
+      "materials": [
+        "Timber_beams_assembly"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "1WUN27PtDFEf9VO7IMxZ4N",
+      "ifc_class": "IfcSlab",
+      "name": "Floor:Historic_timber_floor:1727125",
+      "materials": [
+        "Timber_beams_assembly"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "0aLNXoc1TDjApGVJTVMWep",
+      "ifc_class": "IfcSlab",
+      "name": "Floor:Historic_timber_floor:1753920",
+      "materials": [
+        "Timber_beams_assembly"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "0aLNXoc1TDjApGVJTVMWhK",
+      "ifc_class": "IfcSlab",
+      "name": "Floor:Historic_timber_floor:1754023",
+      "materials": [
+        "Timber_beams_assembly"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "0aLNXoc1TDjApGVJTVMWyK",
+      "ifc_class": "IfcSlab",
+      "name": "Floor:Historic_timber_floor:1754727",
+      "materials": [
+        "Timber_beams_assembly"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "0aLNXoc1TDjApGVJTVMWvH",
+      "ifc_class": "IfcSlab",
+      "name": "Floor:Historic_timber_floor:1754914",
+      "materials": [
+        "Timber_beams_assembly"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "1TbC1n9qrBqe291LaEWwhn",
+      "ifc_class": "IfcSlab",
+      "name": "Floor:Historic_timber_floor:1755403",
+      "materials": [
+        "Timber_beams_assembly"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "0ea1Xu0hL5yfwWWtm$G$jn",
+      "ifc_class": "IfcSlab",
+      "name": "Floor:Historic_timber_floor:1755709",
+      "materials": [
+        "Timber_beams_assembly"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "0ea1Xu0hL5yfwWWtm$G$iY",
+      "ifc_class": "IfcSlab",
+      "name": "Floor:Historic_timber_floor:1755758",
+      "materials": [
+        "Timber_beams_assembly"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "2V0b55YKLC69NBLE4qT53m",
+      "ifc_class": "IfcSlab",
+      "name": "Floor:Historic_timber_floor:1756699",
+      "materials": [
+        "Timber_beams_assembly"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "2V0b55YKLC69NBLE4qT53A",
+      "ifc_class": "IfcSlab",
+      "name": "Floor:Historic_timber_floor:1756705",
+      "materials": [
+        "Timber_beams_assembly"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "2V0b55YKLC69NBLE4qT532",
+      "ifc_class": "IfcSlab",
+      "name": "Floor:Historic_timber_floor:1756713",
+      "materials": [
+        "Timber_beams_assembly"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "2V0b55YKLC69NBLE4qT53R",
+      "ifc_class": "IfcSlab",
+      "name": "Floor:Historic_timber_floor:1756720",
+      "materials": [
+        "Timber_beams_assembly"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "2V0b55YKLC69NBLE4qT53S",
+      "ifc_class": "IfcSlab",
+      "name": "Floor:Historic_timber_floor:1756727",
+      "materials": [
+        "Timber_beams_assembly"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "2$3SCItxT4A8su8f9CP1OT",
+      "ifc_class": "IfcSlab",
+      "name": "Floor:Historic_timber_floor:1757671",
+      "materials": [
+        "Timber_beams_assembly"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "2kjAmaXGX8_ArK1ltgMuuR",
+      "ifc_class": "IfcSlab",
+      "name": "Floor:Historic_timber_floor:1758351",
+      "materials": [
+        "Timber_beams_assembly"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "2kjAmaXGX8_ArK1ltgMu_A",
+      "ifc_class": "IfcSlab",
+      "name": "Floor:Historic_timber_floor:1758494",
+      "materials": [
+        "Timber_beams_assembly"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "2kjAmaXGX8_ArK1ltgMun2",
+      "ifc_class": "IfcSlab",
+      "name": "Floor:Historic_timber_floor:1758934",
+      "materials": [
+        "Timber_beams_assembly"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "2QMiMIeuj3swzXKmnkAb$X",
+      "ifc_class": "IfcSlab",
+      "name": "Floor:Historic_timber_floor:1759078",
+      "materials": [
+        "Timber_beams_assembly"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "2QMiMIeuj3swzXKmnkAb1d",
+      "ifc_class": "IfcSlab",
+      "name": "Floor:Historic_timber_floor:1759456",
+      "materials": [
+        "Timber_beams_assembly"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "2QMiMIeuj3swzXKmnkAbAC",
+      "ifc_class": "IfcSlab",
+      "name": "Floor:Historic_timber_floor:1759755",
+      "materials": [
+        "Timber_beams_assembly"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "2Uhonyg41F_hXs9lWLrHnn",
+      "ifc_class": "IfcSlab",
+      "name": "Floor:Historic_timber_floor:1760129",
+      "materials": [
+        "Timber_beams_assembly"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "0yzvfgbdPEuB0LQd0lnCzS",
+      "ifc_class": "IfcSlab",
+      "name": "Floor:Historic_timber_floor:1761013",
+      "materials": [
+        "Timber_beams_assembly"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "2lQPUVFlT0$uNZ7iF0qA0C",
+      "ifc_class": "IfcSlab",
+      "name": "Floor:Historic_timber_floor:1761556",
+      "materials": [
+        "Timber_beams_assembly"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "0Q0zkUcpr56Qzun6QPIfow",
+      "ifc_class": "IfcSlab",
+      "name": "Floor:Historic_timber_floor:1762795",
+      "materials": [
+        "Timber_beams_assembly"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "29EhuKJnX5AwZm6G$V3dVQ",
+      "ifc_class": "IfcSlab",
+      "name": "Floor:Historic_timber_floor:1763075",
+      "materials": [
+        "Timber_beams_assembly"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "29EhuKJnX5AwZm6G$V3dZ5",
+      "ifc_class": "IfcSlab",
+      "name": "Floor:Historic_timber_floor:1763356",
+      "materials": [
+        "Timber_beams_assembly"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "29EhuKJnX5AwZm6G$V3dWl",
+      "ifc_class": "IfcSlab",
+      "name": "Floor:Historic_timber_floor:1763574",
+      "materials": [
+        "Timber_beams_assembly"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "29EhuKJnX5AwZm6G$V3dd_",
+      "ifc_class": "IfcSlab",
+      "name": "Floor:Historic_timber_floor:1763623",
+      "materials": [
+        "Timber_beams_assembly"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "29EhuKJnX5AwZm6G$V3dgd",
+      "ifc_class": "IfcSlab",
+      "name": "Floor:Historic_timber_floor:1763966",
+      "materials": [
+        "Timber_beams_assembly"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "1L7Qk_WJzBIfm4Xr$$3BV9",
+      "ifc_class": "IfcSlab",
+      "name": "Floor:Historic_timber_floor:1764629",
+      "materials": [
+        "Timber_beams_assembly"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "1L7Qk_WJzBIfm4Xr$$3AfQ",
+      "ifc_class": "IfcSlab",
+      "name": "Floor:Historic_timber_floor:1765510",
+      "materials": [
+        "Timber_beams_assembly"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "1dGupIgZL6WgUMjgZKGAdD",
+      "ifc_class": "IfcStair",
+      "name": "Stairs3:Stairs3:1753011",
+      "materials": [
+        "StoneStairs"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "0DMSD0RDPERO_jE_YMCqxm",
+      "ifc_class": "IfcStair",
+      "name": "StairsCastelnuovo:StairsCastelnuovo:1746094",
+      "materials": [
+        "StoneStairs"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "1AbGxiHpn5sOnYo$kgOgNY",
+      "ifc_class": "IfcStair",
+      "name": "Stairs_castelnuovo2:Stairs_castelnuovo2:1750292",
+      "materials": [
+        "StoneStairs"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "1L7Qk_WJzBIfm4Xr$$3BTL",
+      "ifc_class": "IfcWall",
+      "name": "Basic Wall:Castelnuovo_internal:1764745",
+      "materials": [
+        "Lightweigth_wood"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "1L7Qk_WJzBIfm4Xr$$3AY0",
+      "ifc_class": "IfcWall",
+      "name": "Basic Wall:Castelnuovo_internal:1765980",
+      "materials": [
+        "Lightweigth_wood"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "1Hx76Um7X4IO1wNJM$6rwQ",
+      "ifc_class": "IfcWall",
+      "name": "Basic Wall:Castelnuovo_internal:1767230",
+      "materials": [
+        "Lightweigth_wood"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "1Hx76Um7X4IO1wNJM$6r2E",
+      "ifc_class": "IfcWall",
+      "name": "Basic Wall:Castelnuovo_internal:1767722",
+      "materials": [
+        "Lightweigth_wood"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "1Hx76Um7X4IO1wNJM$6rEF",
+      "ifc_class": "IfcWall",
+      "name": "Basic Wall:Castelnuovo_internal:1767979",
+      "materials": [
+        "Lightweigth_wood"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "1Hx76Um7X4IO1wNJM$6rBZ",
+      "ifc_class": "IfcWall",
+      "name": "Basic Wall:Castelnuovo_internal:1768263",
+      "materials": [
+        "Lightweigth_wood"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "0ePUVglzn3UuI9a0JU0ykb",
+      "ifc_class": "IfcWall",
+      "name": "Basic Wall:Castelnuovo_internal:1768637",
+      "materials": [
+        "Lightweigth_wood"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "0GisCWViz2PeUrBi4wgVRW",
+      "ifc_class": "IfcWall",
+      "name": "Basic Wall:Castelnuovo_typeA:1674798",
+      "materials": [
+        "Tufelli_masonry_typeA"
+      ],
+      "masonry_type": "Tufelli_masonry_typeA"
+    },
+    {
+      "global_id": "0GisCWViz2PeUrBi4wgVUt",
+      "ifc_class": "IfcWall",
+      "name": "Basic Wall:Castelnuovo_typeA:1675129",
+      "materials": [
+        "Tufelli_masonry_typeA"
+      ],
+      "masonry_type": "Tufelli_masonry_typeA"
+    },
+    {
+      "global_id": "0GisCWViz2PeUrBi4wgUZp",
+      "ifc_class": "IfcWall",
+      "name": "Basic Wall:Castelnuovo_typeA:1675325",
+      "materials": [
+        "Tufelli_masonry_typeA"
+      ],
+      "masonry_type": "Tufelli_masonry_typeA"
+    },
+    {
+      "global_id": "0GisCWViz2PeUrBi4wgUdW",
+      "ifc_class": "IfcWall",
+      "name": "Basic Wall:Castelnuovo_typeA:1675566",
+      "materials": [
+        "Tufelli_masonry_typeA"
+      ],
+      "masonry_type": "Tufelli_masonry_typeA"
+    },
+    {
+      "global_id": "0GisCWViz2PeUrBi4wgUa5",
+      "ifc_class": "IfcWall",
+      "name": "Basic Wall:Castelnuovo_typeA:1675723",
+      "materials": [
+        "Tufelli_masonry_typeA"
+      ],
+      "masonry_type": "Tufelli_masonry_typeA"
+    },
+    {
+      "global_id": "112HIUctr2yw5OqZgr3kPn",
+      "ifc_class": "IfcWall",
+      "name": "Basic Wall:Castelnuovo_typeA:1676333",
+      "materials": [
+        "Tufelli_masonry_typeA"
+      ],
+      "masonry_type": "Tufelli_masonry_typeA"
+    },
+    {
+      "global_id": "112HIUctr2yw5OqZgr3kPo",
+      "ifc_class": "IfcWall",
+      "name": "Basic Wall:Castelnuovo_typeA:1676334",
+      "materials": [
+        "Tufelli_masonry_typeA"
+      ],
+      "masonry_type": "Tufelli_masonry_typeA"
+    },
+    {
+      "global_id": "112HIUctr2yw5OqZgr3kPp",
+      "ifc_class": "IfcWall",
+      "name": "Basic Wall:Castelnuovo_typeA:1676335",
+      "materials": [
+        "Tufelli_masonry_typeA"
+      ],
+      "masonry_type": "Tufelli_masonry_typeA"
+    },
+    {
+      "global_id": "112HIUctr2yw5OqZgr3kPi",
+      "ifc_class": "IfcWall",
+      "name": "Basic Wall:Castelnuovo_typeA:1676336",
+      "materials": [
+        "Tufelli_masonry_typeA"
+      ],
+      "masonry_type": "Tufelli_masonry_typeA"
+    },
+    {
+      "global_id": "112HIUctr2yw5OqZgr3kPj",
+      "ifc_class": "IfcWall",
+      "name": "Basic Wall:Castelnuovo_typeA:1676337",
+      "materials": [
+        "Tufelli_masonry_typeA"
+      ],
+      "masonry_type": "Tufelli_masonry_typeA"
+    },
+    {
+      "global_id": "112HIUctr2yw5OqZgr3kPe",
+      "ifc_class": "IfcWall",
+      "name": "Basic Wall:Castelnuovo_typeA:1676340",
+      "materials": [
+        "Tufelli_masonry_typeA"
+      ],
+      "masonry_type": "Tufelli_masonry_typeA"
+    },
+    {
+      "global_id": "112HIUctr2yw5OqZgr3kPf",
+      "ifc_class": "IfcWall",
+      "name": "Basic Wall:Castelnuovo_typeA:1676341",
+      "materials": [
+        "Tufelli_masonry_typeA"
+      ],
+      "masonry_type": "Tufelli_masonry_typeA"
+    },
+    {
+      "global_id": "112HIUctr2yw5OqZgr3kPg",
+      "ifc_class": "IfcWall",
+      "name": "Basic Wall:Castelnuovo_typeA:1676342",
+      "materials": [
+        "Tufelli_masonry_typeA"
+      ],
+      "masonry_type": "Tufelli_masonry_typeA"
+    },
+    {
+      "global_id": "112HIUctr2yw5OqZgr3kPh",
+      "ifc_class": "IfcWall",
+      "name": "Basic Wall:Castelnuovo_typeA:1676343",
+      "materials": [
+        "Tufelli_masonry_typeA"
+      ],
+      "masonry_type": "Tufelli_masonry_typeA"
+    },
+    {
+      "global_id": "112HIUctr2yw5OqZgr3kPa",
+      "ifc_class": "IfcWall",
+      "name": "Basic Wall:Castelnuovo_typeA:1676344",
+      "materials": [
+        "Tufelli_masonry_typeA"
+      ],
+      "masonry_type": "Tufelli_masonry_typeA"
+    },
+    {
+      "global_id": "112HIUctr2yw5OqZgr3ksc",
+      "ifc_class": "IfcWall",
+      "name": "Basic Wall:Castelnuovo_typeA:1679354",
+      "materials": [
+        "Tufelli_masonry_typeA"
+      ],
+      "masonry_type": "Tufelli_masonry_typeA"
+    },
+    {
+      "global_id": "37gWW_uGL459BrbCF$MAq8",
+      "ifc_class": "IfcWall",
+      "name": "Basic Wall:Castelnuovo_typeA:1682705",
+      "materials": [
+        "Tufelli_masonry_typeA"
+      ],
+      "masonry_type": "Tufelli_masonry_typeA"
+    },
+    {
+      "global_id": "0F0gJxCaz6DgMK0q1JiO7L",
+      "ifc_class": "IfcWall",
+      "name": "Basic Wall:Castelnuovo_typeA:1722907",
+      "materials": [
+        "Tufelli_masonry_typeA"
+      ],
+      "masonry_type": "Tufelli_masonry_typeA"
+    },
+    {
+      "global_id": "112HIUctr2yw5OqZgr3kla",
+      "ifc_class": "IfcWall",
+      "name": "Basic Wall:Castelnuovo_typeC:1677752",
+      "materials": [
+        "Tufelli_masonry_typeC"
+      ],
+      "masonry_type": "Tufelli_masonry_typeC"
+    },
+    {
+      "global_id": "112HIUctr2yw5OqZgr3kXe",
+      "ifc_class": "IfcWall",
+      "name": "Basic Wall:Castelnuovo_typeC:1677876",
+      "materials": [
+        "Tufelli_masonry_typeC"
+      ],
+      "masonry_type": "Tufelli_masonry_typeC"
+    },
+    {
+      "global_id": "112HIUctr2yw5OqZgr3kYs",
+      "ifc_class": "IfcWall",
+      "name": "Basic Wall:Castelnuovo_typeC:1678058",
+      "materials": [
+        "Tufelli_masonry_typeC"
+      ],
+      "masonry_type": "Tufelli_masonry_typeC"
+    },
+    {
+      "global_id": "112HIUctr2yw5OqZgr3kaS",
+      "ifc_class": "IfcWall",
+      "name": "Basic Wall:Castelnuovo_typeC:1678144",
+      "materials": [
+        "Tufelli_masonry_typeC"
+      ],
+      "masonry_type": "Tufelli_masonry_typeC"
+    },
+    {
+      "global_id": "3c8HC29$17vfNgcUAdeh3J",
+      "ifc_class": "IfcWall",
+      "name": "Basic Wall:Castelnuovo_typeC:1683056",
+      "materials": [
+        "Tufelli_masonry_typeC"
+      ],
+      "masonry_type": "Tufelli_masonry_typeC"
+    },
+    {
+      "global_id": "3c8HC29$17vfNgcUAdeh3I",
+      "ifc_class": "IfcWall",
+      "name": "Basic Wall:Castelnuovo_typeC:1683057",
+      "materials": [
+        "Tufelli_masonry_typeC"
+      ],
+      "masonry_type": "Tufelli_masonry_typeC"
+    },
+    {
+      "global_id": "3c8HC29$17vfNgcUAdeh3H",
+      "ifc_class": "IfcWall",
+      "name": "Basic Wall:Castelnuovo_typeC:1683058",
+      "materials": [
+        "Tufelli_masonry_typeC"
+      ],
+      "masonry_type": "Tufelli_masonry_typeC"
+    },
+    {
+      "global_id": "3c8HC29$17vfNgcUAdeh3G",
+      "ifc_class": "IfcWall",
+      "name": "Basic Wall:Castelnuovo_typeC:1683059",
+      "materials": [
+        "Tufelli_masonry_typeC"
+      ],
+      "masonry_type": "Tufelli_masonry_typeC"
+    },
+    {
+      "global_id": "3c8HC29$17vfNgcUAdeh01",
+      "ifc_class": "IfcWall",
+      "name": "Basic Wall:Castelnuovo_typeD:1683106",
+      "materials": [
+        "Tufelli_masonry_typeD"
+      ],
+      "masonry_type": "Tufelli_masonry_typeD"
+    },
+    {
+      "global_id": "3c8HC29$17vfNgcUAdeh00",
+      "ifc_class": "IfcWall",
+      "name": "Basic Wall:Castelnuovo_typeD:1683107",
+      "materials": [
+        "Tufelli_masonry_typeD"
+      ],
+      "masonry_type": "Tufelli_masonry_typeD"
+    },
+    {
+      "global_id": "3c8HC29$17vfNgcUAdeh07",
+      "ifc_class": "IfcWall",
+      "name": "Basic Wall:Castelnuovo_typeD:1683108",
+      "materials": [
+        "Tufelli_masonry_typeD"
+      ],
+      "masonry_type": "Tufelli_masonry_typeD"
+    },
+    {
+      "global_id": "3c8HC29$17vfNgcUAdeh06",
+      "ifc_class": "IfcWall",
+      "name": "Basic Wall:Castelnuovo_typeD:1683109",
+      "materials": [
+        "Tufelli_masonry_typeD"
+      ],
+      "masonry_type": "Tufelli_masonry_typeD"
+    },
+    {
+      "global_id": "0QfxonMDT2A8cO_M93$yp8",
+      "ifc_class": "IfcWall",
+      "name": "Castelnuovo10:Castelnuovo10:1727088",
+      "materials": [
+        "Tufelli_masonry_typeD"
+      ],
+      "masonry_type": "Tufelli_masonry_typeD"
+    },
+    {
+      "global_id": "2XzZEtRJH75fftbZbcqwY_",
+      "ifc_class": "IfcWall",
+      "name": "Castelnuovo1:Castelnuovo:1689217",
+      "materials": [
+        "Tufelli_masonry_typeA"
+      ],
+      "masonry_type": "Tufelli_masonry_typeA"
+    },
+    {
+      "global_id": "1HfLPk$M547Aaac6ue3X37",
+      "ifc_class": "IfcWall",
+      "name": "Castelnuovo2:Castelnuovo3:1707893",
+      "materials": [
+        "Tufelli_masonry_typeB"
+      ],
+      "masonry_type": "Tufelli_masonry_typeB"
+    },
+    {
+      "global_id": "0CvVHHujLB8fkhpCAWbiT3",
+      "ifc_class": "IfcWall",
+      "name": "Castelnuovo3:Castelnuovo3:1707835",
+      "materials": [
+        "Tufelli_masonry_typeB"
+      ],
+      "masonry_type": "Tufelli_masonry_typeB"
+    },
+    {
+      "global_id": "2XzZEtRJH75fftbZbcqwZb",
+      "ifc_class": "IfcWall",
+      "name": "Castelnuovo4:Castelnuovo:1689306",
+      "materials": [
+        "Tufelli_masonry_typeA"
+      ],
+      "masonry_type": "Tufelli_masonry_typeA"
+    },
+    {
+      "global_id": "1HfLPk$M547Aaac6ue3X0L",
+      "ifc_class": "IfcWall",
+      "name": "Castelnuovo5:Castelnuovo3:1707943",
+      "materials": [
+        "Tufelli_masonry_typeB"
+      ],
+      "masonry_type": "Tufelli_masonry_typeB"
+    },
+    {
+      "global_id": "2QEzj1Im5478gG84LIeYU2",
+      "ifc_class": "IfcWall",
+      "name": "Castelnuovo6:Castelnuovo3:1716568",
+      "materials": [
+        "Tufelli_masonry_typeB"
+      ],
+      "masonry_type": "Tufelli_masonry_typeB"
+    },
+    {
+      "global_id": "2SDwapJ$z32OyuRGCv33co",
+      "ifc_class": "IfcWall",
+      "name": "Castelnuovo7:Castelnuovo:1718527",
+      "materials": [
+        "Tufelli_masonry_typeA"
+      ],
+      "masonry_type": "Tufelli_masonry_typeA"
+    },
+    {
+      "global_id": "2tiNzAytfCwQOKJzMPcwjv",
+      "ifc_class": "IfcWall",
+      "name": "Castelnuovo8:Castelnuovo13:1761266",
+      "materials": [
+        "Tufelli_masonry_typeB"
+      ],
+      "masonry_type": "Tufelli_masonry_typeB"
+    },
+    {
+      "global_id": "0QfxonMDT2A8cO_M93$yye",
+      "ifc_class": "IfcWall",
+      "name": "Castelnuovo9:Castelnuovo9:1726864",
+      "materials": [
+        "Tufelli_masonry_typeD"
+      ],
+      "masonry_type": "Tufelli_masonry_typeD"
+    },
+    {
+      "global_id": "0M1S9S_Qr3IPBMDqinoabk",
+      "ifc_class": "IfcWall",
+      "name": "Castelnuovo:Castelnuovo:1680661",
+      "materials": [
+        "Tufelli_masonry_typeA"
+      ],
+      "masonry_type": "Tufelli_masonry_typeA"
+    },
+    {
+      "global_id": "3_wR1BNVfAMeWWIaQS4ySL",
+      "ifc_class": "IfcWall",
+      "name": "Castelnuovo_inside1:Castelnuovo_inside:1719328",
+      "materials": [
+        "Tufelli_masonry_typeA"
+      ],
+      "masonry_type": "Tufelli_masonry_typeA"
+    },
+    {
+      "global_id": "3_wR1BNVfAMeWWIaQS4yS9",
+      "ifc_class": "IfcWall",
+      "name": "Castelnuovo_inside2:Castelnuovo_inside:1719356",
+      "materials": [
+        "Tufelli_masonry_typeA"
+      ],
+      "masonry_type": "Tufelli_masonry_typeA"
+    },
+    {
+      "global_id": "3_wR1BNVfAMeWWIaQS4y2L",
+      "ifc_class": "IfcWall",
+      "name": "Castelnuovo_inside:Castelnuovo_inside:1719200",
+      "materials": [
+        "Tufelli_masonry_typeA"
+      ],
+      "masonry_type": "Tufelli_masonry_typeA"
+    },
+    {
+      "global_id": "2XzZEtRJH75fftbZbcqwH8",
+      "ifc_class": "IfcWall",
+      "name": "Castelnuovo_wall1:Castelnuovo_wall:1690231",
+      "materials": [
+        "Tufelli_masonry_typeB"
+      ],
+      "masonry_type": "Tufelli_masonry_typeB"
+    },
+    {
+      "global_id": "2XzZEtRJH75fftbZbcqwJ5",
+      "ifc_class": "IfcWall",
+      "name": "Castelnuovo_wall2:Castelnuovo_wall:1690362",
+      "materials": [
+        "Tufelli_masonry_typeB"
+      ],
+      "masonry_type": "Tufelli_masonry_typeB"
+    },
+    {
+      "global_id": "2XzZEtRJH75fftbZbcqwNS",
+      "ifc_class": "IfcWall",
+      "name": "Castelnuovo_wall3:Castelnuovo_wall3:1690595",
+      "materials": [
+        "Tufelli_masonry_typeB"
+      ],
+      "masonry_type": "Tufelli_masonry_typeB"
+    },
+    {
+      "global_id": "2XzZEtRJH75fftbZbcqwCR",
+      "ifc_class": "IfcWall",
+      "name": "Castelnuovo_wall4:Castelnuovo_wall3:1690916",
+      "materials": [
+        "Tufelli_masonry_typeB"
+      ],
+      "masonry_type": "Tufelli_masonry_typeB"
+    },
+    {
+      "global_id": "2XzZEtRJH75fftbZbcqwCB",
+      "ifc_class": "IfcWall",
+      "name": "Castelnuovo_wall5:Castelnuovo_wall3:1690932",
+      "materials": [
+        "Tufelli_masonry_typeB"
+      ],
+      "masonry_type": "Tufelli_masonry_typeB"
+    },
+    {
+      "global_id": "2QEzj1Im5478gG84LIeYTv",
+      "ifc_class": "IfcWall",
+      "name": "Castelnuovo_wall6:Castelnuovo_wall3:1716643",
+      "materials": [
+        "Tufelli_masonry_typeB"
+      ],
+      "masonry_type": "Tufelli_masonry_typeB"
+    },
+    {
+      "global_id": "2XzZEtRJH75fftbZbcqwO2",
+      "ifc_class": "IfcWall",
+      "name": "Castelnuovo_wall:Castelnuovo_wall:1689661",
+      "materials": [
+        "Tufelli_masonry_typeB"
+      ],
+      "masonry_type": "Tufelli_masonry_typeB"
+    },
+    {
+      "global_id": "1aMTge6B9DK9$RHbrOwo4u",
+      "ifc_class": "IfcWall",
+      "name": "Wall_ontop:Wall_ontop:1770791",
+      "materials": [
+        "Tufelli_masonry_typeA"
+      ],
+      "masonry_type": "Tufelli_masonry_typeA"
+    },
+    {
+      "global_id": "07H4IE3N17quz_RDvElapV",
+      "ifc_class": "IfcWall",
+      "name": "big_column:big_column:1738268",
+      "materials": [
+        "Tufelli_masonry_typeB"
+      ],
+      "masonry_type": "Tufelli_masonry_typeB"
+    },
+    {
+      "global_id": "1FujFrxrb7ouwnZEeyzKU0",
+      "ifc_class": "IfcWall",
+      "name": "first_column:first_column:1733994",
+      "materials": [
+        "Tufelli_masonry_typeC"
+      ],
+      "masonry_type": "Tufelli_masonry_typeC"
+    },
+    {
+      "global_id": "2HmFfYHsL2OPZKrO6tYf$1",
+      "ifc_class": "IfcWall",
+      "name": "first_column:first_column:1734630",
+      "materials": [
+        "Tufelli_masonry_typeC"
+      ],
+      "masonry_type": "Tufelli_masonry_typeC"
+    },
+    {
+      "global_id": "0cmxDOe$H0xREbbs5sIyWL",
+      "ifc_class": "IfcWindow",
+      "name": "BrickWindow:BrickWindow:1706885",
+      "materials": [
+        "Bricks"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "0cmxDOe$H0xREbbs5sIyXc",
+      "ifc_class": "IfcWindow",
+      "name": "BrickWindow:BrickWindow:1706998",
+      "materials": [
+        "Bricks"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "0cmxDOe$H0xREbbs5sIyzC",
+      "ifc_class": "IfcWindow",
+      "name": "BrickWindow:BrickWindow:1707228",
+      "materials": [
+        "Bricks"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "2cod_9cnH6lgOHU_lV8bpd",
+      "ifc_class": "IfcWindow",
+      "name": "BrickWindow:BrickWindow:1711014",
+      "materials": [
+        "Bricks"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "2cod_9cnH6lgOHU_lV8box",
+      "ifc_class": "IfcWindow",
+      "name": "BrickWindow:BrickWindow:1711098",
+      "materials": [
+        "Bricks"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "2cod_9cnH6lgOHU_lV8bjr",
+      "ifc_class": "IfcWindow",
+      "name": "BrickWindow:BrickWindow:1711156",
+      "materials": [
+        "Bricks"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "2cod_9cnH6lgOHU_lV8bcE",
+      "ifc_class": "IfcWindow",
+      "name": "BrickWindow:BrickWindow:1711823",
+      "materials": [
+        "Bricks"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "3PDcirDNvFvA6IW_GuYSLi",
+      "ifc_class": "IfcWindow",
+      "name": "BrickWindow:BrickWindow:1712374",
+      "materials": [
+        "Bricks"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "08pzrbE8X9reLLOmu2mNod",
+      "ifc_class": "IfcWindow",
+      "name": "Window1:BrickWindow:1698974",
+      "materials": [
+        "Stone"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "0F0gJxCaz6DgMK0q1JiO31",
+      "ifc_class": "IfcWindow",
+      "name": "Window1:BrickWindow:1723151",
+      "materials": [
+        "Stone"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "2jXvyeVVHFE9GajLekYxlE",
+      "ifc_class": "IfcWindow",
+      "name": "Window1:StoneWindows:1695298",
+      "materials": [
+        "Stone"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "2jXvyeVVHFE9GajLekYutY",
+      "ifc_class": "IfcWindow",
+      "name": "Window1:StoneWindows:1697902",
+      "materials": [
+        "Stone"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "2jXvyeVVHFE9GajLekYuts",
+      "ifc_class": "IfcWindow",
+      "name": "Window1:StoneWindows:1697914",
+      "materials": [
+        "Stone"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "3Jmmvoko5D$RwQG6wPqCw5",
+      "ifc_class": "IfcWindow",
+      "name": "Window1:StoneWindows:1698181",
+      "materials": [
+        "Stone"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "3Jmmvoko5D$RwQG6wPqCrK",
+      "ifc_class": "IfcWindow",
+      "name": "Window1:StoneWindows:1698388",
+      "materials": [
+        "Stone"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "3Jmmvoko5D$RwQG6wPqCrZ",
+      "ifc_class": "IfcWindow",
+      "name": "Window1:StoneWindows:1698403",
+      "materials": [
+        "Stone"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "08pzrbE8X9reLLOmu2mNlM",
+      "ifc_class": "IfcWindow",
+      "name": "Window1:StoneWindows:1698799",
+      "materials": [
+        "Stone"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "08pzrbE8X9reLLOmu2mNpl",
+      "ifc_class": "IfcWindow",
+      "name": "Window1:StoneWindows:1699030",
+      "materials": [
+        "Stone"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "08pzrbE8X9reLLOmu2mNsB",
+      "ifc_class": "IfcWindow",
+      "name": "Window1:StoneWindows:1699250",
+      "materials": [
+        "Stone"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "08pzrbE8X9reLLOmu2mMCl",
+      "ifc_class": "IfcWindow",
+      "name": "Window1:StoneWindows:1700630",
+      "materials": [
+        "Stone"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "2cVTFzTer1sumg7afXGJKn",
+      "ifc_class": "IfcWindow",
+      "name": "Window1:StoneWindows:1702018",
+      "materials": [
+        "Stone"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "1b6LOlXV9B9POL9jHQJdDQ",
+      "ifc_class": "IfcWindow",
+      "name": "Window1:StoneWindows:1702223",
+      "materials": [
+        "Stone"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "1b6LOlXV9B9POL9jHQJdFJ",
+      "ifc_class": "IfcWindow",
+      "name": "Window1:StoneWindows:1702342",
+      "materials": [
+        "Stone"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "1b6LOlXV9B9POL9jHQJdF5",
+      "ifc_class": "IfcWindow",
+      "name": "Window1:StoneWindows:1702352",
+      "materials": [
+        "Stone"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "1b6LOlXV9B9POL9jHQJdFW",
+      "ifc_class": "IfcWindow",
+      "name": "Window1:StoneWindows:1702389",
+      "materials": [
+        "Stone"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "1b6LOlXV9B9POL9jHQJd0L",
+      "ifc_class": "IfcWindow",
+      "name": "Window1:StoneWindows:1702400",
+      "materials": [
+        "Stone"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "1b6LOlXV9B9POL9jHQJd0M",
+      "ifc_class": "IfcWindow",
+      "name": "Window1:StoneWindows:1702403",
+      "materials": [
+        "Stone"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "0RG6S63Pr48vit9seLUt1n",
+      "ifc_class": "IfcWindow",
+      "name": "Window1:StoneWindows:1709200",
+      "materials": [
+        "Stone"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "0RG6S63Pr48vit9seLUt1E",
+      "ifc_class": "IfcWindow",
+      "name": "Window1:StoneWindows:1709231",
+      "materials": [
+        "Stone"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "0RG6S63Pr48vit9seLUt6P",
+      "ifc_class": "IfcWindow",
+      "name": "Window1:StoneWindows:1709432",
+      "materials": [
+        "Stone"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "0RG6S63Pr48vit9seLUt5Z",
+      "ifc_class": "IfcWindow",
+      "name": "Window1:StoneWindows:1709442",
+      "materials": [
+        "Stone"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "1_Iq6xIsv1xeO7O4nZAM7L",
+      "ifc_class": "IfcWindow",
+      "name": "Window1:StoneWindows:1709877",
+      "materials": [
+        "Stone"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "2QEzj1Im5478gG84LIeYV0",
+      "ifc_class": "IfcWindow",
+      "name": "Window1:StoneWindows:1716506",
+      "materials": [
+        "Stone"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "2QEzj1Im5478gG84LIeYVv",
+      "ifc_class": "IfcWindow",
+      "name": "Window1:StoneWindows:1716515",
+      "materials": [
+        "Stone"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "1ViGEvFsn0QResAVATv4Um",
+      "ifc_class": "IfcWindow",
+      "name": "Window1:StoneWindows:1720808",
+      "materials": [
+        "Stone"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "0F0gJxCaz6DgMK0q1JiOFl",
+      "ifc_class": "IfcWindow",
+      "name": "Window1:StoneWindows:1722401",
+      "materials": [
+        "Stone"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "2jXvyeVVHFE9GajLekYuS6",
+      "ifc_class": "IfcWindow",
+      "name": "arch_piattabanda:StoneWindowArch:1696394",
+      "materials": [
+        "Stone",
+        "Bricks"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "1b6LOlXV9B9POL9jHQJd0z",
+      "ifc_class": "IfcWindow",
+      "name": "archi_window:StoneWindowArch:1702440",
+      "materials": [
+        "Stone"
+      ],
+      "masonry_type": null
+    },
+    {
+      "global_id": "08pzrbE8X9reLLOmu2mNts",
+      "ifc_class": "IfcWindow",
+      "name": "archi_window_closed:StoneWindowArch:1699279",
+      "materials": [
+        "Stone",
+        "Tufelli_masonry_typeD"
+      ],
+      "masonry_type": "Tufelli_masonry_typeD"
+    },
+    {
+      "global_id": "08pzrbE8X9reLLOmu2mM9m",
+      "ifc_class": "IfcWindow",
+      "name": "archi_window_closed:StoneWindowArch:1700425",
+      "materials": [
+        "Stone",
+        "Tufelli_masonry_typeD"
+      ],
+      "masonry_type": "Tufelli_masonry_typeD"
+    },
+    {
+      "global_id": "3PDcirDNvFvA6IW_GuYSIZ",
+      "ifc_class": "IfcWindow",
+      "name": "archi_window_closed:StoneWindowArch:1712441",
+      "materials": [
+        "Stone",
+        "Tufelli_masonry_typeD"
+      ],
+      "masonry_type": "Tufelli_masonry_typeD"
+    }
+  ]
+}

@@ -58,6 +58,8 @@ import castelnuovo_material_engine as engine_route
 
 SURVEY_PATH = "resources/survey_data/castelnuovo/survey_record.json"
 CLASSIFICATION_PATH = "resources/survey_data/castelnuovo/masonry_classification.json"
+# elements of the BIM model and their materials (scripts/export_bim_for_web.py)
+BIM_ELEMENTS_PATH = "resources/survey_data/castelnuovo/bim_elements.json"
 ONTOLOGIES = {"hmo": "resources/ontologies/hmo.ttl",
               "hsv": "resources/ontologies/hsv.ttl",
               "hsto": "resources/ontologies/hsto.ttl"}
@@ -87,7 +89,7 @@ def ind(g, iri, *classes, label=None):
     return iri
 
 
-def build(survey, classification):
+def build(survey, classification, bim_elements=()):
     g = rdflib.Graph()
     for p, ns in (("", C), ("hsv", HSV), ("hsto", HSTO), ("hmo", HMO), ("saref", SAREF),
                   ("prov", PROV), ("dcterms", DCT), ("foaf", FOAF), ("skos", SKOS)):
@@ -168,6 +170,20 @@ def build(survey, classification):
         g.add((mt, SKOS.definition, Literal(t["description"], lang="en")))
         for flag in t["flags"]:
             g.add((mt, RDFS.comment, Literal(flag, lang="en")))
+
+    # --- BIM elements of each masonry type ------------------------------------
+    # The BIM model and the graph are linked by the material name, as in the
+    # conversion to the numerical model: an IFC element made of (or with a
+    # constituent of) Tufelli_masonry_typeA is an element of that type. The
+    # element is part of the BIM model document and identified by its
+    # GlobalId; which facade it belongs to is not recorded in the IFC file.
+    for e in bim_elements:
+        if e["masonry_type"] not in classification["types"]:
+            continue
+        el = ind(g, C["IFC_" + e["global_id"].replace("$", "-")], label=f"{e['ifc_class']} {e['name']}".strip())
+        g.add((el, DCT.identifier, Literal(e["global_id"])))
+        g.add((el, DCT.isPartOf, C.BIMModel))
+        g.add((el, DCT.type, C[e["masonry_type"]]))
 
     # --- facades, their photos and their walls (HSV, HSTO, HMO) -------------
     walls = {}
@@ -303,7 +319,8 @@ def domain_range_violations(abox, tbox):
 def main():
     survey = json.load(open(SURVEY_PATH, encoding="utf-8"))
     classification = json.load(open(CLASSIFICATION_PATH, encoding="utf-8"))
-    abox, walls, prop_iris = build(survey, classification)
+    bim = json.load(open(BIM_ELEMENTS_PATH, encoding="utf-8"))["elements"] if os.path.exists(BIM_ELEMENTS_PATH) else []
+    abox, walls, prop_iris = build(survey, classification, bim)
 
     kb = rdflib.Graph()
     for path in ONTOLOGIES.values():

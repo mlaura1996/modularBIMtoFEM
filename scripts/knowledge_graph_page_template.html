@@ -12,7 +12,8 @@
   --border: #e2ded5; --accent: #8a4b2a; --accent-soft: #f4e9e1; --shadow: 0 1px 2px rgba(0,0,0,.05), 0 4px 16px rgba(0,0,0,.04);
   --g-context: #8a6d3b; --g-facade: #b5562f; --g-structure: #6f7d3a; --g-wall: #2f6f73;
   --g-type: #7a4f9a; --g-document: #3b6ea8; --g-activity: #b0803a; --g-agent: #5e6b78;
-  --g-photo: #7fa7c9; --g-hmo: #5fa39f; --g-constant: #a8a29a;
+  --g-photo: #7fa7c9; --g-hmo: #5fa39f; --g-constant: #a8a29a; --g-bim: #9c7b5b;
+  --t-a: #b5562f; --t-b: #d9a441; --t-c: #6f8f4e; --t-d: #7a6fa8; --t-other: #cfcac0; --edge3d: #5a554c;
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark) {
@@ -21,7 +22,8 @@
     --border: #36332d; --accent: #e09a6f; --accent-soft: #3a2a20; --shadow: none;
     --g-context: #c9a76a; --g-facade: #e0855c; --g-structure: #a9b86a; --g-wall: #5fb3b8;
     --g-type: #b48ad6; --g-document: #78a6dc; --g-activity: #dcae68; --g-agent: #9aa7b4;
-    --g-photo: #a9c8e3; --g-hmo: #8cc9c4; --g-constant: #8f8a82;
+    --g-photo: #a9c8e3; --g-hmo: #8cc9c4; --g-constant: #8f8a82; --g-bim: #c7a27e;
+    --t-a: #e0855c; --t-b: #e8bd5f; --t-c: #9cbd78; --t-d: #a99de0; --t-other: #4a463f; --edge3d: #a39d92;
     color-scheme: dark;
   }
 }
@@ -30,7 +32,8 @@
   --border: #36332d; --accent: #e09a6f; --accent-soft: #3a2a20; --shadow: none;
   --g-context: #c9a76a; --g-facade: #e0855c; --g-structure: #a9b86a; --g-wall: #5fb3b8;
   --g-type: #b48ad6; --g-document: #78a6dc; --g-activity: #dcae68; --g-agent: #9aa7b4;
-  --g-photo: #a9c8e3; --g-hmo: #8cc9c4; --g-constant: #8f8a82;
+  --g-photo: #a9c8e3; --g-hmo: #8cc9c4; --g-constant: #8f8a82; --g-bim: #c7a27e;
+  --t-a: #e0855c; --t-b: #e8bd5f; --t-c: #9cbd78; --t-d: #a99de0; --t-other: #4a463f; --edge3d: #a39d92;
   color-scheme: dark;
 }
 * { box-sizing: border-box; }
@@ -67,6 +70,11 @@ h2 { font-size: 22px; margin: 0 0 6px; font-weight: 640; }
 .toggle:focus-within { outline: 2px solid var(--accent); outline-offset: 1px; }
 .search { flex: 1 1 220px; min-width: 0; max-width: 320px; padding: 7px 10px; border-radius: 8px; border: 1px solid var(--border);
   background: var(--surface); color: var(--text); font: inherit; font-size: 14px; }
+#bimView { height: 560px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow); position: relative; overflow: hidden; touch-action: none; }
+#bimView canvas { display: block; }
+#bimView .loading { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--muted); }
+.bim-layout { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 12px; }
+#bimPanel { height: 560px; }
 .graph-layout { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 12px; }
 #graph { height: 640px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow); }
 .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px; height: 640px; overflow: auto; box-shadow: var(--shadow); }
@@ -115,7 +123,9 @@ footer { color: var(--muted); font-size: 13px; padding: 30px 0 40px; border-top:
 .lightbox .next { right: 14px; top: 50%; }
 @media (max-width: 600px) { header { padding-top: 64px; } }
 @media (max-width: 900px) {
-  .graph-layout { grid-template-columns: 1fr; }
+  .graph-layout, .bim-layout { grid-template-columns: 1fr; }
+  #bimView { height: 420px; }
+  #bimPanel { height: auto; max-height: 360px; }
   #graph { height: 460px; }
   .panel { height: auto; max-height: 420px; }
 }
@@ -139,6 +149,7 @@ footer { color: var(--muted); font-size: 13px; padding: 30px 0 40px; border-top:
 <nav class="tabs" aria-label="Sections">
   <div class="wrap">
     <a href="#graph-section">Graph</a>
+    <a href="#bim">BIM model</a>
     <a href="#facades">Façades</a>
     <a href="#types">Masonry types</a>
     <a href="#documents">Documents</a>
@@ -161,6 +172,22 @@ footer { color: var(--muted); font-size: 13px; padding: 30px 0 40px; border-top:
     <div class="graph-layout">
       <div id="graph" role="img" aria-label="Interactive view of the knowledge graph"></div>
       <aside class="panel" id="panel" aria-live="polite"><p class="hint">Select a node to see its classes, values and relations.</p></aside>
+    </div>
+  </section>
+
+  <section id="bim">
+    <h2>BIM model</h2>
+    <p class="section-note">The BIM model of the aggregate, with every element coloured by its masonry type. The BIM model and the graph are linked by the material name, as in the conversion to the numerical model: an element made of Tufelli_masonry_typeA is an element of masonry type A. Drag to rotate, right-drag to pan, use + and − to zoom, click an element to see it in the graph.</p>
+    <div class="graph-tools" id="bimTools">
+      <div id="bimToggles" style="display:contents"></div>
+      <label class="toggle"><input type="checkbox" id="fadeOthers" checked><span class="sw" style="background:var(--t-other)"></span>Fade other elements</label>
+      <button class="btn" id="bimZoomIn" type="button" aria-label="Zoom in">+</button>
+      <button class="btn" id="bimZoomOut" type="button" aria-label="Zoom out">−</button>
+      <button class="btn" id="bimFit" type="button">Fit view</button>
+    </div>
+    <div class="bim-layout">
+      <div id="bimView" role="img" aria-label="3D view of the BIM model coloured by masonry type"><div class="loading">Loading the model…</div></div>
+      <aside class="panel" id="bimPanel" aria-live="polite"><p class="hint">Click an element to see its IFC class, GlobalId and materials, and the masonry type it belongs to.</p></aside>
     </div>
   </section>
 
@@ -211,6 +238,7 @@ footer { color: var(--muted); font-size: 13px; padding: 30px 0 40px; border-top:
   <button class="next" type="button" aria-label="Next photograph">›</button>
 </div>
 
+<script type="importmap">{"imports": {"three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
 <script>
 const DATA = /*__DATA__*/null;
 
@@ -225,6 +253,7 @@ const DATA = /*__DATA__*/null;
     root.setAttribute("data-theme", next);
     try { localStorage.setItem("kg-theme", next); } catch (e) {}
     if (window.refreshGraphColours) window.refreshGraphColours();
+    if (window.refreshBimColours) window.refreshBimColours();
   });
 })();
 
@@ -407,6 +436,134 @@ const observer = new IntersectionObserver(entries => entries.forEach(en => {
   if (en.isIntersecting) tabLinks.forEach(a => a.classList.toggle("active", a.getAttribute("href") === "#" + en.target.id));
 }), { rootMargin: "-40% 0px -55% 0px" });
 document.querySelectorAll("main section").forEach(s => observer.observe(s));
+</script>
+<script type="module">
+import * as THREE from "three";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+
+const host = document.getElementById("bimView"), panel = document.getElementById("bimPanel");
+const HINT = '<p class="hint">Click an element to see its IFC class, GlobalId and materials, and the masonry type it belongs to.</p>';
+if (!DATA.bim || !DATA.bim.glb) {
+  host.innerHTML = '<div class="loading">The BIM model has not been exported for this page.</div>';
+} else {
+  const typeKey = m => m ? m.replace("Tufelli_masonry_type", "").toLowerCase() : "other";
+  const typeNames = Object.keys(DATA.bim.types).sort();
+  const shown = Object.fromEntries([...typeNames.map(typeKey), "other"].map(k => [k, true]));
+  const counts = Object.fromEntries(DATA.types.map(t => [t.Type, t["BIM elements"]]));
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 1000);
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  host.innerHTML = ""; host.appendChild(renderer.domElement);
+  scene.add(new THREE.HemisphereLight(0xffffff, 0x8a8070, 1.6));
+  const sun = new THREE.DirectionalLight(0xffffff, 1.4); sun.position.set(20, 35, 25); scene.add(sun);
+  const controls = new OrbitControls(camera, renderer.domElement);
+  controls.enableZoom = false; controls.enableDamping = true;
+
+  const elements = [];
+  let selected = null, box = null;
+  const colour = key => new THREE.Color(css(`--t-${key}`));
+
+  function styleAll() {
+    const fade = document.getElementById("fadeOthers").checked;
+    for (const e of elements) {
+      const m = e.mesh.material;
+      m.color = colour(e.key);
+      m.transparent = e.key === "other" && fade; m.opacity = m.transparent ? 0.22 : 1; m.depthWrite = !m.transparent;
+      m.emissive = new THREE.Color(e === selected ? css("--accent") : "#000000");
+      m.emissiveIntensity = e === selected ? 0.55 : 0;
+      e.edges.material.color = new THREE.Color(css("--edge3d"));
+      e.edges.material.opacity = m.transparent ? 0.15 : 0.45;
+      e.mesh.visible = shown[e.key];
+    }
+  }
+  window.refreshBimColours = () => { styleAll(); renderToggles(); };
+
+  function renderToggles() {
+    const items = [...typeNames.map(n => [typeKey(n), `Type ${typeKey(n).toUpperCase()} (${counts[n] ?? 0})`]),
+                   ["other", "Other elements"]];
+    document.getElementById("bimToggles").innerHTML = items.map(([k, l]) =>
+      `<label class="toggle ${shown[k] ? "" : "off"}"><input type="checkbox" data-k="${k}" ${shown[k] ? "checked" : ""}>` +
+      `<span class="sw" style="background:${css(`--t-${k}`)}"></span>${l}</label>`).join("");
+    document.querySelectorAll("#bimToggles input").forEach(inp => inp.addEventListener("change", () => {
+      shown[inp.dataset.k] = inp.checked; inp.parentElement.classList.toggle("off", !inp.checked); styleAll();
+    }));
+  }
+  document.getElementById("fadeOthers").addEventListener("change", styleAll);
+
+  function fit() {
+    const size = box.getSize(new THREE.Vector3()), centre = box.getCenter(new THREE.Vector3());
+    const dist = Math.max(size.x, size.y, size.z) * 1.6;
+    camera.position.set(centre.x + dist * 0.8, centre.y + dist * 0.55, centre.z + dist * 0.9);
+    controls.target.copy(centre); controls.update();
+  }
+  const zoom = f => { camera.position.sub(controls.target).multiplyScalar(f).add(controls.target); controls.update(); };
+  document.getElementById("bimFit").addEventListener("click", fit);
+  document.getElementById("bimZoomIn").addEventListener("click", () => zoom(1 / 1.25));
+  document.getElementById("bimZoomOut").addEventListener("click", () => zoom(1.25));
+
+  function showElement(e) {
+    selected = e; styleAll();
+    if (!e) { panel.innerHTML = HINT; return; }
+    const i = e.info, typeId = i.masonry_type ? DATA.bim.types[i.masonry_type] : null;
+    const nodeId = DATA.bim.elements[i.global_id];
+    panel.innerHTML = `<h3>${esc(i.name || i.ifc_class)}</h3><div class="kind">${esc(i.ifc_class)}</div>` +
+      `<h4>GlobalId</h4><div><code>${esc(i.global_id)}</code></div>` +
+      `<h4>Materials</h4><div>${(i.materials || []).map(m => esc(m)).join("<br>") || "none"}</div>` +
+      (typeId
+        ? `<h4>Masonry type</h4><div><span class="toggle" style="cursor:default"><span class="sw" style="background:${css(`--t-${e.key}`)}"></span>${esc(i.masonry_type)}</span></div>` +
+          `<h4>In the knowledge graph</h4>` +
+          (nodeId ? `<span class="rel"><a data-node="${esc(nodeId)}">This element</a></span>` : "") +
+          `<span class="rel"><a data-node="${esc(typeId)}">Its masonry type, with the façades and properties</a></span>`
+        : `<p class="hint" style="margin-top:12px">Not masonry: its properties come from the IFC material property sets, not from the knowledge graph.</p>`);
+    panel.querySelectorAll("a[data-node]").forEach(a => a.addEventListener("click", () => {
+      document.getElementById("graph-section").scrollIntoView({ behavior: "smooth" });
+      setTimeout(() => focusNode(a.dataset.node), 400);
+    }));
+  }
+
+  const ray = new THREE.Raycaster(), ptr = new THREE.Vector2();
+  let down = null;
+  renderer.domElement.addEventListener("pointerdown", ev => { down = [ev.clientX, ev.clientY]; });
+  renderer.domElement.addEventListener("pointerup", ev => {
+    if (!down || Math.hypot(ev.clientX - down[0], ev.clientY - down[1]) > 5) return;
+    const r = renderer.domElement.getBoundingClientRect();
+    ptr.set(((ev.clientX - r.left) / r.width) * 2 - 1, -((ev.clientY - r.top) / r.height) * 2 + 1);
+    ray.setFromCamera(ptr, camera);
+    const pickable = elements.filter(e => e.mesh.visible && !e.mesh.material.transparent).map(e => e.mesh);
+    const hit = ray.intersectObjects(pickable, false)[0];
+    showElement(hit ? elements.find(e => e.mesh === hit.object) : null);
+  });
+
+  function resize() {
+    const w = host.clientWidth, h = host.clientHeight;
+    renderer.setSize(w, h);
+    camera.aspect = w / h; camera.updateProjectionMatrix();
+  }
+  new ResizeObserver(resize).observe(host);
+
+  new GLTFLoader().load(DATA.bim.glb, gltf => {
+    gltf.scene.traverse(o => {
+      if (!o.isMesh) return;
+      const info = (o.userData && o.userData.global_id) ? o.userData : (o.parent && o.parent.userData) || {};
+      o.material = new THREE.MeshStandardMaterial({ flatShading: true, side: THREE.DoubleSide, roughness: 0.9, metalness: 0,
+        polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1 });
+      const edges = new THREE.LineSegments(new THREE.EdgesGeometry(o.geometry, 30),
+                                           new THREE.LineBasicMaterial({ transparent: true }));
+      o.add(edges);
+      elements.push({ mesh: o, edges, info, key: typeKey(info.masonry_type) });
+    });
+    scene.add(gltf.scene);
+    box = new THREE.Box3().setFromObject(gltf.scene);
+    renderToggles(); styleAll(); resize(); fit();
+    // snapshot(): the current view as a PNG data URL, e.g. to make a figure from the console
+    window.bimViewer = { elements, showElement, snapshot: () => { renderer.render(scene, camera); return renderer.domElement.toDataURL("image/png"); } };
+  }, undefined, () => { host.innerHTML = '<div class="loading">The BIM model could not be loaded.</div>'; });
+
+  renderer.setAnimationLoop(() => { controls.update(); renderer.render(scene, camera); });
+}
 </script>
 </body>
 </html>

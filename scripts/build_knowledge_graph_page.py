@@ -67,6 +67,7 @@ GROUPS = [
     ("activity", "Activities", True),
     ("agent", "People and organisations", True),
     ("photo", "Photographs (HSV)", False),
+    ("bim", "BIM elements (IFC)", False),
     ("hmo", "Quality index and properties (HMO)", False),
     ("constant", "Pattern entities (HMO)", False),
 ]
@@ -138,6 +139,8 @@ def main():
             return None
         if ts & {PROV.Association, PROV.Role}:
             return None     # shown as roles of the people, not as nodes
+        if (term, DCT.isPartOf, C.BIMModel) in kg:
+            return "bim"
         if HSV.Photo in ts:
             return "photo"
         if ts & {HSV.Facade, HSTO.Facade}:
@@ -179,7 +182,8 @@ def main():
             if isinstance(o, Literal) and p != RDFS.label:
                 literals[curie(p)].append(str(o))
         nodes[key] = {"id": key, "label": label(term), "group": g,
-                      "types": [curie(t) for t in types(term)] or ["hmo constant"],
+                      "types": [curie(t) for t in types(term)] or
+                               (["IFC element of the BIM model"] if g == "bim" else ["hmo constant"]),
                       "literals": dict(literals)}
         if key in images:
             nodes[key]["img"], nodes[key]["large"] = images[key]
@@ -232,7 +236,8 @@ def main():
 
     mtypes = []
     for t in sorted(kg.subjects(RDF.type, SKOS.Concept), key=str):
-        walls = sorted(kg.subjects(DCT.type, t), key=str)
+        walls = sorted((w for w in kg.subjects(DCT.type, t) if (w, RDF.type, HMO.MasonryWall) in kg), key=str)
+        bim_elements = [e for e in kg.subjects(DCT.type, t) if (e, DCT.isPartOf, C.BIMModel) in kg]
         fac = [label(f) for w in walls for f in kg.subjects(HSTO.isMadeOf, w)]
         entities = []
         if walls:
@@ -249,7 +254,8 @@ def main():
                         entities.append(f"unit length {float(lo):g}–{float(hi):g} cm")
         mtypes.append({"Type": label(t), "_id": curie(t),
                        "Description": str(kg.value(t, SKOS.definition) or ""),
-                       "Façades": ", ".join(fac), "Pattern entities": sorted(entities),
+                       "Façades": ", ".join(fac), "BIM elements": len(bim_elements),
+                       "Pattern entities": sorted(entities),
                        "Flags": [str(c) for c in kg.objects(t, RDFS.comment)]})
 
     roles = {HSV.acquiredBy: "acquired by", HSV.postProcessedBy: "processed by", HSV.hasAuthor: "author"}
@@ -294,6 +300,10 @@ def main():
         "nodes": list(nodes.values()), "edges": edges,
         "facades": facades, "types": mtypes, "documents": documents,
         "activities": activities, "people": people,
+        "bim": {"glb": "bim/model.glb" if os.path.exists(os.path.join(OUT_DIR, "bim", "model.glb")) else None,
+                "types": {label(t): curie(t) for t in kg.subjects(RDF.type, SKOS.Concept)},
+                "elements": {str(kg.value(e, DCT.identifier)): curie(e)
+                             for e in kg.subjects(DCT.isPartOf, C.BIMModel)}},
         "stats": {"triples": len(kg), "nodes": len(nodes), "edges": len(edges)},
         "note": str(kg.value(C.KnowledgeGraph, RDFS.comment) or ""),
     }
