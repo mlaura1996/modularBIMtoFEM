@@ -403,9 +403,9 @@ class StructuralProperties:
     def get_common_properties(material):
         """`Pset_MaterialCommon` properties for an `IfcMaterial` (density, model type, elastic behaviour), minus its `id` key."""
         psets = ifcopenshell.util.element.get_psets(material)
-        properties = psets["Pset_MaterialCommon"]
+        properties = psets.get("Pset_MaterialCommon", {})
         if not properties:
-            print(f"Warning: 'Pset_MaterialMechanical' not found for material {material.Name}")
+            print(f"Warning: 'Pset_MaterialCommon' not found for material {material.Name}")
         properties.pop('id', None)
         return properties
 
@@ -413,7 +413,7 @@ class StructuralProperties:
     def get_mechanical_properties(material):
         """`Pset_MaterialMechanical` properties for an `IfcMaterial` (E, ν, strengths, fracture energies), minus its `id` key."""
         psets = ifcopenshell.util.element.get_psets(material)
-        properties = psets["Pset_MaterialMechanical"]
+        properties = psets.get("Pset_MaterialMechanical", {})
         if not properties:
             print(f"Warning: 'Pset_MaterialMechanical' not found for material {material.Name}")
         properties.pop('id', None) 

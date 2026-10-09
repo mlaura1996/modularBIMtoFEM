@@ -1,0 +1,45 @@
+{
+  "_meta": {
+    "description": "Reference properties of the non-masonry materials of the Castelnuovo IFC model, written into the materials' property sets by scripts/assign_material_psets.py. The tufelli masonry types are not listed: their properties come from the knowledge graph (output/castelnuovo/material_database.json).",
+    "units": "MassDensity in kg/m3; YoungModulus in MPa (the script declares N/mm2 as the IFC modulus-of-elasticity unit, so the stored values are correct IFC as well as what core/ifc_processing/data_extractor.py expects)",
+    "density_convention": "Unit weights of the Circular converted as w x 100 (14.5 kN/m3 -> 1450 kg/m3), the same convention used for the tufelli types.",
+    "masonry_classes": "Stone and brick surrounds are built of several units laid in mortar, so they take the values of the corresponding masonry classes of the Circular rather than those of the stone or brick alone."
+  },
+  "materials": {
+    "Stone": {
+      "element": "Dressed-stone opening surrounds",
+      "MassDensity": 2200,
+      "YoungModulus": 2800,
+      "PoissonRatio": 0.2,
+      "source": "Circular No. 7/2019, Table C8.5.I, squared stone blocks (w = 22 kN/m3, E = 2400-3200 MPa, mean)"
+    },
+    "StoneStairs": {
+      "element": "External stone stairs",
+      "MassDensity": 2200,
+      "YoungModulus": 2800,
+      "PoissonRatio": 0.2,
+      "source": "Circular No. 7/2019, Table C8.5.I, squared stone blocks (w = 22 kN/m3, E = 2400-3200 MPa, mean)"
+    },
+    "Bricks": {
+      "element": "Brick jambs, heads and arches",
+      "MassDensity": 1800,
+      "YoungModulus": 1500,
+      "PoissonRatio": 0.2,
+      "source": "Circular No. 7/2019, Table C8.5.I, solid brick and lime mortar (w = 18 kN/m3, E = 1200-1800 MPa, mean)"
+    },
+    "Timber": {
+      "element": "Timber door elements",
+      "MassDensity": 600,
+      "YoungModulus": 10000,
+      "PoissonRatio": 0.3,
+      "source": "Density after Giuffre, as in Chapter 5 (Table 5.4); E0,mean of class C22, UNI EN 338; Poisson ratio a modelling assumption of the isotropic model"
+    },
+    "Steel": {
+      "element": "Steel door elements",
+      "MassDensity": 7850,
+      "YoungModulus": 210000,
+      "PoissonRatio": 0.3,
+      "source": "EN 1993-1-1, steel S235"
+    }
+  }
+}
