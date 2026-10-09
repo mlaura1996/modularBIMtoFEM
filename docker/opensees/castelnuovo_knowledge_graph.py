@@ -105,6 +105,15 @@ def build(survey, classification):
         ind(g, C[aid], PROV.Activity, label=a["label"])
         for pid in a["people"]:
             g.add((C[aid], PROV.wasAssociatedWith, C[pid]))
+        # roles HSV has no class for (supervision, research) are PROV roles,
+        # carried by a qualified association between the activity and the person
+        for pid, role in a.get("roles", {}).items():
+            role_iri = C["Role_" + "".join(w.capitalize() for w in role.split())]
+            ind(g, role_iri, PROV.Role, label=role)
+            assoc = ind(g, C[f"{aid}_{pid}_Association"], PROV.Association)
+            g.add((C[aid], PROV.qualifiedAssociation, assoc))
+            g.add((assoc, PROV.agent, C[pid]))
+            g.add((assoc, PROV.hadRole, role_iri))
         if "date" in a:
             g.add((C[aid], DCT.date, Literal(a["date"], datatype=XSD.date)))
         if "start" in a:

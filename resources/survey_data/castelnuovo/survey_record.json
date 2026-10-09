@@ -35,6 +35,14 @@
     "FilippoCalcerano": {
       "name": "Filippo Calcerano",
       "affiliation": "CNR_ISPC"
+    },
+    "MiguelAzenha": {
+      "name": "Miguel Azenha",
+      "affiliation": "ISISE_UMinho"
+    },
+    "DanielOliveira": {
+      "name": "Daniel V. Oliveira",
+      "affiliation": "ISISE_UMinho"
     }
   },
   "activities": {
@@ -84,6 +92,17 @@
       "people": [
         "MariaLauraLeonardi"
       ]
+    },
+    "Supervision": {
+      "label": "Supervision of the doctoral research",
+      "people": [
+        "MiguelAzenha",
+        "DanielOliveira"
+      ],
+      "roles": {
+        "MiguelAzenha": "Supervisor",
+        "DanielOliveira": "Supervisor"
+      }
     }
   },
   "documents": {
@@ -157,6 +176,10 @@
       "activity": "BIMModelling",
       "authors": [
         "MariaLauraLeonardi"
+      ],
+      "post_processed_by": [
+        "MiguelAzenha",
+        "DanielOliveira"
       ]
     }
   },

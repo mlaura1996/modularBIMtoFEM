@@ -98,6 +98,21 @@ details ol { margin: 6px 0 0; padding-left: 20px; font-size: 13px; color: var(--
 .subhead { font-size: 16px; margin: 24px 0 10px; }
 footer { color: var(--muted); font-size: 13px; padding: 30px 0 40px; border-top: 1px solid var(--border); margin-top: 30px; }
 .theme-toggle { position: absolute; top: 16px; right: 16px; }
+.thumbs { display: flex; gap: 6px; overflow-x: auto; max-width: 420px; padding-bottom: 4px; }
+.thumbs img { height: 64px; width: auto; border-radius: 6px; cursor: zoom-in; border: 1px solid var(--border); flex: none; }
+.thumbs img:hover, .thumbs img:focus { outline: 2px solid var(--accent); }
+.panel .thumbs { max-width: none; flex-wrap: wrap; }
+.panel .photo { width: 100%; border-radius: 8px; cursor: zoom-in; border: 1px solid var(--border); }
+.lightbox { position: fixed; inset: 0; z-index: 20; background: rgba(10,9,8,.92); display: none;
+  align-items: center; justify-content: center; flex-direction: column; padding: 16px; }
+.lightbox.open { display: flex; }
+.lightbox img { max-width: 100%; max-height: calc(100vh - 110px); border-radius: 6px; }
+.lightbox .cap { color: #e9e5de; font-size: 14px; margin-top: 10px; text-align: center; }
+.lightbox button { position: absolute; background: rgba(255,255,255,.12); color: #fff; border: 0; border-radius: 999px;
+  width: 42px; height: 42px; font-size: 20px; cursor: pointer; }
+.lightbox .close { top: 14px; right: 14px; }
+.lightbox .prev { left: 14px; top: 50%; }
+.lightbox .next { right: 14px; top: 50%; }
 @media (max-width: 600px) { header { padding-top: 64px; } }
 @media (max-width: 900px) {
   .graph-layout { grid-template-columns: 1fr; }
@@ -134,7 +149,7 @@ footer { color: var(--muted); font-size: 13px; padding: 30px 0 40px; border-top:
 <main class="wrap">
   <section id="graph-section">
     <h2>Interactive graph</h2>
-    <p class="section-note">Drag to move, use + and − to zoom, click a node to see what the graph says about it. Photographs and the HMO internals (quality index, properties, pattern entities) are hidden at first to keep the view readable; switch them on below.</p>
+    <p class="section-note">Drag to move, use + and − to zoom, click a node to see what the graph says about it. Photographs (shown as small pictures) and the HMO internals (quality index, properties, pattern entities) are hidden at first to keep the view readable; switch them on below.</p>
     <div class="graph-tools">
       <div id="toggles" style="display:contents"></div>
       <input class="search" id="search" list="nodeNames" placeholder="Find a node…" aria-label="Find a node">
@@ -188,6 +203,13 @@ footer { color: var(--muted); font-size: 13px; padding: 30px 0 40px; border-top:
   </section>
 </main>
 <div class="wrap"><footer id="footer"></footer></div>
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photograph">
+  <button class="close" type="button" aria-label="Close">×</button>
+  <button class="prev" type="button" aria-label="Previous photograph">‹</button>
+  <img alt="">
+  <div class="cap"></div>
+  <button class="next" type="button" aria-label="Next photograph">›</button>
+</div>
 
 <script>
 const DATA = /*__DATA__*/null;
@@ -229,6 +251,8 @@ DATA.edges.forEach(e => { (outRel[e.from] ||= []).push(e); (inRel[e.to] ||= []).
 function nodeStyle(n) {
   const c = css(`--g-${n.group}`);
   const size = {facade: 20, wall: 18, context: 18, type: 18, photo: 9, constant: 10, hmo: 11}[n.group] || 14;
+  if (n.img) return { id: n.id, label: "", group: n.group, size: 16, shape: "circularImage", image: n.img,
+    color: { border: c, highlight: { border: css("--accent") } }, borderWidth: 2, title: n.label };
   return { id: n.id, label: n.label.length > 34 ? n.label.slice(0, 32) + "…" : n.label, group: n.group, size,
     shape: n.group === "type" ? "diamond" : n.group === "agent" ? "dot" : n.group === "activity" ? "square" :
            n.group === "document" || n.group === "photo" ? "triangle" : "dot",
@@ -291,11 +315,20 @@ function showPanel(id) {
   const lit = Object.entries(n.literals);
   const outs = (outRel[id] || []).map(e => relLine(e, "out")).join("");
   const ins = (inRel[id] || []).map(e => relLine(e, "in")).join("");
-  panel.innerHTML = `<h3>${esc(n.label)}</h3><div class="kind">${esc(groupInfo[n.group].label)} · <code>${esc(n.id)}</code></div>` +
+  const facade = DATA.facades.find(f => f._id === id);
+  const pics = n.img ? `<img class="photo" src="${esc(n.img)}" alt="${esc(n.label)}" data-photo="${esc(id)}">` :
+               facade && facade._photos.some(p => p.img) ? `<h4>Photographs</h4>${thumbStrip(facade._photos)}` : "";
+  panel.innerHTML = `<h3>${esc(n.label)}</h3><div class="kind">${esc(groupInfo[n.group].label)} · <code>${esc(n.id)}</code></div>` + pics +
     `<h4>Classes</h4><div>${n.types.map(t => `<code>${esc(t)}</code>`).join("<br>")}</div>` +
     (lit.length ? `<h4>Values</h4><dl>${lit.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${v.map(esc).join("<br>")}</dd>`).join("")}</dl>` : "") +
     (outs ? `<h4>Relations from it</h4>${outs}` : "") + (ins ? `<h4>Relations to it</h4>${ins}` : "");
   panel.querySelectorAll("a[data-id]").forEach(a => a.addEventListener("click", () => focusNode(a.dataset.id)));
+  bindThumbs(panel);
+  const big = panel.querySelector("img[data-photo]");
+  if (big) big.addEventListener("click", () => {
+    const f = DATA.facades.find(f => f._photos.some(p => p.img === n.img));
+    if (f) openLightbox(f._photos.filter(p => p.img), f._photos.filter(p => p.img).findIndex(p => p.img === n.img));
+  });
 }
 network.on("selectNode", p => showPanel(p.nodes[0]));
 document.getElementById("fitBtn").addEventListener("click", () => network.fit({ animation: { duration: 400 } }));
@@ -305,6 +338,38 @@ document.getElementById("zoomOut").addEventListener("click", () => zoomBy(1 / 1.
 const labelToId = {};
 document.getElementById("nodeNames").innerHTML = DATA.nodes.map(n => { labelToId[n.label] = n.id; return `<option value="${esc(n.label)}">`; }).join("");
 document.getElementById("search").addEventListener("change", ev => { const id = labelToId[ev.target.value]; if (id) focusNode(id); });
+
+// --- photographs ---------------------------------------------------------------
+const caption = p => `${p.file.split("/").slice(-2, -1)[0]} · ${p.taken ? p.taken.replace("T", " ") : ""}`;
+function thumbStrip(photos) {
+  const withImg = photos.filter(p => p.img);
+  return `<div class="thumbs">${withImg.map((p, i) =>
+    `<img src="${esc(p.img)}" alt="${esc(caption(p))}" title="${esc(caption(p))}" loading="lazy" tabindex="0" data-set='${esc(JSON.stringify(withImg.map(q => q.img)))}' data-i="${i}">`).join("")}</div>`;
+}
+let lbSet = [], lbIdx = 0;
+const lb = document.getElementById("lightbox");
+function showLb() { const p = lbSet[lbIdx]; lb.querySelector("img").src = p.large || p.img; lb.querySelector("img").alt = caption(p);
+  lb.querySelector(".cap").textContent = `${caption(p)}  (${lbIdx + 1}/${lbSet.length})`; }
+function openLightbox(set, i) { lbSet = set; lbIdx = Math.max(0, i); showLb(); lb.classList.add("open"); lb.querySelector(".close").focus(); }
+function closeLb() { lb.classList.remove("open"); }
+lb.querySelector(".close").addEventListener("click", closeLb);
+lb.querySelector(".prev").addEventListener("click", () => { lbIdx = (lbIdx + lbSet.length - 1) % lbSet.length; showLb(); });
+lb.querySelector(".next").addEventListener("click", () => { lbIdx = (lbIdx + 1) % lbSet.length; showLb(); });
+lb.addEventListener("click", e => { if (e.target === lb) closeLb(); });
+document.addEventListener("keydown", e => {
+  if (!lb.classList.contains("open")) return;
+  if (e.key === "Escape") closeLb();
+  if (e.key === "ArrowLeft") lb.querySelector(".prev").click();
+  if (e.key === "ArrowRight") lb.querySelector(".next").click();
+});
+const allPhotos = Object.fromEntries(DATA.facades.flatMap(f => f._photos.filter(p => p.img).map(p => [p.img, p])));
+function bindThumbs(root) {
+  root.querySelectorAll(".thumbs img").forEach(img => {
+    const open = () => openLightbox(JSON.parse(img.dataset.set).map(src => allPhotos[src]), +img.dataset.i);
+    img.addEventListener("click", open);
+    img.addEventListener("keydown", e => { if (e.key === "Enter") open(); });
+  });
+}
 
 // --- tables -------------------------------------------------------------------
 function cell(v, key) {
@@ -326,9 +391,11 @@ function table(el, rows, extra) {
   host.innerHTML = `<table><thead>${head}</thead><tbody>${body}</tbody></table>`;
   host.querySelectorAll("a[data-id]").forEach(a => a.addEventListener("click", () => setTimeout(() => focusNode(a.dataset.id), 300)));
 }
-table("facadesTable", DATA.facades, { title: "Photograph files", render: r =>
+table("facadesTable", DATA.facades, { title: "Photographs", render: r =>
+  (r._photos.some(p => p.img) ? thumbStrip(r._photos) : "") +
   `<details><summary>${r._photos.length} files</summary><ol>${r._photos.map(p =>
     `<li>${esc(p.file.split("/").pop())}${p.taken ? ` <span>(${esc(p.taken.replace("T", " "))})</span>` : ""}</li>`).join("")}</ol></details>` });
+bindThumbs(document.getElementById("facadesTable"));
 table("typesTable", DATA.types);
 table("documentsTable", DATA.documents);
 table("activitiesTable", DATA.activities);

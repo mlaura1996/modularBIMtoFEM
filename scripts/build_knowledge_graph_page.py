@@ -1,6 +1,6 @@
 """Builds the browsable page of the Castelnuovo knowledge graph.
 
-    python scripts/build_knowledge_graph_page.py
+    python scripts/build_knowledge_graph_page.py [--photos <survey photo folder>]
 
 Reads output/castelnuovo/knowledge_graph.ttl (written by
 docker/opensees/castelnuovo_knowledge_graph.py) and the three ontologies in
@@ -14,11 +14,19 @@ content (facades, masonry types, documents, people and activities). Both
 are generated from the graph itself, not from the input records, so what
 the page shows is what the graph says. Rerun after regenerating the graph.
 
-Needs rdflib only.
+Photographs. With --photos pointing at the folder the survey photographs
+were extracted to (the one their dcterms:identifier paths are relative to,
+A-417/417_a/... and so on), every photograph of the graph is written as a
+small thumbnail and a larger view to docs/source/_extra/knowledge-graph/
+photos/, resized and saved without metadata. Without --photos, the images
+already there are reused; photographs without an image are listed by name.
+
+Needs rdflib, and Pillow for --photos.
 """
 import json
 import os
 import shutil
+import sys
 from collections import defaultdict
 
 import rdflib
@@ -28,6 +36,7 @@ KG = "output/castelnuovo/knowledge_graph.ttl"
 ONTOLOGIES = ["resources/ontologies/hsv.ttl", "resources/ontologies/hsto.ttl",
               "resources/ontologies/hmo.ttl"]
 OUT_DIR = "docs/source/_extra/knowledge-graph"
+THUMB_PX, LARGE_PX = 320, 1000
 
 NS = {
     "": "https://example.org/castelnuovo#",
@@ -79,7 +88,33 @@ def local(term):
     return curie(term).split(":", 1)[1]
 
 
+def photo_images(kg, src_dir):
+    """{photo curie: (thumbnail, large view)} relative to OUT_DIR, writing them from src_dir if given."""
+    out = os.path.join(OUT_DIR, "photos")
+    images = {}
+    photos = sorted(kg.subjects(RDF.type, HSV.Photo), key=str)
+    if src_dir:
+        from PIL import Image, ImageOps
+        os.makedirs(out, exist_ok=True)
+    for ph in photos:
+        name = local(ph)
+        thumb, large = f"photos/{name}.jpg", f"photos/{name}_large.jpg"
+        if src_dir:
+            src = os.path.join(src_dir, str(kg.value(ph, DCT.identifier)))
+            if not os.path.exists(src):
+                raise SystemExit(f"photograph not found: {src}")
+            im = ImageOps.exif_transpose(Image.open(src)).convert("RGB")
+            for px, rel, q in ((THUMB_PX, thumb, 70), (LARGE_PX, large, 72)):
+                copy = im.copy()
+                copy.thumbnail((px, px))
+                copy.save(os.path.join(OUT_DIR, rel), "JPEG", quality=q, optimize=True)  # no metadata
+        if os.path.exists(os.path.join(OUT_DIR, thumb)):
+            images[curie(ph)] = (thumb, large)
+    return images
+
+
 def main():
+    src_dir = sys.argv[sys.argv.index("--photos") + 1] if "--photos" in sys.argv else None
     kg = rdflib.Graph().parse(KG, format="turtle")
     onto = rdflib.Graph()
     for path in ONTOLOGIES:
@@ -101,6 +136,8 @@ def main():
         ts = set(types(term))
         if term in ts or str(term) == str(C.KnowledgeGraph):
             return None
+        if ts & {PROV.Association, PROV.Role}:
+            return None     # shown as roles of the people, not as nodes
         if HSV.Photo in ts:
             return "photo"
         if ts & {HSV.Facade, HSTO.Facade}:
@@ -125,6 +162,8 @@ def main():
             return "constant"
         return None
 
+    images = photo_images(kg, src_dir)
+
     # --- graph view ------------------------------------------------------------
     nodes, edges = {}, []
 
@@ -142,6 +181,8 @@ def main():
         nodes[key] = {"id": key, "label": label(term), "group": g,
                       "types": [curie(t) for t in types(term)] or ["hmo constant"],
                       "literals": dict(literals)}
+        if key in images:
+            nodes[key]["img"], nodes[key]["large"] = images[key]
         return key
 
     for s, p, o in kg:
@@ -184,7 +225,9 @@ def main():
                "Photographs": len(photos)}
         row.update(wall_values(wall))
         row["_photos"] = [{"file": str(kg.value(ph, DCT.identifier)),
-                           "taken": str(kg.value(ph, DCT.created) or "")} for ph in photos]
+                           "taken": str(kg.value(ph, DCT.created) or ""),
+                           "img": images.get(curie(ph), (None, None))[0],
+                           "large": images.get(curie(ph), (None, None))[1]} for ph in photos]
         facades.append(row)
 
     mtypes = []
@@ -236,10 +279,14 @@ def main():
     people = []
     for p in sorted(kg.subjects(RDF.type, FOAF.Person), key=lambda x: label(x)):
         org = next(kg.subjects(FOAF.member, p), None)
-        hsv_roles = sorted(local(t) for t in types(p) if str(t).startswith(NS["hsv"]))
+        roles = [f"{local(t)} (HSV)" for t in sorted(types(p), key=str) if str(t).startswith(NS["hsv"])]
+        for assoc in kg.subjects(PROV.agent, p):
+            activity = next(kg.subjects(PROV.qualifiedAssociation, assoc), None)
+            for role in kg.objects(assoc, PROV.hadRole):
+                roles.append(f"{label(role)} ({label(activity)})" if activity else label(role))
         people.append({"Person": label(p), "_id": curie(p),
                        "Organisation": str(kg.value(org, FOAF.name)) if org else "",
-                       "Roles in HSV": ", ".join(hsv_roles),
+                       "Roles": roles,
                        "Activities": [label(a) for a in kg.subjects(PROV.wasAssociatedWith, p)]})
 
     data = {
@@ -259,7 +306,7 @@ def main():
         f.write(template.replace("/*__DATA__*/null", payload))
     shutil.copyfile(KG, os.path.join(OUT_DIR, "knowledge_graph.ttl"))
     print(f"wrote {OUT_DIR}/index.html: {len(nodes)} nodes, {len(edges)} edges, "
-          f"{len(facades)} facades, {len(documents)} documents")
+          f"{len(facades)} facades, {len(documents)} documents, {len(images)} photographs with images")
 
 
 if __name__ == "__main__":

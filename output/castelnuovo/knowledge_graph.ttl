@@ -37,7 +37,9 @@
 
 :ISISE_UMinho a owl:NamedIndividual,
         foaf:Organization ;
-    foaf:member :MariaLauraLeonardi ;
+    foaf:member :DanielOliveira,
+        :MariaLauraLeonardi,
+        :MiguelAzenha ;
     foaf:name "Institute for Sustainability and Innovation in Structural Engineering (ISISE), University of Minho" .
 
 :KnowledgeGraph a owl:Ontology ;
@@ -45,6 +47,14 @@
     owl:imports <https://w3id.org/hmo>,
         <https://w3id.org/hsto>,
         <https://w3id.org/hsv> .
+
+:Supervision a owl:NamedIndividual,
+        prov:Activity ;
+    rdfs:label "Supervision of the doctoral research"@en ;
+    prov:qualifiedAssociation :Supervision_DanielOliveira_Association,
+        :Supervision_MiguelAzenha_Association ;
+    prov:wasAssociatedWith :DanielOliveira,
+        :MiguelAzenha .
 
 :Aggregate a owl:NamedIndividual,
         hsv:Aggregate ;
@@ -66,7 +76,9 @@
     rdfs:label "final_example.ifc (IFC4), exported from Autodesk Revit 2027"@en ;
     prov:wasDerivedFrom :ReCapProject ;
     prov:wasGeneratedBy :BIMModelling ;
-    hsv:hasAuthor :MariaLauraLeonardi .
+    hsv:hasAuthor :MariaLauraLeonardi ;
+    hsv:postProcessedBy :DanielOliveira,
+        :MiguelAzenha .
 
 :BIMModelling a owl:NamedIndividual,
         prov:Activity ;
@@ -473,6 +485,16 @@
 :ShearStrengthTC_420 a owl:NamedIndividual,
         hmo:ShearStrengthTC ;
     saref:hasValue "0.0475"^^xsd:float .
+
+:Supervision_DanielOliveira_Association a owl:NamedIndividual,
+        prov:Association ;
+    prov:agent :DanielOliveira ;
+    prov:hadRole :Role_Supervisor .
+
+:Supervision_MiguelAzenha_Association a owl:NamedIndividual,
+        prov:Association ;
+    prov:agent :MiguelAzenha ;
+    prov:hadRole :Role_Supervisor .
 
 :Tufelli_masonry_typeA a owl:NamedIndividual,
         skos:Concept ;
@@ -1153,6 +1175,10 @@
     hsv:postProcessedBy :MariaLauraLeonardi,
         :MicheleCalvano .
 
+:Role_Supervisor a owl:NamedIndividual,
+        prov:Role ;
+    rdfs:label "Supervisor"@en .
+
 :Tufelli_masonry_typeB a owl:NamedIndividual,
         skos:Concept ;
     rdfs:label "Tufelli_masonry_typeB"@en ;
@@ -1180,6 +1206,11 @@
     rdfs:comment "ENTIRELY assumed, not observed: scored identically to typeB (the 'ordinary/irregular' type) as the most defensible default for an unexceptional rendered facade in the same aggregate, rather than typeA (visibly higher quality, tied to specific observed stonework at door openings that this facade's render gives no evidence for) or typeC (visibly patched/reworked, again no evidence either way). This is the weakest-grounded of the four classifications - revisit first if render is ever removed, or if there is independent reason (archival, structural survey) to place this facade in a specific construction phase."@en ;
     skos:definition "Fully rendered facade, masonry not directly observable - assumed by construction-era analogy to typeB"@en .
 
+:DanielOliveira a owl:NamedIndividual,
+        foaf:Person,
+        hsv:PostProcesser ;
+    foaf:name "Daniel V. Oliveira" .
+
 :FilippoCalcerano a owl:NamedIndividual,
         foaf:Person,
         hsv:Author ;
@@ -1189,6 +1220,11 @@
         foaf:Person,
         hsv:PostProcesser ;
     foaf:name "Michele Calvano" .
+
+:MiguelAzenha a owl:NamedIndividual,
+        foaf:Person,
+        hsv:PostProcesser ;
+    foaf:name "Miguel Azenha" .
 
 :Facade_418a a owl:NamedIndividual,
         hsto:Facade,
