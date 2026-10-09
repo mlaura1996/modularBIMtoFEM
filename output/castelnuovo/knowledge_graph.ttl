@@ -52,8 +52,10 @@
         prov:Activity ;
     rdfs:label "Supervision of the doctoral research"@en ;
     prov:qualifiedAssociation :Supervision_DanielOliveira_Association,
+        :Supervision_ElenaGigliarelli_Association,
         :Supervision_MiguelAzenha_Association ;
     prov:wasAssociatedWith :DanielOliveira,
+        :ElenaGigliarelli,
         :MiguelAzenha .
 
 :Aggregate a owl:NamedIndividual,
@@ -78,6 +80,7 @@
     prov:wasGeneratedBy :BIMModelling ;
     hsv:hasAuthor :MariaLauraLeonardi ;
     hsv:postProcessedBy :DanielOliveira,
+        :ElenaGigliarelli,
         :MiguelAzenha .
 
 :BIMModelling a owl:NamedIndividual,
@@ -491,6 +494,11 @@
     prov:agent :DanielOliveira ;
     prov:hadRole :Role_Supervisor .
 
+:Supervision_ElenaGigliarelli_Association a owl:NamedIndividual,
+        prov:Association ;
+    prov:agent :ElenaGigliarelli ;
+    prov:hadRole :Role_Supervisor .
+
 :Supervision_MiguelAzenha_Association a owl:NamedIndividual,
         prov:Association ;
     prov:agent :MiguelAzenha ;
@@ -666,10 +674,6 @@
     prov:wasGeneratedBy :PointCloudProcessing ;
     hsv:postProcessedBy :MariaLauraLeonardi,
         :MicheleCalvano .
-
-:ElenaGigliarelli a owl:NamedIndividual,
-        foaf:Person ;
-    foaf:name "Elena Gigliarelli" .
 
 :Photo_417a_01 a owl:NamedIndividual,
         hsv:Photo ;
@@ -1175,10 +1179,6 @@
     hsv:postProcessedBy :MariaLauraLeonardi,
         :MicheleCalvano .
 
-:Role_Supervisor a owl:NamedIndividual,
-        prov:Role ;
-    rdfs:label "Supervisor"@en .
-
 :Tufelli_masonry_typeB a owl:NamedIndividual,
         skos:Concept ;
     rdfs:label "Tufelli_masonry_typeB"@en ;
@@ -1199,6 +1199,10 @@
         foaf:Person,
         hsv:Inspector ;
     foaf:name "Letizia Martinelli" .
+
+:Role_Supervisor a owl:NamedIndividual,
+        prov:Role ;
+    rdfs:label "Supervisor"@en .
 
 :Tufelli_masonry_typeD a owl:NamedIndividual,
         skos:Concept ;
@@ -1225,6 +1229,11 @@
         foaf:Person,
         hsv:PostProcesser ;
     foaf:name "Miguel Azenha" .
+
+:ElenaGigliarelli a owl:NamedIndividual,
+        foaf:Person,
+        hsv:PostProcesser ;
+    foaf:name "Elena Gigliarelli" .
 
 :Facade_418a a owl:NamedIndividual,
         hsto:Facade,

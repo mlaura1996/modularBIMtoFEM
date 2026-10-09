@@ -96,10 +96,12 @@
     "Supervision": {
       "label": "Supervision of the doctoral research",
       "people": [
+        "ElenaGigliarelli",
         "MiguelAzenha",
         "DanielOliveira"
       ],
       "roles": {
+        "ElenaGigliarelli": "Supervisor",
         "MiguelAzenha": "Supervisor",
         "DanielOliveira": "Supervisor"
       }
@@ -179,7 +181,8 @@
       ],
       "post_processed_by": [
         "MiguelAzenha",
-        "DanielOliveira"
+        "DanielOliveira",
+        "ElenaGigliarelli"
       ]
     }
   },
