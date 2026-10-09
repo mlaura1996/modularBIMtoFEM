@@ -14,6 +14,9 @@ the Historic Survey (HSV), Historic Structure (HSTO) and Historic Masonry
         element, pattern, quality index and properties; and, for every
         variant of a classification, a hypothetical wall characterised the
         same way, so that the reasoner derives the variants too
+  FMO   the vulnerabilities recorded for each wall; the reasoner derives
+        the behaviour of every wall in each direction from its quality
+        index, and the failure mechanisms its vulnerabilities enable
 
 Where the ontologies have no term for something the records hold, a
 standard vocabulary is used instead of a term with the wrong domain:
@@ -41,14 +44,16 @@ from core.ifc_processing.material_database import compute_all, write_material_da
 HSV = Namespace("https://w3id.org/hsv#")
 HSTO = Namespace("https://w3id.org/hsto#")
 HMO = Namespace("https://w3id.org/hmo#")
+FMO = Namespace("https://w3id.org/fmo#")
 SAREF = Namespace("https://saref.etsi.org/core/")
 PROV = Namespace("http://www.w3.org/ns/prov#")
 DCT = Namespace("http://purl.org/dc/terms/")
 FOAF = Namespace("http://xmlns.com/foaf/0.1/")
 SKOS = Namespace("http://www.w3.org/2004/02/skos/core#")
-CHECKED = (HSV, HSTO, HMO)
+CHECKED = (HSV, HSTO, HMO, FMO)
 ONTOLOGIES = {"hmo": "resources/ontologies/hmo.ttl", "hsv": "resources/ontologies/hsv.ttl",
-              "hsto": "resources/ontologies/hsto.ttl"}
+              "hsto": "resources/ontologies/hsto.ttl", "fmo": "resources/ontologies/fmo.ttl"}
+DIRECTIONS = ("Vertical", "OutOfPlane", "InPlane")
 DIRECTION_PROPS = {"vertical": "MQITotalVertical", "out_of_plane": "MQITotalOutOfPlane",
                    "in_plane": "MQITotalInPlane"}
 # measured quantities that have an HMO class
@@ -120,7 +125,7 @@ def build(case, classification, bim_elements=()):
     proj = case["project"]
     C = Namespace(proj["namespace"])
     g = rdflib.Graph()
-    for p, ns in (("", C), ("hsv", HSV), ("hsto", HSTO), ("hmo", HMO), ("saref", SAREF),
+    for p, ns in (("", C), ("hsv", HSV), ("hsto", HSTO), ("hmo", HMO), ("fmo", FMO), ("saref", SAREF),
                   ("prov", PROV), ("dcterms", DCT), ("foaf", FOAF), ("skos", SKOS)):
         g.bind(p, ns)
 
@@ -267,6 +272,12 @@ def build(case, classification, bim_elements=()):
     for oid, o in case["openings"].items():
         opening = ind(g, C[oid], HSTO.HistoricOpening, label=o["label"])
         g.add((C[o["facade"]], HSTO.hasHistoricOpening, opening))
+    # vulnerabilities of the facade walls (FMO); the evidence stays on the wall
+    for v in case.get("vulnerabilities", []):
+        wall = C["Wall_" + _strip(v["facade"], "Facade_")]
+        g.add((wall, FMO.hasVulnerability, FMO[v["vulnerability"]]))
+        if v.get("evidence"):
+            g.add((wall, RDFS.comment, Literal(f"{v['vulnerability']}: {v['evidence']}", lang="en")))
 
     # --- HMO characterisation: facade walls, then hypothetical variant walls ---
     prop_iris = {}
@@ -374,6 +385,18 @@ def run(case, classification, out_dir, bim_elements=(), ontologies=ONTOLOGIES, l
     log(f"Pellet: consistent; quality index and properties derived for {len(walls)} walls "
         f"and {len(variants)} variants")
 
+    # FMO: behaviour in each direction and the mechanisms the vulnerabilities enable
+    has_behaviour, has_mechanism = world[str(FMO.hasBehaviour)], world[str(FMO.hasOccurringMechanism)]
+    fmo_derived = {}
+    for k, (wall, *_rest) in list(walls.items()) + list(variants.items()):
+        behaviours = sorted(b.name for b in has_behaviour[world[str(wall)]])
+        for d in DIRECTIONS:
+            n = sum(b.endswith(f"{d}Behaviour") for b in behaviours)
+            if n != 1:
+                raise SystemExit(f"{k}: {n} {d} behaviours derived ({behaviours}); expected exactly one")
+        mechanisms = sorted(m.name for m in has_mechanism[world[str(wall)]])
+        fmo_derived[k] = (wall, behaviours, mechanisms)
+
     # every derived value must agree with the Python implementation of the rules
     engine = compute_all(classification)
     variant_cls = {"types": {k: {**classification["types"][name], "observation": obs}
@@ -398,13 +421,18 @@ def run(case, classification, out_dir, bim_elements=(), ontologies=ONTOLOGIES, l
         for key, v in d["mechanical_properties"].items():
             abox.add((URIRef(prop_iris[k][key]), SAREF.hasValue,
                       Literal(round(v, ENGINE_DECIMALS[key]), datatype=XSD.float)))
+    for k, (wall, behaviours, mechanisms) in fmo_derived.items():
+        for b in behaviours:
+            abox.add((wall, FMO.hasBehaviour, FMO[b]))
+        for m in mechanisms:
+            abox.add((wall, FMO.hasOccurringMechanism, FMO[m]))
     kg_iri = C.KnowledgeGraph
     abox.add((kg_iri, RDF.type, OWL.Ontology))
     abox.add((kg_iri, RDFS.label, Literal(case["project"].get("title", ""), lang="en")))
     abox.add((kg_iri, RDFS.comment, Literal(
         (case["project"].get("description", "") + " ").lstrip()
-        + "Built on HSV, HSTO and HMO. Quality indices and homogenised properties were derived by Pellet "
-          "from the HMO rules (resources/ontologies/hmo.ttl) and checked against "
+        + "Built on HSV, HSTO, HMO and FMO. Quality indices, homogenised properties and behaviours were "
+          "derived by Pellet from the HMO and FMO rules (resources/ontologies/) and checked against "
           "core/ifc_processing/hmo_mqi.py.", lang="en")))
     for name in ontologies:
         abox.add((kg_iri, OWL.imports, URIRef(f"https://w3id.org/{name}")))
@@ -433,5 +461,9 @@ def run(case, classification, out_dir, bim_elements=(), ontologies=ONTOLOGIES, l
     for k, (_w, name, vname, _obs) in variants.items():
         m = derived[k]["mechanical_properties"]
         log(f"  {name} ({vname}): fm={m['compressive_strength_MPa']:.3f} E={m['young_modulus_MPa']:.1f}")
+    for k, (_w, behaviours, mechanisms) in fmo_derived.items():
+        if k in walls:
+            log(f"  {k}: {', '.join(b.replace('Behaviour', '') for b in behaviours)}"
+                + (f" | mechanisms: {', '.join(mechanisms)}" if mechanisms else ""))
     log(f"wrote {out_dir}/knowledge_graph.ttl ({len(abox)} triples) and {out_dir}/material_database.json")
     return abox

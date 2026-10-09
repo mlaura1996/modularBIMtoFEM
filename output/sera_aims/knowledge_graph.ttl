@@ -1,5 +1,6 @@
 @prefix : <https://example.org/sera-aims#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix fmo: <https://w3id.org/fmo#> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix hmo: <https://w3id.org/hmo#> .
 @prefix hsto: <https://w3id.org/hsto#> .
@@ -92,8 +93,9 @@
 :KnowledgeGraph a owl:Ontology ;
     rdfs:label "SERA-AIMS benchmark knowledge graph"@en ;
     dcterms:references <https://doi.org/10.5281/zenodo.23260961> ;
-    rdfs:comment "The half-scale stone masonry aggregate tested on the shake table within the SERA-AIMS project, the benchmark of this thesis, described with the Historic Survey (HSV), Historic Structure (HSTO) and Historic Masonry (HMO) ontologies: the publications and the BIM model, the units, façades and the interface between them, and the mechanical properties of the masonry derived by a reasoner from its published description, next to the measured ones. Built on HSV, HSTO and HMO. Quality indices and homogenised properties were derived by Pellet from the HMO rules (resources/ontologies/hmo.ttl) and checked against core/ifc_processing/hmo_mqi.py."@en ;
-    owl:imports <https://w3id.org/hmo>,
+    rdfs:comment "The half-scale stone masonry aggregate tested on the shake table within the SERA-AIMS project, the benchmark of this thesis, described with the Historic Survey (HSV), Historic Structure (HSTO) and Historic Masonry (HMO) ontologies: the publications and the BIM model, the units, façades and the interface between them, and the mechanical properties of the masonry derived by a reasoner from its published description, next to the measured ones. Built on HSV, HSTO, HMO and FMO. Quality indices, homogenised properties and behaviours were derived by Pellet from the HMO and FMO rules (resources/ontologies/) and checked against core/ifc_processing/hmo_mqi.py."@en ;
+    owl:imports <https://w3id.org/fmo>,
+        <https://w3id.org/hmo>,
         <https://w3id.org/hsto>,
         <https://w3id.org/hsv> .
 
@@ -221,6 +223,9 @@
     rdfs:label "Double_leaf_stone_masonry, lower variant (hypothetical wall)"@en ;
     dcterms:type :Double_leaf_stone_masonry ;
     skos:note "Hypothetical wall, not part of the building: the lower variant of Double_leaf_stone_masonry, with unit shape rubble."@en ;
+    fmo:hasBehaviour fmo:AverageInPlaneBehaviour,
+        fmo:AverageVerticalBehaviour,
+        fmo:InadequateOutOfPlaneBehaviour ;
     hmo:hasMasonryQualityIndex :MQI_Double_leaf_stone_masonry_lower ;
     hmo:hasRepresentativeVolumeElement :RVE_Double_leaf_stone_masonry_lower .
 
@@ -229,6 +234,9 @@
     rdfs:label "Double_leaf_stone_masonry, upper variant (hypothetical wall)"@en ;
     dcterms:type :Double_leaf_stone_masonry ;
     skos:note "Hypothetical wall, not part of the building: the upper variant of Double_leaf_stone_masonry, with wall connections sparse."@en ;
+    fmo:hasBehaviour fmo:AverageInPlaneBehaviour,
+        fmo:AverageOutOfPlaneBehaviour,
+        fmo:AverageVerticalBehaviour ;
     hmo:hasMasonryQualityIndex :MQI_Double_leaf_stone_masonry_upper ;
     hmo:hasRepresentativeVolumeElement :RVE_Double_leaf_stone_masonry_upper .
 
@@ -861,6 +869,16 @@
         hmo:MasonryWall ;
     rdfs:label "Masonry wall of facade 1, end of unit 1"@en ;
     dcterms:type :Double_leaf_stone_masonry ;
+    rdfs:comment "AbsenceOfTopChains: No tie rods and no ring beam at the top of the walls: the beams were simply supported on them, and the connections of steel angles and bearing plates were added only in the strengthened configuration (Tomić et al. 2024a, Sections 2.3 and 2.4)."@en,
+        "AbsenceOfTopCurbstone: No tie rods and no ring beam at the top of the walls: the beams were simply supported on them, and the connections of steel angles and bearing plates were added only in the strengthened configuration (Tomić et al. 2024a, Sections 2.3 and 2.4)."@en,
+        "DeformableFloors: Timber beams of 8 × 16 cm with a single layer of 2 cm planks nailed to them, a flexible diaphragm (Tomić et al. 2024a, Section 2.3)."@en ;
+    fmo:hasBehaviour fmo:AverageInPlaneBehaviour,
+        fmo:AverageVerticalBehaviour,
+        fmo:InadequateOutOfPlaneBehaviour ;
+    fmo:hasOccurringMechanism fmo:PartialOverturn ;
+    fmo:hasVulnerability fmo:AbsenceOfTopChains,
+        fmo:AbsenceOfTopCurbstone,
+        fmo:DeformableFloors ;
     hmo:hasMasonryQualityIndex :MQI_1 ;
     hmo:hasRepresentativeVolumeElement :RVE_1 .
 
@@ -868,6 +886,16 @@
         hmo:MasonryWall ;
     rdfs:label "Masonry wall of facade 2, part of unit 1"@en ;
     dcterms:type :Double_leaf_stone_masonry ;
+    rdfs:comment "AbsenceOfTopChains: No tie rods and no ring beam at the top of the walls: the beams were simply supported on them, and the connections of steel angles and bearing plates were added only in the strengthened configuration (Tomić et al. 2024a, Sections 2.3 and 2.4)."@en,
+        "AbsenceOfTopCurbstone: No tie rods and no ring beam at the top of the walls: the beams were simply supported on them, and the connections of steel angles and bearing plates were added only in the strengthened configuration (Tomić et al. 2024a, Sections 2.3 and 2.4)."@en,
+        "DeformableFloors: Timber beams of 8 × 16 cm with a single layer of 2 cm planks nailed to them, a flexible diaphragm (Tomić et al. 2024a, Section 2.3)."@en ;
+    fmo:hasBehaviour fmo:AverageInPlaneBehaviour,
+        fmo:AverageVerticalBehaviour,
+        fmo:InadequateOutOfPlaneBehaviour ;
+    fmo:hasOccurringMechanism fmo:PartialOverturn ;
+    fmo:hasVulnerability fmo:AbsenceOfTopChains,
+        fmo:AbsenceOfTopCurbstone,
+        fmo:DeformableFloors ;
     hmo:hasMasonryQualityIndex :MQI_2_U1 ;
     hmo:hasRepresentativeVolumeElement :RVE_2_U1 .
 
@@ -875,6 +903,21 @@
         hmo:MasonryWall ;
     rdfs:label "Masonry wall of facade 2, part of unit 2"@en ;
     dcterms:type :Double_leaf_stone_masonry ;
+    rdfs:comment "AbsenceOfIntermediateChains: No tie rods and no ring beam at the first-floor level of unit 2: the beams were simply supported on the walls, and their connection was added only in the strengthened configuration (Tomić et al. 2024a, Sections 2.3 and 2.4)."@en,
+        "AbsenceOfIntermediateCurbstone: No tie rods and no ring beam at the first-floor level of unit 2: the beams were simply supported on the walls, and their connection was added only in the strengthened configuration (Tomić et al. 2024a, Sections 2.3 and 2.4)."@en,
+        "AbsenceOfTopChains: No tie rods and no ring beam at the top of the walls: the beams were simply supported on them, and the connections of steel angles and bearing plates were added only in the strengthened configuration (Tomić et al. 2024a, Sections 2.3 and 2.4)."@en,
+        "AbsenceOfTopCurbstone: No tie rods and no ring beam at the top of the walls: the beams were simply supported on them, and the connections of steel angles and bearing plates were added only in the strengthened configuration (Tomić et al. 2024a, Sections 2.3 and 2.4)."@en,
+        "DeformableFloors: Timber beams of 8 × 16 cm with a single layer of 2 cm planks nailed to them, a flexible diaphragm (Tomić et al. 2024a, Section 2.3)."@en ;
+    fmo:hasBehaviour fmo:AverageInPlaneBehaviour,
+        fmo:AverageVerticalBehaviour,
+        fmo:InadequateOutOfPlaneBehaviour ;
+    fmo:hasOccurringMechanism fmo:PartialOverturn,
+        fmo:TotalOverturn ;
+    fmo:hasVulnerability fmo:AbsenceOfIntermediateChains,
+        fmo:AbsenceOfIntermediateCurbstone,
+        fmo:AbsenceOfTopChains,
+        fmo:AbsenceOfTopCurbstone,
+        fmo:DeformableFloors ;
     hmo:hasMasonryQualityIndex :MQI_2_U2 ;
     hmo:hasRepresentativeVolumeElement :RVE_2_U2 .
 
@@ -882,6 +925,16 @@
         hmo:MasonryWall ;
     rdfs:label "Masonry wall of facade 3, part of unit 1"@en ;
     dcterms:type :Double_leaf_stone_masonry ;
+    rdfs:comment "AbsenceOfTopChains: No tie rods and no ring beam at the top of the walls: the beams were simply supported on them, and the connections of steel angles and bearing plates were added only in the strengthened configuration (Tomić et al. 2024a, Sections 2.3 and 2.4)."@en,
+        "AbsenceOfTopCurbstone: No tie rods and no ring beam at the top of the walls: the beams were simply supported on them, and the connections of steel angles and bearing plates were added only in the strengthened configuration (Tomić et al. 2024a, Sections 2.3 and 2.4)."@en,
+        "DeformableFloors: Timber beams of 8 × 16 cm with a single layer of 2 cm planks nailed to them, a flexible diaphragm (Tomić et al. 2024a, Section 2.3)."@en ;
+    fmo:hasBehaviour fmo:AverageInPlaneBehaviour,
+        fmo:AverageVerticalBehaviour,
+        fmo:InadequateOutOfPlaneBehaviour ;
+    fmo:hasOccurringMechanism fmo:PartialOverturn ;
+    fmo:hasVulnerability fmo:AbsenceOfTopChains,
+        fmo:AbsenceOfTopCurbstone,
+        fmo:DeformableFloors ;
     hmo:hasMasonryQualityIndex :MQI_3_U1 ;
     hmo:hasRepresentativeVolumeElement :RVE_3_U1 .
 
@@ -889,6 +942,21 @@
         hmo:MasonryWall ;
     rdfs:label "Masonry wall of facade 3, part of unit 2"@en ;
     dcterms:type :Double_leaf_stone_masonry ;
+    rdfs:comment "AbsenceOfIntermediateChains: No tie rods and no ring beam at the first-floor level of unit 2: the beams were simply supported on the walls, and their connection was added only in the strengthened configuration (Tomić et al. 2024a, Sections 2.3 and 2.4)."@en,
+        "AbsenceOfIntermediateCurbstone: No tie rods and no ring beam at the first-floor level of unit 2: the beams were simply supported on the walls, and their connection was added only in the strengthened configuration (Tomić et al. 2024a, Sections 2.3 and 2.4)."@en,
+        "AbsenceOfTopChains: No tie rods and no ring beam at the top of the walls: the beams were simply supported on them, and the connections of steel angles and bearing plates were added only in the strengthened configuration (Tomić et al. 2024a, Sections 2.3 and 2.4)."@en,
+        "AbsenceOfTopCurbstone: No tie rods and no ring beam at the top of the walls: the beams were simply supported on them, and the connections of steel angles and bearing plates were added only in the strengthened configuration (Tomić et al. 2024a, Sections 2.3 and 2.4)."@en,
+        "DeformableFloors: Timber beams of 8 × 16 cm with a single layer of 2 cm planks nailed to them, a flexible diaphragm (Tomić et al. 2024a, Section 2.3)."@en ;
+    fmo:hasBehaviour fmo:AverageInPlaneBehaviour,
+        fmo:AverageVerticalBehaviour,
+        fmo:InadequateOutOfPlaneBehaviour ;
+    fmo:hasOccurringMechanism fmo:PartialOverturn,
+        fmo:TotalOverturn ;
+    fmo:hasVulnerability fmo:AbsenceOfIntermediateChains,
+        fmo:AbsenceOfIntermediateCurbstone,
+        fmo:AbsenceOfTopChains,
+        fmo:AbsenceOfTopCurbstone,
+        fmo:DeformableFloors ;
     hmo:hasMasonryQualityIndex :MQI_3_U2 ;
     hmo:hasRepresentativeVolumeElement :RVE_3_U2 .
 
@@ -896,6 +964,21 @@
         hmo:MasonryWall ;
     rdfs:label "Masonry wall of facade 4, end of unit 2"@en ;
     dcterms:type :Double_leaf_stone_masonry ;
+    rdfs:comment "AbsenceOfIntermediateChains: No tie rods and no ring beam at the first-floor level of unit 2: the beams were simply supported on the walls, and their connection was added only in the strengthened configuration (Tomić et al. 2024a, Sections 2.3 and 2.4)."@en,
+        "AbsenceOfIntermediateCurbstone: No tie rods and no ring beam at the first-floor level of unit 2: the beams were simply supported on the walls, and their connection was added only in the strengthened configuration (Tomić et al. 2024a, Sections 2.3 and 2.4)."@en,
+        "AbsenceOfTopChains: No tie rods and no ring beam at the top of the walls: the beams were simply supported on them, and the connections of steel angles and bearing plates were added only in the strengthened configuration (Tomić et al. 2024a, Sections 2.3 and 2.4)."@en,
+        "AbsenceOfTopCurbstone: No tie rods and no ring beam at the top of the walls: the beams were simply supported on them, and the connections of steel angles and bearing plates were added only in the strengthened configuration (Tomić et al. 2024a, Sections 2.3 and 2.4)."@en,
+        "DeformableFloors: Timber beams of 8 × 16 cm with a single layer of 2 cm planks nailed to them, a flexible diaphragm (Tomić et al. 2024a, Section 2.3)."@en ;
+    fmo:hasBehaviour fmo:AverageInPlaneBehaviour,
+        fmo:AverageVerticalBehaviour,
+        fmo:InadequateOutOfPlaneBehaviour ;
+    fmo:hasOccurringMechanism fmo:PartialOverturn,
+        fmo:TotalOverturn ;
+    fmo:hasVulnerability fmo:AbsenceOfIntermediateChains,
+        fmo:AbsenceOfIntermediateCurbstone,
+        fmo:AbsenceOfTopChains,
+        fmo:AbsenceOfTopCurbstone,
+        fmo:DeformableFloors ;
     hmo:hasMasonryQualityIndex :MQI_4 ;
     hmo:hasRepresentativeVolumeElement :RVE_4 .
 
@@ -903,6 +986,21 @@
         hmo:MasonryWall ;
     rdfs:label "Masonry wall of facade 5, wall of unit 2 shared with unit 1"@en ;
     dcterms:type :Double_leaf_stone_masonry ;
+    rdfs:comment "AbsenceOfIntermediateChains: No tie rods and no ring beam at the first-floor level of unit 2: the beams were simply supported on the walls, and their connection was added only in the strengthened configuration (Tomić et al. 2024a, Sections 2.3 and 2.4)."@en,
+        "AbsenceOfIntermediateCurbstone: No tie rods and no ring beam at the first-floor level of unit 2: the beams were simply supported on the walls, and their connection was added only in the strengthened configuration (Tomić et al. 2024a, Sections 2.3 and 2.4)."@en,
+        "AbsenceOfTopChains: No tie rods and no ring beam at the top of the walls: the beams were simply supported on them, and the connections of steel angles and bearing plates were added only in the strengthened configuration (Tomić et al. 2024a, Sections 2.3 and 2.4)."@en,
+        "AbsenceOfTopCurbstone: No tie rods and no ring beam at the top of the walls: the beams were simply supported on them, and the connections of steel angles and bearing plates were added only in the strengthened configuration (Tomić et al. 2024a, Sections 2.3 and 2.4)."@en,
+        "DeformableFloors: Timber beams of 8 × 16 cm with a single layer of 2 cm planks nailed to them, a flexible diaphragm (Tomić et al. 2024a, Section 2.3)."@en ;
+    fmo:hasBehaviour fmo:AverageInPlaneBehaviour,
+        fmo:AverageVerticalBehaviour,
+        fmo:InadequateOutOfPlaneBehaviour ;
+    fmo:hasOccurringMechanism fmo:PartialOverturn,
+        fmo:TotalOverturn ;
+    fmo:hasVulnerability fmo:AbsenceOfIntermediateChains,
+        fmo:AbsenceOfIntermediateCurbstone,
+        fmo:AbsenceOfTopChains,
+        fmo:AbsenceOfTopCurbstone,
+        fmo:DeformableFloors ;
     hmo:hasMasonryQualityIndex :MQI_5 ;
     hmo:hasRepresentativeVolumeElement :RVE_5 .
 

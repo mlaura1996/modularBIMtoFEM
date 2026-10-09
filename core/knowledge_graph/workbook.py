@@ -13,6 +13,7 @@ record, so that it can be filled in without touching code or RDF:
     Photos         the photographs of each facade
     Connections    documented connections between facades
     Openings       historic openings
+    Vulnerabilities  the vulnerabilities of each facade wall (FMO), with evidence
     MasonryTypes   the seven MQI parameters of each masonry type, with the
                    evidence for each, its flags and its density
     Measured       measured properties to compare the derived ones with
@@ -46,6 +47,9 @@ CHOICES = {
     "floor kind": ["TimberFloor", "Vault", "HorizontalStructure"],
     "connection kind": ["Connection", "Quoin", "Tie"],
     "yes/no": ["yes", "no"],
+    "vulnerability": ["AbsenceOfTopChains", "AbsenceOfTopCurbstone", "AbsenceOfIntermediateChains",
+                      "AbsenceOfIntermediateCurbstone", "DeformableFloors", "ExcessiveSlenderness",
+                      "OpeningsNearIntersections", "PresenceOfHorizontalThrust"],
 }
 
 # sheet -> [(column, description, choices key or None)]
@@ -90,6 +94,9 @@ SHEETS = {
                     ("quality", "Connection quality and its evidence", None)],
     "Openings": [("id", "Identifier", None), ("facade", "Facade it is on", None),
                  ("label", "Description", None)],
+    "Vulnerabilities": [("facade", "Facade whose wall has it", None),
+                        ("vulnerability", "FMO vulnerability", "vulnerability"),
+                        ("evidence", "What shows it, and its source", None)],
     "MasonryTypes": [("name", "Name, the same as the IFC material", None), ("description", "Description", None)]
                     + [(p, f"MQI category: {p.replace('_', ' ')}", p) for p in PARAMETERS]
                     + [(f"evidence_{p}", f"Evidence for {p.replace('_', ' ')}", None) for p in PARAMETERS]
@@ -161,7 +168,7 @@ def read_workbook(path):
             "people": {text(r["id"]): {"name": text(r["name"]), "affiliation": text(r["organisation"])}
                        for r in s["People"]},
             "activities": {}, "documents": {}, "units": {}, "facades": {}, "photos": {},
-            "connections": {}, "openings": {}, "measured": []}
+            "connections": {}, "openings": {}, "vulnerabilities": [], "measured": []}
     for r in s["Activities"]:
         a = {"label": text(r["label"]), "people": split(r.get("people"))}
         for k in ("date", "start", "end", "notes"):
@@ -198,6 +205,8 @@ def read_workbook(path):
                                               ("kind", "part_a", "part_b", "label", "quality")}
     for r in s["Openings"]:
         case["openings"][text(r["id"])] = {"facade": text(r["facade"]), "label": text(r["label"])}
+    for r in s["Vulnerabilities"]:
+        case["vulnerabilities"].append({k: text(r.get(k)) for k in ("facade", "vulnerability", "evidence")})
     for r in s["Measured"]:
         case["measured"].append({k: text(r.get(k)) for k in ("masonry_type", "quantity", "value", "basis", "source")})
 
@@ -259,6 +268,10 @@ def validate(case, classification):
         need("facades", cn["part_b"], f"Connections {cid}")
     for oid, o in c["openings"].items():
         need("facades", o["facade"], f"Openings {oid}")
+    for v in c.get("vulnerabilities", []):
+        need("facades", v["facade"], "Vulnerabilities")
+        if v["vulnerability"] not in CHOICES["vulnerability"]:
+            problems.append(f"Vulnerabilities: '{v['vulnerability']}' is not an FMO vulnerability")
     for name, t in classification["types"].items():
         for p in PARAMETERS:
             if t["observation"][p] not in CHOICES[p]:
@@ -319,7 +332,7 @@ def _records_as_rows(case, classification):
             "Organisations": [{"id": k, "name": v} for k, v in case["organisations"].items()],
             "People": [{"id": k, "name": p["name"], "organisation": p["affiliation"]} for k, p in case["people"].items()],
             "Activities": [], "Documents": [], "Units": [], "Facades": [], "Photos": [],
-            "Connections": [], "Openings": [], "MasonryTypes": [], "Measured": []}
+            "Connections": [], "Openings": [], "Vulnerabilities": [], "MasonryTypes": [], "Measured": []}
     for k, a in case["activities"].items():
         rows["Activities"].append({"id": k, "label": a["label"], "date": a.get("date", ""), "start": a.get("start", ""),
                                    "end": a.get("end", ""), "people": j(a["people"]),
@@ -359,5 +372,6 @@ def _records_as_rows(case, classification):
         for k, v in t.get("variants", {}).items():
             row[f"variant_{k}"] = j(f"{p}={x}" for p, x in v.items())
         rows["MasonryTypes"].append(row)
+    rows["Vulnerabilities"] = list(case.get("vulnerabilities", []))
     rows["Measured"] = list(case.get("measured", []))
     return rows

@@ -32,7 +32,7 @@ import rdflib
 from rdflib import RDF, RDFS, OWL, Literal, URIRef
 
 ONTOLOGIES = ["resources/ontologies/hsv.ttl", "resources/ontologies/hsto.ttl",
-              "resources/ontologies/hmo.ttl"]
+              "resources/ontologies/hmo.ttl", "resources/ontologies/fmo.ttl"]
 THUMB_PX, LARGE_PX = 320, 1000
 TEMPLATE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "page_template.html")
 
@@ -40,6 +40,7 @@ VOCAB = {
     "hsv": "https://w3id.org/hsv#",
     "hsto": "https://w3id.org/hsto#",
     "hmo": "https://w3id.org/hmo#",
+    "fmo": "https://w3id.org/fmo#",
     "saref": "https://saref.etsi.org/core/",
     "prov": "http://www.w3.org/ns/prov#",
     "dcterms": "http://purl.org/dc/terms/",
@@ -48,7 +49,7 @@ VOCAB = {
     "rdfs": str(RDFS),
     "owl": str(OWL),
 }
-HSV, HSTO, HMO = (rdflib.Namespace(VOCAB[p]) for p in ("hsv", "hsto", "hmo"))
+HSV, HSTO, HMO, FMO = (rdflib.Namespace(VOCAB[p]) for p in ("hsv", "hsto", "hmo", "fmo"))
 SAREF, PROV, DCT = (rdflib.Namespace(VOCAB[p]) for p in ("saref", "prov", "dcterms"))
 FOAF, SKOS = rdflib.Namespace(VOCAB["foaf"]), rdflib.Namespace(VOCAB["skos"])
 
@@ -67,6 +68,7 @@ GROUPS = [
     ("variant", "Variant walls (hypothetical)", False),
     ("measured", "Measured properties", False),
     ("hmo", "Quality index and properties (HMO)", False),
+    ("fmo", "Behaviour, vulnerabilities, mechanisms (FMO)", True),
     ("constant", "Pattern entities (HMO)", False),
 ]
 PROPERTY_CLASSES = {"CompressiveStrength": ("f_c", "MPa"), "YoungModulus": ("E", "MPa"),
@@ -136,6 +138,8 @@ def build_page(kg_path, out_dir, photos_dir=None, ontologies=ONTOLOGIES, log=pri
             return "document"
         if any(str(t).startswith(VOCAB["hmo"]) for t in ts):
             return "hmo"
+        if str(term).startswith(VOCAB["fmo"]):
+            return "fmo"
         if str(term).startswith(VOCAB["hmo"]):
             return "constant"
         return None
@@ -158,7 +162,7 @@ def build_page(kg_path, out_dir, photos_dir=None, ontologies=ONTOLOGIES, log=pri
                 literals[curie(p)].append(str(o))
         nodes[key] = {"id": key, "label": label(term), "group": g,
                       "types": [curie(t) for t in types(term)] or
-                               (["IFC element of the BIM model"] if g == "bim" else ["hmo constant"]),
+                               ({"bim": ["IFC element of the BIM model"], "fmo": ["FMO individual"]}.get(g, ["hmo constant"])),
                       "literals": dict(literals)}
         if key in images:
             nodes[key]["img"], nodes[key]["large"] = images[key]
@@ -203,6 +207,11 @@ def build_page(kg_path, out_dir, photos_dir=None, ontologies=ONTOLOGIES, log=pri
                "Unit": local(unit).replace("Unit_", "") if unit else "",
                "Masonry type": label(kg.value(wall, DCT.type)), "_wall": curie(wall),
                "Photographs": len(photos)}
+        behaviours = {str(b).split("#")[-1] for b in kg.objects(wall, FMO.hasBehaviour)}
+        row["Behaviour"] = [f"{d}: {next((q for q in ('Inadequate', 'Average', 'Good') if f'{q}{key}Behaviour' in behaviours), '–').lower()}"
+                            for d, key in (("vertical", "Vertical"), ("out of plane", "OutOfPlane"), ("in plane", "InPlane"))]
+        row["Vulnerabilities"] = sorted(label(v) for v in kg.objects(wall, FMO.hasVulnerability))
+        row["Expected mechanisms"] = sorted(label(m) for m in kg.objects(wall, FMO.hasOccurringMechanism))
         row.update(wall_values(wall))
         row["_photos"] = [{"file": str(kg.value(ph, DCT.identifier)),
                            "taken": str(kg.value(ph, DCT.created) or ""),

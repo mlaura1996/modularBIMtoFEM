@@ -1,12 +1,14 @@
 # Knowledge graphs
 
 Each case study is described in a knowledge graph built on the Historic
-Survey (HSV), Historic Structure (HSTO) and Historic Masonry (HMO)
-ontologies: the survey or the publications and their documents, with the
+Survey (HSV), Historic Structure (HSTO), Historic Masonry (HMO) and
+Failure Mechanism (FMO) ontologies: the survey or the publications and their documents, with the
 people and activities that produced them; the façades and the masonry wall
 each is made of, the floors, openings and connections; and the quality
 index and homogenised properties of every wall, derived by Pellet from the
-HMO rules (see {doc}`materials`). Each graph can be browsed online, with
+HMO rules (see {doc}`materials`); and the behaviour of every wall in each
+direction and the failure mechanisms its vulnerabilities enable, derived
+from the FMO rules. Each graph can be browsed online, with
 an interactive view of the graph, a 3D view of the BIM model coloured by
 masonry type, and tables of the same content.
 
@@ -28,7 +30,8 @@ next to the measured ones
 
 A case study is entered in one Excel workbook, one sheet per kind of
 record: project, organisations, people, activities, documents, units,
-façades, photographs, connections, openings, masonry types (the seven MQI
+façades, photographs, connections, openings, vulnerabilities of each
+façade wall (FMO), masonry types (the seven MQI
 parameters with the evidence for each, flags, density and variants) and
 measured properties. Categorical cells offer the allowed values in a list,
 and every header carries a note on what goes in it.
@@ -59,7 +62,7 @@ is recorded as part of the BIM model and of that type. Which façade an
 element belongs to is not recorded in the IFC file, so the link is by type.
 
 The second reads the workbook, checks that its cross-references resolve,
-builds the graph, checks that every HSV, HSTO and HMO term is declared and
+builds the graph, checks that every HSV, HSTO, HMO and FMO term is declared and
 every property used within its domain and range, runs Pellet over the
 ontologies and the graph together, checks every derived value against
 `core/ifc_processing/hmo_mqi.py`, and writes `knowledge_graph.ttl`, the

@@ -1,8 +1,8 @@
 # Ontologies
 
-The three ontologies the case-study knowledge graphs are built on
+The four ontologies the case-study knowledge graphs are built on
 (`python -m core.knowledge_graph build <case.xlsx> ...`, for Castelnuovo
-and the SERA-AIMS benchmark). Pellet reasons over the three together with
+and the SERA-AIMS benchmark). Pellet reasons over the four together with
 the case-study individuals.
 
 | file | ontology | source |
@@ -10,6 +10,7 @@ the case-study individuals.
 | `hsv.ttl` | Historic Survey Ontology (HSV) | <https://github.com/mlaura1996/Historic-Survey-Ontology> @ `bb719ac` (2026-05-20), unchanged |
 | `hsto.ttl` | Historic Structure Ontology (HSTO) | <https://github.com/mlaura1996/Historic-Structure-Ontology> @ `04dd898` (2026-05-20), unchanged |
 | `hmo.ttl` | Historic Masonry Ontology (HMO), corrected rules | <https://github.com/mlaura1996/HistoricMasonryOntology>, branch `fix-swrl-rules` |
+| `fmo.ttl` | Failure Mechanism Ontology (FMO), corrected rules | <https://github.com/mlaura1996/FailureMechanismOntology>, branch `fix-rules` |
 
 ## `hmo.ttl` — Historic Masonry Ontology, corrected rules
 
@@ -42,7 +43,27 @@ one value per quantity for every type, equal to those of
 F6, F7 and F9 add vocabulary rather than correct it, and are the changes
 the ontology's author should review as design decisions.
 
-## How the three meet
+## `fmo.ttl` — Failure Mechanism Ontology, corrected rules
+
+Copy of the Failure Mechanism Ontology with the corrections applied by
+`tools/fix_fmo_rules.py` in its repository. FMO derives, for every masonry
+wall, its behaviour in each direction from the HMO quality index, and the
+failure mechanisms enabled by the vulnerabilities recorded for it.
+
+| | correction | without it |
+|---|---|---|
+| G1 | example individuals of the case study moved out of the ontology file | knowledge base inconsistent |
+| G2 | threshold literals typed `xsd:float` (some were untyped strings) | wall 417a gets no vertical behaviour |
+| G3 | behaviour classes made contiguous (inadequate < first limit ≤ average ≤ second limit < good) | at 2.5 a wall is both inadequate and average vertically |
+| G4 | properties with two domains (`beo:Wall`, `hmo:MasonryWall`) given their union | every HMO wall inferred a `beo:Wall` |
+
+G3 sets a convention that is to be checked against the MQI limits of
+Borri et al. A limitation is left as it is: SWRL cannot express the
+absence of a fact, so the partial overturning rules fire whenever the top
+restraint is missing, including when the intermediate one is missing too,
+and total overturning is to be read as including the partial one.
+
+## How the four meet
 
 HSTO's `isMadeOf` goes from an `hsto:Facade` to an `hmo:MasonryWall`; HSTO
 has no wall class of its own. That property is the joint: each facade of
