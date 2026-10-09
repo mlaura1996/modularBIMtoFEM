@@ -406,7 +406,7 @@
 :KnowledgeGraph a owl:Ontology ;
     rdfs:label "Castelnuovo di Porto knowledge graph"@en ;
     dcterms:references <https://doi.org/10.5281/zenodo.23260962> ;
-    rdfs:comment "The masonry aggregate of Castelnuovo di Porto described with the Historic Survey (HSV), Historic Structure (HSTO) and Historic Masonry (HMO) ontologies: the survey and its documents, the façades and their walls, and the mechanical properties of the masonry derived by a reasoner from the observed construction features. Built on HSV, HSTO, HMO and FMO. Quality indices, homogenised properties and behaviours were derived by Pellet from the HMO and FMO rules (resources/ontologies/) and checked against core/ifc_processing/hmo_mqi.py."@en ;
+    rdfs:comment "The masonry aggregate of Castelnuovo di Porto described with the Historic Survey (HSV), Historic Structure (HSTO), Historic Masonry (HMO) and Failure Mechanism (FMO) ontologies: the survey and its documents, the façades and their walls, the mechanical properties of the masonry derived by a reasoner from the observed construction features, and the behaviour of the walls. Built on HSV, HSTO, HMO and FMO. Quality indices, homogenised properties and behaviours were derived by Pellet from the HMO and FMO rules (resources/ontologies/) and checked against core/ifc_processing/hmo_mqi.py."@en ;
     owl:imports <https://w3id.org/fmo>,
         <https://w3id.org/hmo>,
         <https://w3id.org/hsto>,

@@ -1,0 +1,988 @@
+{
+ "format": "openbimtofem-case",
+ "version": 1,
+ "tables": {
+  "Project": [
+   {
+    "key": "id",
+    "value": "castelnuovo"
+   },
+   {
+    "key": "title",
+    "value": "Castelnuovo di Porto knowledge graph"
+   },
+   {
+    "key": "description",
+    "value": "The masonry aggregate of Castelnuovo di Porto described with the Historic Survey (HSV), Historic Structure (HSTO), Historic Masonry (HMO) and Failure Mechanism (FMO) ontologies: the survey and its documents, the façades and their walls, the mechanical properties of the masonry derived by a reasoner from the observed construction features, and the behaviour of the walls."
+   },
+   {
+    "key": "namespace",
+    "value": "https://example.org/castelnuovo#"
+   },
+   {
+    "key": "centre_id",
+    "value": "CastelnuovoDiPorto"
+   },
+   {
+    "key": "centre_label",
+    "value": "Historic centre of Castelnuovo di Porto"
+   },
+   {
+    "key": "aggregate_id",
+    "value": "Aggregate"
+   },
+   {
+    "key": "aggregate_label",
+    "value": "Aggregate between Piazza Garibaldi and Via Umberto I"
+   },
+   {
+    "key": "technique_id",
+    "value": "MuraturaATufelli"
+   },
+   {
+    "key": "technique_label",
+    "value": "Muratura a tufelli"
+   },
+   {
+    "key": "bim_document",
+    "value": "BIMModel"
+   },
+   {
+    "key": "software_doi",
+    "value": "10.5281/zenodo.23260962"
+   }
+  ],
+  "Organisations": [
+   {
+    "id": "CNR_ISPC",
+    "name": "Institute of Heritage Science (ISPC), National Research Council of Italy (CNR)"
+   },
+   {
+    "id": "ISISE_UMinho",
+    "name": "Institute for Sustainability and Innovation in Structural Engineering (ISISE), University of Minho"
+   }
+  ],
+  "People": [
+   {
+    "id": "MariaLauraLeonardi",
+    "name": "Maria Laura Leonardi",
+    "organisation": "ISISE_UMinho"
+   },
+   {
+    "id": "MicheleCalvano",
+    "name": "Michele Calvano",
+    "organisation": "CNR_ISPC"
+   },
+   {
+    "id": "LetiziaMartinelli",
+    "name": "Letizia Martinelli",
+    "organisation": "CNR_ISPC"
+   },
+   {
+    "id": "StefanoCursi",
+    "name": "Stefano Cursi",
+    "organisation": "CNR_ISPC"
+   },
+   {
+    "id": "ElenaVerticchio",
+    "name": "Elena Verticchio",
+    "organisation": "CNR_ISPC"
+   },
+   {
+    "id": "ElenaGigliarelli",
+    "name": "Elena Gigliarelli",
+    "organisation": "CNR_ISPC"
+   },
+   {
+    "id": "FilippoCalcerano",
+    "name": "Filippo Calcerano",
+    "organisation": "CNR_ISPC"
+   },
+   {
+    "id": "MiguelAzenha",
+    "name": "Miguel Azenha",
+    "organisation": "ISISE_UMinho"
+   },
+   {
+    "id": "DanielOliveira",
+    "name": "Daniel V. Oliveira",
+    "organisation": "ISISE_UMinho"
+   }
+  ],
+  "Activities": [
+   {
+    "id": "PreSurveyDeskStudy",
+    "label": "Pre-survey desk study on the cadastral map and aerial imagery",
+    "date": "",
+    "start": "",
+    "end": "",
+    "people": "MariaLauraLeonardi; FilippoCalcerano",
+    "roles": "",
+    "notes": ""
+   },
+   {
+    "id": "BibliographicResearch",
+    "label": "Bibliographic and documentary research",
+    "date": "",
+    "start": "",
+    "end": "",
+    "people": "MariaLauraLeonardi; ElenaGigliarelli",
+    "roles": "",
+    "notes": ""
+   },
+   {
+    "id": "PhotographicCampaign",
+    "label": "Photographic survey campaign",
+    "date": "2023-06-01",
+    "start": "",
+    "end": "",
+    "people": "MariaLauraLeonardi; StefanoCursi; ElenaVerticchio",
+    "roles": "",
+    "notes": ""
+   },
+   {
+    "id": "LaserScanningCampaign",
+    "label": "Handheld SLAM laser scanning campaign",
+    "date": "2023-07-04",
+    "start": "2023-07-04T16:58:25Z",
+    "end": "2023-07-04T17:16:49Z",
+    "people": "MariaLauraLeonardi; LetiziaMartinelli",
+    "roles": "",
+    "notes": "Instrument: GeoSLAM ZEB Horizon RT with ZEB Vision imaging module"
+   },
+   {
+    "id": "PointCloudProcessing",
+    "label": "Point cloud processing",
+    "date": "",
+    "start": "",
+    "end": "",
+    "people": "MariaLauraLeonardi; MicheleCalvano",
+    "roles": "",
+    "notes": ""
+   },
+   {
+    "id": "BIMModelling",
+    "label": "BIM modelling in Autodesk Revit 2027",
+    "date": "",
+    "start": "",
+    "end": "",
+    "people": "MariaLauraLeonardi",
+    "roles": "",
+    "notes": ""
+   },
+   {
+    "id": "Supervision",
+    "label": "Supervision of the doctoral research",
+    "date": "",
+    "start": "",
+    "end": "",
+    "people": "ElenaGigliarelli; MiguelAzenha; DanielOliveira",
+    "roles": "ElenaGigliarelli: Supervisor; MiguelAzenha: Supervisor; DanielOliveira: Supervisor",
+    "notes": ""
+   }
+  ],
+  "Documents": [
+   {
+    "id": "PreSurveyCadastralMap",
+    "kind": "Drawing",
+    "label": "Cadastral map annotated with the block identifiers",
+    "date": "",
+    "activity": "PreSurveyDeskStudy",
+    "derived_from": "",
+    "used_in": "",
+    "authors": "MariaLauraLeonardi; FilippoCalcerano",
+    "acquired_by": "",
+    "processed_by": "",
+    "identifier": "",
+    "about": ""
+   },
+   {
+    "id": "PreSurveyAerialStudy",
+    "kind": "Document",
+    "label": "Study of the accessible fronts on aerial imagery",
+    "date": "",
+    "activity": "PreSurveyDeskStudy",
+    "derived_from": "",
+    "used_in": "",
+    "authors": "MariaLauraLeonardi; FilippoCalcerano",
+    "acquired_by": "",
+    "processed_by": "",
+    "identifier": "",
+    "about": ""
+   },
+   {
+    "id": "CadastralPlans",
+    "kind": "Drawing",
+    "label": "Existing cadastral plans of the individual units",
+    "date": "",
+    "activity": "",
+    "derived_from": "",
+    "used_in": "PreSurveyDeskStudy",
+    "authors": "",
+    "acquired_by": "",
+    "processed_by": "",
+    "identifier": "",
+    "about": ""
+   },
+   {
+    "id": "ReferenceTextTuffMasonry",
+    "kind": "Publication",
+    "label": "Reference text on tuff masonry in the Roman area (typology comparison tables, citing Carbonara)",
+    "date": "",
+    "activity": "",
+    "derived_from": "",
+    "used_in": "BibliographicResearch",
+    "authors": "",
+    "acquired_by": "",
+    "processed_by": "",
+    "identifier": "",
+    "about": ""
+   },
+   {
+    "id": "Circolare_7_2019",
+    "kind": "Publication",
+    "label": "Circolare n. 7/2019 to the Italian Building Code (NTC 2018), Table C8.5.I",
+    "date": "",
+    "activity": "",
+    "derived_from": "",
+    "used_in": "BibliographicResearch",
+    "authors": "",
+    "acquired_by": "",
+    "processed_by": "",
+    "identifier": "",
+    "about": ""
+   },
+   {
+    "id": "RawScan",
+    "kind": "PointCloud",
+    "label": "2023-07-04_castelnuovo_v2.geoslam",
+    "date": "2023-07-04",
+    "activity": "LaserScanningCampaign",
+    "derived_from": "",
+    "used_in": "",
+    "authors": "",
+    "acquired_by": "MariaLauraLeonardi; LetiziaMartinelli",
+    "processed_by": "",
+    "identifier": "",
+    "about": ""
+   },
+   {
+    "id": "EditedPointCloud",
+    "kind": "PointCloud",
+    "label": "CleanedIsolato.ply (CloudCompare 2.13), 13401258 points",
+    "date": "",
+    "activity": "PointCloudProcessing",
+    "derived_from": "RawScan",
+    "used_in": "",
+    "authors": "",
+    "acquired_by": "",
+    "processed_by": "MariaLauraLeonardi; MicheleCalvano",
+    "identifier": "",
+    "about": ""
+   },
+   {
+    "id": "ReCapProject",
+    "kind": "PointCloud",
+    "label": "CastelnuovoDiPorto.rcp with scan ColoredAggr.rcs (Autodesk ReCap Pro 2026)",
+    "date": "",
+    "activity": "PointCloudProcessing",
+    "derived_from": "EditedPointCloud",
+    "used_in": "",
+    "authors": "",
+    "acquired_by": "",
+    "processed_by": "MariaLauraLeonardi; MicheleCalvano",
+    "identifier": "",
+    "about": ""
+   },
+   {
+    "id": "BIMModel",
+    "kind": "BuildingInformationModel",
+    "label": "final_example.ifc (IFC4), exported from Autodesk Revit 2027",
+    "date": "",
+    "activity": "BIMModelling",
+    "derived_from": "ReCapProject",
+    "used_in": "",
+    "authors": "MariaLauraLeonardi",
+    "acquired_by": "",
+    "processed_by": "MiguelAzenha; DanielOliveira; ElenaGigliarelli",
+    "identifier": "",
+    "about": ""
+   }
+  ],
+  "Units": [
+   {
+    "id": "Unit_417",
+    "label": "Structural unit 417 (cadastral identifier)",
+    "floor_kind": "TimberFloor",
+    "floor_label": "Timber floors of unit 417",
+    "floor_accessible": "no",
+    "floor_note": "Generic: timber floors alla romana documented for the aggregate as a whole; the interiors of the case-study units could not be inspected."
+   },
+   {
+    "id": "Unit_418",
+    "label": "Structural unit 418 (cadastral identifier)",
+    "floor_kind": "TimberFloor",
+    "floor_label": "Timber floors of unit 418",
+    "floor_accessible": "no",
+    "floor_note": "Generic: timber floors alla romana documented for the aggregate as a whole; the interiors of the case-study units could not be inspected."
+   },
+   {
+    "id": "Unit_419",
+    "label": "Structural unit 419 (cadastral identifier)",
+    "floor_kind": "TimberFloor",
+    "floor_label": "Timber floors of unit 419",
+    "floor_accessible": "no",
+    "floor_note": "Generic: timber floors alla romana documented for the aggregate as a whole; the interiors of the case-study units could not be inspected."
+   },
+   {
+    "id": "Unit_420",
+    "label": "Structural unit 420 (cadastral identifier)",
+    "floor_kind": "TimberFloor",
+    "floor_label": "Timber floors of unit 420",
+    "floor_accessible": "no",
+    "floor_note": "Generic: timber floors alla romana documented for the aggregate as a whole; the interiors of the case-study units could not be inspected."
+   }
+  ],
+  "Facades": [
+   {
+    "id": "Facade_417a",
+    "unit": "Unit_417",
+    "label": "Facade 417a of unit 417",
+    "masonry_type": "Tufelli_masonry_typeC",
+    "elements": ""
+   },
+   {
+    "id": "Facade_417b",
+    "unit": "Unit_417",
+    "label": "Facade 417b of unit 417",
+    "masonry_type": "Tufelli_masonry_typeD",
+    "elements": ""
+   },
+   {
+    "id": "Facade_417c",
+    "unit": "Unit_417",
+    "label": "Facade 417c of unit 417",
+    "masonry_type": "Tufelli_masonry_typeB",
+    "elements": ""
+   },
+   {
+    "id": "Facade_418a",
+    "unit": "Unit_418",
+    "label": "Facade 418a of unit 418",
+    "masonry_type": "Tufelli_masonry_typeB",
+    "elements": ""
+   },
+   {
+    "id": "Facade_418b",
+    "unit": "Unit_418",
+    "label": "Facade 418b of unit 418",
+    "masonry_type": "Tufelli_masonry_typeD",
+    "elements": ""
+   },
+   {
+    "id": "Facade_419",
+    "unit": "Unit_419",
+    "label": "Facade 419 of unit 419",
+    "masonry_type": "Tufelli_masonry_typeA",
+    "elements": ""
+   },
+   {
+    "id": "Facade_420",
+    "unit": "Unit_420",
+    "label": "Facade 420 of unit 420",
+    "masonry_type": "Tufelli_masonry_typeD",
+    "elements": ""
+   }
+  ],
+  "Photos": [
+   {
+    "facade": "Facade_417a",
+    "file": "A-417/417_a/WhatsApp Image 2023-06-01 at 14.50.43 (1).jpeg",
+    "label": "",
+    "taken": "2023-06-01T14:50:43",
+    "activity": "PhotographicCampaign",
+    "acquired_by": "",
+    "source": "",
+    "id": "Photo_417a_01"
+   },
+   {
+    "facade": "Facade_417a",
+    "file": "A-417/417_a/WhatsApp Image 2023-06-01 at 14.50.44 (1).jpeg",
+    "label": "",
+    "taken": "2023-06-01T14:50:44",
+    "activity": "PhotographicCampaign",
+    "acquired_by": "",
+    "source": "",
+    "id": "Photo_417a_02"
+   },
+   {
+    "facade": "Facade_417a",
+    "file": "A-417/417_a/WhatsApp Image 2023-06-01 at 14.50.44.jpeg",
+    "label": "",
+    "taken": "2023-06-01T14:50:44",
+    "activity": "PhotographicCampaign",
+    "acquired_by": "",
+    "source": "",
+    "id": "Photo_417a_03"
+   },
+   {
+    "facade": "Facade_417a",
+    "file": "A-417/417_a/WhatsApp Image 2023-06-01 at 14.50.45 (1).jpeg",
+    "label": "",
+    "taken": "2023-06-01T14:50:45",
+    "activity": "PhotographicCampaign",
+    "acquired_by": "",
+    "source": "",
+    "id": "Photo_417a_04"
+   },
+   {
+    "facade": "Facade_417a",
+    "file": "A-417/417_a/WhatsApp Image 2023-06-01 at 14.50.45.jpeg",
+    "label": "",
+    "taken": "2023-06-01T14:50:45",
+    "activity": "PhotographicCampaign",
+    "acquired_by": "",
+    "source": "",
+    "id": "Photo_417a_05"
+   },
+   {
+    "facade": "Facade_417a",
+    "file": "A-417/417_a/WhatsApp Image 2023-06-01 at 14.50.46.jpeg",
+    "label": "",
+    "taken": "2023-06-01T14:50:46",
+    "activity": "PhotographicCampaign",
+    "acquired_by": "",
+    "source": "",
+    "id": "Photo_417a_06"
+   },
+   {
+    "facade": "Facade_417a",
+    "file": "A-417/417_a/WhatsApp Image 2023-06-01 at 14.51.48.jpeg",
+    "label": "",
+    "taken": "2023-06-01T14:51:48",
+    "activity": "PhotographicCampaign",
+    "acquired_by": "",
+    "source": "",
+    "id": "Photo_417a_07"
+   },
+   {
+    "facade": "Facade_417a",
+    "file": "A-417/417_a/WhatsApp Image 2023-06-01 at 14.51.49 (1).jpeg",
+    "label": "",
+    "taken": "2023-06-01T14:51:49",
+    "activity": "PhotographicCampaign",
+    "acquired_by": "",
+    "source": "",
+    "id": "Photo_417a_08"
+   },
+   {
+    "facade": "Facade_417a",
+    "file": "A-417/417_a/WhatsApp Image 2023-06-01 at 14.51.49.jpeg",
+    "label": "",
+    "taken": "2023-06-01T14:51:49",
+    "activity": "PhotographicCampaign",
+    "acquired_by": "",
+    "source": "",
+    "id": "Photo_417a_09"
+   },
+   {
+    "facade": "Facade_417a",
+    "file": "A-417/417_a/WhatsApp Image 2023-06-01 at 14.51.50 (1).jpeg",
+    "label": "",
+    "taken": "2023-06-01T14:51:50",
+    "activity": "PhotographicCampaign",
+    "acquired_by": "",
+    "source": "",
+    "id": "Photo_417a_10"
+   },
+   {
+    "facade": "Facade_417a",
+    "file": "A-417/417_a/WhatsApp Image 2023-06-01 at 14.51.50.jpeg",
+    "label": "",
+    "taken": "2023-06-01T14:51:50",
+    "activity": "PhotographicCampaign",
+    "acquired_by": "",
+    "source": "",
+    "id": "Photo_417a_11"
+   },
+   {
+    "facade": "Facade_417a",
+    "file": "A-417/417_a/WhatsApp Image 2023-06-01 at 2.43.33 PM (4).jpeg",
+    "label": "",
+    "taken": "",
+    "activity": "PhotographicCampaign",
+    "acquired_by": "",
+    "source": "",
+    "id": "Photo_417a_12"
+   },
+   {
+    "facade": "Facade_417a",
+    "file": "A-417/417_a/WhatsApp Image 2023-06-01 at 2.43.34 PM.jpeg",
+    "label": "",
+    "taken": "",
+    "activity": "PhotographicCampaign",
+    "acquired_by": "",
+    "source": "",
+    "id": "Photo_417a_13"
+   },
+   {
+    "facade": "Facade_417b",
+    "file": "A-417/417_b/WhatsApp Image 2023-06-01 at 14.51.52 (1).jpeg",
+    "label": "",
+    "taken": "2023-06-01T14:51:52",
+    "activity": "PhotographicCampaign",
+    "acquired_by": "",
+    "source": "",
+    "id": "Photo_417b_01"
+   },
+   {
+    "facade": "Facade_417b",
+    "file": "A-417/417_b/WhatsApp Image 2023-06-01 at 14.51.52.jpeg",
+    "label": "",
+    "taken": "2023-06-01T14:51:52",
+    "activity": "PhotographicCampaign",
+    "acquired_by": "",
+    "source": "",
+    "id": "Photo_417b_02"
+   },
+   {
+    "facade": "Facade_417c",
+    "file": "A-417/417_c/WhatsApp Image 2023-06-01 at 14.50.40.jpeg",
+    "label": "",
+    "taken": "2023-06-01T14:50:40",
+    "activity": "PhotographicCampaign",
+    "acquired_by": "",
+    "source": "",
+    "id": "Photo_417c_01"
+   },
+   {
+    "facade": "Facade_417c",
+    "file": "A-417/417_c/WhatsApp Image 2023-06-01 at 14.50.41 (1).jpeg",
+    "label": "",
+    "taken": "2023-06-01T14:50:41",
+    "activity": "PhotographicCampaign",
+    "acquired_by": "",
+    "source": "",
+    "id": "Photo_417c_02"
+   },
+   {
+    "facade": "Facade_417c",
+    "file": "A-417/417_c/WhatsApp Image 2023-06-01 at 14.50.41.jpeg",
+    "label": "",
+    "taken": "2023-06-01T14:50:41",
+    "activity": "PhotographicCampaign",
+    "acquired_by": "",
+    "source": "",
+    "id": "Photo_417c_03"
+   },
+   {
+    "facade": "Facade_417c",
+    "file": "A-417/417_c/WhatsApp Image 2023-06-01 at 14.50.42 (1).jpeg",
+    "label": "",
+    "taken": "2023-06-01T14:50:42",
+    "activity": "PhotographicCampaign",
+    "acquired_by": "",
+    "source": "",
+    "id": "Photo_417c_04"
+   },
+   {
+    "facade": "Facade_417c",
+    "file": "A-417/417_c/WhatsApp Image 2023-06-01 at 14.50.42.jpeg",
+    "label": "",
+    "taken": "2023-06-01T14:50:42",
+    "activity": "PhotographicCampaign",
+    "acquired_by": "",
+    "source": "",
+    "id": "Photo_417c_05"
+   },
+   {
+    "facade": "Facade_417c",
+    "file": "A-417/417_c/WhatsApp Image 2023-06-01 at 14.50.43.jpeg",
+    "label": "",
+    "taken": "2023-06-01T14:50:43",
+    "activity": "PhotographicCampaign",
+    "acquired_by": "",
+    "source": "",
+    "id": "Photo_417c_06"
+   },
+   {
+    "facade": "Facade_417c",
+    "file": "A-417/417_c/WhatsApp Image 2023-06-01 at 14.50.55 (1).jpeg",
+    "label": "",
+    "taken": "2023-06-01T14:50:55",
+    "activity": "PhotographicCampaign",
+    "acquired_by": "",
+    "source": "",
+    "id": "Photo_417c_07"
+   },
+   {
+    "facade": "Facade_417c",
+    "file": "A-417/417_c/WhatsApp Image 2023-06-01 at 14.51.51.jpeg",
+    "label": "",
+    "taken": "2023-06-01T14:51:51",
+    "activity": "PhotographicCampaign",
+    "acquired_by": "",
+    "source": "",
+    "id": "Photo_417c_08"
+   },
+   {
+    "facade": "Facade_417c",
+    "file": "A-417/417_c/WhatsApp Image 2023-06-01 at 2.43.33 PM (1).jpeg",
+    "label": "",
+    "taken": "",
+    "activity": "PhotographicCampaign",
+    "acquired_by": "",
+    "source": "",
+    "id": "Photo_417c_09"
+   },
+   {
+    "facade": "Facade_417c",
+    "file": "A-417/417_c/WhatsApp Image 2023-06-01 at 2.43.33 PM (2).jpeg",
+    "label": "",
+    "taken": "",
+    "activity": "PhotographicCampaign",
+    "acquired_by": "",
+    "source": "",
+    "id": "Photo_417c_10"
+   },
+   {
+    "facade": "Facade_417c",
+    "file": "A-417/417_c/WhatsApp Image 2023-06-01 at 2.43.33 PM (3).jpeg",
+    "label": "",
+    "taken": "",
+    "activity": "PhotographicCampaign",
+    "acquired_by": "",
+    "source": "",
+    "id": "Photo_417c_11"
+   },
+   {
+    "facade": "Facade_418a",
+    "file": "A-418/418-a/WhatsApp Image 2023-06-01 at 14.50.47 (1).jpeg",
+    "label": "",
+    "taken": "2023-06-01T14:50:47",
+    "activity": "PhotographicCampaign",
+    "acquired_by": "",
+    "source": "",
+    "id": "Photo_418a_01"
+   },
+   {
+    "facade": "Facade_418a",
+    "file": "A-418/418-a/WhatsApp Image 2023-06-01 at 14.50.47.jpeg",
+    "label": "",
+    "taken": "2023-06-01T14:50:47",
+    "activity": "PhotographicCampaign",
+    "acquired_by": "",
+    "source": "",
+    "id": "Photo_418a_02"
+   },
+   {
+    "facade": "Facade_418a",
+    "file": "A-418/418-a/WhatsApp Image 2023-06-01 at 14.50.48 (1).jpeg",
+    "label": "",
+    "taken": "2023-06-01T14:50:48",
+    "activity": "PhotographicCampaign",
+    "acquired_by": "",
+    "source": "",
+    "id": "Photo_418a_03"
+   },
+   {
+    "facade": "Facade_418a",
+    "file": "A-418/418-a/WhatsApp Image 2023-06-01 at 14.50.48.jpeg",
+    "label": "",
+    "taken": "2023-06-01T14:50:48",
+    "activity": "PhotographicCampaign",
+    "acquired_by": "",
+    "source": "",
+    "id": "Photo_418a_04"
+   },
+   {
+    "facade": "Facade_418a",
+    "file": "A-418/418-a/WhatsApp Image 2023-06-01 at 14.50.49 (1).jpeg",
+    "label": "",
+    "taken": "2023-06-01T14:50:49",
+    "activity": "PhotographicCampaign",
+    "acquired_by": "",
+    "source": "",
+    "id": "Photo_418a_05"
+   },
+   {
+    "facade": "Facade_418b",
+    "file": "A-418/418b/WhatsApp Image 2023-06-01 at 14.51.53 (1).jpeg",
+    "label": "",
+    "taken": "2023-06-01T14:51:53",
+    "activity": "PhotographicCampaign",
+    "acquired_by": "",
+    "source": "",
+    "id": "Photo_418b_01"
+   },
+   {
+    "facade": "Facade_418b",
+    "file": "A-418/418b/WhatsApp Image 2023-06-01 at 14.51.53.jpeg",
+    "label": "",
+    "taken": "2023-06-01T14:51:53",
+    "activity": "PhotographicCampaign",
+    "acquired_by": "",
+    "source": "",
+    "id": "Photo_418b_02"
+   },
+   {
+    "facade": "Facade_418b",
+    "file": "A-418/418b/WhatsApp Image 2023-06-01 at 14.51.54 (1).jpeg",
+    "label": "",
+    "taken": "2023-06-01T14:51:54",
+    "activity": "PhotographicCampaign",
+    "acquired_by": "",
+    "source": "",
+    "id": "Photo_418b_03"
+   },
+   {
+    "facade": "Facade_418b",
+    "file": "A-418/418b/WhatsApp Image 2023-06-01 at 14.51.54.jpeg",
+    "label": "",
+    "taken": "2023-06-01T14:51:54",
+    "activity": "PhotographicCampaign",
+    "acquired_by": "",
+    "source": "",
+    "id": "Photo_418b_04"
+   },
+   {
+    "facade": "Facade_418b",
+    "file": "A-418/418b/WhatsApp Image 2023-06-01 at 14.51.55.jpeg",
+    "label": "",
+    "taken": "2023-06-01T14:51:55",
+    "activity": "PhotographicCampaign",
+    "acquired_by": "",
+    "source": "",
+    "id": "Photo_418b_05"
+   },
+   {
+    "facade": "Facade_419",
+    "file": "A-419/a419/WhatsApp Image 2023-06-01 at 14.50.49.jpeg",
+    "label": "",
+    "taken": "2023-06-01T14:50:49",
+    "activity": "PhotographicCampaign",
+    "acquired_by": "",
+    "source": "",
+    "id": "Photo_419_01"
+   },
+   {
+    "facade": "Facade_419",
+    "file": "A-419/a419/WhatsApp Image 2023-06-01 at 14.50.50 (1).jpeg",
+    "label": "",
+    "taken": "2023-06-01T14:50:50",
+    "activity": "PhotographicCampaign",
+    "acquired_by": "",
+    "source": "",
+    "id": "Photo_419_02"
+   },
+   {
+    "facade": "Facade_419",
+    "file": "A-419/a419/WhatsApp Image 2023-06-01 at 14.50.50.jpeg",
+    "label": "",
+    "taken": "2023-06-01T14:50:50",
+    "activity": "PhotographicCampaign",
+    "acquired_by": "",
+    "source": "",
+    "id": "Photo_419_03"
+   },
+   {
+    "facade": "Facade_419",
+    "file": "A-419/a419/WhatsApp Image 2023-06-01 at 14.50.51 (1).jpeg",
+    "label": "",
+    "taken": "2023-06-01T14:50:51",
+    "activity": "PhotographicCampaign",
+    "acquired_by": "",
+    "source": "",
+    "id": "Photo_419_04"
+   },
+   {
+    "facade": "Facade_419",
+    "file": "A-419/a419/WhatsApp Image 2023-06-01 at 14.50.51.jpeg",
+    "label": "",
+    "taken": "2023-06-01T14:50:51",
+    "activity": "PhotographicCampaign",
+    "acquired_by": "",
+    "source": "",
+    "id": "Photo_419_05"
+   },
+   {
+    "facade": "Facade_420",
+    "file": "A-420/a420/WhatsApp Image 2023-06-01 at 14.50.52 (1).jpeg",
+    "label": "",
+    "taken": "2023-06-01T14:50:52",
+    "activity": "PhotographicCampaign",
+    "acquired_by": "",
+    "source": "",
+    "id": "Photo_420_01"
+   },
+   {
+    "facade": "Facade_420",
+    "file": "A-420/a420/WhatsApp Image 2023-06-01 at 14.50.52.jpeg",
+    "label": "",
+    "taken": "2023-06-01T14:50:52",
+    "activity": "PhotographicCampaign",
+    "acquired_by": "",
+    "source": "",
+    "id": "Photo_420_02"
+   },
+   {
+    "facade": "Facade_420",
+    "file": "A-420/a420/WhatsApp Image 2023-06-01 at 14.50.53 (1).jpeg",
+    "label": "",
+    "taken": "2023-06-01T14:50:53",
+    "activity": "PhotographicCampaign",
+    "acquired_by": "",
+    "source": "",
+    "id": "Photo_420_03"
+   },
+   {
+    "facade": "Facade_420",
+    "file": "A-420/a420/WhatsApp Image 2023-06-01 at 14.50.53.jpeg",
+    "label": "",
+    "taken": "2023-06-01T14:50:53",
+    "activity": "PhotographicCampaign",
+    "acquired_by": "",
+    "source": "",
+    "id": "Photo_420_04"
+   },
+   {
+    "facade": "Facade_420",
+    "file": "A-420/a420/WhatsApp Image 2023-06-01 at 14.50.54 (1).jpeg",
+    "label": "",
+    "taken": "2023-06-01T14:50:54",
+    "activity": "PhotographicCampaign",
+    "acquired_by": "",
+    "source": "",
+    "id": "Photo_420_05"
+   },
+   {
+    "facade": "Facade_420",
+    "file": "A-420/a420/WhatsApp Image 2023-06-01 at 14.50.54.jpeg",
+    "label": "",
+    "taken": "2023-06-01T14:50:54",
+    "activity": "PhotographicCampaign",
+    "acquired_by": "",
+    "source": "",
+    "id": "Photo_420_06"
+   },
+   {
+    "facade": "Facade_420",
+    "file": "A-420/a420/WhatsApp Image 2023-06-01 at 14.50.55.jpeg",
+    "label": "",
+    "taken": "2023-06-01T14:50:55",
+    "activity": "PhotographicCampaign",
+    "acquired_by": "",
+    "source": "",
+    "id": "Photo_420_07"
+   }
+  ],
+  "Connections": [],
+  "Openings": [
+   {
+    "id": "Opening_419",
+    "facade": "Facade_419",
+    "label": "Doorway with an arch of dressed tuff voussoirs, facade 419"
+   }
+  ],
+  "Vulnerabilities": [],
+  "MasonryTypes": [
+   {
+    "name": "Tufelli_masonry_typeA",
+    "description": "Regular tufo masonry, fairly continuous coursing, well-cut stone voussoirs at openings",
+    "unit_dimensions": "medium",
+    "unit_shape": "cut_or_squared",
+    "unit_material": "irregular_soft_stone",
+    "mortar_quality": "lime",
+    "horizontal_joints": "partially_continuous",
+    "vertical_joints": "partially_staggered",
+    "wall_connections": "sparse",
+    "evidence_unit_dimensions": "",
+    "evidence_unit_shape": "",
+    "evidence_unit_material": "",
+    "evidence_mortar_quality": "",
+    "evidence_horizontal_joints": "",
+    "evidence_vertical_joints": "",
+    "evidence_wall_connections": "",
+    "evidence": "A-419/a419 photos (WhatsApp Image 2023-06-01 at 14.50.49/50/51): stone arch over a door with well-dressed voussoirs, courses fairly regular though not perfectly continuous",
+    "flags": "Vertical joint staggering scored 'partially_staggered' (conservative) rather than 'properly_staggered' - not directly measurable from the available photos at typical phone-camera resolution/angle\nMortar scored plain 'lime' (conservative) rather than crediting the pozzolana content mentioned in the manuscript with a hydraulic-lime-level score - the pozzolana's real contribution to mortar performance was not tested, only described qualitatively",
+    "density_kg_m3": "1450",
+    "density_note": "Not derivable from MQI (HMO has no density rule - density is a material constant, not a workmanship-quality output). Taken as the midpoint of NTC18 C8.5.I's tufo/calcarenite range (1300-1600 kg/m3), not measured on this specific building.",
+    "reference_category": "Regular soft stone ashlar (tufo/calcarenite), NTC18 Circolare Tab. C8.5.I",
+    "reference_note": "Computed fm (3.445 MPa) is ~10% above the NTC upper bound; E, G, tau0 fall inside the range, G (482.8) close to its upper limit (490). Accepted as-is: HMO's own stated logic is that MQI-derived values may legitimately exceed a generic code table for masonry executed better than the code's baseline assumption (voussoir-quality stonework at openings is real, observed evidence, not an assumption) - flagged here rather than force-fit into the NTC range."
+   },
+   {
+    "name": "Tufelli_masonry_typeB",
+    "description": "Irregular tufo masonry, discontinuous coursing, brick relieving arches at openings, squared corner quoins",
+    "unit_dimensions": "medium",
+    "unit_shape": "roughly_cut_or_irregular_soft",
+    "unit_material": "irregular_soft_stone",
+    "mortar_quality": "lime",
+    "horizontal_joints": "not_continuous",
+    "vertical_joints": "partially_staggered",
+    "wall_connections": "sparse",
+    "evidence_unit_dimensions": "",
+    "evidence_unit_shape": "",
+    "evidence_unit_material": "",
+    "evidence_mortar_quality": "",
+    "evidence_horizontal_joints": "",
+    "evidence_vertical_joints": "",
+    "evidence_wall_connections": "",
+    "evidence": "A-417/417_c (corner building, Vicolo del Cabalino - WhatsApp Image 2023-06-01 at 14.50.40/41/42/43) and A-418/418-a (WhatsApp Image 2023-06-01 at 14.50.47/48, brick arch over a round-headed window): irregular unit sizes, less continuous coursing than typeA",
+    "flags": "Same conservative mortar assumption as typeA (plain lime, not hydraulic-boosted)\nVertical joint staggering scored 'partially_staggered' from the visibly less regular coursing - not measured",
+    "density_kg_m3": "1450",
+    "density_note": "Same as typeA - see density_note there.",
+    "reference_category": "Irregular soft stone (tufo/calcarenite), NTC18 Circolare Tab. C8.5.I",
+    "reference_note": "Computed fm (2.616 MPa) is ~21% above the NTC upper bound; tau0 (0.0475) is ~16% above and G (421.3) ~2% above; only E falls inside the range. Same acceptance rationale as typeA, with a larger residual gap - worth revisiting first if better evidence becomes available (e.g. if unit-dimension measurements from the point cloud turn out smaller than the 'medium' assumption used here)."
+   },
+   {
+    "name": "Tufelli_masonry_typeC",
+    "description": "Patched/reworked masonry, mixed exposed stone and infill/repairs, brick dentil cornice, evidence of blocked former openings",
+    "unit_dimensions": "small",
+    "unit_shape": "roughly_cut_or_irregular_soft",
+    "unit_material": "irregular_soft_stone",
+    "mortar_quality": "lime",
+    "horizontal_joints": "not_continuous",
+    "vertical_joints": "aligned",
+    "wall_connections": "none",
+    "evidence_unit_dimensions": "",
+    "evidence_unit_shape": "",
+    "evidence_unit_material": "",
+    "evidence_mortar_quality": "",
+    "evidence_horizontal_joints": "",
+    "evidence_vertical_joints": "",
+    "evidence_wall_connections": "",
+    "evidence": "A-417/417_a (WhatsApp Image 2023-06-01 at 14.50.44/45/46, 14.51.48/49/50): exposed stone interspersed with rendered patches and a decorative brick course",
+    "flags": "Scores kept uniformly low across all 7 parameters per the manuscript's explicit statement that this residential fabric has 'more frequent use of reused bricks, and greater variability in coursing and joint execution' than the representative architecture its local-technique description is based on - a stated characterisation from the manuscript, not read off any single photo",
+    "density_kg_m3": "1450",
+    "density_note": "Same as typeA - see density_note there.",
+    "reference_category": "Irregular soft stone (tufo/calcarenite), NTC18 Circolare Tab. C8.5.I",
+    "reference_note": "Computed values (fm=2.099, E=987.8, G=335.6, tau0=0.0305) all fall inside the NTC range - the only one of the four types that does, consistent with it being the visually lowest-quality masonry surveyed."
+   },
+   {
+    "name": "Tufelli_masonry_typeD",
+    "description": "Fully rendered facade, masonry not directly observable - assumed by construction-era analogy to typeB",
+    "unit_dimensions": "medium",
+    "unit_shape": "roughly_cut_or_irregular_soft",
+    "unit_material": "irregular_soft_stone",
+    "mortar_quality": "lime",
+    "horizontal_joints": "not_continuous",
+    "vertical_joints": "partially_staggered",
+    "wall_connections": "sparse",
+    "evidence_unit_dimensions": "",
+    "evidence_unit_shape": "",
+    "evidence_unit_material": "",
+    "evidence_mortar_quality": "",
+    "evidence_horizontal_joints": "",
+    "evidence_vertical_joints": "",
+    "evidence_wall_connections": "",
+    "evidence": "A-417/417_b (WhatsApp Image 2023-06-01 at 14.51.52/53) and A-420/a420 (WhatsApp Image 2023-06-01 at 14.50.52-55): fully plastered in every available survey photo, no exposed masonry",
+    "flags": "ENTIRELY assumed, not observed: scored identically to typeB (the 'ordinary/irregular' type) as the most defensible default for an unexceptional rendered facade in the same aggregate, rather than typeA (visibly higher quality, tied to specific observed stonework at door openings that this facade's render gives no evidence for) or typeC (visibly patched/reworked, again no evidence either way). This is the weakest-grounded of the four classifications - revisit first if render is ever removed, or if there is independent reason (archival, structural survey) to place this facade in a specific construction phase.",
+    "density_kg_m3": "1450",
+    "density_note": "Same as typeA - see density_note there.",
+    "reference_category": "Irregular soft stone (tufo/calcarenite), NTC18 Circolare Tab. C8.5.I",
+    "reference_note": "Identical to typeB by construction (same observation) - see typeB's note."
+   }
+  ],
+  "Measured": []
+ }
+}

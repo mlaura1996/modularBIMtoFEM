@@ -4,7 +4,7 @@
 project = "openBIMtoFEM"
 copyright = "2026, Maria Laura Leonardi"
 author = "Maria Laura Leonardi"
-release = "1.0.1"
+release = "1.1.0"
 
 extensions = [
     "myst_parser",

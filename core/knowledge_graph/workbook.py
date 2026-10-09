@@ -18,10 +18,14 @@ record, so that it can be filled in without touching code or RDF:
                    evidence for each, its flags and its density
     Measured       measured properties to compare the derived ones with
 
-read_workbook() turns it into the two records the graph is built from: the
-case record and the masonry classification (the format of
-resources/survey_data/*/masonry_classification.json). write_workbook()
-does the reverse, and with no records writes the empty template.
+The same sheets, as tables of rows, are what the case-study editor
+(docs/source/_extra/editor) edits and stores in the IFC file, and what a
+case.json holds. records_from_tables() turns them into the two records the
+graph is built from: the case record and the masonry classification (the
+format of resources/survey_data/*/masonry_classification.json);
+tables_from_records() does the reverse. read_case() reads a case study from
+any of the three (.xlsx, .json, .ifc), and write_workbook() writes the
+workbook, with no records the empty template.
 
 Conventions in the cells: identifiers are short names without spaces
 (they become the local names of the graph's IRIs); several values in one
@@ -80,7 +84,8 @@ SHEETS = {
               ("floor_accessible", "Were the floors accessible for survey?", "yes/no"),
               ("floor_note", "What is known about them and how", None)],
     "Facades": [("id", "Identifier, e.g. Facade_417a", None), ("unit", "Identifier of its unit", None),
-                ("label", "Description", None), ("masonry_type", "Name of its masonry type (MasonryTypes)", None)],
+                ("label", "Description", None), ("masonry_type", "Name of its masonry type (MasonryTypes)", None),
+                ("elements", "GlobalIds of its IFC elements, separated by ; (set by the editor)", None)],
     "Photos": [("id", "Identifier", None),
                ("facade", "Facades it shows, separated by ;; empty means the aggregate", None),
                ("file", "File path, relative to the photo folder", None),
@@ -128,6 +133,32 @@ PROJECT_KEYS = [
 ]
 
 
+# columns that name a record of another sheet: (sheet, column) -> (sheets, several?)
+REFERENCES = {
+    ("People", "organisation"): (["Organisations"], False),
+    ("Activities", "people"): (["People", "Organisations"], True),
+    ("Activities", "roles"): (["People"], True),
+    ("Documents", "activity"): (["Activities"], False),
+    ("Documents", "derived_from"): (["Documents"], False),
+    ("Documents", "used_in"): (["Activities"], False),
+    ("Documents", "authors"): (["People"], True),
+    ("Documents", "acquired_by"): (["People"], True),
+    ("Documents", "processed_by"): (["People"], True),
+    ("Documents", "about"): (["Units", "Facades"], True),
+    ("Facades", "unit"): (["Units"], False),
+    ("Facades", "masonry_type"): (["MasonryTypes"], False),
+    ("Photos", "facade"): (["Facades"], True),
+    ("Photos", "activity"): (["Activities"], False),
+    ("Photos", "acquired_by"): (["People"], True),
+    ("Connections", "part_a"): (["Facades"], False),
+    ("Connections", "part_b"): (["Facades"], False),
+    ("Openings", "facade"): (["Facades"], False),
+    ("Vulnerabilities", "facade"): (["Facades"], False),
+    ("Measured", "masonry_type"): (["MasonryTypes"], False),
+}
+CASE_FORMAT = "openbimtofem-case"
+
+
 def split(cell):
     return [x.strip() for x in str(cell or "").split(";") if x.strip()]
 
@@ -159,9 +190,58 @@ def _rows(ws):
 
 def read_workbook(path):
     """(case, classification) from a filled workbook."""
+    return records_from_tables(tables_from_workbook(path))
+
+
+def tables_from_workbook(path):
+    """The sheets of a workbook as {sheet: [row, ...]}, cells as text."""
     import openpyxl
     wb = openpyxl.load_workbook(path, data_only=True)
-    s = {name: list(_rows(wb[name])) if name in wb.sheetnames else [] for name in SHEETS}
+    return {name: [{k: text(v) for k, v in r.items()} for r in _rows(wb[name])] if name in wb.sheetnames else []
+            for name in SHEETS}
+
+
+def read_case(path):
+    """(case, classification) from a workbook, a case.json or an IFC file
+    the editor has written the case study into."""
+    import json
+    low = str(path).lower()
+    if low.endswith((".xlsx", ".xlsm")):
+        return read_workbook(path)
+    if low.endswith(".ifc"):
+        from core.knowledge_graph.ifc_record import read_record
+        record = read_record(path)
+        if record is None:
+            raise ValueError(f"{path} holds no case study (no HSV_CaseRecord property set on its IfcProject)")
+    else:
+        record = json.load(open(path, encoding="utf-8"))
+    if record.get("format") != CASE_FORMAT:
+        raise ValueError(f"{path} is not a case study written by the editor (format {record.get('format')!r})")
+    return records_from_tables(record["tables"])
+
+
+def case_document(tables):
+    """The case.json form of the tables."""
+    return {"format": CASE_FORMAT, "version": 1,
+            "tables": {name: [{k: text(v) for k, v in r.items()} for r in tables.get(name, [])]
+                       for name in SHEETS}}
+
+
+def editor_schema():
+    """Sheets, columns, choices and references, for the editor."""
+    return {"format": CASE_FORMAT, "version": 1,
+            "sheets": {name: [{"name": c, "help": d, **({"choices": k} if k else {}),
+                               **({"ref": REFERENCES[(name, c)][0], "many": REFERENCES[(name, c)][1]}
+                                  if (name, c) in REFERENCES else {})}
+                              for c, d, k in cols] for name, cols in SHEETS.items()},
+            "project_keys": [{"name": k, "help": d} for k, d in PROJECT_KEYS],
+            "choices": CHOICES, "parameters": PARAMETERS}
+
+
+def records_from_tables(s):
+    """(case, classification) from {sheet: [row, ...]}."""
+    s = {name: [{**{c: "" for c, _, _ in cols}, **r} for r in s.get(name, []) if any(text(v) for v in r.values())]
+         for name, cols in SHEETS.items()}
     project = {text(r["key"]): text(r["value"]) for r in s["Project"]}
     case = {"project": project,
             "organisations": {text(r["id"]): text(r["name"]) for r in s["Organisations"]},
@@ -196,6 +276,8 @@ def read_workbook(path):
     for r in s["Facades"]:
         case["facades"][text(r["id"])] = {"unit": text(r["unit"]), "label": text(r["label"]),
                                           "masonry_type": text(r["masonry_type"])}
+        if split(r.get("elements")):
+            case["facades"][text(r["id"])]["elements"] = split(r["elements"])
     for r in s["Photos"]:
         case["photos"][text(r["id"])] = {k: (split(r.get(k)) if k == "acquired_by" else text(r.get(k)))
                                          for k in ("facade", "file", "label", "taken", "activity",
@@ -299,7 +381,7 @@ def write_workbook(path, case=None, classification=None):
     list_col = {key: i for i, key in enumerate(CHOICES, start=1)}
 
     head_fill = PatternFill("solid", fgColor="E9E4DA")
-    rows = _records_as_rows(case, classification) if case else {}
+    rows = tables_from_records(case, classification) if case else {}
     for name, cols in SHEETS.items():
         ws = wb.create_sheet(name)
         for j, (col, desc, choice) in enumerate(cols, start=1):
@@ -326,7 +408,8 @@ def write_workbook(path, case=None, classification=None):
     wb.save(path)
 
 
-def _records_as_rows(case, classification):
+def tables_from_records(case, classification):
+    """{sheet: [row, ...]} from (case, classification); records_from_tables reversed."""
     j = lambda xs: "; ".join(xs)
     rows = {"Project": [{"key": k, "value": case["project"].get(k, "")} for k, _ in PROJECT_KEYS],
             "Organisations": [{"id": k, "name": v} for k, v in case["organisations"].items()],
@@ -352,7 +435,8 @@ def _records_as_rows(case, classification):
                               "floor_accessible": ("yes" if f.get("accessible") else "no") if f else "",
                               "floor_note": f.get("note", "")})
     for k, f in case["facades"].items():
-        rows["Facades"].append({"id": k, "unit": f["unit"], "label": f["label"], "masonry_type": f["masonry_type"]})
+        rows["Facades"].append({"id": k, "unit": f["unit"], "label": f["label"], "masonry_type": f["masonry_type"],
+                                "elements": j(f.get("elements", []))})
     for k, ph in case["photos"].items():
         rows["Photos"].append({**ph, "id": k, "acquired_by": j(ph.get("acquired_by", []))})
     for k, cn in case["connections"].items():

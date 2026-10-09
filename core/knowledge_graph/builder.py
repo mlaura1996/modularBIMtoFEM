@@ -230,6 +230,16 @@ def build(case, classification, bim_elements=()):
         g.add((el, DCT.isPartOf, bim_doc))
         g.add((el, DCT.type, C[mtype]))
 
+    # --- BIM elements of each facade, where the editor has recorded them --------
+    for fid, f in case["facades"].items():
+        for guid in f.get("elements", []):
+            el = C["IFC_" + guid.replace("$", "-")]
+            g.add((el, DCT.identifier, Literal(guid)))
+            if bim_doc is not None:
+                g.add((el, DCT.isPartOf, bim_doc))
+            g.add((el, DCT.isPartOf, C[fid]))
+            g.add((el, DCT.type, C[f["masonry_type"]]))
+
     # --- photographs: of one or more facades, or of the aggregate ---------------
     people = set(case["people"])
     for phid, ph in case["photos"].items():

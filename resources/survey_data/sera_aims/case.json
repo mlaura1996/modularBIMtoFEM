@@ -1,0 +1,656 @@
+{
+ "format": "openbimtofem-case",
+ "version": 1,
+ "tables": {
+  "Project": [
+   {
+    "key": "id",
+    "value": "sera_aims"
+   },
+   {
+    "key": "title",
+    "value": "SERA-AIMS benchmark knowledge graph"
+   },
+   {
+    "key": "description",
+    "value": "The half-scale stone masonry aggregate tested on the shake table within the SERA-AIMS project, the benchmark of this thesis, described with the Historic Survey (HSV), Historic Structure (HSTO), Historic Masonry (HMO) and Failure Mechanism (FMO) ontologies: the publications and the BIM model, the units, façades and the interface between them, the mechanical properties of the masonry derived by a reasoner from its published description, next to the measured ones, and the behaviour and expected failure mechanisms of its walls."
+   },
+   {
+    "key": "namespace",
+    "value": "https://example.org/sera-aims#"
+   },
+   {
+    "key": "centre_id",
+    "value": ""
+   },
+   {
+    "key": "centre_label",
+    "value": ""
+   },
+   {
+    "key": "aggregate_id",
+    "value": "Specimen"
+   },
+   {
+    "key": "aggregate_label",
+    "value": "Half-scale stone masonry aggregate of the SERA-AIMS test"
+   },
+   {
+    "key": "technique_id",
+    "value": "DoubleLeafStoneMasonry"
+   },
+   {
+    "key": "technique_label",
+    "value": "Double-leaf undressed stone masonry of historic aggregates (Basel)"
+   },
+   {
+    "key": "bim_document",
+    "value": "BIMModel"
+   },
+   {
+    "key": "software_doi",
+    "value": "10.5281/zenodo.23260961"
+   }
+  ],
+  "Organisations": [
+   {
+    "id": "EPFL",
+    "name": "École Polytechnique Fédérale de Lausanne (EPFL), Switzerland"
+   },
+   {
+    "id": "UNIPV",
+    "name": "University of Pavia, Italy"
+   },
+   {
+    "id": "UCB",
+    "name": "University of California, Berkeley, USA"
+   },
+   {
+    "id": "RWTH",
+    "name": "RWTH Aachen University, Germany"
+   },
+   {
+    "id": "LNEC",
+    "name": "National Laboratory for Civil Engineering (LNEC), Portugal"
+   },
+   {
+    "id": "ISISE_UMinho",
+    "name": "Institute for Sustainability and Innovation in Structural Engineering (ISISE), University of Minho"
+   },
+   {
+    "id": "CNR_ISPC",
+    "name": "Institute of Heritage Science (ISPC), National Research Council of Italy (CNR)"
+   }
+  ],
+  "People": [
+   {
+    "id": "IgorTomic",
+    "name": "Igor Tomić",
+    "organisation": ""
+   },
+   {
+    "id": "AndreaPenna",
+    "name": "Andrea Penna",
+    "organisation": ""
+   },
+   {
+    "id": "MatthewDeJong",
+    "name": "Matthew DeJong",
+    "organisation": ""
+   },
+   {
+    "id": "ChristophButenweg",
+    "name": "Christoph Butenweg",
+    "organisation": ""
+   },
+   {
+    "id": "AntonioCorreia",
+    "name": "António A. Correia",
+    "organisation": ""
+   },
+   {
+    "id": "PauloCandeias",
+    "name": "Paulo X. Candeias",
+    "organisation": ""
+   },
+   {
+    "id": "IlariaSenaldi",
+    "name": "Ilaria Senaldi",
+    "organisation": ""
+   },
+   {
+    "id": "GabrieleGuerrini",
+    "name": "Gabriele Guerrini",
+    "organisation": ""
+   },
+   {
+    "id": "DanieleMalomo",
+    "name": "Daniele Malomo",
+    "organisation": ""
+   },
+   {
+    "id": "KatrinBeyer",
+    "name": "Katrin Beyer",
+    "organisation": ""
+   },
+   {
+    "id": "MariaLauraLeonardi",
+    "name": "Maria Laura Leonardi",
+    "organisation": "ISISE_UMinho"
+   },
+   {
+    "id": "ElenaGigliarelli",
+    "name": "Elena Gigliarelli",
+    "organisation": "CNR_ISPC"
+   },
+   {
+    "id": "MiguelAzenha",
+    "name": "Miguel Azenha",
+    "organisation": "ISISE_UMinho"
+   },
+   {
+    "id": "DanielOliveira",
+    "name": "Daniel V. Oliveira",
+    "organisation": "ISISE_UMinho"
+   }
+  ],
+  "Activities": [
+   {
+    "id": "SpecimenTesting",
+    "label": "Design, construction and shake-table testing of the half-scale specimen (SERA-AIMS)",
+    "date": "",
+    "start": "",
+    "end": "",
+    "people": "EPFL; UNIPV; UCB; RWTH; LNEC",
+    "roles": "",
+    "notes": "Shake table of LNEC, Lisbon (Tomić et al. 2024a)."
+   },
+   {
+    "id": "BIMModelling",
+    "label": "BIM modelling of the specimen in Autodesk Revit 2027",
+    "date": "2026-06-04",
+    "start": "",
+    "end": "",
+    "people": "MariaLauraLeonardi",
+    "roles": "",
+    "notes": ""
+   },
+   {
+    "id": "MasonryClassification",
+    "label": "MQI classification of the full-scale masonry from its published description",
+    "date": "2026-10-09",
+    "start": "",
+    "end": "",
+    "people": "MariaLauraLeonardi",
+    "roles": "",
+    "notes": ""
+   },
+   {
+    "id": "Supervision",
+    "label": "Supervision of the doctoral research",
+    "date": "",
+    "start": "",
+    "end": "",
+    "people": "ElenaGigliarelli; MiguelAzenha; DanielOliveira",
+    "roles": "ElenaGigliarelli: Supervisor; MiguelAzenha: Supervisor; DanielOliveira: Supervisor",
+    "notes": ""
+   }
+  ],
+  "Documents": [
+   {
+    "id": "Tomic2024a",
+    "kind": "Publication",
+    "label": "Tomić et al. (2024), Shake table testing of a half-scale stone masonry building aggregate, Bull Earthquake Eng 22:5963–5991",
+    "date": "",
+    "activity": "",
+    "derived_from": "",
+    "used_in": "MasonryClassification",
+    "authors": "IgorTomic; AndreaPenna; MatthewDeJong; ChristophButenweg; AntonioCorreia; PauloCandeias; IlariaSenaldi; GabrieleGuerrini; DanieleMalomo; KatrinBeyer",
+    "acquired_by": "",
+    "processed_by": "",
+    "identifier": "https://doi.org/10.1007/s10518-023-01810-y",
+    "about": "Specimen"
+   },
+   {
+    "id": "Tomic2024b",
+    "kind": "Publication",
+    "label": "Tomić et al. (2024), Shake-table testing of a stone masonry building aggregate: overview of blind prediction study, Bull Earthquake Eng 22:5993–6035",
+    "date": "",
+    "activity": "",
+    "derived_from": "",
+    "used_in": "",
+    "authors": "",
+    "acquired_by": "",
+    "processed_by": "",
+    "identifier": "https://doi.org/10.1007/s10518-022-01582-x",
+    "about": "Specimen"
+   },
+   {
+    "id": "TestData",
+    "kind": "Document",
+    "label": "SERA AIMS test data, supplementary material (Zenodo, CC BY 4.0)",
+    "date": "2022-05-13",
+    "activity": "SpecimenTesting",
+    "derived_from": "",
+    "used_in": "",
+    "authors": "IgorTomic",
+    "acquired_by": "",
+    "processed_by": "",
+    "identifier": "https://doi.org/10.5281/zenodo.6546434",
+    "about": "Specimen"
+   },
+   {
+    "id": "BIMModel",
+    "kind": "BuildingInformationModel",
+    "label": "aggregate_1.ifc (IFC4), exported from Autodesk Revit 2027",
+    "date": "2026-06-04",
+    "activity": "BIMModelling",
+    "derived_from": "Tomic2024a",
+    "used_in": "",
+    "authors": "MariaLauraLeonardi",
+    "acquired_by": "",
+    "processed_by": "",
+    "identifier": "resources/ifc_examples/sera_aims/aggregate_1.ifc",
+    "about": ""
+   }
+  ],
+  "Units": [
+   {
+    "id": "Unit_1",
+    "label": "Unit 1: single storey 2.2 m high, U-shaped plan of 2.5 × 2.45 m, walls 30 cm thick",
+    "floor_kind": "TimberFloor",
+    "floor_label": "Timber floor of unit 1: 8 × 16 cm beams spanning in x, 2 cm planks",
+    "floor_accessible": "yes",
+    "floor_note": "Documented in Tomić et al. (2024a), Section 2.3."
+   },
+   {
+    "id": "Unit_2",
+    "label": "Unit 2: two storeys of 1.65 and 1.50 m, rectangular plan of 2.5 × 2.5 m, walls 35 and 25 cm thick",
+    "floor_kind": "TimberFloor",
+    "floor_label": "Timber floors of unit 2: 8 × 16 cm beams spanning in y, 2 cm planks",
+    "floor_accessible": "yes",
+    "floor_note": "Documented in Tomić et al. (2024a), Section 2.3."
+   }
+  ],
+  "Facades": [
+   {
+    "id": "Facade_1",
+    "unit": "Unit_1",
+    "label": "Facade 1, end of unit 1",
+    "masonry_type": "Double_leaf_stone_masonry",
+    "elements": "3_2W4VcEf62eVBAFB0d_i6"
+   },
+   {
+    "id": "Facade_2_U1",
+    "unit": "Unit_1",
+    "label": "Facade 2, part of unit 1",
+    "masonry_type": "Double_leaf_stone_masonry",
+    "elements": "3_2W4VcEf62eVBAFB0d_jF"
+   },
+   {
+    "id": "Facade_3_U1",
+    "unit": "Unit_1",
+    "label": "Facade 3, part of unit 1",
+    "masonry_type": "Double_leaf_stone_masonry",
+    "elements": "3_2W4VcEf62eVBAFB0d_lO"
+   },
+   {
+    "id": "Facade_2_U2",
+    "unit": "Unit_2",
+    "label": "Facade 2, part of unit 2",
+    "masonry_type": "Double_leaf_stone_masonry",
+    "elements": "3_2W4VcEf62eVBAFB0d$U6; 3_2W4VcEf62eVBAFB0d_Xg"
+   },
+   {
+    "id": "Facade_3_U2",
+    "unit": "Unit_2",
+    "label": "Facade 3, part of unit 2",
+    "masonry_type": "Double_leaf_stone_masonry",
+    "elements": "3_2W4VcEf62eVBAFB0d$OL; 3_2W4VcEf62eVBAFB0d_dt"
+   },
+   {
+    "id": "Facade_4",
+    "unit": "Unit_2",
+    "label": "Facade 4, end of unit 2",
+    "masonry_type": "Double_leaf_stone_masonry",
+    "elements": "3_2W4VcEf62eVBAFB0d$PR; 3_2W4VcEf62eVBAFB0d_cf"
+   },
+   {
+    "id": "Facade_5",
+    "unit": "Unit_2",
+    "label": "Facade 5, wall of unit 2 shared with unit 1",
+    "masonry_type": "Double_leaf_stone_masonry",
+    "elements": "3_2W4VcEf62eVBAFB0d$Rm; 3_2W4VcEf62eVBAFB0d_ar"
+   }
+  ],
+  "Photos": [
+   {
+    "facade": "Facade_3_U1; Facade_3_U2",
+    "file": "tomic2024_fig4a.jpg",
+    "label": "Facade 3 without plaster, paint and additional masses (Tomić et al. 2024a, Fig. 4a)",
+    "taken": "",
+    "activity": "",
+    "acquired_by": "",
+    "source": "Tomić et al. (2024a), Bull Earthquake Eng 22:5963–5991, doi:10.1007/s10518-023-01810-y, CC BY 4.0",
+    "id": "Fig4a"
+   },
+   {
+    "facade": "Facade_3_U1; Facade_3_U2",
+    "file": "tomic2024_fig4b.jpg",
+    "label": "Facade 3 of the completed specimen (Tomić et al. 2024a, Fig. 4b)",
+    "taken": "",
+    "activity": "",
+    "acquired_by": "",
+    "source": "Tomić et al. (2024a), Bull Earthquake Eng 22:5963–5991, doi:10.1007/s10518-023-01810-y, CC BY 4.0",
+    "id": "Fig4b"
+   },
+   {
+    "facade": "",
+    "file": "tomic2024_fig5.jpg",
+    "label": "Masonry typology: texture, corner, horizontal section, lintel, spandrel (Tomić et al. 2024a, Fig. 5)",
+    "taken": "",
+    "activity": "",
+    "acquired_by": "",
+    "source": "Tomić et al. (2024a), Bull Earthquake Eng 22:5963–5991, doi:10.1007/s10518-023-01810-y, CC BY 4.0",
+    "id": "Fig5"
+   },
+   {
+    "facade": "",
+    "file": "tomic2024_fig6.jpg",
+    "label": "Interface between the units (Tomić et al. 2024a, Fig. 6)",
+    "taken": "",
+    "activity": "",
+    "acquired_by": "",
+    "source": "Tomić et al. (2024a), Bull Earthquake Eng 22:5963–5991, doi:10.1007/s10518-023-01810-y, CC BY 4.0",
+    "id": "Fig6"
+   }
+  ],
+  "Connections": [
+   {
+    "id": "Interface_2",
+    "kind": "Connection",
+    "part_a": "Facade_2_U1",
+    "part_b": "Facade_2_U2",
+    "label": "Interface between the units on facade 2",
+    "quality": "Poor: a mortar joint without interlocking stones. Unit 2 was built first and its contact surface smoothed with mortar before unit 1 was built against it (Tomić et al. 2024a, Section 2.2)."
+   },
+   {
+    "id": "Interface_3",
+    "kind": "Connection",
+    "part_a": "Facade_3_U1",
+    "part_b": "Facade_3_U2",
+    "label": "Interface between the units on facade 3",
+    "quality": "Poor: a mortar joint without interlocking stones. Unit 2 was built first and its contact surface smoothed with mortar before unit 1 was built against it (Tomić et al. 2024a, Section 2.2)."
+   }
+  ],
+  "Openings": [],
+  "Vulnerabilities": [
+   {
+    "facade": "Facade_1",
+    "vulnerability": "AbsenceOfTopChains",
+    "evidence": "No tie rods and no ring beam at the top of the walls: the beams were simply supported on them, and the connections of steel angles and bearing plates were added only in the strengthened configuration (Tomić et al. 2024a, Sections 2.3 and 2.4)."
+   },
+   {
+    "facade": "Facade_1",
+    "vulnerability": "AbsenceOfTopCurbstone",
+    "evidence": "No tie rods and no ring beam at the top of the walls: the beams were simply supported on them, and the connections of steel angles and bearing plates were added only in the strengthened configuration (Tomić et al. 2024a, Sections 2.3 and 2.4)."
+   },
+   {
+    "facade": "Facade_1",
+    "vulnerability": "DeformableFloors",
+    "evidence": "Timber beams of 8 × 16 cm with a single layer of 2 cm planks nailed to them, a flexible diaphragm (Tomić et al. 2024a, Section 2.3)."
+   },
+   {
+    "facade": "Facade_2_U1",
+    "vulnerability": "AbsenceOfTopChains",
+    "evidence": "No tie rods and no ring beam at the top of the walls: the beams were simply supported on them, and the connections of steel angles and bearing plates were added only in the strengthened configuration (Tomić et al. 2024a, Sections 2.3 and 2.4)."
+   },
+   {
+    "facade": "Facade_2_U1",
+    "vulnerability": "AbsenceOfTopCurbstone",
+    "evidence": "No tie rods and no ring beam at the top of the walls: the beams were simply supported on them, and the connections of steel angles and bearing plates were added only in the strengthened configuration (Tomić et al. 2024a, Sections 2.3 and 2.4)."
+   },
+   {
+    "facade": "Facade_2_U1",
+    "vulnerability": "DeformableFloors",
+    "evidence": "Timber beams of 8 × 16 cm with a single layer of 2 cm planks nailed to them, a flexible diaphragm (Tomić et al. 2024a, Section 2.3)."
+   },
+   {
+    "facade": "Facade_3_U1",
+    "vulnerability": "AbsenceOfTopChains",
+    "evidence": "No tie rods and no ring beam at the top of the walls: the beams were simply supported on them, and the connections of steel angles and bearing plates were added only in the strengthened configuration (Tomić et al. 2024a, Sections 2.3 and 2.4)."
+   },
+   {
+    "facade": "Facade_3_U1",
+    "vulnerability": "AbsenceOfTopCurbstone",
+    "evidence": "No tie rods and no ring beam at the top of the walls: the beams were simply supported on them, and the connections of steel angles and bearing plates were added only in the strengthened configuration (Tomić et al. 2024a, Sections 2.3 and 2.4)."
+   },
+   {
+    "facade": "Facade_3_U1",
+    "vulnerability": "DeformableFloors",
+    "evidence": "Timber beams of 8 × 16 cm with a single layer of 2 cm planks nailed to them, a flexible diaphragm (Tomić et al. 2024a, Section 2.3)."
+   },
+   {
+    "facade": "Facade_2_U2",
+    "vulnerability": "AbsenceOfTopChains",
+    "evidence": "No tie rods and no ring beam at the top of the walls: the beams were simply supported on them, and the connections of steel angles and bearing plates were added only in the strengthened configuration (Tomić et al. 2024a, Sections 2.3 and 2.4)."
+   },
+   {
+    "facade": "Facade_2_U2",
+    "vulnerability": "AbsenceOfTopCurbstone",
+    "evidence": "No tie rods and no ring beam at the top of the walls: the beams were simply supported on them, and the connections of steel angles and bearing plates were added only in the strengthened configuration (Tomić et al. 2024a, Sections 2.3 and 2.4)."
+   },
+   {
+    "facade": "Facade_2_U2",
+    "vulnerability": "DeformableFloors",
+    "evidence": "Timber beams of 8 × 16 cm with a single layer of 2 cm planks nailed to them, a flexible diaphragm (Tomić et al. 2024a, Section 2.3)."
+   },
+   {
+    "facade": "Facade_2_U2",
+    "vulnerability": "AbsenceOfIntermediateChains",
+    "evidence": "No tie rods and no ring beam at the first-floor level of unit 2: the beams were simply supported on the walls, and their connection was added only in the strengthened configuration (Tomić et al. 2024a, Sections 2.3 and 2.4)."
+   },
+   {
+    "facade": "Facade_2_U2",
+    "vulnerability": "AbsenceOfIntermediateCurbstone",
+    "evidence": "No tie rods and no ring beam at the first-floor level of unit 2: the beams were simply supported on the walls, and their connection was added only in the strengthened configuration (Tomić et al. 2024a, Sections 2.3 and 2.4)."
+   },
+   {
+    "facade": "Facade_3_U2",
+    "vulnerability": "AbsenceOfTopChains",
+    "evidence": "No tie rods and no ring beam at the top of the walls: the beams were simply supported on them, and the connections of steel angles and bearing plates were added only in the strengthened configuration (Tomić et al. 2024a, Sections 2.3 and 2.4)."
+   },
+   {
+    "facade": "Facade_3_U2",
+    "vulnerability": "AbsenceOfTopCurbstone",
+    "evidence": "No tie rods and no ring beam at the top of the walls: the beams were simply supported on them, and the connections of steel angles and bearing plates were added only in the strengthened configuration (Tomić et al. 2024a, Sections 2.3 and 2.4)."
+   },
+   {
+    "facade": "Facade_3_U2",
+    "vulnerability": "DeformableFloors",
+    "evidence": "Timber beams of 8 × 16 cm with a single layer of 2 cm planks nailed to them, a flexible diaphragm (Tomić et al. 2024a, Section 2.3)."
+   },
+   {
+    "facade": "Facade_3_U2",
+    "vulnerability": "AbsenceOfIntermediateChains",
+    "evidence": "No tie rods and no ring beam at the first-floor level of unit 2: the beams were simply supported on the walls, and their connection was added only in the strengthened configuration (Tomić et al. 2024a, Sections 2.3 and 2.4)."
+   },
+   {
+    "facade": "Facade_3_U2",
+    "vulnerability": "AbsenceOfIntermediateCurbstone",
+    "evidence": "No tie rods and no ring beam at the first-floor level of unit 2: the beams were simply supported on the walls, and their connection was added only in the strengthened configuration (Tomić et al. 2024a, Sections 2.3 and 2.4)."
+   },
+   {
+    "facade": "Facade_4",
+    "vulnerability": "AbsenceOfTopChains",
+    "evidence": "No tie rods and no ring beam at the top of the walls: the beams were simply supported on them, and the connections of steel angles and bearing plates were added only in the strengthened configuration (Tomić et al. 2024a, Sections 2.3 and 2.4)."
+   },
+   {
+    "facade": "Facade_4",
+    "vulnerability": "AbsenceOfTopCurbstone",
+    "evidence": "No tie rods and no ring beam at the top of the walls: the beams were simply supported on them, and the connections of steel angles and bearing plates were added only in the strengthened configuration (Tomić et al. 2024a, Sections 2.3 and 2.4)."
+   },
+   {
+    "facade": "Facade_4",
+    "vulnerability": "DeformableFloors",
+    "evidence": "Timber beams of 8 × 16 cm with a single layer of 2 cm planks nailed to them, a flexible diaphragm (Tomić et al. 2024a, Section 2.3)."
+   },
+   {
+    "facade": "Facade_4",
+    "vulnerability": "AbsenceOfIntermediateChains",
+    "evidence": "No tie rods and no ring beam at the first-floor level of unit 2: the beams were simply supported on the walls, and their connection was added only in the strengthened configuration (Tomić et al. 2024a, Sections 2.3 and 2.4)."
+   },
+   {
+    "facade": "Facade_4",
+    "vulnerability": "AbsenceOfIntermediateCurbstone",
+    "evidence": "No tie rods and no ring beam at the first-floor level of unit 2: the beams were simply supported on the walls, and their connection was added only in the strengthened configuration (Tomić et al. 2024a, Sections 2.3 and 2.4)."
+   },
+   {
+    "facade": "Facade_5",
+    "vulnerability": "AbsenceOfTopChains",
+    "evidence": "No tie rods and no ring beam at the top of the walls: the beams were simply supported on them, and the connections of steel angles and bearing plates were added only in the strengthened configuration (Tomić et al. 2024a, Sections 2.3 and 2.4)."
+   },
+   {
+    "facade": "Facade_5",
+    "vulnerability": "AbsenceOfTopCurbstone",
+    "evidence": "No tie rods and no ring beam at the top of the walls: the beams were simply supported on them, and the connections of steel angles and bearing plates were added only in the strengthened configuration (Tomić et al. 2024a, Sections 2.3 and 2.4)."
+   },
+   {
+    "facade": "Facade_5",
+    "vulnerability": "DeformableFloors",
+    "evidence": "Timber beams of 8 × 16 cm with a single layer of 2 cm planks nailed to them, a flexible diaphragm (Tomić et al. 2024a, Section 2.3)."
+   },
+   {
+    "facade": "Facade_5",
+    "vulnerability": "AbsenceOfIntermediateChains",
+    "evidence": "No tie rods and no ring beam at the first-floor level of unit 2: the beams were simply supported on the walls, and their connection was added only in the strengthened configuration (Tomić et al. 2024a, Sections 2.3 and 2.4)."
+   },
+   {
+    "facade": "Facade_5",
+    "vulnerability": "AbsenceOfIntermediateCurbstone",
+    "evidence": "No tie rods and no ring beam at the first-floor level of unit 2: the beams were simply supported on the walls, and their connection was added only in the strengthened configuration (Tomić et al. 2024a, Sections 2.3 and 2.4)."
+   }
+  ],
+  "MasonryTypes": [
+   {
+    "name": "Double_leaf_stone_masonry",
+    "description": "Double-leaf masonry of undressed, irregular sandstone (Credaro Berrettino stone) in approximately horizontal courses, with stone chips and mortar filling the core and through stones only at corners and opening edges; the typology of historic aggregates in Basel.",
+    "unit_dimensions": "medium",
+    "unit_shape": "roughly_cut",
+    "unit_material": "irregular_hard_stone",
+    "mortar_quality": "lime",
+    "horizontal_joints": "partially_continuous",
+    "vertical_joints": "partially_staggered",
+    "wall_connections": "none",
+    "evidence_unit_dimensions": "Stones of 10 to 25 cm in the half-scale specimen (Tomic et al. 2024a, Section 2.1), so 20 to 50 cm at full scale: medium.",
+    "evidence_unit_shape": "Undressed, irregular stones, more irregular than those of the earlier Pavia specimen (Tomic et al. 2024a, Section 2.1; Fig. 5a-b): roughly cut.",
+    "evidence_unit_material": "Credaro Berrettino stone, a sandstone with a compressive strength of 144 MPa (Tomic et al. 2024b, Table 4): hard stone, not squared.",
+    "evidence_mortar_quality": "Commercial hydraulic lime mortar with EPS spheres added to halve stiffness and strength for the scale (Tomic et al. 2024a, Section 2.1). At full scale the mortar it stands for is a weak lime mortar, so it is scored as lime and not as hydraulic lime.",
+    "evidence_horizontal_joints": "Stones arranged in approximately horizontal courses (Tomic et al. 2024a, Section 2.1): partially continuous.",
+    "evidence_vertical_joints": "Not described in the text; from the masonry texture of Fig. 5a-b the vertical joints are partly staggered.",
+    "evidence_wall_connections": "No interlocking between the leaves except through stones at opening edges and building corners (Tomic et al. 2024a, Section 2.1; blind prediction study, poor interlocking): none in the body of the wall.",
+    "evidence": "",
+    "flags": "Classified at full scale: the specimen is half-scale with EPS-modified mortar, so the properties derived here are to be compared with the measured ones brought back to full scale, not with the measured ones directly.\nVertical joint staggering is read from the published photographs, not stated in the text.\nThrough stones exist at corners and opening edges; counting them as sparse headers instead of none raises the quality index (upper variant).",
+    "density_kg_m3": "1980",
+    "density_note": "Measured masonry density of the same typology, 1980 kg/m3 (Tomic et al. 2024b, Table 4); the density is not scaled by the similitude law adopted.",
+    "reference_category": "Muratura a conci sbozzati (roughly cut stone masonry), Circular No. 7/2019, Table C8.5.I",
+    "reference_note": "Code class closest to the typology, for comparison only.",
+    "variant_lower": "unit_shape=rubble",
+    "variant_upper": "wall_connections=sparse"
+   }
+  ],
+  "Measured": [
+   {
+    "masonry_type": "Double_leaf_stone_masonry",
+    "quantity": "compressive_strength_MPa",
+    "value": "1.37",
+    "basis": "specimen (SERA-AIMS)",
+    "source": "Tomić et al. (2024a), Bull Earthquake Eng 22:5963–5991, doi:10.1007/s10518-023-01810-y, CC BY 4.0, Table 1, vertical compression of wallettes"
+   },
+   {
+    "masonry_type": "Double_leaf_stone_masonry",
+    "quantity": "tensile_strength_MPa",
+    "value": "0.21",
+    "basis": "specimen (SERA-AIMS)",
+    "source": "Tomić et al. (2024a), Bull Earthquake Eng 22:5963–5991, doi:10.1007/s10518-023-01810-y, CC BY 4.0, Table 1, diagonal compression of wallettes"
+   },
+   {
+    "masonry_type": "Double_leaf_stone_masonry",
+    "quantity": "cohesion_MPa",
+    "value": "0.29",
+    "basis": "specimen (SERA-AIMS)",
+    "source": "Tomić et al. (2024a), Bull Earthquake Eng 22:5963–5991, doi:10.1007/s10518-023-01810-y, CC BY 4.0, Table 1"
+   },
+   {
+    "masonry_type": "Double_leaf_stone_masonry",
+    "quantity": "compressive_strength_MPa",
+    "value": "1.3",
+    "basis": "specimen (Pavia, same typology)",
+    "source": "Tomić et al. (2024b), Bull Earthquake Eng 22:5993–6035, doi:10.1007/s10518-022-01582-x, CC BY 4.0, Table 4"
+   },
+   {
+    "masonry_type": "Double_leaf_stone_masonry",
+    "quantity": "young_modulus_MPa",
+    "value": "3462",
+    "basis": "specimen (Pavia, same typology)",
+    "source": "Tomić et al. (2024b), Bull Earthquake Eng 22:5993–6035, doi:10.1007/s10518-022-01582-x, CC BY 4.0, Table 4"
+   },
+   {
+    "masonry_type": "Double_leaf_stone_masonry",
+    "quantity": "shear_modulus_MPa",
+    "value": "1524",
+    "basis": "specimen (Pavia, same typology), vertical compression",
+    "source": "Tomić et al. (2024b), Bull Earthquake Eng 22:5993–6035, doi:10.1007/s10518-022-01582-x, CC BY 4.0, Table 4"
+   },
+   {
+    "masonry_type": "Double_leaf_stone_masonry",
+    "quantity": "shear_modulus_MPa",
+    "value": "1898",
+    "basis": "specimen (Pavia, same typology), diagonal compression",
+    "source": "Tomić et al. (2024b), Bull Earthquake Eng 22:5993–6035, doi:10.1007/s10518-022-01582-x, CC BY 4.0, Table 4"
+   },
+   {
+    "masonry_type": "Double_leaf_stone_masonry",
+    "quantity": "density_kg_m3",
+    "value": "1980",
+    "basis": "specimen (Pavia, same typology)",
+    "source": "Tomić et al. (2024b), Bull Earthquake Eng 22:5993–6035, doi:10.1007/s10518-022-01582-x, CC BY 4.0, Table 4"
+   },
+   {
+    "masonry_type": "Double_leaf_stone_masonry",
+    "quantity": "compressive_strength_MPa",
+    "value": "2.74",
+    "basis": "full scale, twice the specimen value (EPS mortar halves stiffness and strength; scale factor to be checked)",
+    "source": "2 × 1.37 MPa, Tomić et al. (2024a), Bull Earthquake Eng 22:5963–5991, doi:10.1007/s10518-023-01810-y, CC BY 4.0"
+   },
+   {
+    "masonry_type": "Double_leaf_stone_masonry",
+    "quantity": "young_modulus_MPa",
+    "value": "6924",
+    "basis": "full scale, twice the specimen value (EPS mortar halves stiffness and strength; scale factor to be checked)",
+    "source": "2 × 3462 MPa, Tomić et al. (2024b), Bull Earthquake Eng 22:5993–6035, doi:10.1007/s10518-022-01582-x, CC BY 4.0"
+   },
+   {
+    "masonry_type": "Double_leaf_stone_masonry",
+    "quantity": "shear_modulus_MPa",
+    "value": "3048",
+    "basis": "full scale, twice the specimen value (EPS mortar halves stiffness and strength; scale factor to be checked), vertical compression",
+    "source": "2 × 1524 MPa, Tomić et al. (2024b), Bull Earthquake Eng 22:5993–6035, doi:10.1007/s10518-022-01582-x, CC BY 4.0"
+   },
+   {
+    "masonry_type": "Double_leaf_stone_masonry",
+    "quantity": "shear_modulus_MPa",
+    "value": "3796",
+    "basis": "full scale, twice the specimen value (EPS mortar halves stiffness and strength; scale factor to be checked), diagonal compression",
+    "source": "2 × 1898 MPa, Tomić et al. (2024b), Bull Earthquake Eng 22:5993–6035, doi:10.1007/s10518-022-01582-x, CC BY 4.0"
+   },
+   {
+    "masonry_type": "Double_leaf_stone_masonry",
+    "quantity": "shear_strength_turnsek_cacovic_MPa",
+    "value": "0.28",
+    "basis": "full scale, twice the specimen value (EPS mortar halves stiffness and strength; scale factor to be checked), from f_t / 1.5",
+    "source": "2 × 0.21 / 1.5 MPa, Tomić et al. (2024a), Bull Earthquake Eng 22:5963–5991, doi:10.1007/s10518-023-01810-y, CC BY 4.0"
+   }
+  ]
+ }
+}

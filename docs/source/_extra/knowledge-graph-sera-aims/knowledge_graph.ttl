@@ -20,67 +20,78 @@
 :IFC_3_2W4VcEf62eVBAFB0d-OL a owl:NamedIndividual ;
     rdfs:label "IfcWall Basic Wall:Unit_2_first_floor:1675092"@en ;
     dcterms:identifier "3_2W4VcEf62eVBAFB0d$OL" ;
-    dcterms:isPartOf :BIMModel ;
+    dcterms:isPartOf :BIMModel,
+        :Facade_3_U2 ;
     dcterms:type :Double_leaf_stone_masonry .
 
 :IFC_3_2W4VcEf62eVBAFB0d-PR a owl:NamedIndividual ;
     rdfs:label "IfcWall Basic Wall:Unit_2_first_floor:1675034"@en ;
     dcterms:identifier "3_2W4VcEf62eVBAFB0d$PR" ;
-    dcterms:isPartOf :BIMModel ;
+    dcterms:isPartOf :BIMModel,
+        :Facade_4 ;
     dcterms:type :Double_leaf_stone_masonry .
 
 :IFC_3_2W4VcEf62eVBAFB0d-Rm a owl:NamedIndividual ;
     rdfs:label "IfcWall Basic Wall:Unit_2_first_floor:1675185"@en ;
     dcterms:identifier "3_2W4VcEf62eVBAFB0d$Rm" ;
-    dcterms:isPartOf :BIMModel ;
+    dcterms:isPartOf :BIMModel,
+        :Facade_5 ;
     dcterms:type :Double_leaf_stone_masonry .
 
 :IFC_3_2W4VcEf62eVBAFB0d-U6 a owl:NamedIndividual ;
     rdfs:label "IfcWall Basic Wall:Unit_2_first_floor:1674951"@en ;
     dcterms:identifier "3_2W4VcEf62eVBAFB0d$U6" ;
-    dcterms:isPartOf :BIMModel ;
+    dcterms:isPartOf :BIMModel,
+        :Facade_2_U2 ;
     dcterms:type :Double_leaf_stone_masonry .
 
 :IFC_3_2W4VcEf62eVBAFB0d_Xg a owl:NamedIndividual ;
     rdfs:label "IfcWall Basic Wall:Unit_2_second_floor:1675563"@en ;
     dcterms:identifier "3_2W4VcEf62eVBAFB0d_Xg" ;
-    dcterms:isPartOf :BIMModel ;
+    dcterms:isPartOf :BIMModel,
+        :Facade_2_U2 ;
     dcterms:type :Double_leaf_stone_masonry .
 
 :IFC_3_2W4VcEf62eVBAFB0d_ar a owl:NamedIndividual ;
     rdfs:label "IfcWall Basic Wall:Unit_2_second_floor:1675380"@en ;
     dcterms:identifier "3_2W4VcEf62eVBAFB0d_ar" ;
-    dcterms:isPartOf :BIMModel ;
+    dcterms:isPartOf :BIMModel,
+        :Facade_5 ;
     dcterms:type :Double_leaf_stone_masonry .
 
 :IFC_3_2W4VcEf62eVBAFB0d_cf a owl:NamedIndividual ;
     rdfs:label "IfcWall Basic Wall:Unit_2_second_floor:1675496"@en ;
     dcterms:identifier "3_2W4VcEf62eVBAFB0d_cf" ;
-    dcterms:isPartOf :BIMModel ;
+    dcterms:isPartOf :BIMModel,
+        :Facade_4 ;
     dcterms:type :Double_leaf_stone_masonry .
 
 :IFC_3_2W4VcEf62eVBAFB0d_dt a owl:NamedIndividual ;
     rdfs:label "IfcWall Basic Wall:Unit_2_second_floor:1675446"@en ;
     dcterms:identifier "3_2W4VcEf62eVBAFB0d_dt" ;
-    dcterms:isPartOf :BIMModel ;
+    dcterms:isPartOf :BIMModel,
+        :Facade_3_U2 ;
     dcterms:type :Double_leaf_stone_masonry .
 
 :IFC_3_2W4VcEf62eVBAFB0d_i6 a owl:NamedIndividual ;
     rdfs:label "IfcWall Basic Wall:Unit_1:1675847"@en ;
     dcterms:identifier "3_2W4VcEf62eVBAFB0d_i6" ;
-    dcterms:isPartOf :BIMModel ;
+    dcterms:isPartOf :BIMModel,
+        :Facade_1 ;
     dcterms:type :Double_leaf_stone_masonry .
 
 :IFC_3_2W4VcEf62eVBAFB0d_jF a owl:NamedIndividual ;
     rdfs:label "IfcWall Basic Wall:Unit_1:1675790"@en ;
     dcterms:identifier "3_2W4VcEf62eVBAFB0d_jF" ;
-    dcterms:isPartOf :BIMModel ;
+    dcterms:isPartOf :BIMModel,
+        :Facade_2_U1 ;
     dcterms:type :Double_leaf_stone_masonry .
 
 :IFC_3_2W4VcEf62eVBAFB0d_lO a owl:NamedIndividual ;
     rdfs:label "IfcWall Basic Wall:Unit_1:1675929"@en ;
     dcterms:identifier "3_2W4VcEf62eVBAFB0d_lO" ;
-    dcterms:isPartOf :BIMModel ;
+    dcterms:isPartOf :BIMModel,
+        :Facade_3_U1 ;
     dcterms:type :Double_leaf_stone_masonry .
 
 :ISISE_UMinho a owl:NamedIndividual,
@@ -93,7 +104,7 @@
 :KnowledgeGraph a owl:Ontology ;
     rdfs:label "SERA-AIMS benchmark knowledge graph"@en ;
     dcterms:references <https://doi.org/10.5281/zenodo.23260961> ;
-    rdfs:comment "The half-scale stone masonry aggregate tested on the shake table within the SERA-AIMS project, the benchmark of this thesis, described with the Historic Survey (HSV), Historic Structure (HSTO) and Historic Masonry (HMO) ontologies: the publications and the BIM model, the units, façades and the interface between them, and the mechanical properties of the masonry derived by a reasoner from its published description, next to the measured ones. Built on HSV, HSTO, HMO and FMO. Quality indices, homogenised properties and behaviours were derived by Pellet from the HMO and FMO rules (resources/ontologies/) and checked against core/ifc_processing/hmo_mqi.py."@en ;
+    rdfs:comment "The half-scale stone masonry aggregate tested on the shake table within the SERA-AIMS project, the benchmark of this thesis, described with the Historic Survey (HSV), Historic Structure (HSTO), Historic Masonry (HMO) and Failure Mechanism (FMO) ontologies: the publications and the BIM model, the units, façades and the interface between them, the mechanical properties of the masonry derived by a reasoner from its published description, next to the measured ones, and the behaviour and expected failure mechanisms of its walls. Built on HSV, HSTO, HMO and FMO. Quality indices, homogenised properties and behaviours were derived by Pellet from the HMO and FMO rules (resources/ontologies/) and checked against core/ifc_processing/hmo_mqi.py."@en ;
     owl:imports <https://w3id.org/fmo>,
         <https://w3id.org/hmo>,
         <https://w3id.org/hsto>,
@@ -305,43 +316,6 @@
 :EPFL a owl:NamedIndividual,
         foaf:Organization ;
     foaf:name "École Polytechnique Fédérale de Lausanne (EPFL), Switzerland" .
-
-:Facade_1 a owl:NamedIndividual,
-        hsto:Facade,
-        hsv:Facade ;
-    rdfs:label "Facade 1, end of unit 1"@en ;
-    hsto:isBuiltWithTraditionalConstructionTechnique :DoubleLeafStoneMasonry ;
-    hsto:isMadeOf :Wall_1 .
-
-:Facade_2_U1 a owl:NamedIndividual,
-        hsto:Facade,
-        hsv:Facade ;
-    rdfs:label "Facade 2, part of unit 1"@en ;
-    hsto:isBuiltWithTraditionalConstructionTechnique :DoubleLeafStoneMasonry ;
-    hsto:isConnectedTo :Interface_2 ;
-    hsto:isMadeOf :Wall_2_U1 .
-
-:Facade_2_U2 a owl:NamedIndividual,
-        hsto:Facade,
-        hsv:Facade ;
-    rdfs:label "Facade 2, part of unit 2"@en ;
-    hsto:isBuiltWithTraditionalConstructionTechnique :DoubleLeafStoneMasonry ;
-    hsto:isConnectedTo :Interface_2 ;
-    hsto:isMadeOf :Wall_2_U2 .
-
-:Facade_4 a owl:NamedIndividual,
-        hsto:Facade,
-        hsv:Facade ;
-    rdfs:label "Facade 4, end of unit 2"@en ;
-    hsto:isBuiltWithTraditionalConstructionTechnique :DoubleLeafStoneMasonry ;
-    hsto:isMadeOf :Wall_4 .
-
-:Facade_5 a owl:NamedIndividual,
-        hsto:Facade,
-        hsv:Facade ;
-    rdfs:label "Facade 5, wall of unit 2 shared with unit 1"@en ;
-    hsto:isBuiltWithTraditionalConstructionTechnique :DoubleLeafStoneMasonry ;
-    hsto:isMadeOf :Wall_5 .
 
 :Fig5 a owl:NamedIndividual,
         hsv:Photo ;
@@ -1040,6 +1014,21 @@
         hmo:YoungModulus ;
     saref:hasValue "1624.5"^^xsd:float .
 
+:Facade_1 a owl:NamedIndividual,
+        hsto:Facade,
+        hsv:Facade ;
+    rdfs:label "Facade 1, end of unit 1"@en ;
+    hsto:isBuiltWithTraditionalConstructionTechnique :DoubleLeafStoneMasonry ;
+    hsto:isMadeOf :Wall_1 .
+
+:Facade_2_U1 a owl:NamedIndividual,
+        hsto:Facade,
+        hsv:Facade ;
+    rdfs:label "Facade 2, part of unit 1"@en ;
+    hsto:isBuiltWithTraditionalConstructionTechnique :DoubleLeafStoneMasonry ;
+    hsto:isConnectedTo :Interface_2 ;
+    hsto:isMadeOf :Wall_2_U1 .
+
 :IgorTomic a owl:NamedIndividual,
         foaf:Person,
         hsv:Author ;
@@ -1075,25 +1064,27 @@
         foaf:Person ;
     foaf:name "Elena Gigliarelli" .
 
-:Facade_3_U1 a owl:NamedIndividual,
+:Facade_2_U2 a owl:NamedIndividual,
         hsto:Facade,
         hsv:Facade ;
-    rdfs:label "Facade 3, part of unit 1"@en ;
+    rdfs:label "Facade 2, part of unit 2"@en ;
     hsto:isBuiltWithTraditionalConstructionTechnique :DoubleLeafStoneMasonry ;
-    hsto:isConnectedTo :Interface_3 ;
-    hsto:isMadeOf :Wall_3_U1 ;
-    hsv:hasDocument :Fig4a,
-        :Fig4b .
+    hsto:isConnectedTo :Interface_2 ;
+    hsto:isMadeOf :Wall_2_U2 .
 
-:Facade_3_U2 a owl:NamedIndividual,
+:Facade_4 a owl:NamedIndividual,
         hsto:Facade,
         hsv:Facade ;
-    rdfs:label "Facade 3, part of unit 2"@en ;
+    rdfs:label "Facade 4, end of unit 2"@en ;
     hsto:isBuiltWithTraditionalConstructionTechnique :DoubleLeafStoneMasonry ;
-    hsto:isConnectedTo :Interface_3 ;
-    hsto:isMadeOf :Wall_3_U2 ;
-    hsv:hasDocument :Fig4a,
-        :Fig4b .
+    hsto:isMadeOf :Wall_4 .
+
+:Facade_5 a owl:NamedIndividual,
+        hsto:Facade,
+        hsv:Facade ;
+    rdfs:label "Facade 5, wall of unit 2 shared with unit 1"@en ;
+    hsto:isBuiltWithTraditionalConstructionTechnique :DoubleLeafStoneMasonry ;
+    hsto:isMadeOf :Wall_5 .
 
 :MiguelAzenha a owl:NamedIndividual,
         foaf:Person ;
@@ -1118,6 +1109,16 @@
         :MatthewDeJong,
         :PauloCandeias .
 
+:Facade_3_U1 a owl:NamedIndividual,
+        hsto:Facade,
+        hsv:Facade ;
+    rdfs:label "Facade 3, part of unit 1"@en ;
+    hsto:isBuiltWithTraditionalConstructionTechnique :DoubleLeafStoneMasonry ;
+    hsto:isConnectedTo :Interface_3 ;
+    hsto:isMadeOf :Wall_3_U1 ;
+    hsv:hasDocument :Fig4a,
+        :Fig4b .
+
 :Fig4a a owl:NamedIndividual,
         hsv:Photo ;
     rdfs:label "Facade 3 without plaster, paint and additional masses (Tomić et al. 2024a, Fig. 4a)"@en ;
@@ -1138,6 +1139,16 @@
         foaf:Person,
         hsv:Author ;
     foaf:name "Maria Laura Leonardi" .
+
+:Facade_3_U2 a owl:NamedIndividual,
+        hsto:Facade,
+        hsv:Facade ;
+    rdfs:label "Facade 3, part of unit 2"@en ;
+    hsto:isBuiltWithTraditionalConstructionTechnique :DoubleLeafStoneMasonry ;
+    hsto:isConnectedTo :Interface_3 ;
+    hsto:isMadeOf :Wall_3_U2 ;
+    hsv:hasDocument :Fig4a,
+        :Fig4b .
 
 :DoubleLeafStoneMasonry a owl:NamedIndividual,
         hsv:TraditionalConstructionTechnique ;

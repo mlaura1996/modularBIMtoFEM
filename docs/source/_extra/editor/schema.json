@@ -1,0 +1,609 @@
+{
+ "format": "openbimtofem-case",
+ "version": 1,
+ "sheets": {
+  "Project": [
+   {
+    "name": "key",
+    "help": "Field name (fixed)"
+   },
+   {
+    "name": "value",
+    "help": "Value"
+   }
+  ],
+  "Organisations": [
+   {
+    "name": "id",
+    "help": "Identifier"
+   },
+   {
+    "name": "name",
+    "help": "Full name"
+   }
+  ],
+  "People": [
+   {
+    "name": "id",
+    "help": "Identifier, e.g. MariaLauraLeonardi"
+   },
+   {
+    "name": "name",
+    "help": "Full name"
+   },
+   {
+    "name": "organisation",
+    "help": "Identifier of the organisation",
+    "ref": [
+     "Organisations"
+    ],
+    "many": false
+   }
+  ],
+  "Activities": [
+   {
+    "name": "id",
+    "help": "Identifier"
+   },
+   {
+    "name": "label",
+    "help": "What was done"
+   },
+   {
+    "name": "date",
+    "help": "ISO date"
+   },
+   {
+    "name": "start",
+    "help": "ISO date and time (optional)"
+   },
+   {
+    "name": "end",
+    "help": "ISO date and time (optional)"
+   },
+   {
+    "name": "people",
+    "help": "Identifiers of the people, separated by ;",
+    "ref": [
+     "People",
+     "Organisations"
+    ],
+    "many": true
+   },
+   {
+    "name": "roles",
+    "help": "Roles HSV has no class for, as PersonId: Role; ...",
+    "ref": [
+     "People"
+    ],
+    "many": true
+   },
+   {
+    "name": "notes",
+    "help": "Free text, e.g. the instrument"
+   }
+  ],
+  "Documents": [
+   {
+    "name": "id",
+    "help": "Identifier"
+   },
+   {
+    "name": "kind",
+    "help": "HSV class of the document",
+    "choices": "document kind"
+   },
+   {
+    "name": "label",
+    "help": "Description"
+   },
+   {
+    "name": "date",
+    "help": "ISO date it was created (optional)"
+   },
+   {
+    "name": "activity",
+    "help": "Activity that produced it",
+    "ref": [
+     "Activities"
+    ],
+    "many": false
+   },
+   {
+    "name": "derived_from",
+    "help": "Document it was derived from",
+    "ref": [
+     "Documents"
+    ],
+    "many": false
+   },
+   {
+    "name": "used_in",
+    "help": "Activity that used it",
+    "ref": [
+     "Activities"
+    ],
+    "many": false
+   },
+   {
+    "name": "authors",
+    "help": "Authors (HSV Author), separated by ;",
+    "ref": [
+     "People"
+    ],
+    "many": true
+   },
+   {
+    "name": "acquired_by",
+    "help": "Who acquired it (HSV Inspector)",
+    "ref": [
+     "People"
+    ],
+    "many": true
+   },
+   {
+    "name": "processed_by",
+    "help": "Who post-processed it (HSV PostProcesser)",
+    "ref": [
+     "People"
+    ],
+    "many": true
+   },
+   {
+    "name": "identifier",
+    "help": "File name, DOI or URL (optional)"
+   },
+   {
+    "name": "about",
+    "help": "What it documents: aggregate (default), or unit/facade identifiers",
+    "ref": [
+     "Units",
+     "Facades"
+    ],
+    "many": true
+   }
+  ],
+  "Units": [
+   {
+    "name": "id",
+    "help": "Identifier, e.g. Unit_417"
+   },
+   {
+    "name": "label",
+    "help": "Description"
+   },
+   {
+    "name": "floor_kind",
+    "help": "HSTO class of its floors (optional)",
+    "choices": "floor kind"
+   },
+   {
+    "name": "floor_label",
+    "help": "Description of the floors"
+   },
+   {
+    "name": "floor_accessible",
+    "help": "Were the floors accessible for survey?",
+    "choices": "yes/no"
+   },
+   {
+    "name": "floor_note",
+    "help": "What is known about them and how"
+   }
+  ],
+  "Facades": [
+   {
+    "name": "id",
+    "help": "Identifier, e.g. Facade_417a"
+   },
+   {
+    "name": "unit",
+    "help": "Identifier of its unit",
+    "ref": [
+     "Units"
+    ],
+    "many": false
+   },
+   {
+    "name": "label",
+    "help": "Description"
+   },
+   {
+    "name": "masonry_type",
+    "help": "Name of its masonry type (MasonryTypes)",
+    "ref": [
+     "MasonryTypes"
+    ],
+    "many": false
+   },
+   {
+    "name": "elements",
+    "help": "GlobalIds of its IFC elements, separated by ; (set by the editor)"
+   }
+  ],
+  "Photos": [
+   {
+    "name": "id",
+    "help": "Identifier"
+   },
+   {
+    "name": "facade",
+    "help": "Facades it shows, separated by ;; empty means the aggregate",
+    "ref": [
+     "Facades"
+    ],
+    "many": true
+   },
+   {
+    "name": "file",
+    "help": "File path, relative to the photo folder"
+   },
+   {
+    "name": "label",
+    "help": "Caption (optional)"
+   },
+   {
+    "name": "taken",
+    "help": "ISO date and time"
+   },
+   {
+    "name": "activity",
+    "help": "Activity it was taken in",
+    "ref": [
+     "Activities"
+    ],
+    "many": false
+   },
+   {
+    "name": "acquired_by",
+    "help": "Who took it; empty means the people of the activity",
+    "ref": [
+     "People"
+    ],
+    "many": true
+   },
+   {
+    "name": "source",
+    "help": "Source and licence, for photographs taken from a publication"
+   }
+  ],
+  "Connections": [
+   {
+    "name": "id",
+    "help": "Identifier"
+   },
+   {
+    "name": "kind",
+    "help": "HSTO class",
+    "choices": "connection kind"
+   },
+   {
+    "name": "part_a",
+    "help": "Facade on one side",
+    "ref": [
+     "Facades"
+    ],
+    "many": false
+   },
+   {
+    "name": "part_b",
+    "help": "Facade on the other side",
+    "ref": [
+     "Facades"
+    ],
+    "many": false
+   },
+   {
+    "name": "label",
+    "help": "Description"
+   },
+   {
+    "name": "quality",
+    "help": "Connection quality and its evidence"
+   }
+  ],
+  "Openings": [
+   {
+    "name": "id",
+    "help": "Identifier"
+   },
+   {
+    "name": "facade",
+    "help": "Facade it is on",
+    "ref": [
+     "Facades"
+    ],
+    "many": false
+   },
+   {
+    "name": "label",
+    "help": "Description"
+   }
+  ],
+  "Vulnerabilities": [
+   {
+    "name": "facade",
+    "help": "Facade whose wall has it",
+    "ref": [
+     "Facades"
+    ],
+    "many": false
+   },
+   {
+    "name": "vulnerability",
+    "help": "FMO vulnerability",
+    "choices": "vulnerability"
+   },
+   {
+    "name": "evidence",
+    "help": "What shows it, and its source"
+   }
+  ],
+  "MasonryTypes": [
+   {
+    "name": "name",
+    "help": "Name, the same as the IFC material"
+   },
+   {
+    "name": "description",
+    "help": "Description"
+   },
+   {
+    "name": "unit_dimensions",
+    "help": "MQI category: unit dimensions",
+    "choices": "unit_dimensions"
+   },
+   {
+    "name": "unit_shape",
+    "help": "MQI category: unit shape",
+    "choices": "unit_shape"
+   },
+   {
+    "name": "unit_material",
+    "help": "MQI category: unit material",
+    "choices": "unit_material"
+   },
+   {
+    "name": "mortar_quality",
+    "help": "MQI category: mortar quality",
+    "choices": "mortar_quality"
+   },
+   {
+    "name": "horizontal_joints",
+    "help": "MQI category: horizontal joints",
+    "choices": "horizontal_joints"
+   },
+   {
+    "name": "vertical_joints",
+    "help": "MQI category: vertical joints",
+    "choices": "vertical_joints"
+   },
+   {
+    "name": "wall_connections",
+    "help": "MQI category: wall connections",
+    "choices": "wall_connections"
+   },
+   {
+    "name": "evidence_unit_dimensions",
+    "help": "Evidence for unit dimensions"
+   },
+   {
+    "name": "evidence_unit_shape",
+    "help": "Evidence for unit shape"
+   },
+   {
+    "name": "evidence_unit_material",
+    "help": "Evidence for unit material"
+   },
+   {
+    "name": "evidence_mortar_quality",
+    "help": "Evidence for mortar quality"
+   },
+   {
+    "name": "evidence_horizontal_joints",
+    "help": "Evidence for horizontal joints"
+   },
+   {
+    "name": "evidence_vertical_joints",
+    "help": "Evidence for vertical joints"
+   },
+   {
+    "name": "evidence_wall_connections",
+    "help": "Evidence for wall connections"
+   },
+   {
+    "name": "evidence",
+    "help": "General evidence (optional)"
+   },
+   {
+    "name": "flags",
+    "help": "Assumptions and caveats, one per line"
+   },
+   {
+    "name": "density_kg_m3",
+    "help": "Mass density (HMO has no rule for it)"
+   },
+   {
+    "name": "density_note",
+    "help": "Source of the density"
+   },
+   {
+    "name": "reference_category",
+    "help": "Code category it is compared with (optional)"
+   },
+   {
+    "name": "reference_note",
+    "help": "Note on the comparison (optional)"
+   },
+   {
+    "name": "variant_lower",
+    "help": "Lower variant, as parameter=value; ... (optional)"
+   },
+   {
+    "name": "variant_upper",
+    "help": "Upper variant, as parameter=value; ... (optional)"
+   }
+  ],
+  "Measured": [
+   {
+    "name": "masonry_type",
+    "help": "Masonry type",
+    "ref": [
+     "MasonryTypes"
+    ],
+    "many": false
+   },
+   {
+    "name": "quantity",
+    "help": "e.g. compressive_strength_MPa"
+   },
+   {
+    "name": "value",
+    "help": "Value"
+   },
+   {
+    "name": "basis",
+    "help": "specimen or full scale"
+   },
+   {
+    "name": "source",
+    "help": "Where it comes from"
+   }
+  ]
+ },
+ "project_keys": [
+  {
+   "name": "id",
+   "help": "Short name of the case study, e.g. castelnuovo"
+  },
+  {
+   "name": "title",
+   "help": "Title shown on the page"
+  },
+  {
+   "name": "description",
+   "help": "One paragraph describing the case study"
+  },
+  {
+   "name": "namespace",
+   "help": "Namespace of the graph's IRIs, ending in #"
+  },
+  {
+   "name": "centre_id",
+   "help": "Identifier of the historic centre (optional)"
+  },
+  {
+   "name": "centre_label",
+   "help": "Name of the historic centre (optional)"
+  },
+  {
+   "name": "aggregate_id",
+   "help": "Identifier of the aggregate"
+  },
+  {
+   "name": "aggregate_label",
+   "help": "Description of the aggregate"
+  },
+  {
+   "name": "technique_id",
+   "help": "Identifier of the traditional construction technique (optional)"
+  },
+  {
+   "name": "technique_label",
+   "help": "Name of the technique (optional)"
+  },
+  {
+   "name": "bim_document",
+   "help": "Identifier of the BIM model in Documents"
+  },
+  {
+   "name": "software_doi",
+   "help": "DOI of the software release (optional)"
+  }
+ ],
+ "choices": {
+  "unit_dimensions": [
+   "small",
+   "medium",
+   "large"
+  ],
+  "unit_shape": [
+   "rubble",
+   "roughly_cut_or_irregular_soft",
+   "roughly_cut",
+   "cut_or_squared"
+  ],
+  "unit_material": [
+   "bricks",
+   "hollow_bricks_lt30pct",
+   "hollow_bricks_30_55pct",
+   "hollow_bricks_gt55pct",
+   "damaged",
+   "irregular_soft_stone",
+   "squared_hard_stone",
+   "irregular_hard_stone"
+  ],
+  "mortar_quality": [
+   "earth",
+   "lime",
+   "hydraulic_lime_or_roman_cement",
+   "dry_joints"
+  ],
+  "horizontal_joints": [
+   "not_continuous",
+   "partially_continuous",
+   "continuous"
+  ],
+  "vertical_joints": [
+   "aligned",
+   "partially_staggered",
+   "properly_staggered"
+  ],
+  "wall_connections": [
+   "none",
+   "sparse",
+   "frequent"
+  ],
+  "document kind": [
+   "Photo",
+   "PointCloud",
+   "Drawing",
+   "Document",
+   "Publication",
+   "BuildingInformationModel"
+  ],
+  "floor kind": [
+   "TimberFloor",
+   "Vault",
+   "HorizontalStructure"
+  ],
+  "connection kind": [
+   "Connection",
+   "Quoin",
+   "Tie"
+  ],
+  "yes/no": [
+   "yes",
+   "no"
+  ],
+  "vulnerability": [
+   "AbsenceOfTopChains",
+   "AbsenceOfTopCurbstone",
+   "AbsenceOfIntermediateChains",
+   "AbsenceOfIntermediateCurbstone",
+   "DeformableFloors",
+   "ExcessiveSlenderness",
+   "OpeningsNearIntersections",
+   "PresenceOfHorizontalThrust"
+  ]
+ },
+ "parameters": [
+  "unit_dimensions",
+  "unit_shape",
+  "unit_material",
+  "mortar_quality",
+  "horizontal_joints",
+  "vertical_joints",
+  "wall_connections"
+ ]
+}
