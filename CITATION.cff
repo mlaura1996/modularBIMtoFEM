@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it using the metadata below."
+title: "openBIMtoFEM"
+abstract: >-
+  Workflow from openBIM (IFC) models of historic masonry buildings to
+  OpenSees finite element models, with semantic enrichment of the masonry
+  through the Historic Survey, Historic Structure and Historic Masonry
+  ontologies, contact interfaces between adjacent structural units, and
+  parallel analysis with OpenSeesMP.
+type: software
+authors:
+  - family-names: "Leonardi"
+    given-names: "Maria Laura"
+    affiliation: "ISISE, Department of Civil Engineering, University of Minho"
+version: "1.0.1"
+date-released: "2026-10-09"
+license: MIT
+repository-code: "https://github.com/mlaura1996/modularBIMtoFEM"
+url: "https://openbimtofem.readthedocs.io"
+keywords:
+  - BIM
+  - IFC
+  - OpenSees
+  - historic masonry
+  - ontology
+  - finite element method

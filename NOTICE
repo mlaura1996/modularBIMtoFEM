@@ -1,0 +1,11 @@
+openBIMtoFEM
+Copyright (c) 2026 Maria Laura Leonardi
+
+The MIT License in LICENSE applies to this repository with one exception:
+
+external/gmsh2opensees/
+    Helper functions to interface Gmsh with OpenSees, by Jose A. Abell M.
+    (2022, https://github.com/jaabell/gmsh2opensees). Third-party code,
+    included as used by the analysis scripts. It is not covered by the MIT
+    License of this repository: its original repository states no license,
+    and all rights remain with its author.
