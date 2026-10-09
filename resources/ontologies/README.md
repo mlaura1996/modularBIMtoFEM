@@ -1,8 +1,9 @@
 # Ontologies
 
-The three ontologies the Castelnuovo knowledge graph is built on
-(`docker/opensees/castelnuovo_knowledge_graph.py`). Pellet reasons over the
-three together with the case-study individuals.
+The three ontologies the case-study knowledge graphs are built on
+(`python -m core.knowledge_graph build <case.xlsx> ...`, for Castelnuovo
+and the SERA-AIMS benchmark). Pellet reasons over the three together with
+the case-study individuals.
 
 | file | ontology | source |
 |---|---|---|
@@ -79,8 +80,8 @@ wrongly linked individual belongs to the domain.
 Not part of the Docker image. Needs a Java runtime and, in any Python
 environment:
 
-    pip install owlready2==0.48 rdflib
-    python docker/opensees/castelnuovo_knowledge_graph.py
+    pip install owlready2==0.48 rdflib openpyxl
+    python -m core.knowledge_graph build resources/survey_data/castelnuovo/case.xlsx         --out output/castelnuovo --bim resources/survey_data/castelnuovo/bim_elements.json         --site docs/source/_extra/knowledge-graph
 
 owlready2 is pinned to 0.48 because later releases bundle Jena libraries
 compiled for Java 25, which fail on older runtimes with

@@ -152,11 +152,12 @@ from the actual `Material()` object.
 `docker/opensees/castelnuovo_knowledge_graph.py` writes
 `output/castelnuovo/knowledge_graph.ttl`, the case study as one graph over
 the three ontologies in `resources/ontologies/` (see the README there for
-how they meet and what each lacks). It reads two data files:
-`masonry_classification.json` (the classification above) and
-`resources/survey_data/castelnuovo/survey_record.json` (people,
-organisations, activities, documents, and which facade each photograph
-shows). The graph can be browsed online, see {doc}`knowledge_graph`.
+how they meet and what each lacks). It is built from the case-study
+workbook `resources/survey_data/castelnuovo/case.xlsx` (people,
+organisations, activities, documents, which facade each photograph shows,
+and the masonry classification above) by the generic pipeline in
+`core/knowledge_graph`. The graph can be browsed online, see
+{doc}`knowledge_graph`.
 
 - **HSV**: historic centre, aggregate, the four structural units, the
   seven facades; the 48 photographs (each `hsv:isDocumentOf` its facade,
@@ -206,7 +207,7 @@ relationships.
 ## Reproducing this
 
 ```bash
-pip install owlready2==0.48 rdflib    # and a Java runtime
+pip install owlready2==0.48 rdflib openpyxl    # and a Java runtime
 python docker/opensees/castelnuovo_knowledge_graph.py
 ```
 

@@ -1,0 +1,1071 @@
+@prefix : <https://example.org/sera-aims#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix hmo: <https://w3id.org/hmo#> .
+@prefix hsto: <https://w3id.org/hsto#> .
+@prefix hsv: <https://w3id.org/hsv#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix saref: <https://saref.etsi.org/core/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+:CNR_ISPC a owl:NamedIndividual,
+        foaf:Organization ;
+    foaf:member :ElenaGigliarelli ;
+    foaf:name "Institute of Heritage Science (ISPC), National Research Council of Italy (CNR)" .
+
+:IFC_3_2W4VcEf62eVBAFB0d-OL a owl:NamedIndividual ;
+    rdfs:label "IfcWall Basic Wall:Unit_2_first_floor:1675092"@en ;
+    dcterms:identifier "3_2W4VcEf62eVBAFB0d$OL" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Double_leaf_stone_masonry .
+
+:IFC_3_2W4VcEf62eVBAFB0d-PR a owl:NamedIndividual ;
+    rdfs:label "IfcWall Basic Wall:Unit_2_first_floor:1675034"@en ;
+    dcterms:identifier "3_2W4VcEf62eVBAFB0d$PR" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Double_leaf_stone_masonry .
+
+:IFC_3_2W4VcEf62eVBAFB0d-Rm a owl:NamedIndividual ;
+    rdfs:label "IfcWall Basic Wall:Unit_2_first_floor:1675185"@en ;
+    dcterms:identifier "3_2W4VcEf62eVBAFB0d$Rm" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Double_leaf_stone_masonry .
+
+:IFC_3_2W4VcEf62eVBAFB0d-U6 a owl:NamedIndividual ;
+    rdfs:label "IfcWall Basic Wall:Unit_2_first_floor:1674951"@en ;
+    dcterms:identifier "3_2W4VcEf62eVBAFB0d$U6" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Double_leaf_stone_masonry .
+
+:IFC_3_2W4VcEf62eVBAFB0d_Xg a owl:NamedIndividual ;
+    rdfs:label "IfcWall Basic Wall:Unit_2_second_floor:1675563"@en ;
+    dcterms:identifier "3_2W4VcEf62eVBAFB0d_Xg" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Double_leaf_stone_masonry .
+
+:IFC_3_2W4VcEf62eVBAFB0d_ar a owl:NamedIndividual ;
+    rdfs:label "IfcWall Basic Wall:Unit_2_second_floor:1675380"@en ;
+    dcterms:identifier "3_2W4VcEf62eVBAFB0d_ar" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Double_leaf_stone_masonry .
+
+:IFC_3_2W4VcEf62eVBAFB0d_cf a owl:NamedIndividual ;
+    rdfs:label "IfcWall Basic Wall:Unit_2_second_floor:1675496"@en ;
+    dcterms:identifier "3_2W4VcEf62eVBAFB0d_cf" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Double_leaf_stone_masonry .
+
+:IFC_3_2W4VcEf62eVBAFB0d_dt a owl:NamedIndividual ;
+    rdfs:label "IfcWall Basic Wall:Unit_2_second_floor:1675446"@en ;
+    dcterms:identifier "3_2W4VcEf62eVBAFB0d_dt" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Double_leaf_stone_masonry .
+
+:IFC_3_2W4VcEf62eVBAFB0d_i6 a owl:NamedIndividual ;
+    rdfs:label "IfcWall Basic Wall:Unit_1:1675847"@en ;
+    dcterms:identifier "3_2W4VcEf62eVBAFB0d_i6" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Double_leaf_stone_masonry .
+
+:IFC_3_2W4VcEf62eVBAFB0d_jF a owl:NamedIndividual ;
+    rdfs:label "IfcWall Basic Wall:Unit_1:1675790"@en ;
+    dcterms:identifier "3_2W4VcEf62eVBAFB0d_jF" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Double_leaf_stone_masonry .
+
+:IFC_3_2W4VcEf62eVBAFB0d_lO a owl:NamedIndividual ;
+    rdfs:label "IfcWall Basic Wall:Unit_1:1675929"@en ;
+    dcterms:identifier "3_2W4VcEf62eVBAFB0d_lO" ;
+    dcterms:isPartOf :BIMModel ;
+    dcterms:type :Double_leaf_stone_masonry .
+
+:ISISE_UMinho a owl:NamedIndividual,
+        foaf:Organization ;
+    foaf:member :DanielOliveira,
+        :MariaLauraLeonardi,
+        :MiguelAzenha ;
+    foaf:name "Institute for Sustainability and Innovation in Structural Engineering (ISISE), University of Minho" .
+
+:KnowledgeGraph a owl:Ontology ;
+    rdfs:label "SERA-AIMS benchmark knowledge graph"@en ;
+    dcterms:references <https://doi.org/10.5281/zenodo.23260961> ;
+    rdfs:comment "The half-scale stone masonry aggregate tested on the shake table within the SERA-AIMS project, the benchmark of this thesis, described with the Historic Survey (HSV), Historic Structure (HSTO) and Historic Masonry (HMO) ontologies: the publications and the BIM model, the units, façades and the interface between them, and the mechanical properties of the masonry derived by a reasoner from its published description, next to the measured ones. Built on HSV, HSTO and HMO. Quality indices and homogenised properties were derived by Pellet from the HMO rules (resources/ontologies/hmo.ttl) and checked against core/ifc_processing/hmo_mqi.py."@en ;
+    owl:imports <https://w3id.org/hmo>,
+        <https://w3id.org/hsto>,
+        <https://w3id.org/hsv> .
+
+:MasonryClassification a owl:NamedIndividual,
+        prov:Activity ;
+    rdfs:label "MQI classification of the full-scale masonry from its published description"@en ;
+    dcterms:date "2026-10-09"^^xsd:date ;
+    prov:used :Tomic2024a ;
+    prov:wasAssociatedWith :MariaLauraLeonardi .
+
+:Measured_01 a owl:NamedIndividual,
+        hmo:CompressiveStrength ;
+    rdfs:label "Measured compressive strength f_m (MPa), specimen (SERA-AIMS)"@en ;
+    dcterms:source "Tomić et al. (2024a), Bull Earthquake Eng 22:5963–5991, doi:10.1007/s10518-023-01810-y, CC BY 4.0, Table 1, vertical compression of wallettes" ;
+    dcterms:subject :Double_leaf_stone_masonry ;
+    skos:note "Basis: specimen (SERA-AIMS)"@en ;
+    saref:hasValue "1.37"^^xsd:float .
+
+:Measured_02 a owl:NamedIndividual ;
+    rdfs:label "Measured tensile strength f_t (MPa), specimen (SERA-AIMS)"@en ;
+    dcterms:source "Tomić et al. (2024a), Bull Earthquake Eng 22:5963–5991, doi:10.1007/s10518-023-01810-y, CC BY 4.0, Table 1, diagonal compression of wallettes" ;
+    dcterms:subject :Double_leaf_stone_masonry ;
+    skos:note "Basis: specimen (SERA-AIMS)"@en ;
+    saref:hasValue "0.21"^^xsd:float .
+
+:Measured_03 a owl:NamedIndividual ;
+    rdfs:label "Measured cohesion c (MPa), specimen (SERA-AIMS)"@en ;
+    dcterms:source "Tomić et al. (2024a), Bull Earthquake Eng 22:5963–5991, doi:10.1007/s10518-023-01810-y, CC BY 4.0, Table 1" ;
+    dcterms:subject :Double_leaf_stone_masonry ;
+    skos:note "Basis: specimen (SERA-AIMS)"@en ;
+    saref:hasValue "0.29"^^xsd:float .
+
+:Measured_04 a owl:NamedIndividual,
+        hmo:CompressiveStrength ;
+    rdfs:label "Measured compressive strength f_m (MPa), specimen (Pavia, same typology)"@en ;
+    dcterms:source "Tomić et al. (2024b), Bull Earthquake Eng 22:5993–6035, doi:10.1007/s10518-022-01582-x, CC BY 4.0, Table 4" ;
+    dcterms:subject :Double_leaf_stone_masonry ;
+    skos:note "Basis: specimen (Pavia, same typology)"@en ;
+    saref:hasValue "1.3"^^xsd:float .
+
+:Measured_05 a owl:NamedIndividual,
+        hmo:YoungModulus ;
+    rdfs:label "Measured Young's modulus E (MPa), specimen (Pavia, same typology)"@en ;
+    dcterms:source "Tomić et al. (2024b), Bull Earthquake Eng 22:5993–6035, doi:10.1007/s10518-022-01582-x, CC BY 4.0, Table 4" ;
+    dcterms:subject :Double_leaf_stone_masonry ;
+    skos:note "Basis: specimen (Pavia, same typology)"@en ;
+    saref:hasValue "3462.0"^^xsd:float .
+
+:Measured_06 a owl:NamedIndividual,
+        hmo:ShearModulus ;
+    rdfs:label "Measured shear modulus G (MPa), specimen (Pavia, same typology), vertical compression"@en ;
+    dcterms:source "Tomić et al. (2024b), Bull Earthquake Eng 22:5993–6035, doi:10.1007/s10518-022-01582-x, CC BY 4.0, Table 4" ;
+    dcterms:subject :Double_leaf_stone_masonry ;
+    skos:note "Basis: specimen (Pavia, same typology), vertical compression"@en ;
+    saref:hasValue "1524.0"^^xsd:float .
+
+:Measured_07 a owl:NamedIndividual,
+        hmo:ShearModulus ;
+    rdfs:label "Measured shear modulus G (MPa), specimen (Pavia, same typology), diagonal compression"@en ;
+    dcterms:source "Tomić et al. (2024b), Bull Earthquake Eng 22:5993–6035, doi:10.1007/s10518-022-01582-x, CC BY 4.0, Table 4" ;
+    dcterms:subject :Double_leaf_stone_masonry ;
+    skos:note "Basis: specimen (Pavia, same typology), diagonal compression"@en ;
+    saref:hasValue "1898.0"^^xsd:float .
+
+:Measured_08 a owl:NamedIndividual,
+        hmo:MassDensity ;
+    rdfs:label "Measured mass density ρ (kg/m³), specimen (Pavia, same typology)"@en ;
+    dcterms:source "Tomić et al. (2024b), Bull Earthquake Eng 22:5993–6035, doi:10.1007/s10518-022-01582-x, CC BY 4.0, Table 4" ;
+    dcterms:subject :Double_leaf_stone_masonry ;
+    skos:note "Basis: specimen (Pavia, same typology)"@en ;
+    saref:hasValue "1980.0"^^xsd:float .
+
+:Measured_09 a owl:NamedIndividual,
+        hmo:CompressiveStrength ;
+    rdfs:label "Measured compressive strength f_m (MPa), full scale, twice the specimen value (EPS mortar halves stiffness and strength; scale factor to be checked)"@en ;
+    dcterms:source "2 × 1.37 MPa, Tomić et al. (2024a), Bull Earthquake Eng 22:5963–5991, doi:10.1007/s10518-023-01810-y, CC BY 4.0" ;
+    dcterms:subject :Double_leaf_stone_masonry ;
+    skos:note "Basis: full scale, twice the specimen value (EPS mortar halves stiffness and strength; scale factor to be checked)"@en ;
+    saref:hasValue "2.74"^^xsd:float .
+
+:Measured_10 a owl:NamedIndividual,
+        hmo:YoungModulus ;
+    rdfs:label "Measured Young's modulus E (MPa), full scale, twice the specimen value (EPS mortar halves stiffness and strength; scale factor to be checked)"@en ;
+    dcterms:source "2 × 3462 MPa, Tomić et al. (2024b), Bull Earthquake Eng 22:5993–6035, doi:10.1007/s10518-022-01582-x, CC BY 4.0" ;
+    dcterms:subject :Double_leaf_stone_masonry ;
+    skos:note "Basis: full scale, twice the specimen value (EPS mortar halves stiffness and strength; scale factor to be checked)"@en ;
+    saref:hasValue "6924.0"^^xsd:float .
+
+:Measured_11 a owl:NamedIndividual,
+        hmo:ShearModulus ;
+    rdfs:label "Measured shear modulus G (MPa), full scale, twice the specimen value (EPS mortar halves stiffness and strength; scale factor to be checked), vertical compression"@en ;
+    dcterms:source "2 × 1524 MPa, Tomić et al. (2024b), Bull Earthquake Eng 22:5993–6035, doi:10.1007/s10518-022-01582-x, CC BY 4.0" ;
+    dcterms:subject :Double_leaf_stone_masonry ;
+    skos:note "Basis: full scale, twice the specimen value (EPS mortar halves stiffness and strength; scale factor to be checked), vertical compression"@en ;
+    saref:hasValue "3048.0"^^xsd:float .
+
+:Measured_12 a owl:NamedIndividual,
+        hmo:ShearModulus ;
+    rdfs:label "Measured shear modulus G (MPa), full scale, twice the specimen value (EPS mortar halves stiffness and strength; scale factor to be checked), diagonal compression"@en ;
+    dcterms:source "2 × 1898 MPa, Tomić et al. (2024b), Bull Earthquake Eng 22:5993–6035, doi:10.1007/s10518-022-01582-x, CC BY 4.0" ;
+    dcterms:subject :Double_leaf_stone_masonry ;
+    skos:note "Basis: full scale, twice the specimen value (EPS mortar halves stiffness and strength; scale factor to be checked), diagonal compression"@en ;
+    saref:hasValue "3796.0"^^xsd:float .
+
+:Measured_13 a owl:NamedIndividual,
+        hmo:ShearStrengthTC ;
+    rdfs:label "Measured shear strength τ₀ (MPa), full scale, twice the specimen value (EPS mortar halves stiffness and strength; scale factor to be checked), from f_t / 1.5"@en ;
+    dcterms:source "2 × 0.21 / 1.5 MPa, Tomić et al. (2024a), Bull Earthquake Eng 22:5963–5991, doi:10.1007/s10518-023-01810-y, CC BY 4.0" ;
+    dcterms:subject :Double_leaf_stone_masonry ;
+    skos:note "Basis: full scale, twice the specimen value (EPS mortar halves stiffness and strength; scale factor to be checked), from f_t / 1.5"@en ;
+    saref:hasValue "0.28"^^xsd:float .
+
+:Supervision a owl:NamedIndividual,
+        prov:Activity ;
+    rdfs:label "Supervision of the doctoral research"@en ;
+    prov:qualifiedAssociation :Supervision_DanielOliveira_Association,
+        :Supervision_ElenaGigliarelli_Association,
+        :Supervision_MiguelAzenha_Association ;
+    prov:wasAssociatedWith :DanielOliveira,
+        :ElenaGigliarelli,
+        :MiguelAzenha .
+
+:VariantWall_Double_leaf_stone_masonry_lower a owl:NamedIndividual,
+        hmo:MasonryWall ;
+    rdfs:label "Double_leaf_stone_masonry, lower variant (hypothetical wall)"@en ;
+    dcterms:type :Double_leaf_stone_masonry ;
+    skos:note "Hypothetical wall, not part of the building: the lower variant of Double_leaf_stone_masonry, with unit shape rubble."@en ;
+    hmo:hasMasonryQualityIndex :MQI_Double_leaf_stone_masonry_lower ;
+    hmo:hasRepresentativeVolumeElement :RVE_Double_leaf_stone_masonry_lower .
+
+:VariantWall_Double_leaf_stone_masonry_upper a owl:NamedIndividual,
+        hmo:MasonryWall ;
+    rdfs:label "Double_leaf_stone_masonry, upper variant (hypothetical wall)"@en ;
+    dcterms:type :Double_leaf_stone_masonry ;
+    skos:note "Hypothetical wall, not part of the building: the upper variant of Double_leaf_stone_masonry, with wall connections sparse."@en ;
+    hmo:hasMasonryQualityIndex :MQI_Double_leaf_stone_masonry_upper ;
+    hmo:hasRepresentativeVolumeElement :RVE_Double_leaf_stone_masonry_upper .
+
+:AndreaPenna a owl:NamedIndividual,
+        foaf:Person,
+        hsv:Author ;
+    foaf:name "Andrea Penna" .
+
+:AntonioCorreia a owl:NamedIndividual,
+        foaf:Person,
+        hsv:Author ;
+    foaf:name "António A. Correia" .
+
+:BIMModelling a owl:NamedIndividual,
+        prov:Activity ;
+    rdfs:label "BIM modelling of the specimen in Autodesk Revit 2027"@en ;
+    dcterms:date "2026-06-04"^^xsd:date ;
+    prov:wasAssociatedWith :MariaLauraLeonardi .
+
+:ChristophButenweg a owl:NamedIndividual,
+        foaf:Person,
+        hsv:Author ;
+    foaf:name "Christoph Butenweg" .
+
+:CompressiveStrength_1 a owl:NamedIndividual,
+        hmo:CompressiveStrength ;
+    saref:hasValue "3.16"^^xsd:float .
+
+:CompressiveStrength_2_U1 a owl:NamedIndividual,
+        hmo:CompressiveStrength ;
+    saref:hasValue "3.16"^^xsd:float .
+
+:CompressiveStrength_2_U2 a owl:NamedIndividual,
+        hmo:CompressiveStrength ;
+    saref:hasValue "3.16"^^xsd:float .
+
+:CompressiveStrength_3_U1 a owl:NamedIndividual,
+        hmo:CompressiveStrength ;
+    saref:hasValue "3.16"^^xsd:float .
+
+:CompressiveStrength_3_U2 a owl:NamedIndividual,
+        hmo:CompressiveStrength ;
+    saref:hasValue "3.16"^^xsd:float .
+
+:CompressiveStrength_4 a owl:NamedIndividual,
+        hmo:CompressiveStrength ;
+    saref:hasValue "3.16"^^xsd:float .
+
+:CompressiveStrength_5 a owl:NamedIndividual,
+        hmo:CompressiveStrength ;
+    saref:hasValue "3.16"^^xsd:float .
+
+:CompressiveStrength_Double_leaf_stone_masonry_lower a owl:NamedIndividual,
+        hmo:CompressiveStrength ;
+    saref:hasValue "2.495"^^xsd:float .
+
+:CompressiveStrength_Double_leaf_stone_masonry_upper a owl:NamedIndividual,
+        hmo:CompressiveStrength ;
+    saref:hasValue "3.698"^^xsd:float .
+
+:DanieleMalomo a owl:NamedIndividual,
+        foaf:Person,
+        hsv:Author ;
+    foaf:name "Daniele Malomo" .
+
+:EPFL a owl:NamedIndividual,
+        foaf:Organization ;
+    foaf:name "École Polytechnique Fédérale de Lausanne (EPFL), Switzerland" .
+
+:Facade_1 a owl:NamedIndividual,
+        hsto:Facade,
+        hsv:Facade ;
+    rdfs:label "Facade 1, end of unit 1"@en ;
+    hsto:isBuiltWithTraditionalConstructionTechnique :DoubleLeafStoneMasonry ;
+    hsto:isMadeOf :Wall_1 .
+
+:Facade_2_U1 a owl:NamedIndividual,
+        hsto:Facade,
+        hsv:Facade ;
+    rdfs:label "Facade 2, part of unit 1"@en ;
+    hsto:isBuiltWithTraditionalConstructionTechnique :DoubleLeafStoneMasonry ;
+    hsto:isConnectedTo :Interface_2 ;
+    hsto:isMadeOf :Wall_2_U1 .
+
+:Facade_2_U2 a owl:NamedIndividual,
+        hsto:Facade,
+        hsv:Facade ;
+    rdfs:label "Facade 2, part of unit 2"@en ;
+    hsto:isBuiltWithTraditionalConstructionTechnique :DoubleLeafStoneMasonry ;
+    hsto:isConnectedTo :Interface_2 ;
+    hsto:isMadeOf :Wall_2_U2 .
+
+:Facade_4 a owl:NamedIndividual,
+        hsto:Facade,
+        hsv:Facade ;
+    rdfs:label "Facade 4, end of unit 2"@en ;
+    hsto:isBuiltWithTraditionalConstructionTechnique :DoubleLeafStoneMasonry ;
+    hsto:isMadeOf :Wall_4 .
+
+:Facade_5 a owl:NamedIndividual,
+        hsto:Facade,
+        hsv:Facade ;
+    rdfs:label "Facade 5, wall of unit 2 shared with unit 1"@en ;
+    hsto:isBuiltWithTraditionalConstructionTechnique :DoubleLeafStoneMasonry ;
+    hsto:isMadeOf :Wall_5 .
+
+:Fig5 a owl:NamedIndividual,
+        hsv:Photo ;
+    rdfs:label "Masonry typology: texture, corner, horizontal section, lintel, spandrel (Tomić et al. 2024a, Fig. 5)"@en ;
+    dcterms:identifier "tomic2024_fig5.jpg" ;
+    dcterms:source "Tomić et al. (2024a), Bull Earthquake Eng 22:5963–5991, doi:10.1007/s10518-023-01810-y, CC BY 4.0" ;
+    hsv:isDocumentOf :Specimen .
+
+:Fig6 a owl:NamedIndividual,
+        hsv:Photo ;
+    rdfs:label "Interface between the units (Tomić et al. 2024a, Fig. 6)"@en ;
+    dcterms:identifier "tomic2024_fig6.jpg" ;
+    dcterms:source "Tomić et al. (2024a), Bull Earthquake Eng 22:5963–5991, doi:10.1007/s10518-023-01810-y, CC BY 4.0" ;
+    hsv:isDocumentOf :Specimen .
+
+:Floor_1 a owl:NamedIndividual,
+        hsto:TimberFloor ;
+    rdfs:label "Timber floor of unit 1: 8 × 16 cm beams spanning in x, 2 cm planks"@en ;
+    rdfs:comment "Documented in Tomić et al. (2024a), Section 2.3."@en ;
+    hsto:hasAccessibility true .
+
+:Floor_2 a owl:NamedIndividual,
+        hsto:TimberFloor ;
+    rdfs:label "Timber floors of unit 2: 8 × 16 cm beams spanning in y, 2 cm planks"@en ;
+    rdfs:comment "Documented in Tomić et al. (2024a), Section 2.3."@en ;
+    hsto:hasAccessibility true .
+
+:GabrieleGuerrini a owl:NamedIndividual,
+        foaf:Person,
+        hsv:Author ;
+    foaf:name "Gabriele Guerrini" .
+
+:IlariaSenaldi a owl:NamedIndividual,
+        foaf:Person,
+        hsv:Author ;
+    foaf:name "Ilaria Senaldi" .
+
+:KatrinBeyer a owl:NamedIndividual,
+        foaf:Person,
+        hsv:Author ;
+    foaf:name "Katrin Beyer" .
+
+:LNEC a owl:NamedIndividual,
+        foaf:Organization ;
+    foaf:name "National Laboratory for Civil Engineering (LNEC), Portugal" .
+
+:MQI_1 a owl:NamedIndividual,
+        hmo:MasonryQualityIndex ;
+    hmo:MQITotalInPlane "4.0"^^xsd:float ;
+    hmo:MQITotalOutOfPlane "3.5"^^xsd:float ;
+    hmo:MQITotalVertical "4.0"^^xsd:float .
+
+:MQI_2_U1 a owl:NamedIndividual,
+        hmo:MasonryQualityIndex ;
+    hmo:MQITotalInPlane "4.0"^^xsd:float ;
+    hmo:MQITotalOutOfPlane "3.5"^^xsd:float ;
+    hmo:MQITotalVertical "4.0"^^xsd:float .
+
+:MQI_2_U2 a owl:NamedIndividual,
+        hmo:MasonryQualityIndex ;
+    hmo:MQITotalInPlane "4.0"^^xsd:float ;
+    hmo:MQITotalOutOfPlane "3.5"^^xsd:float ;
+    hmo:MQITotalVertical "4.0"^^xsd:float .
+
+:MQI_3_U1 a owl:NamedIndividual,
+        hmo:MasonryQualityIndex ;
+    prov:wasDerivedFrom :Fig4a,
+        :Fig4b ;
+    hmo:MQITotalInPlane "4.0"^^xsd:float ;
+    hmo:MQITotalOutOfPlane "3.5"^^xsd:float ;
+    hmo:MQITotalVertical "4.0"^^xsd:float .
+
+:MQI_3_U2 a owl:NamedIndividual,
+        hmo:MasonryQualityIndex ;
+    prov:wasDerivedFrom :Fig4a,
+        :Fig4b ;
+    hmo:MQITotalInPlane "4.0"^^xsd:float ;
+    hmo:MQITotalOutOfPlane "3.5"^^xsd:float ;
+    hmo:MQITotalVertical "4.0"^^xsd:float .
+
+:MQI_4 a owl:NamedIndividual,
+        hmo:MasonryQualityIndex ;
+    hmo:MQITotalInPlane "4.0"^^xsd:float ;
+    hmo:MQITotalOutOfPlane "3.5"^^xsd:float ;
+    hmo:MQITotalVertical "4.0"^^xsd:float .
+
+:MQI_5 a owl:NamedIndividual,
+        hmo:MasonryQualityIndex ;
+    hmo:MQITotalInPlane "4.0"^^xsd:float ;
+    hmo:MQITotalOutOfPlane "3.5"^^xsd:float ;
+    hmo:MQITotalVertical "4.0"^^xsd:float .
+
+:MQI_Double_leaf_stone_masonry_lower a owl:NamedIndividual,
+        hmo:MasonryQualityIndex ;
+    hmo:MQITotalInPlane "3.0"^^xsd:float ;
+    hmo:MQITotalOutOfPlane "2.5"^^xsd:float ;
+    hmo:MQITotalVertical "2.5"^^xsd:float .
+
+:MQI_Double_leaf_stone_masonry_upper a owl:NamedIndividual,
+        hmo:MasonryQualityIndex ;
+    hmo:MQITotalInPlane "5.0"^^xsd:float ;
+    hmo:MQITotalOutOfPlane "5.0"^^xsd:float ;
+    hmo:MQITotalVertical "5.0"^^xsd:float .
+
+:MassDensity_1 a owl:NamedIndividual,
+        hmo:MassDensity ;
+    rdfs:comment "Asserted, not derived: HMO has no rule for mass density. Measured masonry density of the same typology, 1980 kg/m3 (Tomic et al. 2024b, Table 4); the density is not scaled by the similitude law adopted."@en ;
+    saref:hasValue "1980.0"^^xsd:float .
+
+:MassDensity_2_U1 a owl:NamedIndividual,
+        hmo:MassDensity ;
+    rdfs:comment "Asserted, not derived: HMO has no rule for mass density. Measured masonry density of the same typology, 1980 kg/m3 (Tomic et al. 2024b, Table 4); the density is not scaled by the similitude law adopted."@en ;
+    saref:hasValue "1980.0"^^xsd:float .
+
+:MassDensity_2_U2 a owl:NamedIndividual,
+        hmo:MassDensity ;
+    rdfs:comment "Asserted, not derived: HMO has no rule for mass density. Measured masonry density of the same typology, 1980 kg/m3 (Tomic et al. 2024b, Table 4); the density is not scaled by the similitude law adopted."@en ;
+    saref:hasValue "1980.0"^^xsd:float .
+
+:MassDensity_3_U1 a owl:NamedIndividual,
+        hmo:MassDensity ;
+    rdfs:comment "Asserted, not derived: HMO has no rule for mass density. Measured masonry density of the same typology, 1980 kg/m3 (Tomic et al. 2024b, Table 4); the density is not scaled by the similitude law adopted."@en ;
+    saref:hasValue "1980.0"^^xsd:float .
+
+:MassDensity_3_U2 a owl:NamedIndividual,
+        hmo:MassDensity ;
+    rdfs:comment "Asserted, not derived: HMO has no rule for mass density. Measured masonry density of the same typology, 1980 kg/m3 (Tomic et al. 2024b, Table 4); the density is not scaled by the similitude law adopted."@en ;
+    saref:hasValue "1980.0"^^xsd:float .
+
+:MassDensity_4 a owl:NamedIndividual,
+        hmo:MassDensity ;
+    rdfs:comment "Asserted, not derived: HMO has no rule for mass density. Measured masonry density of the same typology, 1980 kg/m3 (Tomic et al. 2024b, Table 4); the density is not scaled by the similitude law adopted."@en ;
+    saref:hasValue "1980.0"^^xsd:float .
+
+:MassDensity_5 a owl:NamedIndividual,
+        hmo:MassDensity ;
+    rdfs:comment "Asserted, not derived: HMO has no rule for mass density. Measured masonry density of the same typology, 1980 kg/m3 (Tomic et al. 2024b, Table 4); the density is not scaled by the similitude law adopted."@en ;
+    saref:hasValue "1980.0"^^xsd:float .
+
+:MassDensity_Double_leaf_stone_masonry_lower a owl:NamedIndividual,
+        hmo:MassDensity ;
+    rdfs:comment "Asserted, not derived: HMO has no rule for mass density. Measured masonry density of the same typology, 1980 kg/m3 (Tomic et al. 2024b, Table 4); the density is not scaled by the similitude law adopted."@en ;
+    saref:hasValue "1980.0"^^xsd:float .
+
+:MassDensity_Double_leaf_stone_masonry_upper a owl:NamedIndividual,
+        hmo:MassDensity ;
+    rdfs:comment "Asserted, not derived: HMO has no rule for mass density. Measured masonry density of the same typology, 1980 kg/m3 (Tomic et al. 2024b, Table 4); the density is not scaled by the similitude law adopted."@en ;
+    saref:hasValue "1980.0"^^xsd:float .
+
+:MatthewDeJong a owl:NamedIndividual,
+        foaf:Person,
+        hsv:Author ;
+    foaf:name "Matthew DeJong" .
+
+:Pattern_1 a owl:NamedIndividual,
+        hmo:Pattern ;
+    hmo:hasDominantPatternEntities :Units_1,
+        hmo:IrregularHardstone,
+        hmo:LimeMortarJoints,
+        hmo:NoHeaders,
+        hmo:PartiallyContinuousHorizontalJoints,
+        hmo:PartiallyStaggeredJoints,
+        hmo:RoughlyCutStone .
+
+:Pattern_2_U1 a owl:NamedIndividual,
+        hmo:Pattern ;
+    hmo:hasDominantPatternEntities :Units_2_U1,
+        hmo:IrregularHardstone,
+        hmo:LimeMortarJoints,
+        hmo:NoHeaders,
+        hmo:PartiallyContinuousHorizontalJoints,
+        hmo:PartiallyStaggeredJoints,
+        hmo:RoughlyCutStone .
+
+:Pattern_2_U2 a owl:NamedIndividual,
+        hmo:Pattern ;
+    hmo:hasDominantPatternEntities :Units_2_U2,
+        hmo:IrregularHardstone,
+        hmo:LimeMortarJoints,
+        hmo:NoHeaders,
+        hmo:PartiallyContinuousHorizontalJoints,
+        hmo:PartiallyStaggeredJoints,
+        hmo:RoughlyCutStone .
+
+:Pattern_3_U1 a owl:NamedIndividual,
+        hmo:Pattern ;
+    hmo:hasDominantPatternEntities :Units_3_U1,
+        hmo:IrregularHardstone,
+        hmo:LimeMortarJoints,
+        hmo:NoHeaders,
+        hmo:PartiallyContinuousHorizontalJoints,
+        hmo:PartiallyStaggeredJoints,
+        hmo:RoughlyCutStone .
+
+:Pattern_3_U2 a owl:NamedIndividual,
+        hmo:Pattern ;
+    hmo:hasDominantPatternEntities :Units_3_U2,
+        hmo:IrregularHardstone,
+        hmo:LimeMortarJoints,
+        hmo:NoHeaders,
+        hmo:PartiallyContinuousHorizontalJoints,
+        hmo:PartiallyStaggeredJoints,
+        hmo:RoughlyCutStone .
+
+:Pattern_4 a owl:NamedIndividual,
+        hmo:Pattern ;
+    hmo:hasDominantPatternEntities :Units_4,
+        hmo:IrregularHardstone,
+        hmo:LimeMortarJoints,
+        hmo:NoHeaders,
+        hmo:PartiallyContinuousHorizontalJoints,
+        hmo:PartiallyStaggeredJoints,
+        hmo:RoughlyCutStone .
+
+:Pattern_5 a owl:NamedIndividual,
+        hmo:Pattern ;
+    hmo:hasDominantPatternEntities :Units_5,
+        hmo:IrregularHardstone,
+        hmo:LimeMortarJoints,
+        hmo:NoHeaders,
+        hmo:PartiallyContinuousHorizontalJoints,
+        hmo:PartiallyStaggeredJoints,
+        hmo:RoughlyCutStone .
+
+:Pattern_Double_leaf_stone_masonry_lower a owl:NamedIndividual,
+        hmo:Pattern ;
+    hmo:hasDominantPatternEntities :Units_Double_leaf_stone_masonry_lower,
+        hmo:IrregularHardstone,
+        hmo:LimeMortarJoints,
+        hmo:NoHeaders,
+        hmo:PartiallyContinuousHorizontalJoints,
+        hmo:PartiallyStaggeredJoints,
+        hmo:RubbleStones .
+
+:Pattern_Double_leaf_stone_masonry_upper a owl:NamedIndividual,
+        hmo:Pattern ;
+    hmo:hasDominantPatternEntities :Units_Double_leaf_stone_masonry_upper,
+        hmo:IrregularHardstone,
+        hmo:LimeMortarJoints,
+        hmo:PartiallyContinuousHorizontalJoints,
+        hmo:PartiallyStaggeredJoints,
+        hmo:RoughlyCutStone ;
+    hmo:hasSparsePatternEntities hmo:HeadersBondUnits .
+
+:PauloCandeias a owl:NamedIndividual,
+        foaf:Person,
+        hsv:Author ;
+    foaf:name "Paulo X. Candeias" .
+
+:RVE_1 a owl:NamedIndividual,
+        hmo:RepresentativeVolumeElement ;
+    hmo:hasHomogenisedMechanicalProperty :CompressiveStrength_1,
+        :MassDensity_1,
+        :ShearModulus_1,
+        :ShearStrengthTC_1,
+        :YoungModulus_1 ;
+    hmo:hasPattern :Pattern_1 .
+
+:RVE_2_U1 a owl:NamedIndividual,
+        hmo:RepresentativeVolumeElement ;
+    hmo:hasHomogenisedMechanicalProperty :CompressiveStrength_2_U1,
+        :MassDensity_2_U1,
+        :ShearModulus_2_U1,
+        :ShearStrengthTC_2_U1,
+        :YoungModulus_2_U1 ;
+    hmo:hasPattern :Pattern_2_U1 .
+
+:RVE_2_U2 a owl:NamedIndividual,
+        hmo:RepresentativeVolumeElement ;
+    hmo:hasHomogenisedMechanicalProperty :CompressiveStrength_2_U2,
+        :MassDensity_2_U2,
+        :ShearModulus_2_U2,
+        :ShearStrengthTC_2_U2,
+        :YoungModulus_2_U2 ;
+    hmo:hasPattern :Pattern_2_U2 .
+
+:RVE_3_U1 a owl:NamedIndividual,
+        hmo:RepresentativeVolumeElement ;
+    hmo:hasHomogenisedMechanicalProperty :CompressiveStrength_3_U1,
+        :MassDensity_3_U1,
+        :ShearModulus_3_U1,
+        :ShearStrengthTC_3_U1,
+        :YoungModulus_3_U1 ;
+    hmo:hasPattern :Pattern_3_U1 .
+
+:RVE_3_U2 a owl:NamedIndividual,
+        hmo:RepresentativeVolumeElement ;
+    hmo:hasHomogenisedMechanicalProperty :CompressiveStrength_3_U2,
+        :MassDensity_3_U2,
+        :ShearModulus_3_U2,
+        :ShearStrengthTC_3_U2,
+        :YoungModulus_3_U2 ;
+    hmo:hasPattern :Pattern_3_U2 .
+
+:RVE_4 a owl:NamedIndividual,
+        hmo:RepresentativeVolumeElement ;
+    hmo:hasHomogenisedMechanicalProperty :CompressiveStrength_4,
+        :MassDensity_4,
+        :ShearModulus_4,
+        :ShearStrengthTC_4,
+        :YoungModulus_4 ;
+    hmo:hasPattern :Pattern_4 .
+
+:RVE_5 a owl:NamedIndividual,
+        hmo:RepresentativeVolumeElement ;
+    hmo:hasHomogenisedMechanicalProperty :CompressiveStrength_5,
+        :MassDensity_5,
+        :ShearModulus_5,
+        :ShearStrengthTC_5,
+        :YoungModulus_5 ;
+    hmo:hasPattern :Pattern_5 .
+
+:RVE_Double_leaf_stone_masonry_lower a owl:NamedIndividual,
+        hmo:RepresentativeVolumeElement ;
+    hmo:hasHomogenisedMechanicalProperty :CompressiveStrength_Double_leaf_stone_masonry_lower,
+        :MassDensity_Double_leaf_stone_masonry_lower,
+        :ShearModulus_Double_leaf_stone_masonry_lower,
+        :ShearStrengthTC_Double_leaf_stone_masonry_lower,
+        :YoungModulus_Double_leaf_stone_masonry_lower ;
+    hmo:hasPattern :Pattern_Double_leaf_stone_masonry_lower .
+
+:RVE_Double_leaf_stone_masonry_upper a owl:NamedIndividual,
+        hmo:RepresentativeVolumeElement ;
+    hmo:hasHomogenisedMechanicalProperty :CompressiveStrength_Double_leaf_stone_masonry_upper,
+        :MassDensity_Double_leaf_stone_masonry_upper,
+        :ShearModulus_Double_leaf_stone_masonry_upper,
+        :ShearStrengthTC_Double_leaf_stone_masonry_upper,
+        :YoungModulus_Double_leaf_stone_masonry_upper ;
+    hmo:hasPattern :Pattern_Double_leaf_stone_masonry_upper .
+
+:RWTH a owl:NamedIndividual,
+        foaf:Organization ;
+    foaf:name "RWTH Aachen University, Germany" .
+
+:ShearModulus_1 a owl:NamedIndividual,
+        hmo:ShearModulus ;
+    saref:hasValue "470.44"^^xsd:float .
+
+:ShearModulus_2_U1 a owl:NamedIndividual,
+        hmo:ShearModulus ;
+    saref:hasValue "470.44"^^xsd:float .
+
+:ShearModulus_2_U2 a owl:NamedIndividual,
+        hmo:ShearModulus ;
+    saref:hasValue "470.44"^^xsd:float .
+
+:ShearModulus_3_U1 a owl:NamedIndividual,
+        hmo:ShearModulus ;
+    saref:hasValue "470.44"^^xsd:float .
+
+:ShearModulus_3_U2 a owl:NamedIndividual,
+        hmo:ShearModulus ;
+    saref:hasValue "470.44"^^xsd:float .
+
+:ShearModulus_4 a owl:NamedIndividual,
+        hmo:ShearModulus ;
+    saref:hasValue "470.44"^^xsd:float .
+
+:ShearModulus_5 a owl:NamedIndividual,
+        hmo:ShearModulus ;
+    saref:hasValue "470.44"^^xsd:float .
+
+:ShearModulus_Double_leaf_stone_masonry_lower a owl:NamedIndividual,
+        hmo:ShearModulus ;
+    saref:hasValue "413.14"^^xsd:float .
+
+:ShearModulus_Double_leaf_stone_masonry_upper a owl:NamedIndividual,
+        hmo:ShearModulus ;
+    saref:hasValue "535.69"^^xsd:float .
+
+:ShearStrengthTC_1 a owl:NamedIndividual,
+        hmo:ShearStrengthTC ;
+    saref:hasValue "0.0568"^^xsd:float .
+
+:ShearStrengthTC_2_U1 a owl:NamedIndividual,
+        hmo:ShearStrengthTC ;
+    saref:hasValue "0.0568"^^xsd:float .
+
+:ShearStrengthTC_2_U2 a owl:NamedIndividual,
+        hmo:ShearStrengthTC ;
+    saref:hasValue "0.0568"^^xsd:float .
+
+:ShearStrengthTC_3_U1 a owl:NamedIndividual,
+        hmo:ShearStrengthTC ;
+    saref:hasValue "0.0568"^^xsd:float .
+
+:ShearStrengthTC_3_U2 a owl:NamedIndividual,
+        hmo:ShearStrengthTC ;
+    saref:hasValue "0.0568"^^xsd:float .
+
+:ShearStrengthTC_4 a owl:NamedIndividual,
+        hmo:ShearStrengthTC ;
+    saref:hasValue "0.0568"^^xsd:float .
+
+:ShearStrengthTC_5 a owl:NamedIndividual,
+        hmo:ShearStrengthTC ;
+    saref:hasValue "0.0568"^^xsd:float .
+
+:ShearStrengthTC_Double_leaf_stone_masonry_lower a owl:NamedIndividual,
+        hmo:ShearStrengthTC ;
+    saref:hasValue "0.0459"^^xsd:float .
+
+:ShearStrengthTC_Double_leaf_stone_masonry_upper a owl:NamedIndividual,
+        hmo:ShearStrengthTC ;
+    saref:hasValue "0.0687"^^xsd:float .
+
+:SpecimenTesting a owl:NamedIndividual,
+        prov:Activity ;
+    rdfs:label "Design, construction and shake-table testing of the half-scale specimen (SERA-AIMS)"@en ;
+    rdfs:comment "Shake table of LNEC, Lisbon (Tomić et al. 2024a)."@en ;
+    prov:wasAssociatedWith :EPFL,
+        :LNEC,
+        :RWTH,
+        :UCB,
+        :UNIPV .
+
+:Supervision_DanielOliveira_Association a owl:NamedIndividual,
+        prov:Association ;
+    prov:agent :DanielOliveira ;
+    prov:hadRole :Role_Supervisor .
+
+:Supervision_ElenaGigliarelli_Association a owl:NamedIndividual,
+        prov:Association ;
+    prov:agent :ElenaGigliarelli ;
+    prov:hadRole :Role_Supervisor .
+
+:Supervision_MiguelAzenha_Association a owl:NamedIndividual,
+        prov:Association ;
+    prov:agent :MiguelAzenha ;
+    prov:hadRole :Role_Supervisor .
+
+:TestData a owl:NamedIndividual,
+        hsv:Document ;
+    rdfs:label "SERA AIMS test data, supplementary material (Zenodo, CC BY 4.0)"@en ;
+    dcterms:created "2022-05-13"^^xsd:date ;
+    dcterms:identifier "https://doi.org/10.5281/zenodo.6546434" ;
+    prov:wasGeneratedBy :SpecimenTesting ;
+    hsv:hasAuthor :IgorTomic .
+
+:Tomic2024b a owl:NamedIndividual,
+        hsv:Publication ;
+    rdfs:label "Tomić et al. (2024), Shake-table testing of a stone masonry building aggregate: overview of blind prediction study, Bull Earthquake Eng 22:5993–6035"@en ;
+    dcterms:identifier "https://doi.org/10.1007/s10518-022-01582-x" .
+
+:UCB a owl:NamedIndividual,
+        foaf:Organization ;
+    foaf:name "University of California, Berkeley, USA" .
+
+:UNIPV a owl:NamedIndividual,
+        foaf:Organization ;
+    foaf:name "University of Pavia, Italy" .
+
+:Unit_1 a owl:NamedIndividual,
+        hsv:StructuralUnit ;
+    rdfs:label "Unit 1: single storey 2.2 m high, U-shaped plan of 2.5 × 2.45 m, walls 30 cm thick"@en ;
+    dcterms:hasPart :Facade_1,
+        :Facade_2_U1,
+        :Facade_3_U1,
+        :Floor_1 .
+
+:Unit_2 a owl:NamedIndividual,
+        hsv:StructuralUnit ;
+    rdfs:label "Unit 2: two storeys of 1.65 and 1.50 m, rectangular plan of 2.5 × 2.5 m, walls 35 and 25 cm thick"@en ;
+    dcterms:hasPart :Facade_2_U2,
+        :Facade_3_U2,
+        :Facade_4,
+        :Facade_5,
+        :Floor_2 .
+
+:Units_1 a owl:NamedIndividual,
+        hmo:Units ;
+    rdfs:comment "Representative length range for the 'medium' category recorded by the survey, not measured unit lengths."@en ;
+    hmo:unitsLengthHasMinimumValue "20.0"^^xsd:float ;
+    hmo:unitsLengthMaximumValue "40.0"^^xsd:float .
+
+:Units_2_U1 a owl:NamedIndividual,
+        hmo:Units ;
+    rdfs:comment "Representative length range for the 'medium' category recorded by the survey, not measured unit lengths."@en ;
+    hmo:unitsLengthHasMinimumValue "20.0"^^xsd:float ;
+    hmo:unitsLengthMaximumValue "40.0"^^xsd:float .
+
+:Units_2_U2 a owl:NamedIndividual,
+        hmo:Units ;
+    rdfs:comment "Representative length range for the 'medium' category recorded by the survey, not measured unit lengths."@en ;
+    hmo:unitsLengthHasMinimumValue "20.0"^^xsd:float ;
+    hmo:unitsLengthMaximumValue "40.0"^^xsd:float .
+
+:Units_3_U1 a owl:NamedIndividual,
+        hmo:Units ;
+    rdfs:comment "Representative length range for the 'medium' category recorded by the survey, not measured unit lengths."@en ;
+    hmo:unitsLengthHasMinimumValue "20.0"^^xsd:float ;
+    hmo:unitsLengthMaximumValue "40.0"^^xsd:float .
+
+:Units_3_U2 a owl:NamedIndividual,
+        hmo:Units ;
+    rdfs:comment "Representative length range for the 'medium' category recorded by the survey, not measured unit lengths."@en ;
+    hmo:unitsLengthHasMinimumValue "20.0"^^xsd:float ;
+    hmo:unitsLengthMaximumValue "40.0"^^xsd:float .
+
+:Units_4 a owl:NamedIndividual,
+        hmo:Units ;
+    rdfs:comment "Representative length range for the 'medium' category recorded by the survey, not measured unit lengths."@en ;
+    hmo:unitsLengthHasMinimumValue "20.0"^^xsd:float ;
+    hmo:unitsLengthMaximumValue "40.0"^^xsd:float .
+
+:Units_5 a owl:NamedIndividual,
+        hmo:Units ;
+    rdfs:comment "Representative length range for the 'medium' category recorded by the survey, not measured unit lengths."@en ;
+    hmo:unitsLengthHasMinimumValue "20.0"^^xsd:float ;
+    hmo:unitsLengthMaximumValue "40.0"^^xsd:float .
+
+:Units_Double_leaf_stone_masonry_lower a owl:NamedIndividual,
+        hmo:Units ;
+    rdfs:comment "Representative length range for the 'medium' category recorded by the survey, not measured unit lengths."@en ;
+    hmo:unitsLengthHasMinimumValue "20.0"^^xsd:float ;
+    hmo:unitsLengthMaximumValue "40.0"^^xsd:float .
+
+:Units_Double_leaf_stone_masonry_upper a owl:NamedIndividual,
+        hmo:Units ;
+    rdfs:comment "Representative length range for the 'medium' category recorded by the survey, not measured unit lengths."@en ;
+    hmo:unitsLengthHasMinimumValue "20.0"^^xsd:float ;
+    hmo:unitsLengthMaximumValue "40.0"^^xsd:float .
+
+:Wall_1 a owl:NamedIndividual,
+        hmo:MasonryWall ;
+    rdfs:label "Masonry wall of facade 1, end of unit 1"@en ;
+    dcterms:type :Double_leaf_stone_masonry ;
+    hmo:hasMasonryQualityIndex :MQI_1 ;
+    hmo:hasRepresentativeVolumeElement :RVE_1 .
+
+:Wall_2_U1 a owl:NamedIndividual,
+        hmo:MasonryWall ;
+    rdfs:label "Masonry wall of facade 2, part of unit 1"@en ;
+    dcterms:type :Double_leaf_stone_masonry ;
+    hmo:hasMasonryQualityIndex :MQI_2_U1 ;
+    hmo:hasRepresentativeVolumeElement :RVE_2_U1 .
+
+:Wall_2_U2 a owl:NamedIndividual,
+        hmo:MasonryWall ;
+    rdfs:label "Masonry wall of facade 2, part of unit 2"@en ;
+    dcterms:type :Double_leaf_stone_masonry ;
+    hmo:hasMasonryQualityIndex :MQI_2_U2 ;
+    hmo:hasRepresentativeVolumeElement :RVE_2_U2 .
+
+:Wall_3_U1 a owl:NamedIndividual,
+        hmo:MasonryWall ;
+    rdfs:label "Masonry wall of facade 3, part of unit 1"@en ;
+    dcterms:type :Double_leaf_stone_masonry ;
+    hmo:hasMasonryQualityIndex :MQI_3_U1 ;
+    hmo:hasRepresentativeVolumeElement :RVE_3_U1 .
+
+:Wall_3_U2 a owl:NamedIndividual,
+        hmo:MasonryWall ;
+    rdfs:label "Masonry wall of facade 3, part of unit 2"@en ;
+    dcterms:type :Double_leaf_stone_masonry ;
+    hmo:hasMasonryQualityIndex :MQI_3_U2 ;
+    hmo:hasRepresentativeVolumeElement :RVE_3_U2 .
+
+:Wall_4 a owl:NamedIndividual,
+        hmo:MasonryWall ;
+    rdfs:label "Masonry wall of facade 4, end of unit 2"@en ;
+    dcterms:type :Double_leaf_stone_masonry ;
+    hmo:hasMasonryQualityIndex :MQI_4 ;
+    hmo:hasRepresentativeVolumeElement :RVE_4 .
+
+:Wall_5 a owl:NamedIndividual,
+        hmo:MasonryWall ;
+    rdfs:label "Masonry wall of facade 5, wall of unit 2 shared with unit 1"@en ;
+    dcterms:type :Double_leaf_stone_masonry ;
+    hmo:hasMasonryQualityIndex :MQI_5 ;
+    hmo:hasRepresentativeVolumeElement :RVE_5 .
+
+:YoungModulus_1 a owl:NamedIndividual,
+        hmo:YoungModulus ;
+    saref:hasValue "1414.9"^^xsd:float .
+
+:YoungModulus_2_U1 a owl:NamedIndividual,
+        hmo:YoungModulus ;
+    saref:hasValue "1414.9"^^xsd:float .
+
+:YoungModulus_2_U2 a owl:NamedIndividual,
+        hmo:YoungModulus ;
+    saref:hasValue "1414.9"^^xsd:float .
+
+:YoungModulus_3_U1 a owl:NamedIndividual,
+        hmo:YoungModulus ;
+    saref:hasValue "1414.9"^^xsd:float .
+
+:YoungModulus_3_U2 a owl:NamedIndividual,
+        hmo:YoungModulus ;
+    saref:hasValue "1414.9"^^xsd:float .
+
+:YoungModulus_4 a owl:NamedIndividual,
+        hmo:YoungModulus ;
+    saref:hasValue "1414.9"^^xsd:float .
+
+:YoungModulus_5 a owl:NamedIndividual,
+        hmo:YoungModulus ;
+    saref:hasValue "1414.9"^^xsd:float .
+
+:YoungModulus_Double_leaf_stone_masonry_lower a owl:NamedIndividual,
+        hmo:YoungModulus ;
+    saref:hasValue "1150.0"^^xsd:float .
+
+:YoungModulus_Double_leaf_stone_masonry_upper a owl:NamedIndividual,
+        hmo:YoungModulus ;
+    saref:hasValue "1624.5"^^xsd:float .
+
+:IgorTomic a owl:NamedIndividual,
+        foaf:Person,
+        hsv:Author ;
+    foaf:name "Igor Tomić" .
+
+:Interface_2 a owl:NamedIndividual,
+        hsto:Connection ;
+    rdfs:label "Interface between the units on facade 2"@en ;
+    hsto:hasConnectionQuality "Poor: a mortar joint without interlocking stones. Unit 2 was built first and its contact surface smoothed with mortar before unit 1 was built against it (Tomić et al. 2024a, Section 2.2)." .
+
+:Interface_3 a owl:NamedIndividual,
+        hsto:Connection ;
+    rdfs:label "Interface between the units on facade 3"@en ;
+    hsto:hasConnectionQuality "Poor: a mortar joint without interlocking stones. Unit 2 was built first and its contact surface smoothed with mortar before unit 1 was built against it (Tomić et al. 2024a, Section 2.2)." .
+
+:Specimen a owl:NamedIndividual,
+        hsv:Aggregate ;
+    rdfs:label "Half-scale stone masonry aggregate of the SERA-AIMS test"@en ;
+    hsv:contains :Unit_1,
+        :Unit_2 ;
+    hsv:hasDocument :BIMModel,
+        :Fig5,
+        :Fig6,
+        :TestData,
+        :Tomic2024a,
+        :Tomic2024b .
+
+:DanielOliveira a owl:NamedIndividual,
+        foaf:Person ;
+    foaf:name "Daniel V. Oliveira" .
+
+:ElenaGigliarelli a owl:NamedIndividual,
+        foaf:Person ;
+    foaf:name "Elena Gigliarelli" .
+
+:Facade_3_U1 a owl:NamedIndividual,
+        hsto:Facade,
+        hsv:Facade ;
+    rdfs:label "Facade 3, part of unit 1"@en ;
+    hsto:isBuiltWithTraditionalConstructionTechnique :DoubleLeafStoneMasonry ;
+    hsto:isConnectedTo :Interface_3 ;
+    hsto:isMadeOf :Wall_3_U1 ;
+    hsv:hasDocument :Fig4a,
+        :Fig4b .
+
+:Facade_3_U2 a owl:NamedIndividual,
+        hsto:Facade,
+        hsv:Facade ;
+    rdfs:label "Facade 3, part of unit 2"@en ;
+    hsto:isBuiltWithTraditionalConstructionTechnique :DoubleLeafStoneMasonry ;
+    hsto:isConnectedTo :Interface_3 ;
+    hsto:isMadeOf :Wall_3_U2 ;
+    hsv:hasDocument :Fig4a,
+        :Fig4b .
+
+:MiguelAzenha a owl:NamedIndividual,
+        foaf:Person ;
+    foaf:name "Miguel Azenha" .
+
+:Role_Supervisor a owl:NamedIndividual,
+        prov:Role ;
+    rdfs:label "Supervisor"@en .
+
+:Tomic2024a a owl:NamedIndividual,
+        hsv:Publication ;
+    rdfs:label "Tomić et al. (2024), Shake table testing of a half-scale stone masonry building aggregate, Bull Earthquake Eng 22:5963–5991"@en ;
+    dcterms:identifier "https://doi.org/10.1007/s10518-023-01810-y" ;
+    hsv:hasAuthor :AndreaPenna,
+        :AntonioCorreia,
+        :ChristophButenweg,
+        :DanieleMalomo,
+        :GabrieleGuerrini,
+        :IgorTomic,
+        :IlariaSenaldi,
+        :KatrinBeyer,
+        :MatthewDeJong,
+        :PauloCandeias .
+
+:Fig4a a owl:NamedIndividual,
+        hsv:Photo ;
+    rdfs:label "Facade 3 without plaster, paint and additional masses (Tomić et al. 2024a, Fig. 4a)"@en ;
+    dcterms:identifier "tomic2024_fig4a.jpg" ;
+    dcterms:source "Tomić et al. (2024a), Bull Earthquake Eng 22:5963–5991, doi:10.1007/s10518-023-01810-y, CC BY 4.0" ;
+    hsv:isDocumentOf :Facade_3_U1,
+        :Facade_3_U2 .
+
+:Fig4b a owl:NamedIndividual,
+        hsv:Photo ;
+    rdfs:label "Facade 3 of the completed specimen (Tomić et al. 2024a, Fig. 4b)"@en ;
+    dcterms:identifier "tomic2024_fig4b.jpg" ;
+    dcterms:source "Tomić et al. (2024a), Bull Earthquake Eng 22:5963–5991, doi:10.1007/s10518-023-01810-y, CC BY 4.0" ;
+    hsv:isDocumentOf :Facade_3_U1,
+        :Facade_3_U2 .
+
+:MariaLauraLeonardi a owl:NamedIndividual,
+        foaf:Person,
+        hsv:Author ;
+    foaf:name "Maria Laura Leonardi" .
+
+:DoubleLeafStoneMasonry a owl:NamedIndividual,
+        hsv:TraditionalConstructionTechnique ;
+    rdfs:label "Double-leaf undressed stone masonry of historic aggregates (Basel)"@en .
+
+:BIMModel a owl:NamedIndividual,
+        hsv:BuildingInformationModel ;
+    rdfs:label "aggregate_1.ifc (IFC4), exported from Autodesk Revit 2027"@en ;
+    dcterms:created "2026-06-04"^^xsd:date ;
+    dcterms:identifier "resources/ifc_examples/sera_aims/aggregate_1.ifc" ;
+    prov:wasDerivedFrom :Tomic2024a ;
+    prov:wasGeneratedBy :BIMModelling ;
+    hsv:hasAuthor :MariaLauraLeonardi .
+
+:Double_leaf_stone_masonry a owl:NamedIndividual,
+        skos:Concept ;
+    rdfs:label "Double_leaf_stone_masonry"@en ;
+    rdfs:comment "Classified at full scale: the specimen is half-scale with EPS-modified mortar, so the properties derived here are to be compared with the measured ones brought back to full scale, not with the measured ones directly."@en,
+        "Through stones exist at corners and opening edges; counting them as sparse headers instead of none raises the quality index (upper variant)."@en,
+        "Vertical joint staggering is read from the published photographs, not stated in the text."@en ;
+    skos:definition "Double-leaf masonry of undressed, irregular sandstone (Credaro Berrettino stone) in approximately horizontal courses, with stone chips and mortar filling the core and through stones only at corners and opening edges; the typology of historic aggregates in Basel."@en ;
+    skos:note "horizontal joints: Stones arranged in approximately horizontal courses (Tomic et al. 2024a, Section 2.1): partially continuous."@en,
+        "mortar quality: Commercial hydraulic lime mortar with EPS spheres added to halve stiffness and strength for the scale (Tomic et al. 2024a, Section 2.1). At full scale the mortar it stands for is a weak lime mortar, so it is scored as lime and not as hydraulic lime."@en,
+        "unit dimensions: Stones of 10 to 25 cm in the half-scale specimen (Tomic et al. 2024a, Section 2.1), so 20 to 50 cm at full scale: medium."@en,
+        "unit material: Credaro Berrettino stone, a sandstone with a compressive strength of 144 MPa (Tomic et al. 2024b, Table 4): hard stone, not squared."@en,
+        "unit shape: Undressed, irregular stones, more irregular than those of the earlier Pavia specimen (Tomic et al. 2024a, Section 2.1; Fig. 5a-b): roughly cut."@en,
+        "vertical joints: Not described in the text; from the masonry texture of Fig. 5a-b the vertical joints are partly staggered."@en,
+        "wall connections: No interlocking between the leaves except through stones at opening edges and building corners (Tomic et al. 2024a, Section 2.1; blind prediction study, poor interlocking): none in the body of the wall."@en .
+

@@ -1,0 +1,240 @@
+{
+  "_meta": {
+    "source": "resources/ifc_examples/sera_aims/aggregate_1.ifc",
+    "description": "Building elements of the BIM model and their materials, exported by scripts/export_bim_for_web.py. A material that is the name of a masonry type links the element to that type in the knowledge graph."
+  },
+  "elements": [
+    {
+      "global_id": "3_2W4VcEf62eVBAFB0d_fO",
+      "ifc_class": "IfcSlab",
+      "name": "Floor:Generic 300mm:1676057",
+      "materials": [
+        "Timber_floor"
+      ]
+    },
+    {
+      "global_id": "3_2W4VcEf62eVBAFB0d_e5",
+      "ifc_class": "IfcSlab",
+      "name": "Floor:Generic 300mm:1676100",
+      "materials": [
+        "Timber_floor"
+      ]
+    },
+    {
+      "global_id": "0e9BrLsovEtgHZrXU2x7Y$",
+      "ifc_class": "IfcSlab",
+      "name": "Floor:Generic 300mm:1676145",
+      "materials": [
+        "Timber_floor"
+      ]
+    },
+    {
+      "global_id": "3_2W4VcEf62eVBAFB0d_jF",
+      "ifc_class": "IfcWall",
+      "name": "Basic Wall:Unit_1:1675790",
+      "materials": [
+        "Double_leaf_stone_masonry"
+      ]
+    },
+    {
+      "global_id": "3_2W4VcEf62eVBAFB0d_i6",
+      "ifc_class": "IfcWall",
+      "name": "Basic Wall:Unit_1:1675847",
+      "materials": [
+        "Double_leaf_stone_masonry"
+      ]
+    },
+    {
+      "global_id": "3_2W4VcEf62eVBAFB0d_lO",
+      "ifc_class": "IfcWall",
+      "name": "Basic Wall:Unit_1:1675929",
+      "materials": [
+        "Double_leaf_stone_masonry"
+      ]
+    },
+    {
+      "global_id": "3_2W4VcEf62eVBAFB0d$U6",
+      "ifc_class": "IfcWall",
+      "name": "Basic Wall:Unit_2_first_floor:1674951",
+      "materials": [
+        "Double_leaf_stone_masonry"
+      ]
+    },
+    {
+      "global_id": "3_2W4VcEf62eVBAFB0d$PR",
+      "ifc_class": "IfcWall",
+      "name": "Basic Wall:Unit_2_first_floor:1675034",
+      "materials": [
+        "Double_leaf_stone_masonry"
+      ]
+    },
+    {
+      "global_id": "3_2W4VcEf62eVBAFB0d$OL",
+      "ifc_class": "IfcWall",
+      "name": "Basic Wall:Unit_2_first_floor:1675092",
+      "materials": [
+        "Double_leaf_stone_masonry"
+      ]
+    },
+    {
+      "global_id": "3_2W4VcEf62eVBAFB0d$Rm",
+      "ifc_class": "IfcWall",
+      "name": "Basic Wall:Unit_2_first_floor:1675185",
+      "materials": [
+        "Double_leaf_stone_masonry"
+      ]
+    },
+    {
+      "global_id": "3_2W4VcEf62eVBAFB0d_ar",
+      "ifc_class": "IfcWall",
+      "name": "Basic Wall:Unit_2_second_floor:1675380",
+      "materials": [
+        "Double_leaf_stone_masonry"
+      ]
+    },
+    {
+      "global_id": "3_2W4VcEf62eVBAFB0d_dt",
+      "ifc_class": "IfcWall",
+      "name": "Basic Wall:Unit_2_second_floor:1675446",
+      "materials": [
+        "Double_leaf_stone_masonry"
+      ]
+    },
+    {
+      "global_id": "3_2W4VcEf62eVBAFB0d_cf",
+      "ifc_class": "IfcWall",
+      "name": "Basic Wall:Unit_2_second_floor:1675496",
+      "materials": [
+        "Double_leaf_stone_masonry"
+      ]
+    },
+    {
+      "global_id": "3_2W4VcEf62eVBAFB0d_Xg",
+      "ifc_class": "IfcWall",
+      "name": "Basic Wall:Unit_2_second_floor:1675563",
+      "materials": [
+        "Double_leaf_stone_masonry"
+      ]
+    },
+    {
+      "global_id": "1Uwl_9ABb40BDIFRiE4iO4",
+      "ifc_class": "IfcWindow",
+      "name": "window:Big_Door:1683031",
+      "materials": [
+        "Bricks"
+      ]
+    },
+    {
+      "global_id": "25mTE1QLT1ERRkrmKjt0gb",
+      "ifc_class": "IfcWindow",
+      "name": "window:StoneWindows:1677174",
+      "materials": [
+        "Bricks"
+      ]
+    },
+    {
+      "global_id": "25mTE1QLT1ERRkrmKjt3sa",
+      "ifc_class": "IfcWindow",
+      "name": "window:StoneWindows:1679479",
+      "materials": [
+        "Bricks"
+      ]
+    },
+    {
+      "global_id": "25mTE1QLT1ERRkrmKjt3rm",
+      "ifc_class": "IfcWindow",
+      "name": "window:StoneWindows:1679523",
+      "materials": [
+        "Bricks"
+      ]
+    },
+    {
+      "global_id": "25mTE1QLT1ERRkrmKjt3oU",
+      "ifc_class": "IfcWindow",
+      "name": "window:StoneWindows:1679693",
+      "materials": [
+        "Bricks"
+      ]
+    },
+    {
+      "global_id": "25mTE1QLT1ERRkrmKjt3mF",
+      "ifc_class": "IfcWindow",
+      "name": "window:StoneWindows:1679836",
+      "materials": [
+        "Bricks"
+      ]
+    },
+    {
+      "global_id": "1DB0Jl8evCsgLKqd9Agqxm",
+      "ifc_class": "IfcWindow",
+      "name": "window:StoneWindows:1681486",
+      "materials": [
+        "Bricks"
+      ]
+    },
+    {
+      "global_id": "1DB0Jl8evCsgLKqd9Agqmr",
+      "ifc_class": "IfcWindow",
+      "name": "window:StoneWindows:1682059",
+      "materials": [
+        "Bricks"
+      ]
+    },
+    {
+      "global_id": "1DB0Jl8evCsgLKqd9Agqnw",
+      "ifc_class": "IfcWindow",
+      "name": "window:StoneWindows:1682116",
+      "materials": [
+        "Bricks"
+      ]
+    },
+    {
+      "global_id": "1DB0Jl8evCsgLKqd9Agqt3",
+      "ifc_class": "IfcWindow",
+      "name": "window:StoneWindows:1682301",
+      "materials": [
+        "Bricks"
+      ]
+    },
+    {
+      "global_id": "0V6WjWO2r4QeSDEs0D36aT",
+      "ifc_class": "IfcWindow",
+      "name": "window:StoneWindows:1682818",
+      "materials": [
+        "Bricks"
+      ]
+    },
+    {
+      "global_id": "3rDozoXNb0Zfoi8_Hn8YHx",
+      "ifc_class": "IfcWindow",
+      "name": "window:StoneWindows:1683418",
+      "materials": [
+        "Bricks"
+      ]
+    },
+    {
+      "global_id": "3rDozoXNb0Zfoi8_Hn8Zku",
+      "ifc_class": "IfcWindow",
+      "name": "window:StoneWindows:1683481",
+      "materials": [
+        "Bricks"
+      ]
+    },
+    {
+      "global_id": "3rDozoXNb0Zfoi8_Hn8Zja",
+      "ifc_class": "IfcWindow",
+      "name": "window:StoneWindows:1683653",
+      "materials": [
+        "Bricks"
+      ]
+    },
+    {
+      "global_id": "3rDozoXNb0Zfoi8_Hn8Zjd",
+      "ifc_class": "IfcWindow",
+      "name": "window:StoneWindows:1683654",
+      "materials": [
+        "Bricks"
+      ]
+    }
+  ]
+}

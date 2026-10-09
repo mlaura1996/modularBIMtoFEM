@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Castelnuovo Knowledge Graph</title>
-<meta name="description" content="Knowledge graph of the Castelnuovo di Porto masonry aggregate, built on the Historic Survey, Historic Structure and Historic Masonry ontologies.">
+<title>__TITLE__</title>
+<meta name="description" content="__DESCRIPTION__">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.9/standalone/umd/vis-network.min.js"></script>
 <style>
 :root {
@@ -13,7 +13,8 @@
   --g-context: #8a6d3b; --g-facade: #b5562f; --g-structure: #6f7d3a; --g-wall: #2f6f73;
   --g-type: #7a4f9a; --g-document: #3b6ea8; --g-activity: #b0803a; --g-agent: #5e6b78;
   --g-photo: #7fa7c9; --g-hmo: #5fa39f; --g-constant: #a8a29a; --g-bim: #9c7b5b;
-  --t-a: #b5562f; --t-b: #d9a441; --t-c: #6f8f4e; --t-d: #7a6fa8; --t-other: #cfcac0; --edge3d: #5a554c;
+  --t-0: #b5562f; --t-1: #d9a441; --t-2: #6f8f4e; --t-3: #7a6fa8; --t-4: #3b6ea8; --t-5: #a8456b;
+  --t-other: #cfcac0; --edge3d: #5a554c;
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark) {
@@ -23,7 +24,8 @@
     --g-context: #c9a76a; --g-facade: #e0855c; --g-structure: #a9b86a; --g-wall: #5fb3b8;
     --g-type: #b48ad6; --g-document: #78a6dc; --g-activity: #dcae68; --g-agent: #9aa7b4;
     --g-photo: #a9c8e3; --g-hmo: #8cc9c4; --g-constant: #8f8a82; --g-bim: #c7a27e;
-    --t-a: #e0855c; --t-b: #e8bd5f; --t-c: #9cbd78; --t-d: #a99de0; --t-other: #4a463f; --edge3d: #a39d92;
+    --t-0: #e0855c; --t-1: #e8bd5f; --t-2: #9cbd78; --t-3: #a99de0; --t-4: #78a6dc; --t-5: #d97a9e;
+    --t-other: #4a463f; --edge3d: #a39d92;
     color-scheme: dark;
   }
 }
@@ -33,7 +35,8 @@
   --g-context: #c9a76a; --g-facade: #e0855c; --g-structure: #a9b86a; --g-wall: #5fb3b8;
   --g-type: #b48ad6; --g-document: #78a6dc; --g-activity: #dcae68; --g-agent: #9aa7b4;
   --g-photo: #a9c8e3; --g-hmo: #8cc9c4; --g-constant: #8f8a82; --g-bim: #c7a27e;
-  --t-a: #e0855c; --t-b: #e8bd5f; --t-c: #9cbd78; --t-d: #a99de0; --t-other: #4a463f; --edge3d: #a39d92;
+  --t-0: #e0855c; --t-1: #e8bd5f; --t-2: #9cbd78; --t-3: #a99de0; --t-4: #78a6dc; --t-5: #d97a9e;
+  --t-other: #4a463f; --edge3d: #a39d92;
   color-scheme: dark;
 }
 * { box-sizing: border-box; }
@@ -135,14 +138,14 @@ footer { color: var(--muted); font-size: 13px; padding: 30px 0 40px; border-top:
 <div class="wrap" style="position:relative">
   <button class="btn theme-toggle" id="themeBtn" type="button" aria-label="Switch colour theme">◐ Theme</button>
   <header>
-    <p class="eyebrow">openBIMtoFEM · Castelnuovo di Porto case study</p>
-    <h1>Castelnuovo di Porto knowledge graph</h1>
-    <p class="lede">The masonry aggregate of Castelnuovo di Porto described with the Historic Survey (HSV), Historic Structure (HSTO) and Historic Masonry (HMO) ontologies: the survey and its documents, the façades and their walls, and the mechanical properties of the masonry derived by a reasoner from the observed construction features. Everything on this page is read from the graph itself.</p>
+    <p class="eyebrow">openBIMtoFEM · knowledge graph of a case study</p>
+    <h1>__TITLE__</h1>
+    <p class="lede">__DESCRIPTION__ Everything on this page is read from the graph itself.</p>
     <div class="chips" id="stats"></div>
     <div class="links">
       <a class="btn primary" href="knowledge_graph.ttl" download>Download the graph (Turtle)</a>
-      <a class="btn" href="https://doi.org/10.5281/zenodo.23260962">Software release (DOI)</a>
-      <a class="btn" href="../case_study/materials.html">Documentation</a>
+      <a class="btn" href="__DOI__" style="display:__DOI_DISPLAY__">Software release (DOI)</a>
+      <a class="btn" href="../case_study/knowledge_graph.html">Documentation</a>
     </div>
   </header>
 </div>
@@ -152,6 +155,7 @@ footer { color: var(--muted); font-size: 13px; padding: 30px 0 40px; border-top:
     <a href="#bim">BIM model</a>
     <a href="#facades">Façades</a>
     <a href="#types">Masonry types</a>
+    <a href="#compare" id="compareTab">Derived and measured</a>
     <a href="#documents">Documents</a>
     <a href="#people">People and activities</a>
     <a href="#ontologies">Ontologies</a>
@@ -177,7 +181,7 @@ footer { color: var(--muted); font-size: 13px; padding: 30px 0 40px; border-top:
 
   <section id="bim">
     <h2>BIM model</h2>
-    <p class="section-note">The BIM model of the aggregate, with every element coloured by its masonry type. The BIM model and the graph are linked by the material name, as in the conversion to the numerical model: an element made of Tufelli_masonry_typeA is an element of masonry type A. Drag to rotate, right-drag to pan, use + and − to zoom, click an element to see it in the graph.</p>
+    <p class="section-note">The BIM model of the aggregate, with every element coloured by its masonry type. The BIM model and the graph are linked by the material name, as in the conversion to the numerical model: an element whose material is a masonry type of the graph is an element of that type. Drag to rotate, right-drag to pan, use + and − to zoom, click an element to see it in the graph.</p>
     <div class="graph-tools" id="bimTools">
       <div id="bimToggles" style="display:contents"></div>
       <label class="toggle"><input type="checkbox" id="fadeOthers" checked><span class="sw" style="background:var(--t-other)"></span>Fade other elements</label>
@@ -195,6 +199,10 @@ footer { color: var(--muted); font-size: 13px; padding: 30px 0 40px; border-top:
     <h2>Façades and their masonry</h2>
     <p class="section-note">Each façade is made of one masonry wall. Quality indices and properties were derived by Pellet from the HMO rules; the mass density is asserted, since HMO has no rule for it.</p>
     <div class="table-wrap" id="facadesTable"></div>
+    <div id="connectionsBlock">
+      <h3 class="subhead">Connections between façades</h3>
+      <div class="table-wrap" id="connectionsTable"></div>
+    </div>
   </section>
 
   <section id="types">
@@ -203,10 +211,21 @@ footer { color: var(--muted); font-size: 13px; padding: 30px 0 40px; border-top:
     <div class="table-wrap" id="typesTable"></div>
   </section>
 
+  <section id="compare">
+    <h2>Derived and measured properties</h2>
+    <p class="section-note">Properties derived by the reasoner for the masonry as classified and for its variants (hypothetical walls with the uncertain parameters changed), next to the measured values recorded in the graph with their source and basis.</p>
+    <div id="compareBody"></div>
+  </section>
+
   <section id="documents">
     <h2>Documents and provenance</h2>
     <p class="section-note">Documents other than the photographs (listed per façade above), with the activity that produced them, what they derive from and who acquired, processed or authored them.</p>
     <div class="table-wrap" id="documentsTable"></div>
+    <div id="otherPhotosBlock">
+      <h3 class="subhead">Photographs of the aggregate</h3>
+      <p class="section-note" id="otherPhotosNote"></p>
+      <div id="otherPhotos"></div>
+    </div>
   </section>
 
   <section id="people">
@@ -268,7 +287,7 @@ document.getElementById("stats").innerHTML = [
   [DATA.facades.reduce((n, f) => n + f.Photographs, 0), "photographs"],
 ].map(([n, l]) => `<span class="chip"><b>${n}</b> ${l}</span>`).join("");
 document.getElementById("footer").innerHTML =
-  `${esc(DATA.note)}<br>Generated from <a href="knowledge_graph.ttl">knowledge_graph.ttl</a> by scripts/build_knowledge_graph_page.py of openBIMtoFEM. Author of the case study and of the ontologies: Maria Laura Leonardi (ISISE, University of Minho), with the collaborators of CNR ISPC listed above.`;
+  `${esc(DATA.note)}<br>Generated from <a href="knowledge_graph.ttl">knowledge_graph.ttl</a> by core/knowledge_graph of openBIMtoFEM.`;
 
 // --- graph --------------------------------------------------------------------
 const groupInfo = Object.fromEntries(DATA.groups.map(g => [g.key, g]));
@@ -369,7 +388,7 @@ document.getElementById("nodeNames").innerHTML = DATA.nodes.map(n => { labelToId
 document.getElementById("search").addEventListener("change", ev => { const id = labelToId[ev.target.value]; if (id) focusNode(id); });
 
 // --- photographs ---------------------------------------------------------------
-const caption = p => `${p.file.split("/").slice(-2, -1)[0]} · ${p.taken ? p.taken.replace("T", " ") : ""}`;
+const caption = p => p.label ? p.label : `${p.file.split("/").slice(-2, -1)[0] || p.file} · ${p.taken ? p.taken.replace("T", " ") : ""}`;
 function thumbStrip(photos) {
   const withImg = photos.filter(p => p.img);
   return `<div class="thumbs">${withImg.map((p, i) =>
@@ -391,7 +410,8 @@ document.addEventListener("keydown", e => {
   if (e.key === "ArrowLeft") lb.querySelector(".prev").click();
   if (e.key === "ArrowRight") lb.querySelector(".next").click();
 });
-const allPhotos = Object.fromEntries(DATA.facades.flatMap(f => f._photos.filter(p => p.img).map(p => [p.img, p])));
+const allPhotos = Object.fromEntries(DATA.facades.flatMap(f => f._photos.filter(p => p.img).map(p => [p.img, p]))
+  .concat(DATA.other_photos.map(p => [p.img, p])));
 function bindThumbs(root) {
   root.querySelectorAll(".thumbs img").forEach(img => {
     const open = () => openLightbox(JSON.parse(img.dataset.set).map(src => allPhotos[src]), +img.dataset.i);
@@ -426,6 +446,23 @@ table("facadesTable", DATA.facades, { title: "Photographs", render: r =>
     `<li>${esc(p.file.split("/").pop())}${p.taken ? ` <span>(${esc(p.taken.replace("T", " "))})</span>` : ""}</li>`).join("")}</ol></details>` });
 bindThumbs(document.getElementById("facadesTable"));
 table("typesTable", DATA.types);
+if (DATA.other_photos.length) {
+  document.getElementById("otherPhotos").innerHTML = thumbStrip(DATA.other_photos);
+  const sources = [...new Set(DATA.other_photos.map(p => p.source).filter(Boolean))];
+  document.getElementById("otherPhotosNote").textContent = sources.length ? "Source: " + sources.join("; ") : "";
+  bindThumbs(document.getElementById("otherPhotos"));
+} else document.getElementById("otherPhotosBlock").style.display = "none";
+if (DATA.connections.length) table("connectionsTable", DATA.connections);
+else document.getElementById("connectionsBlock").style.display = "none";
+if (DATA.comparison.length) {
+  document.getElementById("compareBody").innerHTML = DATA.comparison.map((c, i) =>
+    `<h3 class="subhead">${esc(c.type)}</h3><div class="table-wrap" id="cmpD${i}"></div>` +
+    (c.measured.length ? `<p class="section-note" style="margin-top:12px">Measured</p><div class="table-wrap" id="cmpM${i}"></div>` : "")).join("");
+  DATA.comparison.forEach((c, i) => { table(`cmpD${i}`, c.derived); if (c.measured.length) table(`cmpM${i}`, c.measured); });
+} else {
+  document.getElementById("compare").style.display = "none";
+  document.getElementById("compareTab").style.display = "none";
+}
 table("documentsTable", DATA.documents);
 table("activitiesTable", DATA.activities);
 table("peopleTable", DATA.people);
@@ -447,8 +484,9 @@ const HINT = '<p class="hint">Click an element to see its IFC class, GlobalId an
 if (!DATA.bim || !DATA.bim.glb) {
   host.innerHTML = '<div class="loading">The BIM model has not been exported for this page.</div>';
 } else {
-  const typeKey = m => m ? m.replace("Tufelli_masonry_type", "").toLowerCase() : "other";
   const typeNames = Object.keys(DATA.bim.types).sort();
+  const typeOf = info => (info.materials || []).find(m => typeNames.includes(m)) || null;
+  const typeKey = name => name ? String(typeNames.indexOf(name) % 6) : "other";
   const shown = Object.fromEntries([...typeNames.map(typeKey), "other"].map(k => [k, true]));
   const counts = Object.fromEntries(DATA.types.map(t => [t.Type, t["BIM elements"]]));
 
@@ -482,7 +520,7 @@ if (!DATA.bim || !DATA.bim.glb) {
   window.refreshBimColours = () => { styleAll(); renderToggles(); };
 
   function renderToggles() {
-    const items = [...typeNames.map(n => [typeKey(n), `Type ${typeKey(n).toUpperCase()} (${counts[n] ?? 0})`]),
+    const items = [...typeNames.map(n => [typeKey(n), `${n.replace(/_/g, " ")} (${counts[n] ?? 0})`]),
                    ["other", "Other elements"]];
     document.getElementById("bimToggles").innerHTML = items.map(([k, l]) =>
       `<label class="toggle ${shown[k] ? "" : "off"}"><input type="checkbox" data-k="${k}" ${shown[k] ? "checked" : ""}>` +
@@ -507,13 +545,13 @@ if (!DATA.bim || !DATA.bim.glb) {
   function showElement(e) {
     selected = e; styleAll();
     if (!e) { panel.innerHTML = HINT; return; }
-    const i = e.info, typeId = i.masonry_type ? DATA.bim.types[i.masonry_type] : null;
+    const i = e.info, mtype = typeOf(i), typeId = mtype ? DATA.bim.types[mtype] : null;
     const nodeId = DATA.bim.elements[i.global_id];
     panel.innerHTML = `<h3>${esc(i.name || i.ifc_class)}</h3><div class="kind">${esc(i.ifc_class)}</div>` +
       `<h4>GlobalId</h4><div><code>${esc(i.global_id)}</code></div>` +
       `<h4>Materials</h4><div>${(i.materials || []).map(m => esc(m)).join("<br>") || "none"}</div>` +
       (typeId
-        ? `<h4>Masonry type</h4><div><span class="toggle" style="cursor:default"><span class="sw" style="background:${css(`--t-${e.key}`)}"></span>${esc(i.masonry_type)}</span></div>` +
+        ? `<h4>Masonry type</h4><div><span class="toggle" style="cursor:default"><span class="sw" style="background:${css(`--t-${e.key}`)}"></span>${esc(mtype)}</span></div>` +
           `<h4>In the knowledge graph</h4>` +
           (nodeId ? `<span class="rel"><a data-node="${esc(nodeId)}">This element</a></span>` : "") +
           `<span class="rel"><a data-node="${esc(typeId)}">Its masonry type, with the façades and properties</a></span>`
@@ -553,7 +591,7 @@ if (!DATA.bim || !DATA.bim.glb) {
       const edges = new THREE.LineSegments(new THREE.EdgesGeometry(o.geometry, 30),
                                            new THREE.LineBasicMaterial({ transparent: true }));
       o.add(edges);
-      elements.push({ mesh: o, edges, info, key: typeKey(info.masonry_type) });
+      elements.push({ mesh: o, edges, info, key: typeKey(typeOf(info)) });
     });
     scene.add(gltf.scene);
     box = new THREE.Box3().setFromObject(gltf.scene);

@@ -403,7 +403,9 @@
     foaf:name "Institute for Sustainability and Innovation in Structural Engineering (ISISE), University of Minho" .
 
 :KnowledgeGraph a owl:Ontology ;
-    rdfs:comment "Castelnuovo di Porto case study, built on HSV, HSTO and HMO. Quality indices and homogenised properties were derived by Pellet from the HMO rules (resources/ontologies/hmo.ttl) and checked against core/ifc_processing/hmo_mqi.py."@en ;
+    rdfs:label "Castelnuovo di Porto knowledge graph"@en ;
+    dcterms:references <https://doi.org/10.5281/zenodo.23260962> ;
+    rdfs:comment "The masonry aggregate of Castelnuovo di Porto described with the Historic Survey (HSV), Historic Structure (HSTO) and Historic Masonry (HMO) ontologies: the survey and its documents, the façades and their walls, and the mechanical properties of the masonry derived by a reasoner from the observed construction features. Built on HSV, HSTO and HMO. Quality indices and homogenised properties were derived by Pellet from the HMO rules (resources/ontologies/hmo.ttl) and checked against core/ifc_processing/hmo_mqi.py."@en ;
     owl:imports <https://w3id.org/hmo>,
         <https://w3id.org/hsto>,
         <https://w3id.org/hsv> .
@@ -631,7 +633,7 @@
 
 :Opening_419 a owl:NamedIndividual,
         hsto:HistoricOpening ;
-    rdfs:label "Opening with an arch of dressed tuff voussoirs, facade 419"@en .
+    rdfs:label "Doorway with an arch of dressed tuff voussoirs, facade 419"@en .
 
 :Pattern_417a a owl:NamedIndividual,
         hmo:Pattern ;
@@ -925,49 +927,49 @@
 
 :Wall_417a a owl:NamedIndividual,
         hmo:MasonryWall ;
-    rdfs:label "Masonry wall of facade 417a"@en ;
+    rdfs:label "Masonry wall of facade 417a of unit 417"@en ;
     dcterms:type :Tufelli_masonry_typeC ;
     hmo:hasMasonryQualityIndex :MQI_417a ;
     hmo:hasRepresentativeVolumeElement :RVE_417a .
 
 :Wall_417b a owl:NamedIndividual,
         hmo:MasonryWall ;
-    rdfs:label "Masonry wall of facade 417b"@en ;
+    rdfs:label "Masonry wall of facade 417b of unit 417"@en ;
     dcterms:type :Tufelli_masonry_typeD ;
     hmo:hasMasonryQualityIndex :MQI_417b ;
     hmo:hasRepresentativeVolumeElement :RVE_417b .
 
 :Wall_417c a owl:NamedIndividual,
         hmo:MasonryWall ;
-    rdfs:label "Masonry wall of facade 417c"@en ;
+    rdfs:label "Masonry wall of facade 417c of unit 417"@en ;
     dcterms:type :Tufelli_masonry_typeB ;
     hmo:hasMasonryQualityIndex :MQI_417c ;
     hmo:hasRepresentativeVolumeElement :RVE_417c .
 
 :Wall_418a a owl:NamedIndividual,
         hmo:MasonryWall ;
-    rdfs:label "Masonry wall of facade 418a"@en ;
+    rdfs:label "Masonry wall of facade 418a of unit 418"@en ;
     dcterms:type :Tufelli_masonry_typeB ;
     hmo:hasMasonryQualityIndex :MQI_418a ;
     hmo:hasRepresentativeVolumeElement :RVE_418a .
 
 :Wall_418b a owl:NamedIndividual,
         hmo:MasonryWall ;
-    rdfs:label "Masonry wall of facade 418b"@en ;
+    rdfs:label "Masonry wall of facade 418b of unit 418"@en ;
     dcterms:type :Tufelli_masonry_typeD ;
     hmo:hasMasonryQualityIndex :MQI_418b ;
     hmo:hasRepresentativeVolumeElement :RVE_418b .
 
 :Wall_419 a owl:NamedIndividual,
         hmo:MasonryWall ;
-    rdfs:label "Masonry wall of facade 419"@en ;
+    rdfs:label "Masonry wall of facade 419 of unit 419"@en ;
     dcterms:type :Tufelli_masonry_typeA ;
     hmo:hasMasonryQualityIndex :MQI_419 ;
     hmo:hasRepresentativeVolumeElement :RVE_419 .
 
 :Wall_420 a owl:NamedIndividual,
         hmo:MasonryWall ;
-    rdfs:label "Masonry wall of facade 420"@en ;
+    rdfs:label "Masonry wall of facade 420 of unit 420"@en ;
     dcterms:type :Tufelli_masonry_typeD ;
     hmo:hasMasonryQualityIndex :MQI_420 ;
     hmo:hasRepresentativeVolumeElement :RVE_420 .
@@ -1618,7 +1620,8 @@
         skos:Concept ;
     rdfs:label "Tufelli_masonry_typeC"@en ;
     rdfs:comment "Scores kept uniformly low across all 7 parameters per the manuscript's explicit statement that this residential fabric has 'more frequent use of reused bricks, and greater variability in coursing and joint execution' than the representative architecture its local-technique description is based on - a stated characterisation from the manuscript, not read off any single photo"@en ;
-    skos:definition "Patched/reworked masonry, mixed exposed stone and infill/repairs, brick dentil cornice, evidence of blocked former openings"@en .
+    skos:definition "Patched/reworked masonry, mixed exposed stone and infill/repairs, brick dentil cornice, evidence of blocked former openings"@en ;
+    skos:note "A-417/417_a (WhatsApp Image 2023-06-01 at 14.50.44/45/46, 14.51.48/49/50): exposed stone interspersed with rendered patches and a decorative brick course"@en .
 
 :Facade_417c a owl:NamedIndividual,
         hsto:Facade,
@@ -1662,21 +1665,24 @@
         skos:Concept ;
     rdfs:label "Tufelli_masonry_typeD"@en ;
     rdfs:comment "ENTIRELY assumed, not observed: scored identically to typeB (the 'ordinary/irregular' type) as the most defensible default for an unexceptional rendered facade in the same aggregate, rather than typeA (visibly higher quality, tied to specific observed stonework at door openings that this facade's render gives no evidence for) or typeC (visibly patched/reworked, again no evidence either way). This is the weakest-grounded of the four classifications - revisit first if render is ever removed, or if there is independent reason (archival, structural survey) to place this facade in a specific construction phase."@en ;
-    skos:definition "Fully rendered facade, masonry not directly observable - assumed by construction-era analogy to typeB"@en .
+    skos:definition "Fully rendered facade, masonry not directly observable - assumed by construction-era analogy to typeB"@en ;
+    skos:note "A-417/417_b (WhatsApp Image 2023-06-01 at 14.51.52/53) and A-420/a420 (WhatsApp Image 2023-06-01 at 14.50.52-55): fully plastered in every available survey photo, no exposed masonry"@en .
 
 :Tufelli_masonry_typeB a owl:NamedIndividual,
         skos:Concept ;
     rdfs:label "Tufelli_masonry_typeB"@en ;
     rdfs:comment "Same conservative mortar assumption as typeA (plain lime, not hydraulic-boosted)"@en,
         "Vertical joint staggering scored 'partially_staggered' from the visibly less regular coursing - not measured"@en ;
-    skos:definition "Irregular tufo masonry, discontinuous coursing, brick relieving arches at openings, squared corner quoins"@en .
+    skos:definition "Irregular tufo masonry, discontinuous coursing, brick relieving arches at openings, squared corner quoins"@en ;
+    skos:note "A-417/417_c (corner building, Vicolo del Cabalino - WhatsApp Image 2023-06-01 at 14.50.40/41/42/43) and A-418/418-a (WhatsApp Image 2023-06-01 at 14.50.47/48, brick arch over a round-headed window): irregular unit sizes, less continuous coursing than typeA"@en .
 
 :Tufelli_masonry_typeA a owl:NamedIndividual,
         skos:Concept ;
     rdfs:label "Tufelli_masonry_typeA"@en ;
     rdfs:comment "Mortar scored plain 'lime' (conservative) rather than crediting the pozzolana content mentioned in the manuscript with a hydraulic-lime-level score - the pozzolana's real contribution to mortar performance was not tested, only described qualitatively"@en,
         "Vertical joint staggering scored 'partially_staggered' (conservative) rather than 'properly_staggered' - not directly measurable from the available photos at typical phone-camera resolution/angle"@en ;
-    skos:definition "Regular tufo masonry, fairly continuous coursing, well-cut stone voussoirs at openings"@en .
+    skos:definition "Regular tufo masonry, fairly continuous coursing, well-cut stone voussoirs at openings"@en ;
+    skos:note "A-419/a419 photos (WhatsApp Image 2023-06-01 at 14.50.49/50/51): stone arch over a door with well-dressed voussoirs, courses fairly regular though not perfectly continuous"@en .
 
 :PhotographicCampaign a owl:NamedIndividual,
         prov:Activity ;

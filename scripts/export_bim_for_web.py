@@ -1,43 +1,38 @@
 """Exports the Castelnuovo BIM model for the knowledge graph page.
 
-    python scripts/export_bim_for_web.py [model.ifc]
+    python scripts/export_bim_for_web.py <model.ifc> --glb <page dir>/bim/model.glb
+                                         --elements <bim_elements.json>
 
-Default model: resources/ifc_examples/castelnuovo/final_example.ifc, the
-BIM model the knowledge graph cites. Writes
-
-  docs/source/_extra/knowledge-graph/bim/model.glb
-      the geometry of every building element, one node per element named
-      by its IFC GlobalId, with its IFC class, name and material names as
-      node extras, so the page can colour and identify it
-  resources/survey_data/castelnuovo/bim_elements.json
-      the same elements and their materials, read by
-      docker/opensees/castelnuovo_knowledge_graph.py to link each masonry
-      type to the IFC elements made of it
+Writes
+  model.glb          the geometry of every building element, one node per
+                     element named by its IFC GlobalId, with its IFC class,
+                     name and material names as node extras, so the page
+                     can colour and identify it
+  bim_elements.json  the same elements and their materials, read by the
+                     knowledge graph builder (python -m core.knowledge_graph
+                     build ... --bim) to link each masonry type to the IFC
+                     elements made of it
 
 The link between the BIM model and the knowledge graph is the material
 name, as in the conversion to the numerical model: an element whose
-material (or one of whose constituents) is Tufelli_masonry_typeA is an
-element of masonry type A.
+material (or one of whose constituents) is the name of a masonry type of
+the graph is an element of that type.
 
 Geometry is triangulated by IfcOpenShell in world coordinates (metres),
 turned from IFC's Z-up to glTF's Y-up and centred on the origin. Only
 positions and indices are written: the page shades the faces flat, so
 normals are not needed. Needs IfcOpenShell and numpy.
 """
+import argparse
 import json
 import os
 import struct
-import sys
 
 import numpy as np
 import ifcopenshell
 import ifcopenshell.geom
 import ifcopenshell.util.element as ue
 
-IFC = sys.argv[1] if len(sys.argv) > 1 else "resources/ifc_examples/castelnuovo/final_example.ifc"
-GLB = "docs/source/_extra/knowledge-graph/bim/model.glb"
-ELEMENTS_JSON = "resources/survey_data/castelnuovo/bim_elements.json"
-MASONRY_PREFIX = "Tufelli_masonry_type"
 SKIP = ("IfcOpeningElement", "IfcSpace", "IfcVirtualElement")
 
 
@@ -85,6 +80,12 @@ def write_glb(path, meshes):
 
 
 def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("ifc")
+    ap.add_argument("--glb", required=True)
+    ap.add_argument("--elements", required=True)
+    a = ap.parse_args()
+    IFC, GLB, ELEMENTS_JSON = a.ifc, a.glb, a.elements
     f = ifcopenshell.open(IFC)
     settings = ifcopenshell.geom.settings()
     settings.set("use-world-coords", True)
@@ -109,10 +110,8 @@ def main():
 
     meshes, records = [], []
     for el, v, t in raw:
-        mats = material_names(el)
-        masonry = next((m for m in mats if m.startswith(MASONRY_PREFIX)), None)
         rec = {"global_id": el.GlobalId, "ifc_class": el.is_a(), "name": el.Name or "",
-               "materials": mats, "masonry_type": masonry}
+               "materials": material_names(el)}
         records.append(rec)
         p = v - centre
         yup = np.column_stack([p[:, 0], p[:, 2], -p[:, 1]])          # Z-up -> Y-up
@@ -122,18 +121,19 @@ def main():
     write_glb(GLB, meshes)
     meta = {"_meta": {"source": IFC.replace("\\", "/"),
                       "description": "Building elements of the BIM model and their materials, exported by "
-                                     "scripts/export_bim_for_web.py. masonry_type is the tufelli material of the "
-                                     "element, which links it to the masonry type of the knowledge graph."},
+                                     "scripts/export_bim_for_web.py. A material that is the name of a masonry "
+                                     "type links the element to that type in the knowledge graph."},
             "elements": sorted(records, key=lambda r: (r["ifc_class"], r["name"], r["global_id"]))}
     with open(ELEMENTS_JSON, "w", encoding="utf-8", newline="\n") as fh:
         json.dump(meta, fh, indent=2, ensure_ascii=False)
         fh.write("\n")
     counts = {}
     for r in records:
-        counts[r["masonry_type"] or "other"] = counts.get(r["masonry_type"] or "other", 0) + 1
+        for m in r["materials"] or ["(none)"]:
+            counts[m] = counts.get(m, 0) + 1
     print(f"{len(records)} elements, {sum(len(t) for *_, t in meshes) // 3} triangles, "
           f"{os.path.getsize(GLB) / 1e6:.1f} MB -> {GLB}")
-    print("by masonry type:", dict(sorted(counts.items())))
+    print("elements per material:", dict(sorted(counts.items())))
     print("model size (m):", np.round(hi - lo, 2).tolist())
 
 

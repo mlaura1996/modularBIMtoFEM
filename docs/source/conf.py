@@ -33,8 +33,8 @@ source_suffix = {
 html_theme = "sphinx_rtd_theme"
 html_static_path = ["_static"]
 # Copied as-is to the root of the site: the browsable knowledge graph
-# (scripts/build_knowledge_graph_page.py) is published at
-# <site>/knowledge-graph/.
+# pages (python -m core.knowledge_graph build ... --site) are published
+# at <site>/knowledge-graph/ and <site>/knowledge-graph-sera-aims/.
 html_extra_path = ["_extra"]
 html_theme_options = {
     "collapse_navigation": False,

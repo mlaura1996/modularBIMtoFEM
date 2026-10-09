@@ -1,0 +1,37 @@
+{
+  "Double_leaf_stone_masonry": {
+    "name": "Double_leaf_stone_masonry",
+    "density": 1980.0,
+    "young_modulus": 1414.9,
+    "poisson_ratio": 0.2,
+    "is_structural": true,
+    "material_model_type": "PlasticDamage",
+    "compressive_strength": 3.16,
+    "tensile_strength": 0.413,
+    "compression_fracture_energy": 0,
+    "tensile_fracture_energy": 0,
+    "compressive_elastic_behaviour": 0,
+    "_mqi_total": {
+      "vertical": 4.0,
+      "out_of_plane": 3.5,
+      "in_plane": 4.0
+    },
+    "_shear_modulus_MPa": 470.44,
+    "_shear_strength_turnsek_cacovic_MPa": 0.0568,
+    "_evidence": {
+      "unit_dimensions": "Stones of 10 to 25 cm in the half-scale specimen (Tomic et al. 2024a, Section 2.1), so 20 to 50 cm at full scale: medium.",
+      "unit_shape": "Undressed, irregular stones, more irregular than those of the earlier Pavia specimen (Tomic et al. 2024a, Section 2.1; Fig. 5a-b): roughly cut.",
+      "unit_material": "Credaro Berrettino stone, a sandstone with a compressive strength of 144 MPa (Tomic et al. 2024b, Table 4): hard stone, not squared.",
+      "mortar_quality": "Commercial hydraulic lime mortar with EPS spheres added to halve stiffness and strength for the scale (Tomic et al. 2024a, Section 2.1). At full scale the mortar it stands for is a weak lime mortar, so it is scored as lime and not as hydraulic lime.",
+      "horizontal_joints": "Stones arranged in approximately horizontal courses (Tomic et al. 2024a, Section 2.1): partially continuous.",
+      "vertical_joints": "Not described in the text; from the masonry texture of Fig. 5a-b the vertical joints are partly staggered.",
+      "wall_connections": "No interlocking between the leaves except through stones at opening edges and building corners (Tomic et al. 2024a, Section 2.1; blind prediction study, poor interlocking): none in the body of the wall."
+    },
+    "_flags": [
+      "Classified at full scale: the specimen is half-scale with EPS-modified mortar, so the properties derived here are to be compared with the measured ones brought back to full scale, not with the measured ones directly.",
+      "Vertical joint staggering is read from the published photographs, not stated in the text.",
+      "Through stones exist at corners and opening edges; counting them as sparse headers instead of none raises the quality index (upper variant)."
+    ],
+    "_derivation": "Pellet over the knowledge graph (HSV, HSTO, HMO; HMO rules from resources/ontologies/hmo.ttl), cross-checked against core/ifc_processing/hmo_mqi.py"
+  }
+}
