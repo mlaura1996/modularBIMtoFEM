@@ -13,5 +13,6 @@ so the case-study narrative stays in one place.
 overview
 geometry
 materials
+knowledge_graph
 open_questions
 ```

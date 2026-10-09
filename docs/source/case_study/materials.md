@@ -156,7 +156,7 @@ how they meet and what each lacks). It reads two data files:
 `masonry_classification.json` (the classification above) and
 `resources/survey_data/castelnuovo/survey_record.json` (people,
 organisations, activities, documents, and which facade each photograph
-shows).
+shows). The graph can be browsed online, see {doc}`knowledge_graph`.
 
 - **HSV**: historic centre, aggregate, the four structural units, the
   seven facades; the 48 photographs (each `hsv:isDocumentOf` its facade,

@@ -32,6 +32,10 @@ source_suffix = {
 # -- HTML output, matching the OpenSees documentation site's own theme -----
 html_theme = "sphinx_rtd_theme"
 html_static_path = ["_static"]
+# Copied as-is to the root of the site: the browsable knowledge graph
+# (scripts/build_knowledge_graph_page.py) is published at
+# <site>/knowledge-graph/.
+html_extra_path = ["_extra"]
 html_theme_options = {
     "collapse_navigation": False,
     "navigation_depth": 3,

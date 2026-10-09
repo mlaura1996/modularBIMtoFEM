@@ -21,6 +21,7 @@ coefficients exactly.
 
 Where this module implements the INTENDED rule and not its literal text,
 because the published text cannot be executed as written:
+
   - The three unit-dimension rules (MQI_SD_PresenceOf{Little,Medium,Large}
     Units) bind unitsLengthHasMinimumValue twice, where the second should be
     the maximum, and compute the "average" as divide(min, max) instead of
@@ -30,6 +31,7 @@ because the published text cannot be executed as written:
     of the six additive parameters. mqi_total() multiplies that sum by the
     unit-material score, which is what the surrounding rule structure and
     the documented MQI formulation require.
+
 These and the other defects that keep the published rules from executing
 are corrected in resources/ontologies/hmo.ttl (see the README there).
 core/ifc_processing/hmo_reasoner.py runs those rules with Pellet, and this
