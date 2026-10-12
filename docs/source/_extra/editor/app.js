@@ -610,7 +610,10 @@ function checkPage() {
       h("button", { class: "btn", onclick: () => download("case.json", JSON.stringify(caseDoc(), null, 1), "application/json") }, "Download case.json")),
     h("h2", { style: "margin-top:20px" }, "Build the knowledge graph"),
     h("p", {}, "With openBIMtoFEM installed (Java and owlready2 for the reasoner):"),
-    h("pre", {}, `python -m core.knowledge_graph build ${model ? model.name : "case.json"} --out output/<case>`));
+    h("pre", {}, `python -m core.knowledge_graph build ${model ? model.name : "case.json"} --out output/<case>`),
+    model ? h("p", {}, "Besides the graph and the material database, the build writes the IFC file again in the output folder, "
+      + "with the derived properties of each masonry type on its IfcMaterial (Pset_MaterialCommon, Pset_MaterialMechanical): "
+      + "the file the conversion to the numerical model reads.") : null);
 }
 
 // ---- start -----------------------------------------------------------------------------------------------

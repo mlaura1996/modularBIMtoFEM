@@ -2,6 +2,7 @@
 
     python -m core.knowledge_graph build <case> --out <dir> [--bim <bim_elements.json>]
                                          [--site <page dir>] [--photos <photo folder>]
+                                         [--ifc-out <model.ifc>]
     python -m core.knowledge_graph convert <case> <case.json | case.xlsx>
     python -m core.knowledge_graph template <path.xlsx>
     python -m core.knowledge_graph schema <schema.json>
@@ -14,6 +15,11 @@ and material_database.json to --out, and with --site writes the browsable
 page there (with --photos, also the photograph thumbnails). --bim is the
 element list written by scripts/export_bim_for_web.py, which links the BIM
 model to the masonry types; its glTF model is expected in <site>/bim/.
+When <case> is an IFC file, build also writes it again with the derived
+properties of each masonry type on the IfcMaterial of the same name
+(Pset_MaterialCommon, Pset_MaterialMechanical, Pset_MaterialSource), the
+file the conversion to the numerical model reads: to --ifc-out, by default
+<out>/<case file name>.
 schema writes the description of the sheets the editor is generated from.
 """
 import argparse
@@ -40,6 +46,8 @@ def main(argv=None):
     b.add_argument("--bim")
     b.add_argument("--site")
     b.add_argument("--photos")
+    b.add_argument("--ifc-out", help="where to write the IFC file with the derived properties "
+                                     "(IFC input only; default <out>/<case file name>)")
     a = ap.parse_args(argv)
 
     if a.cmd == "template":
@@ -65,6 +73,17 @@ def main(argv=None):
     bim = json.load(open(a.bim, encoding="utf-8"))["elements"] if a.bim else []
     from core.knowledge_graph.builder import run
     run(case, classification, a.out, bim)
+    if a.case.lower().endswith(".ifc"):
+        import os
+        from core.knowledge_graph.ifc_record import write_material_properties
+        target = a.ifc_out or os.path.join(a.out, os.path.basename(a.case))
+        if os.path.abspath(target) == os.path.abspath(a.case):
+            sys.exit("--ifc-out must not be the input file")
+        database = json.load(open(os.path.join(a.out, "material_database.json"), encoding="utf-8"))
+        written = write_material_properties(a.case, target, database)
+        missing = sorted(set(database) - set(written))
+        print(f"wrote {target}: derived properties of {', '.join(written) or 'no material'}"
+              + (f" (no IfcMaterial named {', '.join(missing)})" if missing else ""))
     if a.site:
         from core.knowledge_graph.page import build_page
         build_page(f"{a.out}/knowledge_graph.ttl", a.site, photos_dir=a.photos)

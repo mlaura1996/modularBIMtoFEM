@@ -104,6 +104,24 @@ recorded as hypothetical walls, so the reasoner derives them in the same
 run. The page's view and tables are generated from the graph itself, and
 pages written under `docs/source/_extra/` are published with this site.
 
+When the case study is read from an IFC file, the derived properties are
+also written back into the model: the build writes the file again (to
+`--ifc-out`, by default `<output dir>/<file name>`) with the properties of
+each masonry type on the IfcMaterial of the same name, in the property
+sets the conversion to the numerical model reads.
+
+| property set | properties |
+|---|---|
+| `Pset_MaterialCommon` | `MassDensity`, `MaterialModelType` |
+| `Pset_MaterialMechanical` | `YoungModulus`, `ShearModulus`, `PoissonRatio`, `CompressiveStrength`, `TensileStrength`, `ShearStrength`, `isStructural`, `ConstitutiveModel` |
+| `Pset_MaterialSource` | `Source`, how the values were derived |
+
+Moduli and strengths are written in MPa, so a file that declares no
+modulus or pressure unit is given N/mm² and MPa; a file that declares
+other units is refused rather than mixed. Building again replaces these
+property sets, and the editor leaves them untouched when it saves, so the
+same file can go back and forth between the two.
+
 `python -m core.knowledge_graph convert <case> <case.json | case.xlsx>`
 converts a case study between the three forms (from an IFC file, to JSON
 or a workbook), `template <path.xlsx>` writes the empty workbook, and
