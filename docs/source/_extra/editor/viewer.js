@@ -119,7 +119,8 @@ export class Viewer {
 
   zoom(f) {
     const t = this.controls.target, p = this.camera.position;
-    p.copy(t).add(p.clone().sub(t).multiplyScalar(f));
+    const offset = p.clone().sub(t).multiplyScalar(f);
+    p.copy(t).add(offset);
   }
 
   // colours: Map(expressId -> css colour); elements not in it are drawn grey
