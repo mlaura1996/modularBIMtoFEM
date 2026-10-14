@@ -1,6 +1,6 @@
-// Reading and writing the case study in an IFC (STEP) file.
+// Reading and writing the knowledge record in an IFC (STEP) file.
 //
-// The case study is stored as (core/knowledge_graph/ifc_record.py reads it back):
+// The knowledge record is stored as (core/knowledge_graph/ifc_record.py reads it back):
 //   IfcProject   property set HSV_CaseRecord: Record (the tables, as JSON), Format, Modified
 //   elements     property set HSV_Facade: Facade, Unit, MasonryType, Vulnerabilities
 //   IfcMaterial  material properties HMO_MasonryQuality: the seven MQI categories, MassDensity

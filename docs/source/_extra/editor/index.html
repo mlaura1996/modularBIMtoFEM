@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Case Study Editor</title>
-<meta name="description" content="Record a masonry case study on its IFC model: survey, façades, masonry types and vulnerabilities, saved into the IFC file and read by openBIMtoFEM to build the knowledge graph.">
+<title>Enrichment Editor</title>
+<meta name="description" content="Record the knowledge on a masonry building on its IFC model: survey, façades, masonry types and vulnerabilities, saved into the IFC file and read by openBIMtoFEM to build the knowledge graph.">
 <script type="importmap">
 { "imports": {
   "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
@@ -125,13 +125,13 @@ pre { background: var(--surface-2); padding: 8px 10px; border-radius: 6px; overf
 </head>
 <body>
 <header class="top">
-  <h1>Case study editor</h1>
+  <h1>Enrichment editor</h1>
   <span class="file" id="fileName">No model open</span>
   <span class="dirty" id="dirty" hidden>Unsaved changes</span>
   <div class="actions">
     <button class="btn" id="openBtn" title="Open an IFC model or a case.json">Open…</button>
-    <button class="btn" id="jsonBtn" title="Download the case study as case.json">Download case.json</button>
-    <button class="btn primary" id="saveBtn" disabled title="Download the IFC model with the case study written into it">Save IFC</button>
+    <button class="btn" id="jsonBtn" title="Download the knowledge record as case.json">Download case.json</button>
+    <button class="btn primary" id="saveBtn" disabled title="Download the IFC model with the knowledge record written into it">Save IFC</button>
   </div>
   <input type="file" id="fileInput" accept=".ifc,.json" hidden>
 </header>
@@ -159,7 +159,7 @@ pre { background: var(--surface-2); padding: 8px 10px; border-radius: 6px; overf
     <div class="selbox" id="selbox" hidden></div>
     <div class="welcome" id="welcome">
       <div class="card">
-        <h2 style="margin-top:0">Record a case study on its BIM model</h2>
+        <h2 style="margin-top:0">Record the knowledge on a building on its BIM model</h2>
         <p>Open the IFC model of the building. Everything entered here is saved into the IFC file itself,
            and openBIMtoFEM builds the knowledge graph from it. The file never leaves this browser.</p>
         <div class="row">

@@ -1,4 +1,4 @@
-// The case-study editor: forms generated from schema.json (the sheets of
+// The enrichment editor: forms generated from schema.json (the sheets of
 // core/knowledge_graph/workbook.py), the IFC model in 3D, and saving into the IFC.
 import { CASE_FORMAT, readModel, writeCase } from "./step.js";
 
@@ -147,7 +147,7 @@ function changed(rerenderTabs = true) {
 function projectForm() {
   return h("section", { class: "sheet" },
     h("h2", {}, "Project"),
-    h("p", { class: "intro" }, "What the case study is. The namespace is where the IRIs of the graph live; the identifiers below become their local names."),
+    h("p", { class: "intro" }, "What the knowledge record is about. The namespace is where the IRIs of the graph live; the identifiers below become their local names."),
     h("div", { class: "card open" }, h("div", { class: "body", style: "display:block" },
       h("div", { class: "fields" }, ...schema.project_keys.map(k => {
         const wide = ["title", "description", "namespace", "aggregate_label"].includes(k.name);
@@ -441,7 +441,7 @@ async function openIfc(name, bytes) {
     $("fileName").textContent = name;
     if (info.record?.format === CASE_FORMAT) loadTables(info.record.tables, name);
     else {
-      // no case study in the file yet: keep what was entered, to be saved into it
+      // no knowledge record in the file yet: keep what was entered, to be saved into it
       loadTables(tables, name, SHEETS.some(s => tables[s].length));
       if (!tables.Facades.length) section = "units";
     }
@@ -472,7 +472,7 @@ async function openFile(file) {
     try {
       const doc = JSON.parse(new TextDecoder().decode(bytes));
       if (doc.format !== CASE_FORMAT) throw new Error("not a case.json written by openBIMtoFEM");
-      if (dirty && !confirm("Replace the case study being edited with the one in this file?")) return;
+      if (dirty && !confirm("Replace the knowledge record being edited with the one in this file?")) return;
       tables = normalise(doc.tables);
       changed();
       render();
@@ -537,7 +537,7 @@ function offerDraft(name) {
   try { draft = JSON.parse(localStorage.getItem(`obf-case-editor:${name || "no-model"}`) || "null"); } catch { draft = null; }
   const banner = $("draftBanner");
   if (!draft || JSON.stringify(normalise(draft.tables)) === JSON.stringify(tables)) { banner.hidden = true; return; }
-  $("draftText").textContent = `Unsaved changes to ${name || "this case study"} from ${new Date(draft.at).toLocaleString()} are kept in this browser.`;
+  $("draftText").textContent = `Unsaved changes to ${name || "this knowledge record"} from ${new Date(draft.at).toLocaleString()} are kept in this browser.`;
   banner.hidden = false;
   $("draftRestore").onclick = () => { tables = normalise(draft.tables); changed(); banner.hidden = true; render(); };
   $("draftDiscard").onclick = () => { clearDraft(); banner.hidden = true; };
@@ -601,10 +601,10 @@ function checkPage() {
       model && unassigned ? h("li", { class: "warn" }, `${unassigned} wall${unassigned > 1 ? "s" : ""} of the model belong${unassigned > 1 ? "" : "s"} to no façade.`) : null),
     h("h2", { style: "margin-top:20px" }, "Save"),
     h("p", {}, model ? h("span", {}, h("strong", {}, "Save IFC"), " downloads ", h("code", {}, model.name),
-        " with the case study in it: the whole record on the IfcProject (property set ", h("code", {}, "HSV_CaseRecord"),
+        " with the knowledge record in it: the whole record on the IfcProject (property set ", h("code", {}, "HSV_CaseRecord"),
         "), the façade, unit, masonry type and vulnerabilities on each assigned element (", h("code", {}, "HSV_Facade"),
         "), and the MQI parameters on each IfcMaterial named as a masonry type (", h("code", {}, "HMO_MasonryQuality"), ").")
-      : "Open the IFC model to save the case study into it. Without a model, download the case.json."),
+      : "Open the IFC model to save the knowledge record into it. Without a model, download the case.json."),
     h("div", { class: "row", style: "display:flex;gap:8px;flex-wrap:wrap" },
       h("button", { class: "btn primary", disabled: !model, onclick: saveIfc }, "Save IFC"),
       h("button", { class: "btn", onclick: () => download("case.json", JSON.stringify(caseDoc(), null, 1), "application/json") }, "Download case.json")),
