@@ -349,49 +349,49 @@
     "unit": "Unit_417",
     "label": "Facade 417a of unit 417",
     "masonry_type": "Tufelli_masonry_typeC",
-    "elements": ""
+    "elements": "112HIUctr2yw5OqZgr3kla; 112HIUctr2yw5OqZgr3kXe; 112HIUctr2yw5OqZgr3kYs; 112HIUctr2yw5OqZgr3kaS; 3c8HC29$17vfNgcUAdeh3J; 3c8HC29$17vfNgcUAdeh3I; 3c8HC29$17vfNgcUAdeh3H; 3c8HC29$17vfNgcUAdeh3G; 1FujFrxrb7ouwnZEeyzKU0; 2HmFfYHsL2OPZKrO6tYf$1"
    },
    {
     "id": "Facade_417b",
     "unit": "Unit_417",
     "label": "Facade 417b of unit 417",
     "masonry_type": "Tufelli_masonry_typeD",
-    "elements": ""
+    "elements": "3c8HC29$17vfNgcUAdeh01; 3c8HC29$17vfNgcUAdeh00; 3c8HC29$17vfNgcUAdeh07; 3c8HC29$17vfNgcUAdeh06; 0QfxonMDT2A8cO_M93$yye; 0QfxonMDT2A8cO_M93$yp8"
    },
    {
     "id": "Facade_417c",
     "unit": "Unit_417",
     "label": "Facade 417c of unit 417",
     "masonry_type": "Tufelli_masonry_typeB",
-    "elements": ""
+    "elements": "2XzZEtRJH75fftbZbcqwO2; 2XzZEtRJH75fftbZbcqwH8; 2XzZEtRJH75fftbZbcqwJ5; 07H4IE3N17quz_RDvElapV"
    },
    {
     "id": "Facade_418a",
     "unit": "Unit_418",
     "label": "Facade 418a of unit 418",
     "masonry_type": "Tufelli_masonry_typeB",
-    "elements": ""
+    "elements": "2XzZEtRJH75fftbZbcqwCR; 2XzZEtRJH75fftbZbcqwCB; 0CvVHHujLB8fkhpCAWbiT3; 1HfLPk$M547Aaac6ue3X37; 2tiNzAytfCwQOKJzMPcwjv"
    },
    {
     "id": "Facade_418b",
     "unit": "Unit_418",
     "label": "Facade 418b of unit 418",
     "masonry_type": "Tufelli_masonry_typeD",
-    "elements": ""
+    "elements": "2XzZEtRJH75fftbZbcqwNS; 1HfLPk$M547Aaac6ue3X0L; 2QEzj1Im5478gG84LIeYU2; 2QEzj1Im5478gG84LIeYTv"
    },
    {
     "id": "Facade_419",
     "unit": "Unit_419",
     "label": "Facade 419 of unit 419",
     "masonry_type": "Tufelli_masonry_typeA",
-    "elements": ""
+    "elements": "0GisCWViz2PeUrBi4wgVRW; 112HIUctr2yw5OqZgr3kPn; 112HIUctr2yw5OqZgr3kPe; 112HIUctr2yw5OqZgr3ksc; 0M1S9S_Qr3IPBMDqinoabk; 37gWW_uGL459BrbCF$MAq8; 2XzZEtRJH75fftbZbcqwY_; 2XzZEtRJH75fftbZbcqwZb; 2SDwapJ$z32OyuRGCv33co; 3_wR1BNVfAMeWWIaQS4y2L; 3_wR1BNVfAMeWWIaQS4ySL; 3_wR1BNVfAMeWWIaQS4yS9; 0F0gJxCaz6DgMK0q1JiO7L; 1aMTge6B9DK9$RHbrOwo4u"
    },
    {
     "id": "Facade_420",
     "unit": "Unit_420",
     "label": "Facade 420 of unit 420",
     "masonry_type": "Tufelli_masonry_typeD",
-    "elements": ""
+    "elements": "0GisCWViz2PeUrBi4wgVUt; 0GisCWViz2PeUrBi4wgUZp; 0GisCWViz2PeUrBi4wgUdW; 0GisCWViz2PeUrBi4wgUa5; 112HIUctr2yw5OqZgr3kPo; 112HIUctr2yw5OqZgr3kPp; 112HIUctr2yw5OqZgr3kPi; 112HIUctr2yw5OqZgr3kPj; 112HIUctr2yw5OqZgr3kPf; 112HIUctr2yw5OqZgr3kPg; 112HIUctr2yw5OqZgr3kPh; 112HIUctr2yw5OqZgr3kPa"
    }
   ],
   "Photos": [
@@ -884,7 +884,183 @@
     "label": "Doorway with an arch of dressed tuff voussoirs, facade 419"
    }
   ],
-  "Vulnerabilities": [],
+  "Vulnerabilities": [
+   {
+    "facade": "Facade_417a",
+    "vulnerability": "DeformableFloors",
+    "evidence": "Timber floors alla romana documented for the aggregate as a whole (Section 8.2.3); no stiffening of the floors observed."
+   },
+   {
+    "facade": "Facade_417a",
+    "vulnerability": "AbsenceOfTopCurbstone",
+    "evidence": "Historic tuff masonry with timber floors and roofs; no curb beam visible at the top of the walls in the survey photographs."
+   },
+   {
+    "facade": "Facade_417a",
+    "vulnerability": "AbsenceOfIntermediateCurbstone",
+    "evidence": "No curb beam visible at the floor levels in the survey photographs."
+   },
+   {
+    "facade": "Facade_417a",
+    "vulnerability": "AbsenceOfTopChains",
+    "evidence": "No tie-rod anchor plates visible at the top of the walls in the survey photographs."
+   },
+   {
+    "facade": "Facade_417a",
+    "vulnerability": "AbsenceOfIntermediateChains",
+    "evidence": "No tie-rod anchor plates visible at the floor levels in the survey photographs."
+   },
+   {
+    "facade": "Facade_417b",
+    "vulnerability": "DeformableFloors",
+    "evidence": "Timber floors alla romana documented for the aggregate as a whole (Section 8.2.3); no stiffening of the floors observed."
+   },
+   {
+    "facade": "Facade_417b",
+    "vulnerability": "AbsenceOfTopCurbstone",
+    "evidence": "Historic tuff masonry with timber floors and roofs; no curb beam visible at the top of the walls in the survey photographs."
+   },
+   {
+    "facade": "Facade_417b",
+    "vulnerability": "AbsenceOfIntermediateCurbstone",
+    "evidence": "No curb beam visible at the floor levels in the survey photographs."
+   },
+   {
+    "facade": "Facade_417b",
+    "vulnerability": "AbsenceOfTopChains",
+    "evidence": "No tie-rod anchor plates visible at the top of the walls in the survey photographs."
+   },
+   {
+    "facade": "Facade_417b",
+    "vulnerability": "AbsenceOfIntermediateChains",
+    "evidence": "No tie-rod anchor plates visible at the floor levels in the survey photographs."
+   },
+   {
+    "facade": "Facade_417c",
+    "vulnerability": "DeformableFloors",
+    "evidence": "Timber floors alla romana documented for the aggregate as a whole (Section 8.2.3); no stiffening of the floors observed."
+   },
+   {
+    "facade": "Facade_417c",
+    "vulnerability": "AbsenceOfTopCurbstone",
+    "evidence": "Historic tuff masonry with timber floors and roofs; no curb beam visible at the top of the walls in the survey photographs."
+   },
+   {
+    "facade": "Facade_417c",
+    "vulnerability": "AbsenceOfIntermediateCurbstone",
+    "evidence": "No curb beam visible at the floor levels in the survey photographs."
+   },
+   {
+    "facade": "Facade_417c",
+    "vulnerability": "AbsenceOfTopChains",
+    "evidence": "No tie-rod anchor plates visible at the top of the walls in the survey photographs."
+   },
+   {
+    "facade": "Facade_417c",
+    "vulnerability": "AbsenceOfIntermediateChains",
+    "evidence": "No tie-rod anchor plates visible at the floor levels in the survey photographs."
+   },
+   {
+    "facade": "Facade_418a",
+    "vulnerability": "DeformableFloors",
+    "evidence": "Timber floors alla romana documented for the aggregate as a whole (Section 8.2.3); no stiffening of the floors observed."
+   },
+   {
+    "facade": "Facade_418a",
+    "vulnerability": "AbsenceOfTopCurbstone",
+    "evidence": "Historic tuff masonry with timber floors and roofs; no curb beam visible at the top of the walls in the survey photographs."
+   },
+   {
+    "facade": "Facade_418a",
+    "vulnerability": "AbsenceOfIntermediateCurbstone",
+    "evidence": "No curb beam visible at the floor levels in the survey photographs."
+   },
+   {
+    "facade": "Facade_418a",
+    "vulnerability": "AbsenceOfTopChains",
+    "evidence": "No tie-rod anchor plates visible at the top of the walls in the survey photographs."
+   },
+   {
+    "facade": "Facade_418a",
+    "vulnerability": "AbsenceOfIntermediateChains",
+    "evidence": "No tie-rod anchor plates visible at the floor levels in the survey photographs."
+   },
+   {
+    "facade": "Facade_418b",
+    "vulnerability": "DeformableFloors",
+    "evidence": "Timber floors alla romana documented for the aggregate as a whole (Section 8.2.3); no stiffening of the floors observed."
+   },
+   {
+    "facade": "Facade_418b",
+    "vulnerability": "AbsenceOfTopCurbstone",
+    "evidence": "Historic tuff masonry with timber floors and roofs; no curb beam visible at the top of the walls in the survey photographs."
+   },
+   {
+    "facade": "Facade_418b",
+    "vulnerability": "AbsenceOfIntermediateCurbstone",
+    "evidence": "No curb beam visible at the floor levels in the survey photographs."
+   },
+   {
+    "facade": "Facade_418b",
+    "vulnerability": "AbsenceOfTopChains",
+    "evidence": "No tie-rod anchor plates visible at the top of the walls in the survey photographs."
+   },
+   {
+    "facade": "Facade_418b",
+    "vulnerability": "AbsenceOfIntermediateChains",
+    "evidence": "No tie-rod anchor plates visible at the floor levels in the survey photographs."
+   },
+   {
+    "facade": "Facade_419",
+    "vulnerability": "DeformableFloors",
+    "evidence": "Timber floors alla romana documented for the aggregate as a whole (Section 8.2.3); no stiffening of the floors observed."
+   },
+   {
+    "facade": "Facade_419",
+    "vulnerability": "AbsenceOfTopCurbstone",
+    "evidence": "Historic tuff masonry with timber floors and roofs; no curb beam visible at the top of the walls in the survey photographs."
+   },
+   {
+    "facade": "Facade_419",
+    "vulnerability": "AbsenceOfIntermediateCurbstone",
+    "evidence": "No curb beam visible at the floor levels in the survey photographs."
+   },
+   {
+    "facade": "Facade_419",
+    "vulnerability": "AbsenceOfTopChains",
+    "evidence": "No tie-rod anchor plates visible at the top of the walls in the survey photographs."
+   },
+   {
+    "facade": "Facade_419",
+    "vulnerability": "AbsenceOfIntermediateChains",
+    "evidence": "No tie-rod anchor plates visible at the floor levels in the survey photographs."
+   },
+   {
+    "facade": "Facade_420",
+    "vulnerability": "DeformableFloors",
+    "evidence": "Timber floors alla romana documented for the aggregate as a whole (Section 8.2.3); no stiffening of the floors observed."
+   },
+   {
+    "facade": "Facade_420",
+    "vulnerability": "AbsenceOfTopCurbstone",
+    "evidence": "Historic tuff masonry with timber floors and roofs; no curb beam visible at the top of the walls in the survey photographs."
+   },
+   {
+    "facade": "Facade_420",
+    "vulnerability": "AbsenceOfIntermediateCurbstone",
+    "evidence": "No curb beam visible at the floor levels in the survey photographs."
+   },
+   {
+    "facade": "Facade_420",
+    "vulnerability": "AbsenceOfTopChains",
+    "evidence": "No tie-rod anchor plates visible at the top of the walls in the survey photographs."
+   },
+   {
+    "facade": "Facade_420",
+    "vulnerability": "AbsenceOfIntermediateChains",
+    "evidence": "No tie-rod anchor plates visible at the floor levels in the survey photographs."
+   }
+  ],
   "MasonryTypes": [
    {
     "name": "Tufelli_masonry_typeA",
