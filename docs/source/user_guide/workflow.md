@@ -46,7 +46,10 @@ Legend of the flow diagrams: processing steps (blue), decisions (pink), data and
 Build the federated model of the aggregate following the modelling
 requirements (building breakdown, geometric detail, materials and
 quantities) and export it as IFC4 with the **Design Transfer View**, so that
-irregular walls arrive as solids rather than tessellations. Name each masonry
+irregular walls arrive as solids rather than tessellations. IFC4X3 files are
+read as well: the editor, the knowledge-graph builder and the conversion
+were checked on the Castelnuovo model exported in both schemas, with the
+same results. Name each masonry
 material after the masonry type it represents, and leave its mechanical
 properties empty: they are derived in step 4. Other materials (timber,
 concrete, steel) get their properties in the authoring tool.

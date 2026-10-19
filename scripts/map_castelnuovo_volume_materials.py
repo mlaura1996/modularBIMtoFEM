@@ -14,14 +14,20 @@ do, which the scripts read to build one physical group per material.
 """
 import collections
 import json
+import sys
 
 import gmsh
 
 from core.ifc_processing.ifc_step_matching import assign_step_volumes_to_ifc_elements
 
+def _argval(flag, default):
+    return sys.argv[sys.argv.index(flag) + 1] if flag in sys.argv else default
+
+
+# --ifc and --out read another IFC model of the same geometry and write elsewhere
 STEP_PATH = "resources/ifc_examples/castelnuovo/example_clean_PRONTO.stp"
-IFC_PATH = "resources/ifc_examples/castelnuovo/example_clean.ifc"
-OUT = "resources/survey_data/castelnuovo/volume_materials.json"
+IFC_PATH = _argval("--ifc", "resources/ifc_examples/castelnuovo/example_clean.ifc")
+OUT = _argval("--out", "resources/survey_data/castelnuovo/volume_materials.json")
 
 gmsh.initialize()
 gmsh.option.setNumber("General.Terminal", 0)

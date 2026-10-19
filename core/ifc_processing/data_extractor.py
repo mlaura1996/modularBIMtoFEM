@@ -15,6 +15,7 @@ psets.
 
 from core.config import *
 from . import geometry_extractor
+from .ifc_schema import built_elements
 
 
 class GeometryForVolume:
@@ -380,17 +381,15 @@ class MaterialsAndThicknesses:
     
     @staticmethod
     def exporting_thickness_materials_for_IFCBuildingElements(ifc_file):
-        """Extract material/thickness info for every `IfcBuildingElement` in an IFC file, excluding proxies.
+        """Extract material/thickness info for every building element in an IFC file, excluding proxies.
 
         Runs :meth:`exporting_materials_and_thicknesses_for_complex_elements`
-        over every ``IfcBuildingElement`` in ``ifc_file`` except
-        ``IfcBuildingElementProxy`` instances, and returns the collected
+        over every building element in ``ifc_file`` (``IfcBuildingElement``,
+        ``IfcBuiltElement`` in IFC4X3) except proxies, and returns the collected
         results as a list (one entry, dict or list, per element).
         """
         dictionaries = []
-        elements = ifc_file.by_type("IfcBuildingElement")
-        elements = [element for element in ifc_file.by_type("IfcBuildingElement")
-            if not element.is_a("IfcBuildingElementProxy")]
+        elements = built_elements(ifc_file)
         for element in elements:
             info = (MaterialsAndThicknesses.exporting_materials_and_thicknesses_for_complex_elements(element))
             dictionaries.append(info)

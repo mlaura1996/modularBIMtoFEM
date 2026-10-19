@@ -29,14 +29,15 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import ifcopenshell
 from core.config import STEP_WRITER
 from core.ifc_processing.geometry_extractor import StepExporter
+from core.ifc_processing.ifc_schema import built_elements
 
-IFC_PATH = "resources/ifc_examples/castelnuovo/example_clean.ifc"
-OUT_DIR = "export/castelnuovo_clean"
+# python scripts/convert_ifc_to_step.py [<model.ifc> [<output dir>]]
+IFC_PATH = sys.argv[1] if len(sys.argv) > 1 else "resources/ifc_examples/castelnuovo/example_clean.ifc"
+OUT_DIR = sys.argv[2] if len(sys.argv) > 2 else "export/castelnuovo_clean"
 os.makedirs(OUT_DIR, exist_ok=True)
 
 ifc_model = ifcopenshell.open(IFC_PATH)
-elements = [e for e in ifc_model.by_type("IfcBuildingElement")
-            if not e.is_a("IfcBuildingElementProxy")]
+elements = built_elements(ifc_model)
 print(f"{len(elements)} building elements")
 
 elements_dictionary = {e: f"{e.is_a()}_{e.GlobalId[:8]}" for e in elements}

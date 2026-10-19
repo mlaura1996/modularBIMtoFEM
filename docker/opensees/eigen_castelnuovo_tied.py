@@ -93,8 +93,9 @@ N_MODES = _N_MODES_ARG  # --n-modes; 10 reaches only ~52% MX / 55% MY cumulative
 # properties of the BIM model. Gc/Gt are not in the IFC file and stay 0, so
 # they are not needed here: the modal analysis is linear elastic
 # for every material.
-VOLUME_MATERIALS_PATH = "resources/survey_data/castelnuovo/volume_materials.json"
-MATERIALS_IFC_PATH = "output/castelnuovo/castelnuovo_case.ifc"
+# --volume-materials and --materials-ifc run the same analysis on other inputs
+VOLUME_MATERIALS_PATH = _argval("--volume-materials", "resources/survey_data/castelnuovo/volume_materials.json")
+MATERIALS_IFC_PATH = _argval("--materials-ifc", "output/castelnuovo/castelnuovo_case.ifc")
 G_ACCEL = -9.81  # matches core.config.G's sign convention (negative = -z)
 MAX_JUNCTION_GAP = 0.05   # m - treat solids this close as a junction that should be connected
 MAX_TIE_DISTANCE = 0.10   # m - never tie a node pair further apart than this

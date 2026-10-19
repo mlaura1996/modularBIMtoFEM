@@ -5,6 +5,7 @@ import openseespy.opensees as ops
 from core.config import GEOMETRY_SETTINGS, STEP_WRITER, EXPORT_DIR  # Load global settings
 from core.ifc_processing.geometry_extractor import GeometryProcessor, StepExporter
 from core.ifc_processing.data_extractor import Material
+from core.ifc_processing.ifc_schema import built_elements
 from core.mesh_generation.mesh import GmshModel
 from core.opensees_generation.model_builder import ModelBuilder, Element, BoundaryConditions
 from external.gmsh2opensees import *
@@ -32,8 +33,7 @@ def main():
     geometry_processor = GeometryProcessor(GEOMETRY_SETTINGS)
 
     # ✅ Extract IFC Elements (Walls, Slabs, etc.)
-    elements = [element for element in ifc_model.by_type("IfcBuildingElement")
-     if not element.is_a("IfcBuildingElementProxy")]
+    elements = built_elements(ifc_model)
     print(f"🔍 Found {len(elements)} building elements in the IFC model.\n")
     elements_dictionary = Material.assign_material_tags(elements, material_db)
 

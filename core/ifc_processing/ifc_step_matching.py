@@ -38,6 +38,7 @@ from OCC.Core.BRepBndLib import brepbndlib_Add
 from OCC.Core.BRepClass3d import BRepClass3d_SolidClassifier
 from OCC.Core.gp import gp_Pnt
 from OCC.Core.TopAbs import TopAbs_IN, TopAbs_ON
+from core.ifc_processing.ifc_schema import built_elements
 
 BBOX_TOL = 0.05      # m - coarse pre-filter tolerance
 CLASSIFY_TOL = 1e-4  # m - BRepClass3d_SolidClassifier tolerance
@@ -60,8 +61,7 @@ def classify_step_volumes_by_ifc_type(ifc_path, volume_tags):
     settings.set(settings.USE_PYTHON_OPENCASCADE, True)
 
     ifc_file = ifcopenshell.open(ifc_path)
-    elements = [e for e in ifc_file.by_type("IfcBuildingElement")
-                if not e.is_a("IfcBuildingElementProxy")]
+    elements = built_elements(ifc_file)
 
     element_data = []
     for e in elements:
@@ -184,8 +184,7 @@ def assign_step_volumes_to_ifc_elements(ifc_path, volume_tags):
     settings = ifcopenshell.geom.settings()
     settings.set(settings.USE_PYTHON_OPENCASCADE, True)
     ifc_file = ifcopenshell.open(ifc_path)
-    elements = [e for e in ifc_file.by_type("IfcBuildingElement")
-                if not e.is_a("IfcBuildingElementProxy")]
+    elements = built_elements(ifc_file)
     data = []
     for e in elements:
         try:
