@@ -52,7 +52,7 @@ source of record; the table below is a summary.
   - Facade 417
 * - D
   - Fully rendered — masonry not observable
-  - Facades 417/420 — **scored by analogy to type B**, the weakest-grounded of the four
+  - Top storey of 417, two upper storeys of 418, whole of 420 — **scored by analogy to type B**, the weakest-grounded of the four
 ```
 
 ## First pass vs. final pass
@@ -146,6 +146,49 @@ type A 0.451 MPa, types B/D 0.342 MPa, type C 0.274 MPa. See
 triaxial damage-plasticity formulation, not an explicit input. Kept in the
 JSON under `_shear_strength_turnsek_cacovic_MPa` for traceability, excluded
 from the actual `Material()` object.
+
+## Behaviour and failure mechanisms (FMO)
+
+Each façade carries five vulnerabilities, recorded from the survey:
+deformable timber floors, and no curb or tie at the top of the walls or at
+the floor levels (no tie-rod anchor plates or curb beams visible in the
+photographs). From these and from the quality index of each wall, the FMO
+rules derive:
+
+```{list-table}
+:header-rows: 1
+
+* - Façade
+  - Type
+  - In-plane
+  - Out-of-plane
+  - Vertical
+  - Mechanisms enabled
+* - 417a
+  - C
+  - inadequate
+  - inadequate
+  - inadequate
+  - in-plane failure, partial and total overturning
+* - 417b, 418b, 420
+  - D
+  - average
+  - inadequate
+  - average
+  - partial and total overturning
+* - 417c, 418a
+  - B
+  - average
+  - inadequate
+  - average
+  - partial and total overturning
+* - 419
+  - A
+  - average
+  - average
+  - average
+  - partial and total overturning
+```
 
 ## Knowledge graph
 

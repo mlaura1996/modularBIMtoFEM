@@ -15,8 +15,9 @@ masonry type, and tables of the same content.
 ```{raw} html
 <ul>
 <li><a href="../knowledge-graph/index.html"><strong>Castelnuovo di Porto</strong></a>:
-seven façades of a masonry aggregate, four masonry types, the survey
-campaigns and their 48 photographs
+seven façades of a masonry aggregate with their walls in the BIM model,
+four masonry types, the vulnerabilities and failure mechanisms of every
+façade, the survey campaigns and their 48 photographs
 (<a href="../knowledge-graph/knowledge_graph.ttl">graph in Turtle</a>).</li>
 <li><a href="../knowledge-graph-sera-aims/index.html"><strong>SERA-AIMS benchmark</strong></a>:
 the half-scale stone masonry aggregate tested on the shake table, the
@@ -26,14 +27,15 @@ next to the measured ones
 </ul>
 ```
 
-## Recording a case study
+## Recording the knowledge of a building
 
-A case study is recorded on its IFC model in the case-study editor, a web
+What is known about a building is recorded on its IFC model in the
+enrichment editor, a web
 page that runs entirely in the browser: the model is read and drawn with
 [IFC-Lite](https://ifclite.dev), and nothing is uploaded.
 
 ```{raw} html
-<p><a href="../editor/index.html"><strong>Open the case-study editor</strong></a>
+<p><a href="../editor/index.html"><strong>Open the enrichment editor</strong></a>
 (<a href="../editor/index.html?example=sera-aims">try it with the SERA-AIMS example</a>)</p>
 ```
 
@@ -48,19 +50,19 @@ it wherever it is named. The walls of each façade are assigned by
 selecting them in the 3D model, which can be coloured by façade or by
 masonry type. *Check & save* lists what the graph cannot be built without.
 
-*Save IFC* writes the case study into the IFC file:
+*Save IFC* writes the knowledge record into the IFC file:
 
 | where | property set | what |
 |---|---|---|
-| `IfcProject` | `HSV_CaseRecord` | `Record`, the whole case study as JSON |
+| `IfcProject` | `HSV_CaseRecord` | `Record`, the whole knowledge record as JSON |
 | each assigned element | `HSV_Facade` | `Facade`, `Unit`, `MasonryType`, `Vulnerabilities` |
 | each `IfcMaterial` named as a masonry type | `HMO_MasonryQuality` (material properties) | the seven MQI categories, `MassDensity` |
 
 The record is the source the graph is built from; the element and
 material property sets repeat it where other IFC software can see it.
 Saving again replaces what an earlier save wrote, and leaves every other
-entity of the file as it was. Opening the saved file restores the case
-study, and unsaved changes are kept in the browser until saved.
+entity of the file as it was. Opening the saved file restores the
+knowledge record, and unsaved changes are kept in the browser until saved.
 
 The same records can be kept as a `case.json` (*Download case.json*) or in
 an Excel workbook with one sheet per form, whose categorical cells offer
@@ -74,6 +76,8 @@ The SERA-AIMS benchmark is recorded in
 `resources/ifc_examples/sera_aims/aggregate_1_case.ifc`, with its walls
 assigned to the façades, and in `resources/survey_data/sera_aims/case.json`
 and `case.xlsx`; Castelnuovo di Porto in
+`resources/ifc_examples/castelnuovo/castelnuovo_case.ifc`, with the walls
+of its seven façades assigned and the vulnerabilities of each façade, and in
 `resources/survey_data/castelnuovo/case.json` and `case.xlsx`.
 
 ## Building the graph and the page
@@ -94,7 +98,7 @@ numerical model: an element whose material is the name of a masonry type
 is recorded as part of the BIM model and of that type. The elements the
 editor assigned to a façade are also recorded as parts of that façade.
 
-The second reads the case study, checks that its cross-references resolve,
+The second reads the knowledge record, checks that its cross-references resolve,
 builds the graph, checks that every HSV, HSTO, HMO and FMO term is declared and
 every property used within its domain and range, runs Pellet over the
 ontologies and the graph together, checks every derived value against
@@ -104,7 +108,7 @@ recorded as hypothetical walls, so the reasoner derives them in the same
 run. The page's view and tables are generated from the graph itself, and
 pages written under `docs/source/_extra/` are published with this site.
 
-When the case study is read from an IFC file, the derived properties are
+When the knowledge record is read from an IFC file, the derived properties are
 also written back into the model: the build writes the file again (to
 `--ifc-out`, by default `<output dir>/<file name>`) with the properties of
 each masonry type on the IfcMaterial of the same name, in the property
@@ -123,7 +127,7 @@ property sets, and the editor leaves them untouched when it saves, so the
 same file can go back and forth between the two.
 
 `python -m core.knowledge_graph convert <case> <case.json | case.xlsx>`
-converts a case study between the three forms (from an IFC file, to JSON
+converts a knowledge record between the three forms (from an IFC file, to JSON
 or a workbook), `template <path.xlsx>` writes the empty workbook, and
 `schema <schema.json>` writes the description of the forms the editor is
 generated from (`docs/source/_extra/editor/schema.json`).
