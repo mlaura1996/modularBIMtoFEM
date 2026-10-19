@@ -605,14 +605,14 @@
   "87": {
    "guid": "3c8HC29$17vfNgcUAdeh01",
    "ifc_class": "IfcWall",
-   "material": "Tufelli_masonry_typeD",
+   "material": "Tufelli_masonry_typeC",
    "how": "inside",
    "volume_m3": 9.867
   },
   "88": {
    "guid": "3c8HC29$17vfNgcUAdeh00",
    "ifc_class": "IfcWall",
-   "material": "Tufelli_masonry_typeD",
+   "material": "Tufelli_masonry_typeC",
    "how": "votes",
    "votes": 42,
    "volume_m3": 3.6122
@@ -620,14 +620,14 @@
   "89": {
    "guid": "3c8HC29$17vfNgcUAdeh07",
    "ifc_class": "IfcWall",
-   "material": "Tufelli_masonry_typeD",
+   "material": "Tufelli_masonry_typeC",
    "how": "inside",
    "volume_m3": 8.8267
   },
   "90": {
    "guid": "3c8HC29$17vfNgcUAdeh06",
    "ifc_class": "IfcWall",
-   "material": "Tufelli_masonry_typeD",
+   "material": "Tufelli_masonry_typeC",
    "how": "votes",
    "votes": 54,
    "volume_m3": 3.9819
@@ -671,7 +671,7 @@
   "96": {
    "guid": "2XzZEtRJH75fftbZbcqwNS",
    "ifc_class": "IfcWall",
-   "material": "Tufelli_masonry_typeD",
+   "material": "Tufelli_masonry_typeB",
    "how": "nearest",
    "distance": 0.247,
    "volume_m3": 4.0991
@@ -679,7 +679,7 @@
   "97": {
    "guid": "2XzZEtRJH75fftbZbcqwNS",
    "ifc_class": "IfcWall",
-   "material": "Tufelli_masonry_typeD",
+   "material": "Tufelli_masonry_typeB",
    "how": "nearest",
    "distance": 0.384,
    "volume_m3": 0.4443
@@ -687,7 +687,7 @@
   "98": {
    "guid": "2XzZEtRJH75fftbZbcqwNS",
    "ifc_class": "IfcWall",
-   "material": "Tufelli_masonry_typeD",
+   "material": "Tufelli_masonry_typeB",
    "how": "nearest",
    "distance": 0.35,
    "volume_m3": 0.3563
@@ -723,14 +723,14 @@
   "103": {
    "guid": "1HfLPk$M547Aaac6ue3X0L",
    "ifc_class": "IfcWall",
-   "material": "Tufelli_masonry_typeD",
+   "material": "Tufelli_masonry_typeB",
    "how": "inside",
    "volume_m3": 5.816
   },
   "104": {
    "guid": "2QEzj1Im5478gG84LIeYU2",
    "ifc_class": "IfcWall",
-   "material": "Tufelli_masonry_typeD",
+   "material": "Tufelli_masonry_typeB",
    "how": "nearest",
    "distance": 0.259,
    "volume_m3": 4.9911
@@ -738,7 +738,7 @@
   "105": {
    "guid": "2QEzj1Im5478gG84LIeYTv",
    "ifc_class": "IfcWall",
-   "material": "Tufelli_masonry_typeD",
+   "material": "Tufelli_masonry_typeB",
    "how": "nearest",
    "distance": 0.246,
    "volume_m3": 3.1461
@@ -769,7 +769,7 @@
   "111": {
    "guid": "0QfxonMDT2A8cO_M93$yye",
    "ifc_class": "IfcWall",
-   "material": "Tufelli_masonry_typeD",
+   "material": "Tufelli_masonry_typeC",
    "how": "nearest",
    "distance": 0.245,
    "volume_m3": 1.2488
@@ -777,7 +777,7 @@
   "112": {
    "guid": "0QfxonMDT2A8cO_M93$yp8",
    "ifc_class": "IfcWall",
-   "material": "Tufelli_masonry_typeD",
+   "material": "Tufelli_masonry_typeC",
    "how": "nearest",
    "distance": 0.145,
    "volume_m3": 1.265
@@ -785,7 +785,7 @@
   "113": {
    "guid": "0QfxonMDT2A8cO_M93$yp8",
    "ifc_class": "IfcWall",
-   "material": "Tufelli_masonry_typeD",
+   "material": "Tufelli_masonry_typeC",
    "how": "nearest",
    "distance": 0.25,
    "volume_m3": 0.2798

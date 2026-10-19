@@ -349,14 +349,14 @@
     "unit": "Unit_417",
     "label": "Facade 417a of unit 417",
     "masonry_type": "Tufelli_masonry_typeC",
-    "elements": "112HIUctr2yw5OqZgr3kla; 112HIUctr2yw5OqZgr3kXe; 112HIUctr2yw5OqZgr3kYs; 112HIUctr2yw5OqZgr3kaS; 3c8HC29$17vfNgcUAdeh3J; 3c8HC29$17vfNgcUAdeh3I; 3c8HC29$17vfNgcUAdeh3H; 3c8HC29$17vfNgcUAdeh3G; 1FujFrxrb7ouwnZEeyzKU0; 2HmFfYHsL2OPZKrO6tYf$1"
+    "elements": "112HIUctr2yw5OqZgr3kla; 112HIUctr2yw5OqZgr3kXe; 112HIUctr2yw5OqZgr3kYs; 112HIUctr2yw5OqZgr3kaS; 3c8HC29$17vfNgcUAdeh3J; 3c8HC29$17vfNgcUAdeh3I; 3c8HC29$17vfNgcUAdeh3H; 3c8HC29$17vfNgcUAdeh3G; 1FujFrxrb7ouwnZEeyzKU0; 2HmFfYHsL2OPZKrO6tYf$1; 3c8HC29$17vfNgcUAdeh01; 3c8HC29$17vfNgcUAdeh00; 3c8HC29$17vfNgcUAdeh07; 3c8HC29$17vfNgcUAdeh06; 0QfxonMDT2A8cO_M93$yye; 0QfxonMDT2A8cO_M93$yp8"
    },
    {
     "id": "Facade_417b",
     "unit": "Unit_417",
     "label": "Facade 417b of unit 417",
     "masonry_type": "Tufelli_masonry_typeD",
-    "elements": "3c8HC29$17vfNgcUAdeh01; 3c8HC29$17vfNgcUAdeh00; 3c8HC29$17vfNgcUAdeh07; 3c8HC29$17vfNgcUAdeh06; 0QfxonMDT2A8cO_M93$yye; 0QfxonMDT2A8cO_M93$yp8"
+    "elements": ""
    },
    {
     "id": "Facade_417c",
@@ -370,14 +370,14 @@
     "unit": "Unit_418",
     "label": "Facade 418a of unit 418",
     "masonry_type": "Tufelli_masonry_typeB",
-    "elements": "2XzZEtRJH75fftbZbcqwCR; 2XzZEtRJH75fftbZbcqwCB; 0CvVHHujLB8fkhpCAWbiT3; 1HfLPk$M547Aaac6ue3X37; 2tiNzAytfCwQOKJzMPcwjv"
+    "elements": "2XzZEtRJH75fftbZbcqwCR; 2XzZEtRJH75fftbZbcqwCB; 0CvVHHujLB8fkhpCAWbiT3; 1HfLPk$M547Aaac6ue3X37; 2tiNzAytfCwQOKJzMPcwjv; 2XzZEtRJH75fftbZbcqwNS; 1HfLPk$M547Aaac6ue3X0L; 2QEzj1Im5478gG84LIeYU2; 2QEzj1Im5478gG84LIeYTv"
    },
    {
     "id": "Facade_418b",
     "unit": "Unit_418",
     "label": "Facade 418b of unit 418",
     "masonry_type": "Tufelli_masonry_typeD",
-    "elements": "2XzZEtRJH75fftbZbcqwNS; 1HfLPk$M547Aaac6ue3X0L; 2QEzj1Im5478gG84LIeYU2; 2QEzj1Im5478gG84LIeYTv"
+    "elements": ""
    },
    {
     "id": "Facade_419",

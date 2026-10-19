@@ -52,7 +52,7 @@ source of record; the table below is a summary.
   - Facade 417
 * - D
   - Fully rendered — masonry not observable
-  - Top storey of 417, two upper storeys of 418, whole of 420 — **scored by analogy to type B**, the weakest-grounded of the four
+  - Whole of 420; also façades 417b and 418b of the survey, which have no walls of their own in the BIM model — **scored by analogy to type B**, the weakest-grounded of the four
 ```
 
 ## First pass vs. final pass
