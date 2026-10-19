@@ -47,8 +47,8 @@
     rdfs:label "IfcWall big_column:big_column:1738268"@en ;
     dcterms:identifier "07H4IE3N17quz_RDvElapV" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_417c ;
-    dcterms:type :Tufelli_masonry_typeB .
+        :Facade_419 ;
+    dcterms:type :Tufelli_masonry_typeD .
 
 :IFC_08pzrbE8X9reLLOmu2mM9m a owl:NamedIndividual ;
     rdfs:label "IfcWindow archi_window_closed:StoneWindowArch:1700425"@en ;
@@ -102,8 +102,8 @@
     rdfs:label "IfcWall Castelnuovo3:Castelnuovo3:1707835"@en ;
     dcterms:identifier "0CvVHHujLB8fkhpCAWbiT3" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_418a ;
-    dcterms:type :Tufelli_masonry_typeB .
+        :Facade_419 ;
+    dcterms:type :Tufelli_masonry_typeD .
 
 :IFC_0DMSD0RDPERO_jE_YMCqxm a owl:NamedIndividual ;
     rdfs:label "IfcStair StairsCastelnuovo:StairsCastelnuovo:1746094"@en ;
@@ -127,7 +127,7 @@
     rdfs:label "IfcWall Basic Wall:Castelnuovo_typeA:1722907"@en ;
     dcterms:identifier "0F0gJxCaz6DgMK0q1JiO7L" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_419 ;
+        :Facade_418a ;
     dcterms:type :Tufelli_masonry_typeA .
 
 :IFC_0F0gJxCaz6DgMK0q1JiOFl a owl:NamedIndividual ;
@@ -158,42 +158,42 @@
     rdfs:label "IfcWall Basic Wall:Castelnuovo_typeA:1675325"@en ;
     dcterms:identifier "0GisCWViz2PeUrBi4wgUZp" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_420 ;
+        :Facade_417a ;
     dcterms:type :Tufelli_masonry_typeD .
 
 :IFC_0GisCWViz2PeUrBi4wgUa5 a owl:NamedIndividual ;
     rdfs:label "IfcWall Basic Wall:Castelnuovo_typeA:1675723"@en ;
     dcterms:identifier "0GisCWViz2PeUrBi4wgUa5" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_420 ;
+        :Facade_417a ;
     dcterms:type :Tufelli_masonry_typeD .
 
 :IFC_0GisCWViz2PeUrBi4wgUdW a owl:NamedIndividual ;
     rdfs:label "IfcWall Basic Wall:Castelnuovo_typeA:1675566"@en ;
     dcterms:identifier "0GisCWViz2PeUrBi4wgUdW" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_420 ;
+        :Facade_417a ;
     dcterms:type :Tufelli_masonry_typeD .
 
 :IFC_0GisCWViz2PeUrBi4wgVRW a owl:NamedIndividual ;
     rdfs:label "IfcWall Basic Wall:Castelnuovo_typeA:1674798"@en ;
     dcterms:identifier "0GisCWViz2PeUrBi4wgVRW" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_419 ;
+        :Facade_418a ;
     dcterms:type :Tufelli_masonry_typeA .
 
 :IFC_0GisCWViz2PeUrBi4wgVUt a owl:NamedIndividual ;
     rdfs:label "IfcWall Basic Wall:Castelnuovo_typeA:1675129"@en ;
     dcterms:identifier "0GisCWViz2PeUrBi4wgVUt" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_420 ;
+        :Facade_417a ;
     dcterms:type :Tufelli_masonry_typeD .
 
 :IFC_0M1S9S_Qr3IPBMDqinoabk a owl:NamedIndividual ;
     rdfs:label "IfcWall Castelnuovo:Castelnuovo:1680661"@en ;
     dcterms:identifier "0M1S9S_Qr3IPBMDqinoabk" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_419 ;
+        :Facade_418a ;
     dcterms:type :Tufelli_masonry_typeA .
 
 :IFC_0Q0zkUcpr56Qzun6QPIfow a owl:NamedIndividual ;
@@ -206,14 +206,14 @@
     rdfs:label "IfcWall Castelnuovo10:Castelnuovo10:1727088"@en ;
     dcterms:identifier "0QfxonMDT2A8cO_M93$yp8" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_417a ;
+        :Facade_420 ;
     dcterms:type :Tufelli_masonry_typeC .
 
 :IFC_0QfxonMDT2A8cO_M93-yye a owl:NamedIndividual ;
     rdfs:label "IfcWall Castelnuovo9:Castelnuovo9:1726864"@en ;
     dcterms:identifier "0QfxonMDT2A8cO_M93$yye" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_417a ;
+        :Facade_420 ;
     dcterms:type :Tufelli_masonry_typeC .
 
 :IFC_0RG6S63Pr48vit9seLUt1E a owl:NamedIndividual ;
@@ -328,105 +328,105 @@
     rdfs:label "IfcWall Basic Wall:Castelnuovo_typeA:1676344"@en ;
     dcterms:identifier "112HIUctr2yw5OqZgr3kPa" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_420 ;
+        :Facade_417a ;
     dcterms:type :Tufelli_masonry_typeD .
 
 :IFC_112HIUctr2yw5OqZgr3kPe a owl:NamedIndividual ;
     rdfs:label "IfcWall Basic Wall:Castelnuovo_typeA:1676340"@en ;
     dcterms:identifier "112HIUctr2yw5OqZgr3kPe" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_419 ;
+        :Facade_418a ;
     dcterms:type :Tufelli_masonry_typeA .
 
 :IFC_112HIUctr2yw5OqZgr3kPf a owl:NamedIndividual ;
     rdfs:label "IfcWall Basic Wall:Castelnuovo_typeA:1676341"@en ;
     dcterms:identifier "112HIUctr2yw5OqZgr3kPf" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_420 ;
+        :Facade_417a ;
     dcterms:type :Tufelli_masonry_typeD .
 
 :IFC_112HIUctr2yw5OqZgr3kPg a owl:NamedIndividual ;
     rdfs:label "IfcWall Basic Wall:Castelnuovo_typeA:1676342"@en ;
     dcterms:identifier "112HIUctr2yw5OqZgr3kPg" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_420 ;
+        :Facade_417a ;
     dcterms:type :Tufelli_masonry_typeD .
 
 :IFC_112HIUctr2yw5OqZgr3kPh a owl:NamedIndividual ;
     rdfs:label "IfcWall Basic Wall:Castelnuovo_typeA:1676343"@en ;
     dcterms:identifier "112HIUctr2yw5OqZgr3kPh" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_420 ;
+        :Facade_417a ;
     dcterms:type :Tufelli_masonry_typeD .
 
 :IFC_112HIUctr2yw5OqZgr3kPi a owl:NamedIndividual ;
     rdfs:label "IfcWall Basic Wall:Castelnuovo_typeA:1676336"@en ;
     dcterms:identifier "112HIUctr2yw5OqZgr3kPi" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_420 ;
+        :Facade_417a ;
     dcterms:type :Tufelli_masonry_typeD .
 
 :IFC_112HIUctr2yw5OqZgr3kPj a owl:NamedIndividual ;
     rdfs:label "IfcWall Basic Wall:Castelnuovo_typeA:1676337"@en ;
     dcterms:identifier "112HIUctr2yw5OqZgr3kPj" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_420 ;
+        :Facade_417a ;
     dcterms:type :Tufelli_masonry_typeD .
 
 :IFC_112HIUctr2yw5OqZgr3kPn a owl:NamedIndividual ;
     rdfs:label "IfcWall Basic Wall:Castelnuovo_typeA:1676333"@en ;
     dcterms:identifier "112HIUctr2yw5OqZgr3kPn" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_419 ;
+        :Facade_418a ;
     dcterms:type :Tufelli_masonry_typeA .
 
 :IFC_112HIUctr2yw5OqZgr3kPo a owl:NamedIndividual ;
     rdfs:label "IfcWall Basic Wall:Castelnuovo_typeA:1676334"@en ;
     dcterms:identifier "112HIUctr2yw5OqZgr3kPo" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_420 ;
+        :Facade_417a ;
     dcterms:type :Tufelli_masonry_typeD .
 
 :IFC_112HIUctr2yw5OqZgr3kPp a owl:NamedIndividual ;
     rdfs:label "IfcWall Basic Wall:Castelnuovo_typeA:1676335"@en ;
     dcterms:identifier "112HIUctr2yw5OqZgr3kPp" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_420 ;
+        :Facade_417a ;
     dcterms:type :Tufelli_masonry_typeD .
 
 :IFC_112HIUctr2yw5OqZgr3kXe a owl:NamedIndividual ;
     rdfs:label "IfcWall Basic Wall:Castelnuovo_typeC:1677876"@en ;
     dcterms:identifier "112HIUctr2yw5OqZgr3kXe" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_417a ;
+        :Facade_420 ;
     dcterms:type :Tufelli_masonry_typeC .
 
 :IFC_112HIUctr2yw5OqZgr3kYs a owl:NamedIndividual ;
     rdfs:label "IfcWall Basic Wall:Castelnuovo_typeC:1678058"@en ;
     dcterms:identifier "112HIUctr2yw5OqZgr3kYs" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_417a ;
+        :Facade_420 ;
     dcterms:type :Tufelli_masonry_typeC .
 
 :IFC_112HIUctr2yw5OqZgr3kaS a owl:NamedIndividual ;
     rdfs:label "IfcWall Basic Wall:Castelnuovo_typeC:1678144"@en ;
     dcterms:identifier "112HIUctr2yw5OqZgr3kaS" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_417a ;
+        :Facade_420 ;
     dcterms:type :Tufelli_masonry_typeC .
 
 :IFC_112HIUctr2yw5OqZgr3kla a owl:NamedIndividual ;
     rdfs:label "IfcWall Basic Wall:Castelnuovo_typeC:1677752"@en ;
     dcterms:identifier "112HIUctr2yw5OqZgr3kla" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_417a ;
+        :Facade_420 ;
     dcterms:type :Tufelli_masonry_typeC .
 
 :IFC_112HIUctr2yw5OqZgr3ksc a owl:NamedIndividual ;
     rdfs:label "IfcWall Basic Wall:Castelnuovo_typeA:1679354"@en ;
     dcterms:identifier "112HIUctr2yw5OqZgr3ksc" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_419 ;
+        :Facade_418a ;
     dcterms:type :Tufelli_masonry_typeA .
 
 :IFC_1AbGxiHpn5sOnYo-kgOgNY a owl:NamedIndividual ;
@@ -439,7 +439,7 @@
     rdfs:label "IfcWall first_column:first_column:1733994"@en ;
     dcterms:identifier "1FujFrxrb7ouwnZEeyzKU0" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_417a ;
+        :Facade_420 ;
     dcterms:type :Tufelli_masonry_typeC .
 
 :IFC_1HfLPk-M547Aaac6ue3Wlx a owl:NamedIndividual ;
@@ -452,8 +452,8 @@
     rdfs:label "IfcWall Castelnuovo5:Castelnuovo3:1707943"@en ;
     dcterms:identifier "1HfLPk$M547Aaac6ue3X0L" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_418a ;
-    dcterms:type :Tufelli_masonry_typeB .
+        :Facade_419 ;
+    dcterms:type :Tufelli_masonry_typeD .
 
 :IFC_1HfLPk-M547Aaac6ue3X1s a owl:NamedIndividual ;
     rdfs:label "IfcDoor enclosed_archv2:enclosed_archv2:1707972"@en ;
@@ -466,8 +466,8 @@
     rdfs:label "IfcWall Castelnuovo2:Castelnuovo3:1707893"@en ;
     dcterms:identifier "1HfLPk$M547Aaac6ue3X37" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_418a ;
-    dcterms:type :Tufelli_masonry_typeB .
+        :Facade_419 ;
+    dcterms:type :Tufelli_masonry_typeD .
 
 :IFC_1Hx76Um7X4IO1wNJM-6r2E a owl:NamedIndividual ;
     rdfs:label "IfcWall Basic Wall:Castelnuovo_internal:1767722"@en ;
@@ -551,7 +551,7 @@
     rdfs:label "IfcWall Wall_ontop:Wall_ontop:1770791"@en ;
     dcterms:identifier "1aMTge6B9DK9$RHbrOwo4u" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_419 ;
+        :Facade_418a ;
     dcterms:type :Tufelli_masonry_typeA .
 
 :IFC_1b6LOlXV9B9POL9jHQJd0L a owl:NamedIndividual ;
@@ -642,7 +642,7 @@
     rdfs:label "IfcWall first_column:first_column:1734630"@en ;
     dcterms:identifier "2HmFfYHsL2OPZKrO6tYf$1" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_417a ;
+        :Facade_420 ;
     dcterms:type :Tufelli_masonry_typeC .
 
 :IFC_2LX1lxEB13yROcdsYV7Vts a owl:NamedIndividual ;
@@ -655,15 +655,15 @@
     rdfs:label "IfcWall Castelnuovo_wall6:Castelnuovo_wall3:1716643"@en ;
     dcterms:identifier "2QEzj1Im5478gG84LIeYTv" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_418a ;
-    dcterms:type :Tufelli_masonry_typeB .
+        :Facade_419 ;
+    dcterms:type :Tufelli_masonry_typeD .
 
 :IFC_2QEzj1Im5478gG84LIeYU2 a owl:NamedIndividual ;
     rdfs:label "IfcWall Castelnuovo6:Castelnuovo3:1716568"@en ;
     dcterms:identifier "2QEzj1Im5478gG84LIeYU2" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_418a ;
-    dcterms:type :Tufelli_masonry_typeB .
+        :Facade_419 ;
+    dcterms:type :Tufelli_masonry_typeD .
 
 :IFC_2QEzj1Im5478gG84LIeYV0 a owl:NamedIndividual ;
     rdfs:label "IfcWindow Window1:StoneWindows:1716506"@en ;
@@ -699,7 +699,7 @@
     rdfs:label "IfcWall Castelnuovo7:Castelnuovo:1718527"@en ;
     dcterms:identifier "2SDwapJ$z32OyuRGCv33co" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_419 ;
+        :Facade_418a ;
     dcterms:type :Tufelli_masonry_typeA .
 
 :IFC_2Uhonyg41F_hXs9lWLrHnn a owl:NamedIndividual ;
@@ -742,56 +742,56 @@
     rdfs:label "IfcWall Castelnuovo_wall5:Castelnuovo_wall3:1690932"@en ;
     dcterms:identifier "2XzZEtRJH75fftbZbcqwCB" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_418a ;
-    dcterms:type :Tufelli_masonry_typeB .
+        :Facade_419 ;
+    dcterms:type :Tufelli_masonry_typeD .
 
 :IFC_2XzZEtRJH75fftbZbcqwCR a owl:NamedIndividual ;
     rdfs:label "IfcWall Castelnuovo_wall4:Castelnuovo_wall3:1690916"@en ;
     dcterms:identifier "2XzZEtRJH75fftbZbcqwCR" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_418a ;
-    dcterms:type :Tufelli_masonry_typeB .
+        :Facade_419 ;
+    dcterms:type :Tufelli_masonry_typeD .
 
 :IFC_2XzZEtRJH75fftbZbcqwH8 a owl:NamedIndividual ;
     rdfs:label "IfcWall Castelnuovo_wall1:Castelnuovo_wall:1690231"@en ;
     dcterms:identifier "2XzZEtRJH75fftbZbcqwH8" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_417c ;
-    dcterms:type :Tufelli_masonry_typeB .
+        :Facade_419 ;
+    dcterms:type :Tufelli_masonry_typeD .
 
 :IFC_2XzZEtRJH75fftbZbcqwJ5 a owl:NamedIndividual ;
     rdfs:label "IfcWall Castelnuovo_wall2:Castelnuovo_wall:1690362"@en ;
     dcterms:identifier "2XzZEtRJH75fftbZbcqwJ5" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_417c ;
-    dcterms:type :Tufelli_masonry_typeB .
+        :Facade_419 ;
+    dcterms:type :Tufelli_masonry_typeD .
 
 :IFC_2XzZEtRJH75fftbZbcqwNS a owl:NamedIndividual ;
     rdfs:label "IfcWall Castelnuovo_wall3:Castelnuovo_wall3:1690595"@en ;
     dcterms:identifier "2XzZEtRJH75fftbZbcqwNS" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_418a ;
-    dcterms:type :Tufelli_masonry_typeB .
+        :Facade_419 ;
+    dcterms:type :Tufelli_masonry_typeD .
 
 :IFC_2XzZEtRJH75fftbZbcqwO2 a owl:NamedIndividual ;
     rdfs:label "IfcWall Castelnuovo_wall:Castelnuovo_wall:1689661"@en ;
     dcterms:identifier "2XzZEtRJH75fftbZbcqwO2" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_417c ;
-    dcterms:type :Tufelli_masonry_typeB .
+        :Facade_419 ;
+    dcterms:type :Tufelli_masonry_typeD .
 
 :IFC_2XzZEtRJH75fftbZbcqwY_ a owl:NamedIndividual ;
     rdfs:label "IfcWall Castelnuovo1:Castelnuovo:1689217"@en ;
     dcterms:identifier "2XzZEtRJH75fftbZbcqwY_" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_419 ;
+        :Facade_418a ;
     dcterms:type :Tufelli_masonry_typeA .
 
 :IFC_2XzZEtRJH75fftbZbcqwZb a owl:NamedIndividual ;
     rdfs:label "IfcWall Castelnuovo4:Castelnuovo:1689306"@en ;
     dcterms:identifier "2XzZEtRJH75fftbZbcqwZb" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_419 ;
+        :Facade_418a ;
     dcterms:type :Tufelli_masonry_typeA .
 
 :IFC_2ZoDGSMBbEOf6SBMxlu-bS a owl:NamedIndividual ;
@@ -903,14 +903,14 @@
     rdfs:label "IfcWall Castelnuovo8:Castelnuovo13:1761266"@en ;
     dcterms:identifier "2tiNzAytfCwQOKJzMPcwjv" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_418a ;
-    dcterms:type :Tufelli_masonry_typeB .
+        :Facade_419 ;
+    dcterms:type :Tufelli_masonry_typeD .
 
 :IFC_37gWW_uGL459BrbCF-MAq8 a owl:NamedIndividual ;
     rdfs:label "IfcWall Basic Wall:Castelnuovo_typeA:1682705"@en ;
     dcterms:identifier "37gWW_uGL459BrbCF$MAq8" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_419 ;
+        :Facade_418a ;
     dcterms:type :Tufelli_masonry_typeA .
 
 :IFC_3Jmmvoko5D-RwQG6wPqCrK a owl:NamedIndividual ;
@@ -947,77 +947,77 @@
     rdfs:label "IfcWall Castelnuovo_inside:Castelnuovo_inside:1719200"@en ;
     dcterms:identifier "3_wR1BNVfAMeWWIaQS4y2L" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_419 ;
+        :Facade_418a ;
     dcterms:type :Tufelli_masonry_typeA .
 
 :IFC_3_wR1BNVfAMeWWIaQS4yS9 a owl:NamedIndividual ;
     rdfs:label "IfcWall Castelnuovo_inside2:Castelnuovo_inside:1719356"@en ;
     dcterms:identifier "3_wR1BNVfAMeWWIaQS4yS9" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_419 ;
+        :Facade_418a ;
     dcterms:type :Tufelli_masonry_typeA .
 
 :IFC_3_wR1BNVfAMeWWIaQS4ySL a owl:NamedIndividual ;
     rdfs:label "IfcWall Castelnuovo_inside1:Castelnuovo_inside:1719328"@en ;
     dcterms:identifier "3_wR1BNVfAMeWWIaQS4ySL" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_419 ;
+        :Facade_418a ;
     dcterms:type :Tufelli_masonry_typeA .
 
 :IFC_3c8HC29-17vfNgcUAdeh00 a owl:NamedIndividual ;
     rdfs:label "IfcWall Basic Wall:Castelnuovo_typeD:1683107"@en ;
     dcterms:identifier "3c8HC29$17vfNgcUAdeh00" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_417a ;
+        :Facade_420 ;
     dcterms:type :Tufelli_masonry_typeC .
 
 :IFC_3c8HC29-17vfNgcUAdeh01 a owl:NamedIndividual ;
     rdfs:label "IfcWall Basic Wall:Castelnuovo_typeD:1683106"@en ;
     dcterms:identifier "3c8HC29$17vfNgcUAdeh01" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_417a ;
+        :Facade_420 ;
     dcterms:type :Tufelli_masonry_typeC .
 
 :IFC_3c8HC29-17vfNgcUAdeh06 a owl:NamedIndividual ;
     rdfs:label "IfcWall Basic Wall:Castelnuovo_typeD:1683109"@en ;
     dcterms:identifier "3c8HC29$17vfNgcUAdeh06" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_417a ;
+        :Facade_420 ;
     dcterms:type :Tufelli_masonry_typeC .
 
 :IFC_3c8HC29-17vfNgcUAdeh07 a owl:NamedIndividual ;
     rdfs:label "IfcWall Basic Wall:Castelnuovo_typeD:1683108"@en ;
     dcterms:identifier "3c8HC29$17vfNgcUAdeh07" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_417a ;
+        :Facade_420 ;
     dcterms:type :Tufelli_masonry_typeC .
 
 :IFC_3c8HC29-17vfNgcUAdeh3G a owl:NamedIndividual ;
     rdfs:label "IfcWall Basic Wall:Castelnuovo_typeC:1683059"@en ;
     dcterms:identifier "3c8HC29$17vfNgcUAdeh3G" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_417a ;
+        :Facade_420 ;
     dcterms:type :Tufelli_masonry_typeC .
 
 :IFC_3c8HC29-17vfNgcUAdeh3H a owl:NamedIndividual ;
     rdfs:label "IfcWall Basic Wall:Castelnuovo_typeC:1683058"@en ;
     dcterms:identifier "3c8HC29$17vfNgcUAdeh3H" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_417a ;
+        :Facade_420 ;
     dcterms:type :Tufelli_masonry_typeC .
 
 :IFC_3c8HC29-17vfNgcUAdeh3I a owl:NamedIndividual ;
     rdfs:label "IfcWall Basic Wall:Castelnuovo_typeC:1683057"@en ;
     dcterms:identifier "3c8HC29$17vfNgcUAdeh3I" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_417a ;
+        :Facade_420 ;
     dcterms:type :Tufelli_masonry_typeC .
 
 :IFC_3c8HC29-17vfNgcUAdeh3J a owl:NamedIndividual ;
     rdfs:label "IfcWall Basic Wall:Castelnuovo_typeC:1683056"@en ;
     dcterms:identifier "3c8HC29$17vfNgcUAdeh3J" ;
     dcterms:isPartOf :BIMModel,
-        :Facade_417a ;
+        :Facade_420 ;
     dcterms:type :Tufelli_masonry_typeC .
 
 :ISISE_UMinho a owl:NamedIndividual,
@@ -1046,6 +1046,14 @@
         :ElenaGigliarelli,
         :MiguelAzenha .
 
+:Tufelli_masonry_typeB a owl:NamedIndividual,
+        skos:Concept ;
+    rdfs:label "Tufelli_masonry_typeB"@en ;
+    rdfs:comment "Same conservative mortar assumption as typeA (plain lime, not hydraulic-boosted)"@en,
+        "Vertical joint staggering scored 'partially_staggered' from the visibly less regular coursing - not measured"@en ;
+    skos:definition "Irregular tufo masonry, discontinuous coursing, brick relieving arches at openings, squared corner quoins"@en ;
+    skos:note "A-417/417_c (corner building, Vicolo del Cabalino - WhatsApp Image 2023-06-01 at 14.50.40/41/42/43) and A-418/418-a (WhatsApp Image 2023-06-01 at 14.50.47/48, brick arch over a round-headed window): irregular unit sizes, less continuous coursing than typeA"@en .
+
 :Aggregate a owl:NamedIndividual,
         hsv:Aggregate ;
     rdfs:label "Aggregate between Piazza Garibaldi and Via Umberto I"@en ;
@@ -1072,7 +1080,7 @@
 
 :CompressiveStrength_417a a owl:NamedIndividual,
         hmo:CompressiveStrength ;
-    saref:hasValue "2.099"^^xsd:float .
+    saref:hasValue "2.616"^^xsd:float .
 
 :CompressiveStrength_417b a owl:NamedIndividual,
         hmo:CompressiveStrength ;
@@ -1084,19 +1092,19 @@
 
 :CompressiveStrength_418a a owl:NamedIndividual,
         hmo:CompressiveStrength ;
-    saref:hasValue "2.616"^^xsd:float .
+    saref:hasValue "3.445"^^xsd:float .
 
 :CompressiveStrength_418b a owl:NamedIndividual,
         hmo:CompressiveStrength ;
-    saref:hasValue "2.616"^^xsd:float .
+    saref:hasValue "3.445"^^xsd:float .
 
 :CompressiveStrength_419 a owl:NamedIndividual,
         hmo:CompressiveStrength ;
-    saref:hasValue "3.445"^^xsd:float .
+    saref:hasValue "2.616"^^xsd:float .
 
 :CompressiveStrength_420 a owl:NamedIndividual,
         hmo:CompressiveStrength ;
-    saref:hasValue "2.616"^^xsd:float .
+    saref:hasValue "2.099"^^xsd:float .
 
 :Floor_417 a owl:NamedIndividual,
         hsto:TimberFloor ;
@@ -1147,9 +1155,9 @@
         :Photo_417a_11,
         :Photo_417a_12,
         :Photo_417a_13 ;
-    hmo:MQITotalInPlane "1.4"^^xsd:float ;
-    hmo:MQITotalOutOfPlane "1.05"^^xsd:float ;
-    hmo:MQITotalVertical "1.4"^^xsd:float .
+    hmo:MQITotalInPlane "3.15"^^xsd:float ;
+    hmo:MQITotalOutOfPlane "2.8"^^xsd:float ;
+    hmo:MQITotalVertical "2.8"^^xsd:float .
 
 :MQI_417b a owl:NamedIndividual,
         hmo:MasonryQualityIndex ;
@@ -1183,9 +1191,9 @@
         :Photo_418a_03,
         :Photo_418a_04,
         :Photo_418a_05 ;
-    hmo:MQITotalInPlane "3.15"^^xsd:float ;
-    hmo:MQITotalOutOfPlane "2.8"^^xsd:float ;
-    hmo:MQITotalVertical "2.8"^^xsd:float .
+    hmo:MQITotalInPlane "4.2"^^xsd:float ;
+    hmo:MQITotalOutOfPlane "4.2"^^xsd:float ;
+    hmo:MQITotalVertical "4.55"^^xsd:float .
 
 :MQI_418b a owl:NamedIndividual,
         hmo:MasonryQualityIndex ;
@@ -1194,9 +1202,9 @@
         :Photo_418b_03,
         :Photo_418b_04,
         :Photo_418b_05 ;
-    hmo:MQITotalInPlane "3.15"^^xsd:float ;
-    hmo:MQITotalOutOfPlane "2.8"^^xsd:float ;
-    hmo:MQITotalVertical "2.8"^^xsd:float .
+    hmo:MQITotalInPlane "4.2"^^xsd:float ;
+    hmo:MQITotalOutOfPlane "4.2"^^xsd:float ;
+    hmo:MQITotalVertical "4.55"^^xsd:float .
 
 :MQI_419 a owl:NamedIndividual,
         hmo:MasonryQualityIndex ;
@@ -1205,9 +1213,9 @@
         :Photo_419_03,
         :Photo_419_04,
         :Photo_419_05 ;
-    hmo:MQITotalInPlane "4.2"^^xsd:float ;
-    hmo:MQITotalOutOfPlane "4.2"^^xsd:float ;
-    hmo:MQITotalVertical "4.55"^^xsd:float .
+    hmo:MQITotalInPlane "3.15"^^xsd:float ;
+    hmo:MQITotalOutOfPlane "2.8"^^xsd:float ;
+    hmo:MQITotalVertical "2.8"^^xsd:float .
 
 :MQI_420 a owl:NamedIndividual,
         hmo:MasonryQualityIndex ;
@@ -1218,9 +1226,9 @@
         :Photo_420_05,
         :Photo_420_06,
         :Photo_420_07 ;
-    hmo:MQITotalInPlane "3.15"^^xsd:float ;
-    hmo:MQITotalOutOfPlane "2.8"^^xsd:float ;
-    hmo:MQITotalVertical "2.8"^^xsd:float .
+    hmo:MQITotalInPlane "1.4"^^xsd:float ;
+    hmo:MQITotalOutOfPlane "1.05"^^xsd:float ;
+    hmo:MQITotalVertical "1.4"^^xsd:float .
 
 :MassDensity_417a a owl:NamedIndividual,
         hmo:MassDensity ;
@@ -1239,17 +1247,17 @@
 
 :MassDensity_418a a owl:NamedIndividual,
         hmo:MassDensity ;
-    rdfs:comment "Asserted, not derived: HMO has no rule for mass density. Same as typeA - see density_note there."@en ;
+    rdfs:comment "Asserted, not derived: HMO has no rule for mass density. Not derivable from MQI (HMO has no density rule - density is a material constant, not a workmanship-quality output). Taken as the midpoint of NTC18 C8.5.I's tufo/calcarenite range (1300-1600 kg/m3), not measured on this specific building."@en ;
     saref:hasValue "1450.0"^^xsd:float .
 
 :MassDensity_418b a owl:NamedIndividual,
         hmo:MassDensity ;
-    rdfs:comment "Asserted, not derived: HMO has no rule for mass density. Same as typeA - see density_note there."@en ;
+    rdfs:comment "Asserted, not derived: HMO has no rule for mass density. Not derivable from MQI (HMO has no density rule - density is a material constant, not a workmanship-quality output). Taken as the midpoint of NTC18 C8.5.I's tufo/calcarenite range (1300-1600 kg/m3), not measured on this specific building."@en ;
     saref:hasValue "1450.0"^^xsd:float .
 
 :MassDensity_419 a owl:NamedIndividual,
         hmo:MassDensity ;
-    rdfs:comment "Asserted, not derived: HMO has no rule for mass density. Not derivable from MQI (HMO has no density rule - density is a material constant, not a workmanship-quality output). Taken as the midpoint of NTC18 C8.5.I's tufo/calcarenite range (1300-1600 kg/m3), not measured on this specific building."@en ;
+    rdfs:comment "Asserted, not derived: HMO has no rule for mass density. Same as typeA - see density_note there."@en ;
     saref:hasValue "1450.0"^^xsd:float .
 
 :MassDensity_420 a owl:NamedIndividual,
@@ -1296,10 +1304,10 @@
     hmo:hasDominantPatternEntities :Units_417a,
         hmo:IrregularSoftstone,
         hmo:LimeMortarJoints,
-        hmo:NoHeaders,
         hmo:NotContinuousHorizontalJoints,
-        hmo:RoughlyCutStone,
-        hmo:VerticallyAlignedJoints .
+        hmo:PartiallyStaggeredJoints,
+        hmo:RoughlyCutStone ;
+    hmo:hasSparsePatternEntities hmo:HeadersBondUnits .
 
 :Pattern_417b a owl:NamedIndividual,
         hmo:Pattern ;
@@ -1324,30 +1332,29 @@
 :Pattern_418a a owl:NamedIndividual,
         hmo:Pattern ;
     hmo:hasDominantPatternEntities :Units_418a,
-        hmo:IrregularSoftstone,
         hmo:LimeMortarJoints,
-        hmo:NotContinuousHorizontalJoints,
+        hmo:PartiallyContinuousHorizontalJoints,
         hmo:PartiallyStaggeredJoints,
-        hmo:RoughlyCutStone ;
+        hmo:SquaredSoftstone ;
     hmo:hasSparsePatternEntities hmo:HeadersBondUnits .
 
 :Pattern_418b a owl:NamedIndividual,
         hmo:Pattern ;
     hmo:hasDominantPatternEntities :Units_418b,
-        hmo:IrregularSoftstone,
         hmo:LimeMortarJoints,
-        hmo:NotContinuousHorizontalJoints,
+        hmo:PartiallyContinuousHorizontalJoints,
         hmo:PartiallyStaggeredJoints,
-        hmo:RoughlyCutStone ;
+        hmo:SquaredSoftstone ;
     hmo:hasSparsePatternEntities hmo:HeadersBondUnits .
 
 :Pattern_419 a owl:NamedIndividual,
         hmo:Pattern ;
     hmo:hasDominantPatternEntities :Units_419,
+        hmo:IrregularSoftstone,
         hmo:LimeMortarJoints,
-        hmo:PartiallyContinuousHorizontalJoints,
+        hmo:NotContinuousHorizontalJoints,
         hmo:PartiallyStaggeredJoints,
-        hmo:SquaredSoftstone ;
+        hmo:RoughlyCutStone ;
     hmo:hasSparsePatternEntities hmo:HeadersBondUnits .
 
 :Pattern_420 a owl:NamedIndividual,
@@ -1355,10 +1362,10 @@
     hmo:hasDominantPatternEntities :Units_420,
         hmo:IrregularSoftstone,
         hmo:LimeMortarJoints,
+        hmo:NoHeaders,
         hmo:NotContinuousHorizontalJoints,
-        hmo:PartiallyStaggeredJoints,
-        hmo:RoughlyCutStone ;
-    hmo:hasSparsePatternEntities hmo:HeadersBondUnits .
+        hmo:RoughlyCutStone,
+        hmo:VerticallyAlignedJoints .
 
 :PreSurveyAerialStudy a owl:NamedIndividual,
         hsv:Document ;
@@ -1443,7 +1450,7 @@
 
 :ShearModulus_417a a owl:NamedIndividual,
         hmo:ShearModulus ;
-    saref:hasValue "335.62"^^xsd:float .
+    saref:hasValue "421.27"^^xsd:float .
 
 :ShearModulus_417b a owl:NamedIndividual,
         hmo:ShearModulus ;
@@ -1455,23 +1462,23 @@
 
 :ShearModulus_418a a owl:NamedIndividual,
         hmo:ShearModulus ;
-    saref:hasValue "421.27"^^xsd:float .
+    saref:hasValue "482.82"^^xsd:float .
 
 :ShearModulus_418b a owl:NamedIndividual,
         hmo:ShearModulus ;
-    saref:hasValue "421.27"^^xsd:float .
+    saref:hasValue "482.82"^^xsd:float .
 
 :ShearModulus_419 a owl:NamedIndividual,
         hmo:ShearModulus ;
-    saref:hasValue "482.82"^^xsd:float .
+    saref:hasValue "421.27"^^xsd:float .
 
 :ShearModulus_420 a owl:NamedIndividual,
         hmo:ShearModulus ;
-    saref:hasValue "421.27"^^xsd:float .
+    saref:hasValue "335.62"^^xsd:float .
 
 :ShearStrengthTC_417a a owl:NamedIndividual,
         hmo:ShearStrengthTC ;
-    saref:hasValue "0.0305"^^xsd:float .
+    saref:hasValue "0.0475"^^xsd:float .
 
 :ShearStrengthTC_417b a owl:NamedIndividual,
         hmo:ShearStrengthTC ;
@@ -1483,19 +1490,19 @@
 
 :ShearStrengthTC_418a a owl:NamedIndividual,
         hmo:ShearStrengthTC ;
-    saref:hasValue "0.0475"^^xsd:float .
+    saref:hasValue "0.0591"^^xsd:float .
 
 :ShearStrengthTC_418b a owl:NamedIndividual,
         hmo:ShearStrengthTC ;
-    saref:hasValue "0.0475"^^xsd:float .
+    saref:hasValue "0.0591"^^xsd:float .
 
 :ShearStrengthTC_419 a owl:NamedIndividual,
         hmo:ShearStrengthTC ;
-    saref:hasValue "0.0591"^^xsd:float .
+    saref:hasValue "0.0475"^^xsd:float .
 
 :ShearStrengthTC_420 a owl:NamedIndividual,
         hmo:ShearStrengthTC ;
-    saref:hasValue "0.0475"^^xsd:float .
+    saref:hasValue "0.0305"^^xsd:float .
 
 :Supervision_DanielOliveira_Association a owl:NamedIndividual,
         prov:Association ;
@@ -1541,9 +1548,9 @@
 
 :Units_417a a owl:NamedIndividual,
         hmo:Units ;
-    rdfs:comment "Representative length range for the 'small' category recorded by the survey, not measured unit lengths."@en ;
-    hmo:unitsLengthHasMinimumValue "10.0"^^xsd:float ;
-    hmo:unitsLengthMaximumValue "20.0"^^xsd:float .
+    rdfs:comment "Representative length range for the 'medium' category recorded by the survey, not measured unit lengths."@en ;
+    hmo:unitsLengthHasMinimumValue "20.0"^^xsd:float ;
+    hmo:unitsLengthMaximumValue "40.0"^^xsd:float .
 
 :Units_417b a owl:NamedIndividual,
         hmo:Units ;
@@ -1577,24 +1584,23 @@
 
 :Units_420 a owl:NamedIndividual,
         hmo:Units ;
-    rdfs:comment "Representative length range for the 'medium' category recorded by the survey, not measured unit lengths."@en ;
-    hmo:unitsLengthHasMinimumValue "20.0"^^xsd:float ;
-    hmo:unitsLengthMaximumValue "40.0"^^xsd:float .
+    rdfs:comment "Representative length range for the 'small' category recorded by the survey, not measured unit lengths."@en ;
+    hmo:unitsLengthHasMinimumValue "10.0"^^xsd:float ;
+    hmo:unitsLengthMaximumValue "20.0"^^xsd:float .
 
 :Wall_417a a owl:NamedIndividual,
         hmo:MasonryWall ;
     rdfs:label "Masonry wall of facade 417a of unit 417"@en ;
-    dcterms:type :Tufelli_masonry_typeC ;
+    dcterms:type :Tufelli_masonry_typeD ;
     rdfs:comment "AbsenceOfIntermediateChains: No tie-rod anchor plates visible at the floor levels in the survey photographs."@en,
         "AbsenceOfIntermediateCurbstone: No curb beam visible at the floor levels in the survey photographs."@en,
         "AbsenceOfTopChains: No tie-rod anchor plates visible at the top of the walls in the survey photographs."@en,
         "AbsenceOfTopCurbstone: Historic tuff masonry with timber floors and roofs; no curb beam visible at the top of the walls in the survey photographs."@en,
         "DeformableFloors: Timber floors alla romana documented for the aggregate as a whole (Section 8.2.3); no stiffening of the floors observed."@en ;
-    fmo:hasBehaviour fmo:InadequateInPlaneBehaviour,
-        fmo:InadequateOutOfPlaneBehaviour,
-        fmo:InadequateVerticalBehaviour ;
-    fmo:hasOccurringMechanism fmo:InPlaneFailure,
-        fmo:PartialOverturn,
+    fmo:hasBehaviour fmo:AverageInPlaneBehaviour,
+        fmo:AverageVerticalBehaviour,
+        fmo:InadequateOutOfPlaneBehaviour ;
+    fmo:hasOccurringMechanism fmo:PartialOverturn,
         fmo:TotalOverturn ;
     fmo:hasVulnerability fmo:AbsenceOfIntermediateChains,
         fmo:AbsenceOfIntermediateCurbstone,
@@ -1629,7 +1635,7 @@
 :Wall_417c a owl:NamedIndividual,
         hmo:MasonryWall ;
     rdfs:label "Masonry wall of facade 417c of unit 417"@en ;
-    dcterms:type :Tufelli_masonry_typeB ;
+    dcterms:type :Tufelli_masonry_typeD ;
     rdfs:comment "AbsenceOfIntermediateChains: No tie-rod anchor plates visible at the floor levels in the survey photographs."@en,
         "AbsenceOfIntermediateCurbstone: No curb beam visible at the floor levels in the survey photographs."@en,
         "AbsenceOfTopChains: No tie-rod anchor plates visible at the top of the walls in the survey photographs."@en,
@@ -1651,50 +1657,6 @@
 :Wall_418a a owl:NamedIndividual,
         hmo:MasonryWall ;
     rdfs:label "Masonry wall of facade 418a of unit 418"@en ;
-    dcterms:type :Tufelli_masonry_typeB ;
-    rdfs:comment "AbsenceOfIntermediateChains: No tie-rod anchor plates visible at the floor levels in the survey photographs."@en,
-        "AbsenceOfIntermediateCurbstone: No curb beam visible at the floor levels in the survey photographs."@en,
-        "AbsenceOfTopChains: No tie-rod anchor plates visible at the top of the walls in the survey photographs."@en,
-        "AbsenceOfTopCurbstone: Historic tuff masonry with timber floors and roofs; no curb beam visible at the top of the walls in the survey photographs."@en,
-        "DeformableFloors: Timber floors alla romana documented for the aggregate as a whole (Section 8.2.3); no stiffening of the floors observed."@en ;
-    fmo:hasBehaviour fmo:AverageInPlaneBehaviour,
-        fmo:AverageVerticalBehaviour,
-        fmo:InadequateOutOfPlaneBehaviour ;
-    fmo:hasOccurringMechanism fmo:PartialOverturn,
-        fmo:TotalOverturn ;
-    fmo:hasVulnerability fmo:AbsenceOfIntermediateChains,
-        fmo:AbsenceOfIntermediateCurbstone,
-        fmo:AbsenceOfTopChains,
-        fmo:AbsenceOfTopCurbstone,
-        fmo:DeformableFloors ;
-    hmo:hasMasonryQualityIndex :MQI_418a ;
-    hmo:hasRepresentativeVolumeElement :RVE_418a .
-
-:Wall_418b a owl:NamedIndividual,
-        hmo:MasonryWall ;
-    rdfs:label "Masonry wall of facade 418b of unit 418"@en ;
-    dcterms:type :Tufelli_masonry_typeD ;
-    rdfs:comment "AbsenceOfIntermediateChains: No tie-rod anchor plates visible at the floor levels in the survey photographs."@en,
-        "AbsenceOfIntermediateCurbstone: No curb beam visible at the floor levels in the survey photographs."@en,
-        "AbsenceOfTopChains: No tie-rod anchor plates visible at the top of the walls in the survey photographs."@en,
-        "AbsenceOfTopCurbstone: Historic tuff masonry with timber floors and roofs; no curb beam visible at the top of the walls in the survey photographs."@en,
-        "DeformableFloors: Timber floors alla romana documented for the aggregate as a whole (Section 8.2.3); no stiffening of the floors observed."@en ;
-    fmo:hasBehaviour fmo:AverageInPlaneBehaviour,
-        fmo:AverageVerticalBehaviour,
-        fmo:InadequateOutOfPlaneBehaviour ;
-    fmo:hasOccurringMechanism fmo:PartialOverturn,
-        fmo:TotalOverturn ;
-    fmo:hasVulnerability fmo:AbsenceOfIntermediateChains,
-        fmo:AbsenceOfIntermediateCurbstone,
-        fmo:AbsenceOfTopChains,
-        fmo:AbsenceOfTopCurbstone,
-        fmo:DeformableFloors ;
-    hmo:hasMasonryQualityIndex :MQI_418b ;
-    hmo:hasRepresentativeVolumeElement :RVE_418b .
-
-:Wall_419 a owl:NamedIndividual,
-        hmo:MasonryWall ;
-    rdfs:label "Masonry wall of facade 419 of unit 419"@en ;
     dcterms:type :Tufelli_masonry_typeA ;
     rdfs:comment "AbsenceOfIntermediateChains: No tie-rod anchor plates visible at the floor levels in the survey photographs."@en,
         "AbsenceOfIntermediateCurbstone: No curb beam visible at the floor levels in the survey photographs."@en,
@@ -1711,12 +1673,34 @@
         fmo:AbsenceOfTopChains,
         fmo:AbsenceOfTopCurbstone,
         fmo:DeformableFloors ;
-    hmo:hasMasonryQualityIndex :MQI_419 ;
-    hmo:hasRepresentativeVolumeElement :RVE_419 .
+    hmo:hasMasonryQualityIndex :MQI_418a ;
+    hmo:hasRepresentativeVolumeElement :RVE_418a .
 
-:Wall_420 a owl:NamedIndividual,
+:Wall_418b a owl:NamedIndividual,
         hmo:MasonryWall ;
-    rdfs:label "Masonry wall of facade 420 of unit 420"@en ;
+    rdfs:label "Masonry wall of facade 418b of unit 418"@en ;
+    dcterms:type :Tufelli_masonry_typeA ;
+    rdfs:comment "AbsenceOfIntermediateChains: No tie-rod anchor plates visible at the floor levels in the survey photographs."@en,
+        "AbsenceOfIntermediateCurbstone: No curb beam visible at the floor levels in the survey photographs."@en,
+        "AbsenceOfTopChains: No tie-rod anchor plates visible at the top of the walls in the survey photographs."@en,
+        "AbsenceOfTopCurbstone: Historic tuff masonry with timber floors and roofs; no curb beam visible at the top of the walls in the survey photographs."@en,
+        "DeformableFloors: Timber floors alla romana documented for the aggregate as a whole (Section 8.2.3); no stiffening of the floors observed."@en ;
+    fmo:hasBehaviour fmo:AverageInPlaneBehaviour,
+        fmo:AverageOutOfPlaneBehaviour,
+        fmo:AverageVerticalBehaviour ;
+    fmo:hasOccurringMechanism fmo:PartialOverturn,
+        fmo:TotalOverturn ;
+    fmo:hasVulnerability fmo:AbsenceOfIntermediateChains,
+        fmo:AbsenceOfIntermediateCurbstone,
+        fmo:AbsenceOfTopChains,
+        fmo:AbsenceOfTopCurbstone,
+        fmo:DeformableFloors ;
+    hmo:hasMasonryQualityIndex :MQI_418b ;
+    hmo:hasRepresentativeVolumeElement :RVE_418b .
+
+:Wall_419 a owl:NamedIndividual,
+        hmo:MasonryWall ;
+    rdfs:label "Masonry wall of facade 419 of unit 419"@en ;
     dcterms:type :Tufelli_masonry_typeD ;
     rdfs:comment "AbsenceOfIntermediateChains: No tie-rod anchor plates visible at the floor levels in the survey photographs."@en,
         "AbsenceOfIntermediateCurbstone: No curb beam visible at the floor levels in the survey photographs."@en,
@@ -1733,12 +1717,35 @@
         fmo:AbsenceOfTopChains,
         fmo:AbsenceOfTopCurbstone,
         fmo:DeformableFloors ;
+    hmo:hasMasonryQualityIndex :MQI_419 ;
+    hmo:hasRepresentativeVolumeElement :RVE_419 .
+
+:Wall_420 a owl:NamedIndividual,
+        hmo:MasonryWall ;
+    rdfs:label "Masonry wall of facade 420 of unit 420"@en ;
+    dcterms:type :Tufelli_masonry_typeC ;
+    rdfs:comment "AbsenceOfIntermediateChains: No tie-rod anchor plates visible at the floor levels in the survey photographs."@en,
+        "AbsenceOfIntermediateCurbstone: No curb beam visible at the floor levels in the survey photographs."@en,
+        "AbsenceOfTopChains: No tie-rod anchor plates visible at the top of the walls in the survey photographs."@en,
+        "AbsenceOfTopCurbstone: Historic tuff masonry with timber floors and roofs; no curb beam visible at the top of the walls in the survey photographs."@en,
+        "DeformableFloors: Timber floors alla romana documented for the aggregate as a whole (Section 8.2.3); no stiffening of the floors observed."@en ;
+    fmo:hasBehaviour fmo:InadequateInPlaneBehaviour,
+        fmo:InadequateOutOfPlaneBehaviour,
+        fmo:InadequateVerticalBehaviour ;
+    fmo:hasOccurringMechanism fmo:InPlaneFailure,
+        fmo:PartialOverturn,
+        fmo:TotalOverturn ;
+    fmo:hasVulnerability fmo:AbsenceOfIntermediateChains,
+        fmo:AbsenceOfIntermediateCurbstone,
+        fmo:AbsenceOfTopChains,
+        fmo:AbsenceOfTopCurbstone,
+        fmo:DeformableFloors ;
     hmo:hasMasonryQualityIndex :MQI_420 ;
     hmo:hasRepresentativeVolumeElement :RVE_420 .
 
 :YoungModulus_417a a owl:NamedIndividual,
         hmo:YoungModulus ;
-    saref:hasValue "987.8"^^xsd:float .
+    saref:hasValue "1198.7"^^xsd:float .
 
 :YoungModulus_417b a owl:NamedIndividual,
         hmo:YoungModulus ;
@@ -1750,19 +1757,19 @@
 
 :YoungModulus_418a a owl:NamedIndividual,
         hmo:YoungModulus ;
-    saref:hasValue "1198.7"^^xsd:float .
+    saref:hasValue "1526.6"^^xsd:float .
 
 :YoungModulus_418b a owl:NamedIndividual,
         hmo:YoungModulus ;
-    saref:hasValue "1198.7"^^xsd:float .
+    saref:hasValue "1526.6"^^xsd:float .
 
 :YoungModulus_419 a owl:NamedIndividual,
         hmo:YoungModulus ;
-    saref:hasValue "1526.6"^^xsd:float .
+    saref:hasValue "1198.7"^^xsd:float .
 
 :YoungModulus_420 a owl:NamedIndividual,
         hmo:YoungModulus ;
-    saref:hasValue "1198.7"^^xsd:float .
+    saref:hasValue "987.8"^^xsd:float .
 
 :YoungModulus_Material_Bricks a owl:NamedIndividual,
         hmo:YoungModulus ;
@@ -2385,41 +2392,6 @@
         hsv:TraditionalConstructionTechnique ;
     rdfs:label "Muratura a tufelli"@en .
 
-:Facade_418a a owl:NamedIndividual,
-        hsto:Facade,
-        hsv:Facade ;
-    rdfs:label "Facade 418a of unit 418"@en ;
-    hsto:isBuiltWithTraditionalConstructionTechnique :MuraturaATufelli ;
-    hsto:isMadeOf :Wall_418a ;
-    hsv:hasDocument :Photo_418a_01,
-        :Photo_418a_02,
-        :Photo_418a_03,
-        :Photo_418a_04,
-        :Photo_418a_05 .
-
-:Tufelli_masonry_typeA a owl:NamedIndividual,
-        skos:Concept ;
-    rdfs:label "Tufelli_masonry_typeA"@en ;
-    rdfs:comment "Mortar scored plain 'lime' (conservative) rather than crediting the pozzolana content mentioned in the manuscript with a hydraulic-lime-level score - the pozzolana's real contribution to mortar performance was not tested, only described qualitatively"@en,
-        "Vertical joint staggering scored 'partially_staggered' (conservative) rather than 'properly_staggered' - not directly measurable from the available photos at typical phone-camera resolution/angle"@en ;
-    skos:definition "Regular tufo masonry, fairly continuous coursing, well-cut stone voussoirs at openings"@en ;
-    skos:note "A-419/a419 photos (WhatsApp Image 2023-06-01 at 14.50.49/50/51): stone arch over a door with well-dressed voussoirs, courses fairly regular though not perfectly continuous"@en .
-
-:Tufelli_masonry_typeB a owl:NamedIndividual,
-        skos:Concept ;
-    rdfs:label "Tufelli_masonry_typeB"@en ;
-    rdfs:comment "Same conservative mortar assumption as typeA (plain lime, not hydraulic-boosted)"@en,
-        "Vertical joint staggering scored 'partially_staggered' from the visibly less regular coursing - not measured"@en ;
-    skos:definition "Irregular tufo masonry, discontinuous coursing, brick relieving arches at openings, squared corner quoins"@en ;
-    skos:note "A-417/417_c (corner building, Vicolo del Cabalino - WhatsApp Image 2023-06-01 at 14.50.40/41/42/43) and A-418/418-a (WhatsApp Image 2023-06-01 at 14.50.47/48, brick arch over a round-headed window): irregular unit sizes, less continuous coursing than typeA"@en .
-
-:Tufelli_masonry_typeD a owl:NamedIndividual,
-        skos:Concept ;
-    rdfs:label "Tufelli_masonry_typeD"@en ;
-    rdfs:comment "ENTIRELY assumed, not observed: scored identically to typeB (the 'ordinary/irregular' type) as the most defensible default for an unexceptional rendered facade in the same aggregate, rather than typeA (visibly higher quality, tied to specific observed stonework at door openings that this facade's render gives no evidence for) or typeC (visibly patched/reworked, again no evidence either way). This is the weakest-grounded of the four classifications - revisit first if render is ever removed, or if there is independent reason (archival, structural survey) to place this facade in a specific construction phase."@en ;
-    skos:definition "Fully rendered facade, masonry not directly observable - assumed by construction-era analogy to typeB"@en ;
-    skos:note "A-417/417_b (WhatsApp Image 2023-06-01 at 14.51.52/53) and A-420/a420 (WhatsApp Image 2023-06-01 at 14.50.52-55): fully plastered in every available survey photo, no exposed masonry"@en .
-
 :Facade_417c a owl:NamedIndividual,
         hsto:Facade,
         hsv:Facade ;
@@ -2438,22 +2410,20 @@
         :Photo_417c_10,
         :Photo_417c_11 .
 
+:Tufelli_masonry_typeA a owl:NamedIndividual,
+        skos:Concept ;
+    rdfs:label "Tufelli_masonry_typeA"@en ;
+    rdfs:comment "Mortar scored plain 'lime' (conservative) rather than crediting the pozzolana content mentioned in the manuscript with a hydraulic-lime-level score - the pozzolana's real contribution to mortar performance was not tested, only described qualitatively"@en,
+        "Vertical joint staggering scored 'partially_staggered' (conservative) rather than 'properly_staggered' - not directly measurable from the available photos at typical phone-camera resolution/angle"@en ;
+    skos:definition "Regular tufo masonry, fairly continuous coursing, well-cut stone voussoirs at openings"@en ;
+    skos:note "A-419/a419 photos (WhatsApp Image 2023-06-01 at 14.50.49/50/51): stone arch over a door with well-dressed voussoirs, courses fairly regular though not perfectly continuous"@en .
+
 :Tufelli_masonry_typeC a owl:NamedIndividual,
         skos:Concept ;
     rdfs:label "Tufelli_masonry_typeC"@en ;
     rdfs:comment "Scores kept uniformly low across all 7 parameters per the manuscript's explicit statement that this residential fabric has 'more frequent use of reused bricks, and greater variability in coursing and joint execution' than the representative architecture its local-technique description is based on - a stated characterisation from the manuscript, not read off any single photo"@en ;
     skos:definition "Patched/reworked masonry, mixed exposed stone and infill/repairs, brick dentil cornice, evidence of blocked former openings"@en ;
     skos:note "A-417/417_a (WhatsApp Image 2023-06-01 at 14.50.44/45/46, 14.51.48/49/50): exposed stone interspersed with rendered patches and a decorative brick course"@en .
-
-:Material_Bricks a mat:Material,
-        owl:NamedIndividual ;
-    rdfs:label "Bricks"@en ;
-    dcterms:identifier "Bricks" ;
-    dcterms:source "Circular No. 7/2019, Table C8.5.I, solid brick and lime mortar (w = 18 kN/m3, E = 1200-1800 MPa, mean)" ;
-    rdfs:comment "Material of the BIM model: its properties are those of the IfcMaterial of the same name (Pset_MaterialCommon, Pset_MaterialMechanical), not derived by the reasoner."@en ;
-    skos:note "Poisson ratio 0.2"@en ;
-    hmo:hasHomogenisedMechanicalProperty :MassDensity_Material_Bricks,
-        :YoungModulus_Material_Bricks .
 
 :Facade_419 a owl:NamedIndividual,
         hsto:Facade,
@@ -2467,6 +2437,28 @@
         :Photo_419_03,
         :Photo_419_04,
         :Photo_419_05 .
+
+:Material_Bricks a mat:Material,
+        owl:NamedIndividual ;
+    rdfs:label "Bricks"@en ;
+    dcterms:identifier "Bricks" ;
+    dcterms:source "Circular No. 7/2019, Table C8.5.I, solid brick and lime mortar (w = 18 kN/m3, E = 1200-1800 MPa, mean)" ;
+    rdfs:comment "Material of the BIM model: its properties are those of the IfcMaterial of the same name (Pset_MaterialCommon, Pset_MaterialMechanical), not derived by the reasoner."@en ;
+    skos:note "Poisson ratio 0.2"@en ;
+    hmo:hasHomogenisedMechanicalProperty :MassDensity_Material_Bricks,
+        :YoungModulus_Material_Bricks .
+
+:Facade_418a a owl:NamedIndividual,
+        hsto:Facade,
+        hsv:Facade ;
+    rdfs:label "Facade 418a of unit 418"@en ;
+    hsto:isBuiltWithTraditionalConstructionTechnique :MuraturaATufelli ;
+    hsto:isMadeOf :Wall_418a ;
+    hsv:hasDocument :Photo_418a_01,
+        :Photo_418a_02,
+        :Photo_418a_03,
+        :Photo_418a_04,
+        :Photo_418a_05 .
 
 :Facade_420 a owl:NamedIndividual,
         hsto:Facade,
@@ -2501,6 +2493,13 @@
         :Photo_417a_11,
         :Photo_417a_12,
         :Photo_417a_13 .
+
+:Tufelli_masonry_typeD a owl:NamedIndividual,
+        skos:Concept ;
+    rdfs:label "Tufelli_masonry_typeD"@en ;
+    rdfs:comment "ENTIRELY assumed, not observed: scored identically to typeB (the 'ordinary/irregular' type) as the most defensible default for an unexceptional rendered facade in the same aggregate, rather than typeA (visibly higher quality, tied to specific observed stonework at door openings that this facade's render gives no evidence for) or typeC (visibly patched/reworked, again no evidence either way). This is the weakest-grounded of the four classifications - revisit first if render is ever removed, or if there is independent reason (archival, structural survey) to place this facade in a specific construction phase."@en ;
+    skos:definition "Fully rendered facade, masonry not directly observable - assumed by construction-era analogy to typeB"@en ;
+    skos:note "A-417/417_b (WhatsApp Image 2023-06-01 at 14.51.52/53) and A-420/a420 (WhatsApp Image 2023-06-01 at 14.50.52-55): fully plastered in every available survey photo, no exposed masonry"@en .
 
 :Material_Timber_beams_assembly a mat:Material,
         owl:NamedIndividual ;

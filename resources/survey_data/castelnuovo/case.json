@@ -348,8 +348,8 @@
     "id": "Facade_417a",
     "unit": "Unit_417",
     "label": "Facade 417a of unit 417",
-    "masonry_type": "Tufelli_masonry_typeC",
-    "elements": "112HIUctr2yw5OqZgr3kla; 112HIUctr2yw5OqZgr3kXe; 112HIUctr2yw5OqZgr3kYs; 112HIUctr2yw5OqZgr3kaS; 3c8HC29$17vfNgcUAdeh3J; 3c8HC29$17vfNgcUAdeh3I; 3c8HC29$17vfNgcUAdeh3H; 3c8HC29$17vfNgcUAdeh3G; 1FujFrxrb7ouwnZEeyzKU0; 2HmFfYHsL2OPZKrO6tYf$1; 3c8HC29$17vfNgcUAdeh01; 3c8HC29$17vfNgcUAdeh00; 3c8HC29$17vfNgcUAdeh07; 3c8HC29$17vfNgcUAdeh06; 0QfxonMDT2A8cO_M93$yye; 0QfxonMDT2A8cO_M93$yp8"
+    "masonry_type": "Tufelli_masonry_typeD",
+    "elements": "0GisCWViz2PeUrBi4wgVUt; 0GisCWViz2PeUrBi4wgUZp; 0GisCWViz2PeUrBi4wgUdW; 0GisCWViz2PeUrBi4wgUa5; 112HIUctr2yw5OqZgr3kPo; 112HIUctr2yw5OqZgr3kPp; 112HIUctr2yw5OqZgr3kPi; 112HIUctr2yw5OqZgr3kPj; 112HIUctr2yw5OqZgr3kPf; 112HIUctr2yw5OqZgr3kPg; 112HIUctr2yw5OqZgr3kPh; 112HIUctr2yw5OqZgr3kPa"
    },
    {
     "id": "Facade_417b",
@@ -362,36 +362,36 @@
     "id": "Facade_417c",
     "unit": "Unit_417",
     "label": "Facade 417c of unit 417",
-    "masonry_type": "Tufelli_masonry_typeB",
-    "elements": "2XzZEtRJH75fftbZbcqwO2; 2XzZEtRJH75fftbZbcqwH8; 2XzZEtRJH75fftbZbcqwJ5; 07H4IE3N17quz_RDvElapV"
+    "masonry_type": "Tufelli_masonry_typeD",
+    "elements": ""
    },
    {
     "id": "Facade_418a",
     "unit": "Unit_418",
     "label": "Facade 418a of unit 418",
-    "masonry_type": "Tufelli_masonry_typeB",
-    "elements": "2XzZEtRJH75fftbZbcqwCR; 2XzZEtRJH75fftbZbcqwCB; 0CvVHHujLB8fkhpCAWbiT3; 1HfLPk$M547Aaac6ue3X37; 2tiNzAytfCwQOKJzMPcwjv; 2XzZEtRJH75fftbZbcqwNS; 1HfLPk$M547Aaac6ue3X0L; 2QEzj1Im5478gG84LIeYU2; 2QEzj1Im5478gG84LIeYTv"
+    "masonry_type": "Tufelli_masonry_typeA",
+    "elements": "0GisCWViz2PeUrBi4wgVRW; 112HIUctr2yw5OqZgr3kPn; 112HIUctr2yw5OqZgr3kPe; 112HIUctr2yw5OqZgr3ksc; 0M1S9S_Qr3IPBMDqinoabk; 37gWW_uGL459BrbCF$MAq8; 2XzZEtRJH75fftbZbcqwY_; 2XzZEtRJH75fftbZbcqwZb; 2SDwapJ$z32OyuRGCv33co; 3_wR1BNVfAMeWWIaQS4y2L; 3_wR1BNVfAMeWWIaQS4ySL; 3_wR1BNVfAMeWWIaQS4yS9; 0F0gJxCaz6DgMK0q1JiO7L; 1aMTge6B9DK9$RHbrOwo4u"
    },
    {
     "id": "Facade_418b",
     "unit": "Unit_418",
     "label": "Facade 418b of unit 418",
-    "masonry_type": "Tufelli_masonry_typeD",
+    "masonry_type": "Tufelli_masonry_typeA",
     "elements": ""
    },
    {
     "id": "Facade_419",
     "unit": "Unit_419",
     "label": "Facade 419 of unit 419",
-    "masonry_type": "Tufelli_masonry_typeA",
-    "elements": "0GisCWViz2PeUrBi4wgVRW; 112HIUctr2yw5OqZgr3kPn; 112HIUctr2yw5OqZgr3kPe; 112HIUctr2yw5OqZgr3ksc; 0M1S9S_Qr3IPBMDqinoabk; 37gWW_uGL459BrbCF$MAq8; 2XzZEtRJH75fftbZbcqwY_; 2XzZEtRJH75fftbZbcqwZb; 2SDwapJ$z32OyuRGCv33co; 3_wR1BNVfAMeWWIaQS4y2L; 3_wR1BNVfAMeWWIaQS4ySL; 3_wR1BNVfAMeWWIaQS4yS9; 0F0gJxCaz6DgMK0q1JiO7L; 1aMTge6B9DK9$RHbrOwo4u"
+    "masonry_type": "Tufelli_masonry_typeD",
+    "elements": "2XzZEtRJH75fftbZbcqwCR; 2XzZEtRJH75fftbZbcqwCB; 0CvVHHujLB8fkhpCAWbiT3; 1HfLPk$M547Aaac6ue3X37; 2tiNzAytfCwQOKJzMPcwjv; 2XzZEtRJH75fftbZbcqwNS; 1HfLPk$M547Aaac6ue3X0L; 2QEzj1Im5478gG84LIeYU2; 2QEzj1Im5478gG84LIeYTv; 2XzZEtRJH75fftbZbcqwO2; 2XzZEtRJH75fftbZbcqwH8; 2XzZEtRJH75fftbZbcqwJ5; 07H4IE3N17quz_RDvElapV"
    },
    {
     "id": "Facade_420",
     "unit": "Unit_420",
     "label": "Facade 420 of unit 420",
-    "masonry_type": "Tufelli_masonry_typeD",
-    "elements": "0GisCWViz2PeUrBi4wgVUt; 0GisCWViz2PeUrBi4wgUZp; 0GisCWViz2PeUrBi4wgUdW; 0GisCWViz2PeUrBi4wgUa5; 112HIUctr2yw5OqZgr3kPo; 112HIUctr2yw5OqZgr3kPp; 112HIUctr2yw5OqZgr3kPi; 112HIUctr2yw5OqZgr3kPj; 112HIUctr2yw5OqZgr3kPf; 112HIUctr2yw5OqZgr3kPg; 112HIUctr2yw5OqZgr3kPh; 112HIUctr2yw5OqZgr3kPa"
+    "masonry_type": "Tufelli_masonry_typeC",
+    "elements": "112HIUctr2yw5OqZgr3kla; 112HIUctr2yw5OqZgr3kXe; 112HIUctr2yw5OqZgr3kYs; 112HIUctr2yw5OqZgr3kaS; 3c8HC29$17vfNgcUAdeh3J; 3c8HC29$17vfNgcUAdeh3I; 3c8HC29$17vfNgcUAdeh3H; 3c8HC29$17vfNgcUAdeh3G; 1FujFrxrb7ouwnZEeyzKU0; 2HmFfYHsL2OPZKrO6tYf$1; 3c8HC29$17vfNgcUAdeh01; 3c8HC29$17vfNgcUAdeh00; 3c8HC29$17vfNgcUAdeh07; 3c8HC29$17vfNgcUAdeh06; 0QfxonMDT2A8cO_M93$yye; 0QfxonMDT2A8cO_M93$yp8"
    }
   ],
   "Photos": [

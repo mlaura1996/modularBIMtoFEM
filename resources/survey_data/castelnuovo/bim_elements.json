@@ -732,7 +732,7 @@
       "ifc_class": "IfcWall",
       "name": "Castelnuovo2:Castelnuovo3:1707893",
       "materials": [
-        "Tufelli_masonry_typeB"
+        "Tufelli_masonry_typeD"
       ]
     },
     {
@@ -740,7 +740,7 @@
       "ifc_class": "IfcWall",
       "name": "Castelnuovo3:Castelnuovo3:1707835",
       "materials": [
-        "Tufelli_masonry_typeB"
+        "Tufelli_masonry_typeD"
       ]
     },
     {
@@ -756,7 +756,7 @@
       "ifc_class": "IfcWall",
       "name": "Castelnuovo5:Castelnuovo3:1707943",
       "materials": [
-        "Tufelli_masonry_typeB"
+        "Tufelli_masonry_typeD"
       ]
     },
     {
@@ -764,7 +764,7 @@
       "ifc_class": "IfcWall",
       "name": "Castelnuovo6:Castelnuovo3:1716568",
       "materials": [
-        "Tufelli_masonry_typeB"
+        "Tufelli_masonry_typeD"
       ]
     },
     {
@@ -780,7 +780,7 @@
       "ifc_class": "IfcWall",
       "name": "Castelnuovo8:Castelnuovo13:1761266",
       "materials": [
-        "Tufelli_masonry_typeB"
+        "Tufelli_masonry_typeD"
       ]
     },
     {
@@ -828,7 +828,7 @@
       "ifc_class": "IfcWall",
       "name": "Castelnuovo_wall1:Castelnuovo_wall:1690231",
       "materials": [
-        "Tufelli_masonry_typeB"
+        "Tufelli_masonry_typeD"
       ]
     },
     {
@@ -836,7 +836,7 @@
       "ifc_class": "IfcWall",
       "name": "Castelnuovo_wall2:Castelnuovo_wall:1690362",
       "materials": [
-        "Tufelli_masonry_typeB"
+        "Tufelli_masonry_typeD"
       ]
     },
     {
@@ -844,7 +844,7 @@
       "ifc_class": "IfcWall",
       "name": "Castelnuovo_wall3:Castelnuovo_wall3:1690595",
       "materials": [
-        "Tufelli_masonry_typeB"
+        "Tufelli_masonry_typeD"
       ]
     },
     {
@@ -852,7 +852,7 @@
       "ifc_class": "IfcWall",
       "name": "Castelnuovo_wall4:Castelnuovo_wall3:1690916",
       "materials": [
-        "Tufelli_masonry_typeB"
+        "Tufelli_masonry_typeD"
       ]
     },
     {
@@ -860,7 +860,7 @@
       "ifc_class": "IfcWall",
       "name": "Castelnuovo_wall5:Castelnuovo_wall3:1690932",
       "materials": [
-        "Tufelli_masonry_typeB"
+        "Tufelli_masonry_typeD"
       ]
     },
     {
@@ -868,7 +868,7 @@
       "ifc_class": "IfcWall",
       "name": "Castelnuovo_wall6:Castelnuovo_wall3:1716643",
       "materials": [
-        "Tufelli_masonry_typeB"
+        "Tufelli_masonry_typeD"
       ]
     },
     {
@@ -876,7 +876,7 @@
       "ifc_class": "IfcWall",
       "name": "Castelnuovo_wall:Castelnuovo_wall:1689661",
       "materials": [
-        "Tufelli_masonry_typeB"
+        "Tufelli_masonry_typeD"
       ]
     },
     {
@@ -892,7 +892,7 @@
       "ifc_class": "IfcWall",
       "name": "big_column:big_column:1738268",
       "materials": [
-        "Tufelli_masonry_typeB"
+        "Tufelli_masonry_typeD"
       ]
     },
     {

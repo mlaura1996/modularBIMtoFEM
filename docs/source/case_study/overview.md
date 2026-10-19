@@ -79,15 +79,15 @@ by the modeller. Characterised from survey data (photos, manuscript,
 cadastral map, reference typology text) using the thesis's own HMO/MQI
 methodology — full account in {doc}`materials`.
 
-The material names follow the façades of the survey: Type C on unit 417
-(façade 417a), Type B on unit 418 and on façade 417c of unit 417, Type A on
-unit 419, and Type D (rendered) on unit 420. Until October 2026 the walls of
-unit 420 carried the Type A material, so they would have received the wrong
-properties; the top storeys of 417 and 418 take the masonry of the storeys
-below. The rendered façades 417b and 418b of the survey remain in the
-knowledge record, with no walls of the BIM model assigned to them. Both
-`final_example.ifc` and `example_clean.ifc` were corrected, and the stone
-surrounds of five closed arches, modelled with a tufelli infill, are Stone.
+The material names follow the units, from the south end of the aggregate:
+Type D (rendered) on unit 417, Type A on unit 418, Type D on unit 419 and
+Type C on unit 420. The walls first modelled as Type B are rendered, so they
+carry Type D, whose classification is that of Type B. The walls of unit 417
+are assigned to façade 417a, those of unit 418 to façade 418a; façades 417b,
+417c and 418b of the survey remain in the knowledge record with no walls of
+their own. Both `final_example.ifc` and `example_clean.ifc` were corrected
+in October 2026, and the stone surrounds of five closed arches, modelled
+with a tufelli infill, are Stone.
 
 The knowledge record is stored in
 `resources/ifc_examples/castelnuovo/castelnuovo_case.ifc` (saved by the

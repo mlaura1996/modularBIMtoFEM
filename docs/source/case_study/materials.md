@@ -46,14 +46,19 @@ source of record; the table below is a summary.
   - Door arch with dressed voussoirs (facade 419)
 * - B
   - Irregular coursing, brick relieving arches, squared quoins
-  - Corner building (417); brick arch (418)
+  - Corner building (417); brick arch (418). Not assigned in the model: the walls first given type B are rendered, so type D; B is kept as the reference type D is scored from
 * - C
   - Patched/reworked, mixed exposed stone and infill, brick dentil cornice
   - Facade 417
 * - D
   - Fully rendered — masonry not observable
-  - Whole of 420; also façades 417b and 418b of the survey, which have no walls of their own in the BIM model — **scored by analogy to type B**, the weakest-grounded of the four
+  - Units 417 and 419 — **scored by analogy to type B**, the weakest-grounded of the four
 ```
+
+In the BIM model, and so in the knowledge record and the numerical model,
+the units carry Type D (417 and 419), Type A (418) and Type C (420): the
+units were first numbered from the wrong end of the aggregate, and the
+assignment was corrected in October 2026.
 
 ## First pass vs. final pass
 
@@ -164,30 +169,24 @@ rules derive:
   - Out-of-plane
   - Vertical
   - Mechanisms enabled
-* - 417a
-  - C
-  - inadequate
-  - inadequate
-  - inadequate
-  - in-plane failure, partial and total overturning
-* - 417b, 418b, 420
+* - 417a, 417b, 417c, 419
   - D
   - average
   - inadequate
   - average
   - partial and total overturning
-* - 417c, 418a
-  - B
-  - average
-  - inadequate
-  - average
-  - partial and total overturning
-* - 419
+* - 418a, 418b
   - A
   - average
   - average
   - average
   - partial and total overturning
+* - 420
+  - C
+  - inadequate
+  - inadequate
+  - inadequate
+  - in-plane failure, partial and total overturning
 ```
 
 ## Knowledge graph

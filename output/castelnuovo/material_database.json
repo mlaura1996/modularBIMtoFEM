@@ -27,34 +27,6 @@
     ],
     "_derivation": "Pellet over the knowledge graph (HSV, HSTO, HMO; HMO rules from resources/ontologies/hmo.ttl), cross-checked against core/ifc_processing/hmo_mqi.py"
   },
-  "Tufelli_masonry_typeB": {
-    "name": "Tufelli_masonry_typeB",
-    "density": 1450.0,
-    "young_modulus": 1198.7,
-    "poisson_ratio": 0.2,
-    "is_structural": true,
-    "material_model_type": "PlasticDamage",
-    "compressive_strength": 2.616,
-    "tensile_strength": 0.342,
-    "compression_fracture_energy": 0,
-    "tensile_fracture_energy": 0,
-    "compressive_elastic_behaviour": 0,
-    "_mqi_total": {
-      "vertical": 2.8,
-      "out_of_plane": 2.8,
-      "in_plane": 3.15
-    },
-    "_shear_modulus_MPa": 421.27,
-    "_shear_strength_turnsek_cacovic_MPa": 0.0475,
-    "_evidence": {
-      "general": "A-417/417_c (corner building, Vicolo del Cabalino - WhatsApp Image 2023-06-01 at 14.50.40/41/42/43) and A-418/418-a (WhatsApp Image 2023-06-01 at 14.50.47/48, brick arch over a round-headed window): irregular unit sizes, less continuous coursing than typeA"
-    },
-    "_flags": [
-      "Same conservative mortar assumption as typeA (plain lime, not hydraulic-boosted)",
-      "Vertical joint staggering scored 'partially_staggered' from the visibly less regular coursing - not measured"
-    ],
-    "_derivation": "Pellet over the knowledge graph (HSV, HSTO, HMO; HMO rules from resources/ontologies/hmo.ttl), cross-checked against core/ifc_processing/hmo_mqi.py"
-  },
   "Tufelli_masonry_typeC": {
     "name": "Tufelli_masonry_typeC",
     "density": 1450.0,
