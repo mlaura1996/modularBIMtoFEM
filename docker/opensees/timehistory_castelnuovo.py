@@ -107,6 +107,9 @@ from core.opensees_generation.junction_ties import find_junction_ties, apply_tie
 from core.opensees_generation.element_sampling import select_recorded_elements
 from core.mesh_generation.geometry_healing import find_open_junctions
 from core.ifc_processing.data_extractor import Material
+from core.opensees_generation.volume_materials import (
+    load as load_volume_materials, add_physical_groups, materials_from_ifc, total_weight,
+    element_densities, summary as materials_summary)
 from core.mesh_generation.wall_interfaces import (
     InterfaceDetection, InterfaceSelection, ContactInterfaceGenerator, NodeSplitter,
 )
@@ -163,21 +166,19 @@ JUNCTION_REFINE_RADIUS = 0.4
 MAX_JUNCTION_GAP = 0.05
 MAX_TIE_DISTANCE = 0.10
 
-# --- material: the same equal-weighted average of the four HMO/MQI types
-# already adopted for the modal analysis, now with the strengths
-# ASDConcrete3D also needs. fm per type: 3.445 / 2.616 / 2.099 / 2.616 MPa
-# (docs/source/case_study/materials.md, type D = B by construction), so the
-# equal-weighted mean is 2.694 MPa. Tensile strength follows that document's
-# own rule, ft = fc x (0.17/1.30), the ft/fc ratio of the Chapter 6
-# SERA-AIMS reference masonry - HMO has no rule for ft.
-# Gc/Gt are left at 0 so create_plastic_damage_elements applies its
-# code-formula fallbacks (CEB-FIP MC90); pass measured values here if they
-# ever exist for this masonry.
-E_MPA = 1227.95
-NU = 0.2
-RHO = 1450.0
-FC_MPA = 2.694
-FT_MPA = FC_MPA * (0.17 / 1.30)
+# --- materials: one per material of the IFC model. Each volume takes the
+# material of the IFC element it comes from
+# (resources/survey_data/castelnuovo/volume_materials.json, written by
+# scripts/map_castelnuovo_volume_materials.py). The four masonry types take
+# the properties the knowledge-graph builder derived and wrote on their
+# IfcMaterial in the enriched model (output/castelnuovo/castelnuovo_case.ifc),
+# tensile strength included (ft = fc x 0.17/1.30, the ratio of the Chapter 6
+# SERA-AIMS reference masonry); stone, brick and steel elements take the
+# properties of the BIM model. Gc/Gt are not in the IFC file and stay 0, so
+# create_plastic_damage_elements applies its code-formula fallbacks
+# (CEB-FIP MC90).
+VOLUME_MATERIALS_PATH = "resources/survey_data/castelnuovo/volume_materials.json"
+MATERIALS_IFC_PATH = "output/castelnuovo/castelnuovo_case.ifc"
 
 # --- contact interface stiffnesses. The brief's Chapter 6/7 reference
 # values are Kn=69000, Kt=0.001 per unit area in the N-mm-ton system;
@@ -272,8 +273,7 @@ vol_tags = [t for _d, t in gmsh.model.getEntities(3)]
 total_volume = sum(gmsh.model.occ.getMass(3, t) for t in vol_tags)
 say(f"{len(vol_tags)} volumes, {total_volume:.2f} m^3 ({time.perf_counter()-t0:.1f} s)")
 
-pg_tag = gmsh.model.addPhysicalGroup(3, vol_tags)
-gmsh.model.setPhysicalName(3, pg_tag, "Masonry")
+material_groups = add_physical_groups(load_volume_materials(VOLUME_MATERIALS_PATH), vol_tags)
 
 candidates = InterfaceDetection.find_touching_surface_pairs()
 InterfaceDetection.classify_orientation(candidates)
@@ -516,17 +516,11 @@ say(f"{n_applied} equalDOF constraints across "
 
 # --- 5b. elements (the slow stage) ----------------------------------------
 t0 = time.perf_counter()
-material = Material(
-    name="Masonry", density=RHO, young_modulus=E_MPA, poisson_ratio=NU,
-    is_structural=True, material_model_type="PlasticDamage",
-    compressive_strength=FC_MPA, tensile_strength=FT_MPA,
-    compression_fracture_energy=0, tensile_fracture_energy=0,
-    compressive_elastic_behaviour=0,
-)
+materials = materials_from_ifc(MATERIALS_IFC_PATH, material_groups)
 say("building elements with ASDConcrete3D (one material per element - "
     "this is the slow part, tens of minutes on the full mesh)...")
 element_tags = Element.add_elements_to_opensees(
-    gmsh.model, {"Masonry": material}, node_substitution=substitution)
+    gmsh.model, materials, node_substitution=substitution)
 say(f"{len(element_tags)} elements added ({time.perf_counter()-t0:.1f} s)")
 
 # --- 6. contact elements -------------------------------------------------
@@ -562,7 +556,7 @@ reaction_z = 0.0
 ops.reactions()
 for n in base_arr:
     reaction_z += ops.nodeReaction(int(n), 3)
-weight = RHO * G_ACCEL * total_volume
+weight = total_weight(material_groups, materials, G_ACCEL)
 say(f"self-weight check: calculated {weight:,.1f} N vs reaction "
     f"{abs(reaction_z):,.1f} N -> {abs(abs(reaction_z)-weight)/weight*100:.3f} %")
 
@@ -813,11 +807,7 @@ summary = {
     "global_mesh_size_m": GLOBAL_MESH_SIZE,
     "solid_sample_stride": SOLID_SAMPLE,
     "total_volume_m3": total_volume,
-    "young_modulus_MPa": E_MPA,
-    "poisson_ratio": NU,
-    "density_kg_m3": RHO,
-    "compressive_strength_MPa": FC_MPA,
-    "tensile_strength_MPa": FT_MPA,
+    "materials": materials_summary(material_groups, materials),
     "material_model": "ASDConcrete3D (implex, autoRegularization)",
     "equaldof_constraints": n_applied,
     "ties_on_interface_duplicates": len(retargeted),

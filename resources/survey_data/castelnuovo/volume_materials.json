@@ -1,0 +1,2008 @@
+{
+ "_meta": {
+  "step": "resources/ifc_examples/castelnuovo/example_clean_PRONTO.stp",
+  "ifc": "resources/ifc_examples/castelnuovo/example_clean.ifc",
+  "description": "Material of each volume of the STEP geometry, from the IFC element it comes from (centroid inside the element's solid, else the nearest element)."
+ },
+ "volumes": {
+  "1": {
+   "guid": "2jXvyeVVHFE9GajLekYx5r",
+   "ifc_class": "IfcDoor",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.1685
+  },
+  "2": {
+   "guid": "2jXvyeVVHFE9GajLekYx5r",
+   "ifc_class": "IfcDoor",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.2
+  },
+  "3": {
+   "guid": "2jXvyeVVHFE9GajLekYx5r",
+   "ifc_class": "IfcDoor",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.2
+  },
+  "4": {
+   "guid": "2jXvyeVVHFE9GajLekYx5r",
+   "ifc_class": "IfcDoor",
+   "material": "Stone",
+   "how": "votes",
+   "votes": 102,
+   "volume_m3": 0.1718
+  },
+  "5": {
+   "guid": "2jXvyeVVHFE9GajLekYx3J",
+   "ifc_class": "IfcDoor",
+   "material": "Tufelli_masonry_typeD",
+   "how": "inside",
+   "volume_m3": 0.16
+  },
+  "6": {
+   "guid": "2jXvyeVVHFE9GajLekYx3J",
+   "ifc_class": "IfcDoor",
+   "material": "Tufelli_masonry_typeD",
+   "how": "inside",
+   "volume_m3": 0.16
+  },
+  "7": {
+   "guid": "2jXvyeVVHFE9GajLekYx3J",
+   "ifc_class": "IfcDoor",
+   "material": "Tufelli_masonry_typeD",
+   "how": "votes",
+   "votes": 42,
+   "volume_m3": 0.1588
+  },
+  "8": {
+   "guid": "2jXvyeVVHFE9GajLekYx3J",
+   "ifc_class": "IfcDoor",
+   "material": "Tufelli_masonry_typeD",
+   "how": "votes",
+   "votes": 51,
+   "volume_m3": 0.2499
+  },
+  "9": {
+   "guid": "2jXvyeVVHFE9GajLekYx3J",
+   "ifc_class": "IfcDoor",
+   "material": "Tufelli_masonry_typeD",
+   "how": "inside",
+   "volume_m3": 0.0067
+  },
+  "10": {
+   "guid": "2jXvyeVVHFE9GajLekYx_G",
+   "ifc_class": "IfcDoor",
+   "material": "Steel",
+   "how": "inside",
+   "volume_m3": 0.22
+  },
+  "11": {
+   "guid": "2jXvyeVVHFE9GajLekYx_G",
+   "ifc_class": "IfcDoor",
+   "material": "Steel",
+   "how": "inside",
+   "volume_m3": 0.18
+  },
+  "12": {
+   "guid": "2jXvyeVVHFE9GajLekYx_G",
+   "ifc_class": "IfcDoor",
+   "material": "Steel",
+   "how": "inside",
+   "volume_m3": 0.18
+  },
+  "13": {
+   "guid": "08pzrbE8X9reLLOmu2mMEv",
+   "ifc_class": "IfcDoor",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.16
+  },
+  "14": {
+   "guid": "08pzrbE8X9reLLOmu2mMEv",
+   "ifc_class": "IfcDoor",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.16
+  },
+  "15": {
+   "guid": "08pzrbE8X9reLLOmu2mMEv",
+   "ifc_class": "IfcDoor",
+   "material": "Stone",
+   "how": "votes",
+   "votes": 53,
+   "volume_m3": 0.2513
+  },
+  "16": {
+   "guid": "1HfLPk$M547Aaac6ue3X1s",
+   "ifc_class": "IfcDoor",
+   "material": "Tufelli_masonry_typeD",
+   "how": "inside",
+   "volume_m3": 0.0053
+  },
+  "17": {
+   "guid": "1HfLPk$M547Aaac6ue3X1s",
+   "ifc_class": "IfcDoor",
+   "material": "Tufelli_masonry_typeD",
+   "how": "inside",
+   "volume_m3": 0.8159
+  },
+  "18": {
+   "guid": "1HfLPk$M547Aaac6ue3X1s",
+   "ifc_class": "IfcDoor",
+   "material": "Tufelli_masonry_typeD",
+   "how": "votes",
+   "votes": 59,
+   "volume_m3": 0.5548
+  },
+  "19": {
+   "guid": "1HfLPk$M547Aaac6ue3X1s",
+   "ifc_class": "IfcDoor",
+   "material": "Tufelli_masonry_typeD",
+   "how": "inside",
+   "volume_m3": 0.3324
+  },
+  "20": {
+   "guid": "1HfLPk$M547Aaac6ue3X1s",
+   "ifc_class": "IfcDoor",
+   "material": "Tufelli_masonry_typeD",
+   "how": "inside",
+   "volume_m3": 0.3324
+  },
+  "21": {
+   "guid": "1HfLPk$M547Aaac6ue3X1s",
+   "ifc_class": "IfcDoor",
+   "material": "Tufelli_masonry_typeD",
+   "how": "inside",
+   "volume_m3": 0.1431
+  },
+  "22": {
+   "guid": "1HfLPk$M547Aaac6ue3X1s",
+   "ifc_class": "IfcDoor",
+   "material": "Tufelli_masonry_typeD",
+   "how": "inside",
+   "volume_m3": 0.018
+  },
+  "23": {
+   "guid": "1HfLPk$M547Aaac6ue3X1s",
+   "ifc_class": "IfcDoor",
+   "material": "Tufelli_masonry_typeD",
+   "how": "nearest",
+   "distance": 0.2,
+   "volume_m3": 0.3324
+  },
+  "24": {
+   "guid": "1HfLPk$M547Aaac6ue3X1s",
+   "ifc_class": "IfcDoor",
+   "material": "Tufelli_masonry_typeD",
+   "how": "inside",
+   "volume_m3": 0.3324
+  },
+  "25": {
+   "guid": "1HfLPk$M547Aaac6ue3Wlx",
+   "ifc_class": "IfcDoor",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.1662
+  },
+  "26": {
+   "guid": "1HfLPk$M547Aaac6ue3Wlx",
+   "ifc_class": "IfcDoor",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.1662
+  },
+  "27": {
+   "guid": "1HfLPk$M547Aaac6ue3Wlx",
+   "ifc_class": "IfcDoor",
+   "material": "Stone",
+   "how": "votes",
+   "votes": 33,
+   "volume_m3": 0.2937
+  },
+  "28": {
+   "guid": "0F0gJxCaz6DgMK0q1JiOZq",
+   "ifc_class": "IfcDoor",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.14
+  },
+  "29": {
+   "guid": "0F0gJxCaz6DgMK0q1JiOZq",
+   "ifc_class": "IfcDoor",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.2
+  },
+  "30": {
+   "guid": "0F0gJxCaz6DgMK0q1JiOZq",
+   "ifc_class": "IfcDoor",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.2
+  },
+  "31": {
+   "guid": "0F0gJxCaz6DgMK0q1JiO6j",
+   "ifc_class": "IfcDoor",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.14
+  },
+  "32": {
+   "guid": "0F0gJxCaz6DgMK0q1JiO6j",
+   "ifc_class": "IfcDoor",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.2
+  },
+  "33": {
+   "guid": "0F0gJxCaz6DgMK0q1JiO6j",
+   "ifc_class": "IfcDoor",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.2
+  },
+  "34": {
+   "guid": "0F0gJxCaz6DgMK0q1JiOR2",
+   "ifc_class": "IfcDoor",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.14
+  },
+  "35": {
+   "guid": "0F0gJxCaz6DgMK0q1JiOR2",
+   "ifc_class": "IfcDoor",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.2
+  },
+  "36": {
+   "guid": "0F0gJxCaz6DgMK0q1JiOR2",
+   "ifc_class": "IfcDoor",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.2
+  },
+  "37": {
+   "guid": "0F0gJxCaz6DgMK0q1JiON_",
+   "ifc_class": "IfcDoor",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.14
+  },
+  "38": {
+   "guid": "0F0gJxCaz6DgMK0q1JiON_",
+   "ifc_class": "IfcDoor",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.2
+  },
+  "39": {
+   "guid": "0F0gJxCaz6DgMK0q1JiON_",
+   "ifc_class": "IfcDoor",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.2
+  },
+  "40": {
+   "guid": "0$ZVtLQ75EtvwV7Alme$6k",
+   "ifc_class": "IfcDoor",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.1444
+  },
+  "41": {
+   "guid": "0$ZVtLQ75EtvwV7Alme$6k",
+   "ifc_class": "IfcDoor",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.2063
+  },
+  "42": {
+   "guid": "0$ZVtLQ75EtvwV7Alme$6k",
+   "ifc_class": "IfcDoor",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.2063
+  },
+  "43": {
+   "guid": "0aLNXoc1TDjApGVJTVMWi8",
+   "ifc_class": "IfcDoor",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.15
+  },
+  "44": {
+   "guid": "0aLNXoc1TDjApGVJTVMWi8",
+   "ifc_class": "IfcDoor",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.2
+  },
+  "45": {
+   "guid": "0aLNXoc1TDjApGVJTVMWi8",
+   "ifc_class": "IfcDoor",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.2
+  },
+  "46": {
+   "guid": "2LX1lxEB13yROcdsYV7Vts",
+   "ifc_class": "IfcDoor",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.15
+  },
+  "47": {
+   "guid": "2LX1lxEB13yROcdsYV7Vts",
+   "ifc_class": "IfcDoor",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.2
+  },
+  "48": {
+   "guid": "2LX1lxEB13yROcdsYV7Vts",
+   "ifc_class": "IfcDoor",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.2
+  },
+  "49": {
+   "guid": "1L7Qk_WJzBIfm4Xr$$3Aef",
+   "ifc_class": "IfcDoor",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.12
+  },
+  "50": {
+   "guid": "1L7Qk_WJzBIfm4Xr$$3Aef",
+   "ifc_class": "IfcDoor",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.2
+  },
+  "51": {
+   "guid": "1L7Qk_WJzBIfm4Xr$$3Aef",
+   "ifc_class": "IfcDoor",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.2
+  },
+  "52": {
+   "guid": "0tST5p$2H8xxCcbRWOQUWP",
+   "ifc_class": "IfcDoor",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.12
+  },
+  "53": {
+   "guid": "0tST5p$2H8xxCcbRWOQUWP",
+   "ifc_class": "IfcDoor",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.2
+  },
+  "54": {
+   "guid": "0tST5p$2H8xxCcbRWOQUWP",
+   "ifc_class": "IfcDoor",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.2
+  },
+  "55": {
+   "guid": "0tST5p$2H8xxCcbRWOQUXK",
+   "ifc_class": "IfcDoor",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.12
+  },
+  "56": {
+   "guid": "0tST5p$2H8xxCcbRWOQUXK",
+   "ifc_class": "IfcDoor",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.2
+  },
+  "57": {
+   "guid": "0tST5p$2H8xxCcbRWOQUXK",
+   "ifc_class": "IfcDoor",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.2
+  },
+  "58": {
+   "guid": "2XzZEtRJH75fftbZbcqwO2",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeB",
+   "how": "nearest",
+   "distance": 0.576,
+   "volume_m3": 13.4225
+  },
+  "59": {
+   "guid": "1AbGxiHpn5sOnYo$kgOgNY",
+   "ifc_class": "IfcStair",
+   "material": "StoneStairs",
+   "how": "inside",
+   "volume_m3": 1.4112
+  },
+  "60": {
+   "guid": "1dGupIgZL6WgUMjgZKGAdD",
+   "ifc_class": "IfcStair",
+   "material": "StoneStairs",
+   "how": "inside",
+   "volume_m3": 1.541
+  },
+  "61": {
+   "guid": "0GisCWViz2PeUrBi4wgVRW",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeA",
+   "how": "inside",
+   "volume_m3": 20.7294
+  },
+  "62": {
+   "guid": "0GisCWViz2PeUrBi4wgVUt",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeD",
+   "how": "inside",
+   "volume_m3": 13.2542
+  },
+  "63": {
+   "guid": "0GisCWViz2PeUrBi4wgUZp",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeD",
+   "how": "inside",
+   "volume_m3": 9.7174
+  },
+  "64": {
+   "guid": "0GisCWViz2PeUrBi4wgUdW",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeD",
+   "how": "inside",
+   "volume_m3": 12.4483
+  },
+  "65": {
+   "guid": "0GisCWViz2PeUrBi4wgUa5",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeD",
+   "how": "inside",
+   "volume_m3": 12.3
+  },
+  "66": {
+   "guid": "112HIUctr2yw5OqZgr3kPn",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeA",
+   "how": "inside",
+   "volume_m3": 12.9559
+  },
+  "67": {
+   "guid": "112HIUctr2yw5OqZgr3kPo",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeD",
+   "how": "votes",
+   "votes": 192,
+   "volume_m3": 10.75
+  },
+  "68": {
+   "guid": "112HIUctr2yw5OqZgr3kPp",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeD",
+   "how": "inside",
+   "volume_m3": 12.0233
+  },
+  "69": {
+   "guid": "112HIUctr2yw5OqZgr3kPi",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeD",
+   "how": "inside",
+   "volume_m3": 10.6266
+  },
+  "70": {
+   "guid": "112HIUctr2yw5OqZgr3kPj",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeD",
+   "how": "inside",
+   "volume_m3": 8.85
+  },
+  "71": {
+   "guid": "112HIUctr2yw5OqZgr3kPe",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeA",
+   "how": "inside",
+   "volume_m3": 15.666
+  },
+  "72": {
+   "guid": "112HIUctr2yw5OqZgr3kPf",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeD",
+   "how": "inside",
+   "volume_m3": 10.2803
+  },
+  "73": {
+   "guid": "112HIUctr2yw5OqZgr3kPg",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeD",
+   "how": "inside",
+   "volume_m3": 7.2973
+  },
+  "74": {
+   "guid": "112HIUctr2yw5OqZgr3kPh",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeD",
+   "how": "inside",
+   "volume_m3": 11.6246
+  },
+  "75": {
+   "guid": "112HIUctr2yw5OqZgr3kPa",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeD",
+   "how": "inside",
+   "volume_m3": 8.9617
+  },
+  "76": {
+   "guid": "112HIUctr2yw5OqZgr3kla",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeC",
+   "how": "inside",
+   "volume_m3": 19.2938
+  },
+  "77": {
+   "guid": "112HIUctr2yw5OqZgr3kXe",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeC",
+   "how": "inside",
+   "volume_m3": 11.6283
+  },
+  "78": {
+   "guid": "112HIUctr2yw5OqZgr3kYs",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeC",
+   "how": "inside",
+   "volume_m3": 18.7938
+  },
+  "79": {
+   "guid": "112HIUctr2yw5OqZgr3kaS",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeC",
+   "how": "inside",
+   "volume_m3": 6.4383
+  },
+  "81": {
+   "guid": "0M1S9S_Qr3IPBMDqinoabk",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeA",
+   "how": "inside",
+   "volume_m3": 15.2446
+  },
+  "83": {
+   "guid": "3c8HC29$17vfNgcUAdeh3J",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeC",
+   "how": "inside",
+   "volume_m3": 11.7211
+  },
+  "84": {
+   "guid": "3c8HC29$17vfNgcUAdeh3I",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeC",
+   "how": "inside",
+   "volume_m3": 7.2677
+  },
+  "85": {
+   "guid": "3c8HC29$17vfNgcUAdeh3H",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeC",
+   "how": "inside",
+   "volume_m3": 11.7461
+  },
+  "86": {
+   "guid": "3c8HC29$17vfNgcUAdeh3G",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeC",
+   "how": "inside",
+   "volume_m3": 4.8927
+  },
+  "87": {
+   "guid": "3c8HC29$17vfNgcUAdeh01",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeD",
+   "how": "inside",
+   "volume_m3": 9.867
+  },
+  "88": {
+   "guid": "3c8HC29$17vfNgcUAdeh00",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeD",
+   "how": "votes",
+   "votes": 42,
+   "volume_m3": 3.6122
+  },
+  "89": {
+   "guid": "3c8HC29$17vfNgcUAdeh07",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeD",
+   "how": "inside",
+   "volume_m3": 8.8267
+  },
+  "90": {
+   "guid": "3c8HC29$17vfNgcUAdeh06",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeD",
+   "how": "votes",
+   "votes": 54,
+   "volume_m3": 3.9819
+  },
+  "91": {
+   "guid": "2XzZEtRJH75fftbZbcqwY_",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeA",
+   "how": "inside",
+   "volume_m3": 10.0928
+  },
+  "92": {
+   "guid": "2XzZEtRJH75fftbZbcqwZb",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeA",
+   "how": "inside",
+   "volume_m3": 6.2403
+  },
+  "93": {
+   "guid": "2XzZEtRJH75fftbZbcqwO2",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeB",
+   "how": "inside",
+   "volume_m3": 27.6291
+  },
+  "94": {
+   "guid": "2XzZEtRJH75fftbZbcqwH8",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeB",
+   "how": "inside",
+   "volume_m3": 15.68
+  },
+  "95": {
+   "guid": "2XzZEtRJH75fftbZbcqwJ5",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeB",
+   "how": "nearest",
+   "distance": 0.255,
+   "volume_m3": 12.2679
+  },
+  "96": {
+   "guid": "2XzZEtRJH75fftbZbcqwNS",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeD",
+   "how": "nearest",
+   "distance": 0.247,
+   "volume_m3": 4.0991
+  },
+  "97": {
+   "guid": "2XzZEtRJH75fftbZbcqwNS",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeD",
+   "how": "nearest",
+   "distance": 0.384,
+   "volume_m3": 0.4443
+  },
+  "98": {
+   "guid": "2XzZEtRJH75fftbZbcqwNS",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeD",
+   "how": "nearest",
+   "distance": 0.35,
+   "volume_m3": 0.3563
+  },
+  "99": {
+   "guid": "2XzZEtRJH75fftbZbcqwCR",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeB",
+   "how": "inside",
+   "volume_m3": 9.1284
+  },
+  "100": {
+   "guid": "2XzZEtRJH75fftbZbcqwCB",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeB",
+   "how": "inside",
+   "volume_m3": 14.6054
+  },
+  "101": {
+   "guid": "0CvVHHujLB8fkhpCAWbiT3",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeB",
+   "how": "inside",
+   "volume_m3": 11.7371
+  },
+  "102": {
+   "guid": "1HfLPk$M547Aaac6ue3X37",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeB",
+   "how": "inside",
+   "volume_m3": 9.0579
+  },
+  "103": {
+   "guid": "1HfLPk$M547Aaac6ue3X0L",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeD",
+   "how": "inside",
+   "volume_m3": 5.816
+  },
+  "104": {
+   "guid": "2QEzj1Im5478gG84LIeYU2",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeD",
+   "how": "nearest",
+   "distance": 0.259,
+   "volume_m3": 4.9911
+  },
+  "105": {
+   "guid": "2QEzj1Im5478gG84LIeYTv",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeD",
+   "how": "nearest",
+   "distance": 0.246,
+   "volume_m3": 3.1461
+  },
+  "106": {
+   "guid": "2SDwapJ$z32OyuRGCv33co",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeA",
+   "how": "nearest",
+   "distance": 0.238,
+   "volume_m3": 1.9793
+  },
+  "107": {
+   "guid": "3_wR1BNVfAMeWWIaQS4y2L",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeA",
+   "how": "nearest",
+   "distance": 0.25,
+   "volume_m3": 17.204
+  },
+  "110": {
+   "guid": "0F0gJxCaz6DgMK0q1JiO7L",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeA",
+   "how": "inside",
+   "volume_m3": 17.1586
+  },
+  "111": {
+   "guid": "0QfxonMDT2A8cO_M93$yye",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeD",
+   "how": "nearest",
+   "distance": 0.245,
+   "volume_m3": 1.2488
+  },
+  "112": {
+   "guid": "0QfxonMDT2A8cO_M93$yp8",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeD",
+   "how": "nearest",
+   "distance": 0.145,
+   "volume_m3": 1.265
+  },
+  "113": {
+   "guid": "0QfxonMDT2A8cO_M93$yp8",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeD",
+   "how": "nearest",
+   "distance": 0.25,
+   "volume_m3": 0.2798
+  },
+  "114": {
+   "guid": "112HIUctr2yw5OqZgr3kla",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeC",
+   "how": "nearest",
+   "distance": 0.077,
+   "volume_m3": 1.2458
+  },
+  "115": {
+   "guid": "2HmFfYHsL2OPZKrO6tYf$1",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeC",
+   "how": "nearest",
+   "distance": 0.077,
+   "volume_m3": 1.2458
+  },
+  "116": {
+   "guid": "07H4IE3N17quz_RDvElapV",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeB",
+   "how": "nearest",
+   "distance": 0.332,
+   "volume_m3": 5.2487
+  },
+  "117": {
+   "guid": "2tiNzAytfCwQOKJzMPcwjv",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeB",
+   "how": "inside",
+   "volume_m3": 12.6288
+  },
+  "118": {
+   "guid": "1aMTge6B9DK9$RHbrOwo4u",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeA",
+   "how": "nearest",
+   "distance": 0.238,
+   "volume_m3": 2.4583
+  },
+  "119": {
+   "guid": "2jXvyeVVHFE9GajLekYxlE",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.1
+  },
+  "120": {
+   "guid": "2jXvyeVVHFE9GajLekYxlE",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.0825
+  },
+  "121": {
+   "guid": "2jXvyeVVHFE9GajLekYxlE",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.0835
+  },
+  "122": {
+   "guid": "2jXvyeVVHFE9GajLekYxlE",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.0835
+  },
+  "123": {
+   "guid": "2jXvyeVVHFE9GajLekYuS6",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.14
+  },
+  "124": {
+   "guid": "2jXvyeVVHFE9GajLekYuS6",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.14
+  },
+  "125": {
+   "guid": "2jXvyeVVHFE9GajLekYuS6",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "nearest",
+   "distance": 0.1,
+   "volume_m3": 0.08
+  },
+  "126": {
+   "guid": "2jXvyeVVHFE9GajLekYuS6",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.2558
+  },
+  "127": {
+   "guid": "2jXvyeVVHFE9GajLekYutY",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.1
+  },
+  "128": {
+   "guid": "2jXvyeVVHFE9GajLekYutY",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.0825
+  },
+  "129": {
+   "guid": "2jXvyeVVHFE9GajLekYutY",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.0835
+  },
+  "130": {
+   "guid": "2jXvyeVVHFE9GajLekYutY",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.0835
+  },
+  "131": {
+   "guid": "2jXvyeVVHFE9GajLekYuts",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.09
+  },
+  "132": {
+   "guid": "2jXvyeVVHFE9GajLekYuts",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.0743
+  },
+  "133": {
+   "guid": "2jXvyeVVHFE9GajLekYuts",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.0535
+  },
+  "134": {
+   "guid": "2jXvyeVVHFE9GajLekYuts",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "votes",
+   "votes": 77,
+   "volume_m3": 0.0535
+  },
+  "135": {
+   "guid": "3Jmmvoko5D$RwQG6wPqCw5",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.1
+  },
+  "136": {
+   "guid": "3Jmmvoko5D$RwQG6wPqCw5",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.0825
+  },
+  "137": {
+   "guid": "3Jmmvoko5D$RwQG6wPqCw5",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.1135
+  },
+  "138": {
+   "guid": "3Jmmvoko5D$RwQG6wPqCw5",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.1135
+  },
+  "139": {
+   "guid": "3Jmmvoko5D$RwQG6wPqCrK",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.1
+  },
+  "140": {
+   "guid": "3Jmmvoko5D$RwQG6wPqCrK",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.0825
+  },
+  "141": {
+   "guid": "3Jmmvoko5D$RwQG6wPqCrK",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.1135
+  },
+  "142": {
+   "guid": "3Jmmvoko5D$RwQG6wPqCrK",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.1135
+  },
+  "143": {
+   "guid": "3Jmmvoko5D$RwQG6wPqCrZ",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.14
+  },
+  "144": {
+   "guid": "3Jmmvoko5D$RwQG6wPqCrZ",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.1155
+  },
+  "145": {
+   "guid": "3Jmmvoko5D$RwQG6wPqCrZ",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.1135
+  },
+  "146": {
+   "guid": "3Jmmvoko5D$RwQG6wPqCrZ",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.1135
+  },
+  "147": {
+   "guid": "08pzrbE8X9reLLOmu2mNlM",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.12
+  },
+  "148": {
+   "guid": "08pzrbE8X9reLLOmu2mNlM",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.099
+  },
+  "149": {
+   "guid": "08pzrbE8X9reLLOmu2mNlM",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.1235
+  },
+  "150": {
+   "guid": "08pzrbE8X9reLLOmu2mNlM",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.1235
+  },
+  "151": {
+   "guid": "08pzrbE8X9reLLOmu2mNod",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.12
+  },
+  "152": {
+   "guid": "08pzrbE8X9reLLOmu2mNod",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.099
+  },
+  "153": {
+   "guid": "08pzrbE8X9reLLOmu2mNod",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.1235
+  },
+  "154": {
+   "guid": "08pzrbE8X9reLLOmu2mNod",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.1235
+  },
+  "155": {
+   "guid": "08pzrbE8X9reLLOmu2mNpl",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.1
+  },
+  "156": {
+   "guid": "08pzrbE8X9reLLOmu2mNpl",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.0825
+  },
+  "157": {
+   "guid": "08pzrbE8X9reLLOmu2mNpl",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.0835
+  },
+  "158": {
+   "guid": "08pzrbE8X9reLLOmu2mNpl",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.0835
+  },
+  "159": {
+   "guid": "08pzrbE8X9reLLOmu2mNsB",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.14
+  },
+  "160": {
+   "guid": "08pzrbE8X9reLLOmu2mNsB",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.1155
+  },
+  "161": {
+   "guid": "08pzrbE8X9reLLOmu2mNsB",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.1135
+  },
+  "162": {
+   "guid": "08pzrbE8X9reLLOmu2mNsB",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.1135
+  },
+  "163": {
+   "guid": "08pzrbE8X9reLLOmu2mNts",
+   "ifc_class": "IfcWindow",
+   "material": "Tufelli_masonry_typeD",
+   "how": "votes",
+   "votes": 108,
+   "volume_m3": 0.1718
+  },
+  "164": {
+   "guid": "08pzrbE8X9reLLOmu2mNts",
+   "ifc_class": "IfcWindow",
+   "material": "Tufelli_masonry_typeD",
+   "how": "nearest",
+   "distance": 0.1,
+   "volume_m3": 0.1
+  },
+  "165": {
+   "guid": "08pzrbE8X9reLLOmu2mNts",
+   "ifc_class": "IfcWindow",
+   "material": "Tufelli_masonry_typeD",
+   "how": "inside",
+   "volume_m3": 0.1
+  },
+  "166": {
+   "guid": "08pzrbE8X9reLLOmu2mNts",
+   "ifc_class": "IfcWindow",
+   "material": "Tufelli_masonry_typeD",
+   "how": "inside",
+   "volume_m3": 0.09
+  },
+  "167": {
+   "guid": "08pzrbE8X9reLLOmu2mNts",
+   "ifc_class": "IfcWindow",
+   "material": "Tufelli_masonry_typeD",
+   "how": "inside",
+   "volume_m3": 0.1869
+  },
+  "168": {
+   "guid": "08pzrbE8X9reLLOmu2mM9m",
+   "ifc_class": "IfcWindow",
+   "material": "Tufelli_masonry_typeD",
+   "how": "votes",
+   "votes": 108,
+   "volume_m3": 0.1718
+  },
+  "169": {
+   "guid": "08pzrbE8X9reLLOmu2mM9m",
+   "ifc_class": "IfcWindow",
+   "material": "Tufelli_masonry_typeD",
+   "how": "nearest",
+   "distance": 0.1,
+   "volume_m3": 0.1
+  },
+  "170": {
+   "guid": "08pzrbE8X9reLLOmu2mM9m",
+   "ifc_class": "IfcWindow",
+   "material": "Tufelli_masonry_typeD",
+   "how": "inside",
+   "volume_m3": 0.1
+  },
+  "171": {
+   "guid": "08pzrbE8X9reLLOmu2mM9m",
+   "ifc_class": "IfcWindow",
+   "material": "Tufelli_masonry_typeD",
+   "how": "inside",
+   "volume_m3": 0.09
+  },
+  "172": {
+   "guid": "08pzrbE8X9reLLOmu2mM9m",
+   "ifc_class": "IfcWindow",
+   "material": "Tufelli_masonry_typeD",
+   "how": "inside",
+   "volume_m3": 0.1869
+  },
+  "173": {
+   "guid": "08pzrbE8X9reLLOmu2mMCl",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.14
+  },
+  "174": {
+   "guid": "08pzrbE8X9reLLOmu2mMCl",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.1155
+  },
+  "175": {
+   "guid": "08pzrbE8X9reLLOmu2mMCl",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.1135
+  },
+  "176": {
+   "guid": "08pzrbE8X9reLLOmu2mMCl",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.1135
+  },
+  "177": {
+   "guid": "2cVTFzTer1sumg7afXGJKn",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.12
+  },
+  "178": {
+   "guid": "2cVTFzTer1sumg7afXGJKn",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.099
+  },
+  "179": {
+   "guid": "2cVTFzTer1sumg7afXGJKn",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.0835
+  },
+  "180": {
+   "guid": "2cVTFzTer1sumg7afXGJKn",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.0835
+  },
+  "181": {
+   "guid": "1b6LOlXV9B9POL9jHQJdDQ",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.12
+  },
+  "182": {
+   "guid": "1b6LOlXV9B9POL9jHQJdDQ",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.099
+  },
+  "183": {
+   "guid": "1b6LOlXV9B9POL9jHQJdDQ",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.0835
+  },
+  "184": {
+   "guid": "1b6LOlXV9B9POL9jHQJdDQ",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.0835
+  },
+  "185": {
+   "guid": "1b6LOlXV9B9POL9jHQJdFJ",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "votes",
+   "votes": 192,
+   "volume_m3": 0.1
+  },
+  "186": {
+   "guid": "1b6LOlXV9B9POL9jHQJdFJ",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "votes",
+   "votes": 192,
+   "volume_m3": 0.0825
+  },
+  "187": {
+   "guid": "1b6LOlXV9B9POL9jHQJdFJ",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "votes",
+   "votes": 192,
+   "volume_m3": 0.1135
+  },
+  "188": {
+   "guid": "1b6LOlXV9B9POL9jHQJdF5",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "votes",
+   "votes": 192,
+   "volume_m3": 0.1135
+  },
+  "189": {
+   "guid": "1b6LOlXV9B9POL9jHQJd0L",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.12
+  },
+  "190": {
+   "guid": "1b6LOlXV9B9POL9jHQJd0L",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.099
+  },
+  "191": {
+   "guid": "1b6LOlXV9B9POL9jHQJd0L",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.1135
+  },
+  "192": {
+   "guid": "1b6LOlXV9B9POL9jHQJd0L",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.1135
+  },
+  "193": {
+   "guid": "1b6LOlXV9B9POL9jHQJd0M",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.12
+  },
+  "194": {
+   "guid": "1b6LOlXV9B9POL9jHQJd0M",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.099
+  },
+  "195": {
+   "guid": "1b6LOlXV9B9POL9jHQJd0M",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.1135
+  },
+  "196": {
+   "guid": "1b6LOlXV9B9POL9jHQJd0M",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.1135
+  },
+  "197": {
+   "guid": "1b6LOlXV9B9POL9jHQJd0z",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "votes",
+   "votes": 94,
+   "volume_m3": 0.1571
+  },
+  "198": {
+   "guid": "1b6LOlXV9B9POL9jHQJd0z",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "nearest",
+   "distance": 0.1,
+   "volume_m3": 0.1
+  },
+  "199": {
+   "guid": "1b6LOlXV9B9POL9jHQJd0z",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.1
+  },
+  "200": {
+   "guid": "1b6LOlXV9B9POL9jHQJd0z",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.08
+  },
+  "201": {
+   "guid": "0cmxDOe$H0xREbbs5sIyWL",
+   "ifc_class": "IfcWindow",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.12
+  },
+  "202": {
+   "guid": "0cmxDOe$H0xREbbs5sIyWL",
+   "ifc_class": "IfcWindow",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.099
+  },
+  "203": {
+   "guid": "0cmxDOe$H0xREbbs5sIyWL",
+   "ifc_class": "IfcWindow",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.1135
+  },
+  "204": {
+   "guid": "0cmxDOe$H0xREbbs5sIyWL",
+   "ifc_class": "IfcWindow",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.1135
+  },
+  "205": {
+   "guid": "0cmxDOe$H0xREbbs5sIyXc",
+   "ifc_class": "IfcWindow",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.12
+  },
+  "206": {
+   "guid": "0cmxDOe$H0xREbbs5sIyXc",
+   "ifc_class": "IfcWindow",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.099
+  },
+  "207": {
+   "guid": "0cmxDOe$H0xREbbs5sIyXc",
+   "ifc_class": "IfcWindow",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.1135
+  },
+  "208": {
+   "guid": "0cmxDOe$H0xREbbs5sIyXc",
+   "ifc_class": "IfcWindow",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.1135
+  },
+  "209": {
+   "guid": "0cmxDOe$H0xREbbs5sIyzC",
+   "ifc_class": "IfcWindow",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.12
+  },
+  "210": {
+   "guid": "0cmxDOe$H0xREbbs5sIyzC",
+   "ifc_class": "IfcWindow",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.099
+  },
+  "211": {
+   "guid": "0cmxDOe$H0xREbbs5sIyzC",
+   "ifc_class": "IfcWindow",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.1135
+  },
+  "212": {
+   "guid": "0cmxDOe$H0xREbbs5sIyzC",
+   "ifc_class": "IfcWindow",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.1135
+  },
+  "213": {
+   "guid": "0RG6S63Pr48vit9seLUt1n",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.1143
+  },
+  "214": {
+   "guid": "0RG6S63Pr48vit9seLUt1n",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.0943
+  },
+  "215": {
+   "guid": "0RG6S63Pr48vit9seLUt1n",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.066
+  },
+  "216": {
+   "guid": "0RG6S63Pr48vit9seLUt1n",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "votes",
+   "votes": 62,
+   "volume_m3": 0.066
+  },
+  "217": {
+   "guid": "0RG6S63Pr48vit9seLUt1E",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.1039
+  },
+  "218": {
+   "guid": "0RG6S63Pr48vit9seLUt1E",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.0857
+  },
+  "219": {
+   "guid": "0RG6S63Pr48vit9seLUt1E",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.066
+  },
+  "220": {
+   "guid": "0RG6S63Pr48vit9seLUt1E",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "votes",
+   "votes": 62,
+   "volume_m3": 0.066
+  },
+  "221": {
+   "guid": "0RG6S63Pr48vit9seLUt6P",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.1143
+  },
+  "222": {
+   "guid": "0RG6S63Pr48vit9seLUt6P",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.0943
+  },
+  "223": {
+   "guid": "0RG6S63Pr48vit9seLUt6P",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.1491
+  },
+  "224": {
+   "guid": "0RG6S63Pr48vit9seLUt6P",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.1491
+  },
+  "225": {
+   "guid": "0RG6S63Pr48vit9seLUt5Z",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.1143
+  },
+  "226": {
+   "guid": "0RG6S63Pr48vit9seLUt5Z",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.0943
+  },
+  "227": {
+   "guid": "0RG6S63Pr48vit9seLUt5Z",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.1491
+  },
+  "228": {
+   "guid": "0RG6S63Pr48vit9seLUt5Z",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.1491
+  },
+  "229": {
+   "guid": "1_Iq6xIsv1xeO7O4nZAM7L",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.0935
+  },
+  "230": {
+   "guid": "1_Iq6xIsv1xeO7O4nZAM7L",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.0772
+  },
+  "231": {
+   "guid": "1_Iq6xIsv1xeO7O4nZAM7L",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.0764
+  },
+  "232": {
+   "guid": "1_Iq6xIsv1xeO7O4nZAM7L",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "votes",
+   "votes": 68,
+   "volume_m3": 0.0764
+  },
+  "233": {
+   "guid": "2cod_9cnH6lgOHU_lV8bpd",
+   "ifc_class": "IfcWindow",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.1
+  },
+  "234": {
+   "guid": "2cod_9cnH6lgOHU_lV8bpd",
+   "ifc_class": "IfcWindow",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.0825
+  },
+  "235": {
+   "guid": "2cod_9cnH6lgOHU_lV8bpd",
+   "ifc_class": "IfcWindow",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.1135
+  },
+  "236": {
+   "guid": "2cod_9cnH6lgOHU_lV8bpd",
+   "ifc_class": "IfcWindow",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.1135
+  },
+  "237": {
+   "guid": "2cod_9cnH6lgOHU_lV8box",
+   "ifc_class": "IfcWindow",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.1
+  },
+  "238": {
+   "guid": "2cod_9cnH6lgOHU_lV8box",
+   "ifc_class": "IfcWindow",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.0825
+  },
+  "239": {
+   "guid": "2cod_9cnH6lgOHU_lV8box",
+   "ifc_class": "IfcWindow",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.1135
+  },
+  "240": {
+   "guid": "2cod_9cnH6lgOHU_lV8box",
+   "ifc_class": "IfcWindow",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.1135
+  },
+  "241": {
+   "guid": "2cod_9cnH6lgOHU_lV8bjr",
+   "ifc_class": "IfcWindow",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.1
+  },
+  "242": {
+   "guid": "2cod_9cnH6lgOHU_lV8bjr",
+   "ifc_class": "IfcWindow",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.0825
+  },
+  "243": {
+   "guid": "2cod_9cnH6lgOHU_lV8bjr",
+   "ifc_class": "IfcWindow",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.1135
+  },
+  "244": {
+   "guid": "2cod_9cnH6lgOHU_lV8bjr",
+   "ifc_class": "IfcWindow",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.1135
+  },
+  "245": {
+   "guid": "2cod_9cnH6lgOHU_lV8bcE",
+   "ifc_class": "IfcWindow",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.1
+  },
+  "246": {
+   "guid": "2cod_9cnH6lgOHU_lV8bcE",
+   "ifc_class": "IfcWindow",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.0825
+  },
+  "247": {
+   "guid": "2cod_9cnH6lgOHU_lV8bcE",
+   "ifc_class": "IfcWindow",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.1135
+  },
+  "248": {
+   "guid": "2cod_9cnH6lgOHU_lV8bcE",
+   "ifc_class": "IfcWindow",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.1135
+  },
+  "249": {
+   "guid": "3PDcirDNvFvA6IW_GuYSLi",
+   "ifc_class": "IfcWindow",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.1
+  },
+  "250": {
+   "guid": "3PDcirDNvFvA6IW_GuYSLi",
+   "ifc_class": "IfcWindow",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.0825
+  },
+  "251": {
+   "guid": "3PDcirDNvFvA6IW_GuYSLi",
+   "ifc_class": "IfcWindow",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.1135
+  },
+  "252": {
+   "guid": "3PDcirDNvFvA6IW_GuYSLi",
+   "ifc_class": "IfcWindow",
+   "material": "Bricks",
+   "how": "inside",
+   "volume_m3": 0.1135
+  },
+  "253": {
+   "guid": "3PDcirDNvFvA6IW_GuYSIZ",
+   "ifc_class": "IfcWindow",
+   "material": "Tufelli_masonry_typeD",
+   "how": "votes",
+   "votes": 90,
+   "volume_m3": 0.1305
+  },
+  "254": {
+   "guid": "3PDcirDNvFvA6IW_GuYSIZ",
+   "ifc_class": "IfcWindow",
+   "material": "Tufelli_masonry_typeD",
+   "how": "inside",
+   "volume_m3": 0.0724
+  },
+  "255": {
+   "guid": "3PDcirDNvFvA6IW_GuYSIZ",
+   "ifc_class": "IfcWindow",
+   "material": "Tufelli_masonry_typeD",
+   "how": "nearest",
+   "distance": 0.1,
+   "volume_m3": 0.0623
+  },
+  "256": {
+   "guid": "3PDcirDNvFvA6IW_GuYSIZ",
+   "ifc_class": "IfcWindow",
+   "material": "Tufelli_masonry_typeD",
+   "how": "inside",
+   "volume_m3": 0.0623
+  },
+  "257": {
+   "guid": "3PDcirDNvFvA6IW_GuYSIZ",
+   "ifc_class": "IfcWindow",
+   "material": "Tufelli_masonry_typeD",
+   "how": "inside",
+   "volume_m3": 0.0623
+  },
+  "258": {
+   "guid": "2QEzj1Im5478gG84LIeYV0",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.1247
+  },
+  "259": {
+   "guid": "2QEzj1Im5478gG84LIeYV0",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.1029
+  },
+  "260": {
+   "guid": "2QEzj1Im5478gG84LIeYV0",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.1179
+  },
+  "261": {
+   "guid": "2QEzj1Im5478gG84LIeYV0",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.1179
+  },
+  "262": {
+   "guid": "2QEzj1Im5478gG84LIeYVv",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.1247
+  },
+  "263": {
+   "guid": "2QEzj1Im5478gG84LIeYVv",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.1029
+  },
+  "264": {
+   "guid": "2QEzj1Im5478gG84LIeYVv",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.1179
+  },
+  "265": {
+   "guid": "2QEzj1Im5478gG84LIeYVv",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.1179
+  },
+  "266": {
+   "guid": "1ViGEvFsn0QResAVATv4Um",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.1
+  },
+  "267": {
+   "guid": "1ViGEvFsn0QResAVATv4Um",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.0825
+  },
+  "268": {
+   "guid": "1ViGEvFsn0QResAVATv4Um",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.0735
+  },
+  "269": {
+   "guid": "1ViGEvFsn0QResAVATv4Um",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "votes",
+   "votes": 63,
+   "volume_m3": 0.0735
+  },
+  "270": {
+   "guid": "0F0gJxCaz6DgMK0q1JiOFl",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.12
+  },
+  "271": {
+   "guid": "0F0gJxCaz6DgMK0q1JiOFl",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.099
+  },
+  "272": {
+   "guid": "0F0gJxCaz6DgMK0q1JiOFl",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.0935
+  },
+  "273": {
+   "guid": "0F0gJxCaz6DgMK0q1JiOFl",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.0935
+  },
+  "274": {
+   "guid": "0F0gJxCaz6DgMK0q1JiO31",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.12
+  },
+  "275": {
+   "guid": "0F0gJxCaz6DgMK0q1JiO31",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.099
+  },
+  "276": {
+   "guid": "0F0gJxCaz6DgMK0q1JiO31",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.1135
+  },
+  "277": {
+   "guid": "0F0gJxCaz6DgMK0q1JiO31",
+   "ifc_class": "IfcWindow",
+   "material": "Stone",
+   "how": "inside",
+   "volume_m3": 0.1135
+  },
+  "278": {
+   "guid": "112HIUctr2yw5OqZgr3ksc",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeA",
+   "how": "inside",
+   "volume_m3": 21.5999
+  },
+  "279": {
+   "guid": "112HIUctr2yw5OqZgr3ksc",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeA",
+   "how": "votes",
+   "votes": 66,
+   "volume_m3": 0.0001
+  },
+  "280": {
+   "guid": "37gWW_uGL459BrbCF$MAq8",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeA",
+   "how": "inside",
+   "volume_m3": 13.4999
+  },
+  "281": {
+   "guid": "37gWW_uGL459BrbCF$MAq8",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeA",
+   "how": "votes",
+   "votes": 66,
+   "volume_m3": 0.0
+  },
+  "282": {
+   "guid": "3_wR1BNVfAMeWWIaQS4ySL",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeA",
+   "how": "inside",
+   "volume_m3": 21.6656
+  },
+  "283": {
+   "guid": "3_wR1BNVfAMeWWIaQS4yS9",
+   "ifc_class": "IfcWall",
+   "material": "Tufelli_masonry_typeA",
+   "how": "inside",
+   "volume_m3": 13.541
+  }
+ }
+}

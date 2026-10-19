@@ -58,7 +58,7 @@ class Element:
         return(side_length)
         
     @staticmethod
-    def create_linear_elastic_element(gmshmodel, material, solid_material_tag, element_tags, node_tags) -> int:
+    def create_linear_elastic_element(gmshmodel, material, solid_material_tag, element_tags, node_tags, gravity_scale=1.0) -> int:
         """Build `ElasticIsotropic` + `FourNodeTetrahedron` elements for one material's elements.
 
         Converts ``material.young_modulus`` from MPa to Pa (all other
@@ -86,7 +86,7 @@ class Element:
 
         #Add elements to opensees
         for ele_tag, ele_nodes in zip(element_tags, node_tags):
-            element('FourNodeTetrahedron', ele_tag, *ele_nodes, solid_material_tag, 0, 0, rho*G)
+            element('FourNodeTetrahedron', ele_tag, *ele_nodes, solid_material_tag, 0, 0, rho*G*gravity_scale)
             
         return solid_material_tag
     
@@ -280,8 +280,8 @@ class Element:
 
         gravity_scale (optional, default 1.0): multiplies the vertical
         body force (rho*G) baked into every FourNodeTetrahedron at
-        creation time (PlasticDamage path only - see
-        create_plastic_damage_elements). This body force is a permanent
+        creation time (both the linear-elastic and the plastic-damage
+        path). This body force is a permanent
         element property, not a Pattern/eleLoad call, so it cannot be
         "turned off" later by skipping a load step - pass 0.0 here, at
         element-creation time, for a lateral-only run with no self-weight.
@@ -318,7 +318,7 @@ class Element:
 
             #Define Material Type
             if material.material_model_type == 'LinearElastic':
-                tag = Element.create_linear_elastic_element(gmshmodel, material, solid_material_tag, element_tags, node_tags)
+                tag = Element.create_linear_elastic_element(gmshmodel, material, solid_material_tag, element_tags, node_tags, gravity_scale=gravity_scale)
             elif material.material_model_type == 'PlasticDamage':
                 tag = Element.create_plastic_damage_elements(gmshmodel, material, solid_material_tag, element_tags, node_tags, gravity_scale=gravity_scale)
             tags.append(tag)

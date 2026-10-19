@@ -93,11 +93,24 @@ enrichment editor), and the knowledge-graph builder writes the derived
 properties on the four masonry materials of
 `output/castelnuovo/castelnuovo_case.ifc`.
 
+Since the prepared STEP geometry has lost the IFC labels of its solids,
+`scripts/map_castelnuovo_volume_materials.py` recovers the material of each
+of its 279 volumes from the IFC element it comes from
+(`core/ifc_processing/ifc_step_matching.py`) and writes
+`resources/survey_data/castelnuovo/volume_materials.json`: 233 volumes have
+their centroid inside one element, 24 are decided by points sampled inside
+them, 22 take the nearest element (all walls, within 0.6 m). The modal,
+time-history and pushover scripts (`eigen_castelnuovo_tied.py`,
+`timehistory_castelnuovo.py`, `pushover_castelnuovo.py`) build one physical
+group per material and read the properties from the enriched IFC model
+(`core/opensees_generation/volume_materials.py`): the four masonry types
+with the properties derived for them, stone, brick and steel with those of
+the BIM model.
+
 ```{warning}
-The full-aggregate scripts (`docker/opensees/full_aggregate_with_interfaces_clean.py`
-and the related runs) still put every solid in a single physical group,
-`Masonry`, with one material. The four masonry types, and their properties
-from the knowledge graph, are not yet used by those analyses.
+The older apeGmsh/TCL scripts (`full_aggregate_with_interfaces_clean.py`,
+`self_weight_check_full_aggregate_clean.py`) and `eigen_castelnuovo_native_gmsh.py`
+still use one averaged material for every solid.
 ```
 
 ## What this demonstrates

@@ -67,6 +67,9 @@ from core.opensees_generation.junction_ties import find_junction_ties, apply_tie
 from core.opensees_generation.element_sampling import select_recorded_elements
 from core.mesh_generation.geometry_healing import find_open_junctions
 from core.ifc_processing.data_extractor import Material
+from core.opensees_generation.volume_materials import (
+    load as load_volume_materials, add_physical_groups, materials_from_ifc, total_weight,
+    element_densities, summary as materials_summary)
 from core.mesh_generation.wall_interfaces import (
     InterfaceDetection, InterfaceSelection, ContactInterfaceGenerator, NodeSplitter,
 )
@@ -92,12 +95,19 @@ JUNCTION_REFINE_RADIUS = 0.4
 MAX_JUNCTION_GAP = 0.05
 MAX_TIE_DISTANCE = 0.10
 
-# --- material: identical to timehistory_castelnuovo.py ---------------------
-E_MPA = 1227.95
-NU = 0.2
-RHO = 1450.0
-FC_MPA = 2.694
-FT_MPA = FC_MPA * (0.17 / 1.30)
+# --- materials: one per material of the IFC model. Each volume takes the
+# material of the IFC element it comes from
+# (resources/survey_data/castelnuovo/volume_materials.json, written by
+# scripts/map_castelnuovo_volume_materials.py). The four masonry types take
+# the properties the knowledge-graph builder derived and wrote on their
+# IfcMaterial in the enriched model (output/castelnuovo/castelnuovo_case.ifc),
+# tensile strength included (ft = fc x 0.17/1.30, the ratio of the Chapter 6
+# SERA-AIMS reference masonry); stone, brick and steel elements take the
+# properties of the BIM model. Gc/Gt are not in the IFC file and stay 0, so
+# create_plastic_damage_elements applies its code-formula fallbacks
+# (CEB-FIP MC90).
+VOLUME_MATERIALS_PATH = "resources/survey_data/castelnuovo/volume_materials.json"
+MATERIALS_IFC_PATH = "output/castelnuovo/castelnuovo_case.ifc"
 
 KN_NOMINAL = 69000.0 * 1e9
 KT_NOMINAL = 0.001 * 1e9
@@ -140,8 +150,7 @@ vol_tags = [t for _d, t in gmsh.model.getEntities(3)]
 total_volume = sum(gmsh.model.occ.getMass(3, t) for t in vol_tags)
 say(f"{len(vol_tags)} volumes, {total_volume:.2f} m^3 ({time.perf_counter()-t0:.1f} s)")
 
-pg_tag = gmsh.model.addPhysicalGroup(3, vol_tags)
-gmsh.model.setPhysicalName(3, pg_tag, "Masonry")
+material_groups = add_physical_groups(load_volume_materials(VOLUME_MATERIALS_PATH), vol_tags)
 
 candidates = InterfaceDetection.find_touching_surface_pairs()
 InterfaceDetection.classify_orientation(candidates)
@@ -340,13 +349,7 @@ say(f"{n_applied} equalDOF constraints across "
 
 # --- 5. elements (the slow stage) -------------------------------------------
 t0 = time.perf_counter()
-material = Material(
-    name="Masonry", density=RHO, young_modulus=E_MPA, poisson_ratio=NU,
-    is_structural=True, material_model_type="PlasticDamage",
-    compressive_strength=FC_MPA, tensile_strength=FT_MPA,
-    compression_fracture_energy=0, tensile_fracture_energy=0,
-    compressive_elastic_behaviour=0,
-)
+materials = materials_from_ifc(MATERIALS_IFC_PATH, material_groups)
 say("building elements with ASDConcrete3D...")
 # --no-gravity: diagnostic for whether the pushover's diffuse strain
 # envelope comes from the lateral pattern itself, isolated from self-
@@ -357,7 +360,7 @@ GRAVITY_SCALE = 0.0 if "--no-gravity" in sys.argv else 1.0
 if GRAVITY_SCALE == 0.0:
     say("--no-gravity: building elements with ZERO self-weight body force")
 element_tags = Element.add_elements_to_opensees(
-    gmsh.model, {"Masonry": material}, node_substitution=substitution,
+    gmsh.model, materials, node_substitution=substitution,
     gravity_scale=GRAVITY_SCALE)
 say(f"{len(element_tags)} elements added ({time.perf_counter()-t0:.1f} s)")
 
@@ -389,7 +392,7 @@ reaction_z = 0.0
 ops.reactions()
 for n in base_arr:
     reaction_z += ops.nodeReaction(int(n), 3)
-weight = RHO * G_ACCEL * total_volume    # the building's real weight,
+weight = total_weight(material_groups, materials, G_ACCEL)    # the building's real weight,
                                           # kept as the base_shear_over_W
                                           # denominator regardless of
                                           # GRAVITY_SCALE, so that ratio
@@ -442,7 +445,7 @@ say(f"eigen done ({time.perf_counter()-t0:.1f} s)")
 all_node_tags = [int(t) for t in node_tags_all]
 
 # Nodal mass, computed directly from element geometry (tributary volume x
-# RHO / 4 per tetrahedron corner) rather than queried via ops.nodeMass().
+# density / 4 per tetrahedron corner) rather than queried via ops.nodeMass().
 # ops.nodeMass() only reports mass assigned through an explicit `mass`
 # command - it does NOT reflect the mass contribution FourNodeTetrahedron
 # + ASDConcrete3D's own `-rho` bakes into the assembled mass matrix (the
@@ -452,7 +455,7 @@ all_node_tags = [int(t) for t in node_tags_all]
 # modes, and a load pattern with 0 nodes loaded) - not a subtle numerical
 # issue, ops.nodeMass() simply is not the right query for element-implied
 # mass. Recomputed independently here so it never depends on that guess
-# again; checked against the known total (RHO * total_volume, already
+# again; checked against the known total (sum of density x volume, already
 # verified via the gravity self-weight check above).
 coord_by_tag_full = dict(coord_by_tag)
 for vol_map in substitution.values():
@@ -460,6 +463,7 @@ for vol_map in substitution.values():
         if orig in coord_by_tag_full:
             coord_by_tag_full[dup] = coord_by_tag_full[orig]
 
+density_of = element_densities(material_groups, materials)
 node_mass_x = {n: 0.0 for n in all_node_tags}
 n_mass_warnings = 0
 for tag in element_tags:
@@ -477,7 +481,7 @@ for tag in element_tags:
         n_mass_warnings += 1
         continue
     vol = abs(np.dot(p[1] - p[0], np.cross(p[2] - p[0], p[3] - p[0]))) / 6.0
-    m_corner = RHO * vol / 4.0
+    m_corner = density_of[int(tag)] * vol / 4.0
     for n in ele_nodes:
         n = int(n)
         node_mass_x[n] = node_mass_x.get(n, 0.0) + m_corner
@@ -485,8 +489,8 @@ if n_mass_warnings:
     say(f"  WARNING: {n_mass_warnings} element(s) skipped while computing "
         f"nodal mass (unexpected node count or missing coordinates)")
 total_mass_x = sum(node_mass_x.values())
-say(f"  computed total mass {total_mass_x:,.1f} kg vs RHO*total_volume "
-    f"{RHO*total_volume:,.1f} kg (should match closely)")
+say(f"  computed total mass {total_mass_x:,.1f} kg vs sum of rho*V "
+    f"{total_weight(material_groups, materials, 1.0):,.1f} kg (should match closely)")
 
 best_mode, best_participation, best_phi = None, -1.0, None
 for mode in range(1, N_MODES_SCAN + 1):
@@ -723,11 +727,7 @@ summary = {
     "global_mesh_size_m": GLOBAL_MESH_SIZE,
     "solid_sample_stride": SOLID_SAMPLE,
     "total_volume_m3": total_volume,
-    "young_modulus_MPa": E_MPA,
-    "poisson_ratio": NU,
-    "density_kg_m3": RHO,
-    "compressive_strength_MPa": FC_MPA,
-    "tensile_strength_MPa": FT_MPA,
+    "materials": materials_summary(material_groups, materials),
     "material_model": "ASDConcrete3D (implex, autoRegularization)",
     "equaldof_constraints": n_applied,
     "open_junctions": len(open_junctions),

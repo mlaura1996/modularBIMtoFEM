@@ -14,13 +14,15 @@ local workflow, not for a Docker run) and uses openseespy directly (Python
 return values for eigenvalues/eigenvectors, no TCL recorder files to
 parse).
 
-Material: the weighted average of the 4 HMO/MQI-calibrated masonry types
-(docs/source/case_study/materials.md) - E = mean(1526.6, 1198.7, 987.8,
-1198.7[type D=B]) = 1227.95 MPa, nu = 0.2, rho = 1450 kg/m^3 - replacing
-the generic placeholder (700 MPa/0.25/2000 kg/m^3) used throughout the
-apeGmsh pipeline. Equal-weighted across the 4 types since a real per-
-facade material assignment needs a volume<->facade mapping that doesn't
-exist yet (docs/source/case_study/open_questions.md #6).
+Materials: one per material of the IFC model, each volume with the
+material of the IFC element it comes from
+(resources/survey_data/castelnuovo/volume_materials.json). The four
+masonry types take the properties derived by the knowledge-graph builder
+and written on their IfcMaterial in output/castelnuovo/castelnuovo_case.ifc;
+stone, brick and steel take those of the BIM model. All linear elastic.
+(Until October 2026 every volume had the equal-weighted average of the
+four masonry types, E = 1227.95 MPa, since the volume-material mapping did
+not exist yet.)
 
 Ground-bearing base fixity reuses core.mesh_generation.wall_interfaces.
 InterfaceDetection as-is - it's written directly against gmsh.model.* calls,
@@ -70,6 +72,9 @@ from core.opensees_generation.model_builder import ModelBuilder, Element
 from core.opensees_generation.junction_ties import find_junction_ties, apply_ties
 from core.mesh_generation.geometry_healing import find_open_junctions
 from core.ifc_processing.data_extractor import Material
+from core.opensees_generation.volume_materials import (
+    load as load_volume_materials, add_physical_groups, materials_from_ifc, total_weight as total_weight_of,
+    element_densities, summary as materials_summary)
 from core.mesh_generation.wall_interfaces import InterfaceDetection
 
 STEP_PATH = "resources/ifc_examples/castelnuovo/example_clean_PRONTO.stp"
@@ -77,7 +82,19 @@ GLOBAL_MESH_SIZE = 0.6
 N_MODES = _N_MODES_ARG  # --n-modes; 10 reaches only ~52% MX / 55% MY cumulative
 # participating mass, well under the 85% NTC2018 7.3.3.1 / EC8 require, so a
 # seismic verification needs considerably more than the default.
-E_MPA, NU, RHO = 1227.95, 0.2, 1450.0  # see module docstring for the weighted-average derivation
+# --- materials: one per material of the IFC model. Each volume takes the
+# material of the IFC element it comes from
+# (resources/survey_data/castelnuovo/volume_materials.json, written by
+# scripts/map_castelnuovo_volume_materials.py). The four masonry types take
+# the properties the knowledge-graph builder derived and wrote on their
+# IfcMaterial in the enriched model (output/castelnuovo/castelnuovo_case.ifc),
+# tensile strength included (ft = fc x 0.17/1.30, the ratio of the Chapter 6
+# SERA-AIMS reference masonry); stone, brick and steel elements take the
+# properties of the BIM model. Gc/Gt are not in the IFC file and stay 0, so
+# they are not needed here: the modal analysis is linear elastic
+# for every material.
+VOLUME_MATERIALS_PATH = "resources/survey_data/castelnuovo/volume_materials.json"
+MATERIALS_IFC_PATH = "output/castelnuovo/castelnuovo_case.ifc"
 G_ACCEL = -9.81  # matches core.config.G's sign convention (negative = -z)
 MAX_JUNCTION_GAP = 0.05   # m - treat solids this close as a junction that should be connected
 MAX_TIE_DISTANCE = 0.10   # m - never tie a node pair further apart than this
@@ -110,8 +127,7 @@ print(f"{len(vol_tags)} volumes loaded.")
 total_volume = sum(gmsh.model.occ.getMass(3, t) for t in vol_tags)
 print(f"Total volume: {total_volume:.2f} m^3")
 
-pg_tag = gmsh.model.addPhysicalGroup(3, vol_tags)
-gmsh.model.setPhysicalName(3, pg_tag, "Masonry")
+material_groups = add_physical_groups(load_volume_materials(VOLUME_MATERIALS_PATH), vol_tags)
 
 candidates = InterfaceDetection.find_touching_surface_pairs()
 InterfaceDetection.classify_orientation(candidates)
@@ -301,14 +317,8 @@ node_tags_sorted = np.array(sorted(int(t) for t in node_tags_all), dtype=np.int6
 coord_by_tag = {int(t): c for t, c in zip(node_tags_all, node_coords_all)}
 node_coords_sorted = np.array([coord_by_tag[int(t)] for t in node_tags_sorted])
 
-material = Material(
-    name="Masonry", density=RHO, young_modulus=E_MPA, poisson_ratio=NU,
-    is_structural=True, material_model_type="LinearElastic",
-    compressive_strength=0, tensile_strength=0,
-    compression_fracture_energy=0, tensile_fracture_energy=0,
-    compressive_elastic_behaviour=0,
-)
-element_tags = Element.add_elements_to_opensees(gmsh.model, {"Masonry": material})
+materials = materials_from_ifc(MATERIALS_IFC_PATH, material_groups, linear=True)
+element_tags = Element.add_elements_to_opensees(gmsh.model, materials)
 print(f"{len(element_tags)} elements added to OpenSees "
       f"(self-weight body force baked directly into each element - "
       f"bx=by=0, bz=rho*G - same convention the apeGmsh/TCL pipeline used, "
@@ -491,7 +501,7 @@ assert ok == 0, f"static analysis did not converge (ok={ok})"
 
 ops.reactions()
 total_reaction = sum(ops.nodeReaction(int(n), 3) for n in base_ids_all)
-total_weight = RHO * (-G_ACCEL) * total_volume
+total_weight = -total_weight_of(material_groups, materials, -G_ACCEL)
 err_pct = 100.0 * (total_reaction - total_weight) / total_weight
 print(f"Self-weight calculated (rho*g*V): {total_weight:.1f} N")
 print(f"Total vertical base reaction:      {total_reaction:.1f} N")
@@ -531,9 +541,7 @@ for mode in range(1, N_MODES + 1):
 
 summary = {
     "framework": "native gmsh + external.gmsh2opensees + openseespy (sequential)",
-    "young_modulus_MPa": E_MPA,
-    "poisson_ratio": NU,
-    "density_kg_m3": RHO,
+    "materials": materials_summary(material_groups, materials),
     "total_volume_m3": total_volume,
     "self_weight_calculated_N": total_weight,
     "total_base_reaction_N": total_reaction,
