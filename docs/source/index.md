@@ -1,14 +1,32 @@
 # openBIMtoFEM documentation
 
-openBIMtoFEM turns an IFC building model into a nonlinear finite-element
-model of a masonry aggregate and runs the resulting seismic analysis,
-without a commercial pre/post-processor in the loop. It targets
-unreinforced masonry aggregates specifically - clusters of adjacent,
-structurally interacting units, the case a generic BIM-to-FEM tool tends
-to handle worst - and automates the parts of that workflow that are
-normally done by hand: wall-to-wall interface detection and selection,
-mesh generation and partitioning, contact-element and constraint
-generation, and a **parallel nonlinear dynamic analysis on OpenSeesMP**.
+openBIMtoFEM turns the IFC model of an unreinforced masonry aggregate into
+a finite-element model in OpenSees, and carries along the knowledge on which
+its mechanical characterisation rests. Masonry aggregates, clusters of
+adjacent and structurally interacting units built and transformed over
+centuries, are the case a generic BIM-to-FEM tool handles worst, because
+their geometry is irregular and the properties of their walls are not
+measured but inferred from what a survey can observe.
+
+The framework works in two stages, connected only through the IFC file.
+
+- **Semantic enrichment.** What is known about the building, from the
+  survey and its sources to the structural units, the façades, the
+  classification of the masonry and its vulnerabilities, is recorded on the
+  model in the **enrichment editor**, a web page that runs in the browser.
+  The **knowledge-graph builder** turns this record into a knowledge graph
+  on four ontologies (HSV, HSTO, HMO, FMO), has the Pellet reasoner derive
+  the mechanical properties of each masonry type and the behaviour and
+  failure mechanisms of each wall, and writes the properties back into the
+  IFC file.
+- **Conversion.** The enriched model is turned into the OpenSees model.
+  The geometry is recovered as closed solids and meshed with Gmsh, the
+  materials are read from the IFC property sets, contact interfaces can be
+  placed between the structural units, and the model is analysed in
+  OpenSees, in parallel on **OpenSeesMP** for large models.
+
+Everything is open source, with no commercial pre- or post-processor in
+the loop.
 
 ```{figure} _static/images/workflow/overview.png
 :alt: Overview of the openBIMtoFEM workflow, from the survey evidence and the IFC model to the OpenSees engine.
@@ -22,15 +40,8 @@ meets them in the OpenSees engine. The icons are the libraries used at each
 step.
 ```
 
-The workflow in one line: the IFC model is enriched with what is known
-about the building, in the enrichment editor, and the knowledge-graph
-builder derives from it, through the ontologies and the Pellet reasoner,
-the mechanical properties of the masonry, which it writes back into the
-model; the enriched model is then converted into the OpenSees model, its
-geometry meshed with Gmsh and its materials read from the IFC property
-sets, and analysed in OpenSees, in parallel with `OpenSeesMP` inside a
-pinned Docker image for large models. The seven steps are described in
-{doc}`user_guide/workflow`.
+The seven steps a user goes through, from the authoring tool to the
+analysis, are described in {doc}`user_guide/workflow`.
 
 This site exists so that the reasoning behind each piece - not just the
 code - stays attached to the work. It has four parts, mirroring how the
@@ -43,15 +54,17 @@ itself is organised:
 ````{grid-item-card} User Guide
 :link: user_guide/index
 :link-type: doc
-Install the pipeline, run it end to end, build and use the Docker image.
-Start here if you just want to reproduce a result.
+The seven steps from the IFC model to the analysis, with the enrichment
+editor, the knowledge-graph builder and the conversion; installation and
+the Docker image. Start here to use openBIMtoFEM.
 ````
 ````{grid-item-card} Framework for Developer
 :link: developer_guide/index
 :link-type: doc
-How the codebase is organised, what each module does, and the design
-decisions behind interface selection, parallel export, and the Docker
-image. Start here to extend the pipeline.
+How the code is organised (the `core` subpackages, the editor, `utils`,
+`models`, `external`), and the design decisions behind the knowledge graph,
+interface selection, parallel export and the Docker image. Start here to
+extend openBIMtoFEM.
 ````
 ````{grid-item-card} API Reference
 :link: api_reference/index
@@ -62,9 +75,11 @@ docstrings. Start here to look up an exact signature or return value.
 ````{grid-item-card} Castelnuovo Case Study
 :link: case_study/index
 :link-type: doc
-A worked example the pipeline was developed and validated against: the
-geometry, the material characterisation from survey data (HMO/MQI), the
-interface selection, and what is still open.
+A real aggregate in Castelnuovo di Porto taken through the whole
+workflow: its knowledge record and knowledge graph, the masonry
+characterisation (HMO/MQI) and failure mechanisms (FMO), the geometry, the
+interface selection, the analyses, and what is still open. The knowledge
+graph of the SERA-AIMS shake-table benchmark is published alongside it.
 ````
 `````
 
