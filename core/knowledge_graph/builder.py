@@ -17,6 +17,9 @@ the Historic Survey (HSV), Historic Structure (HSTO) and Historic Masonry
   FMO   the vulnerabilities recorded for each wall; the reasoner derives
         the behaviour of every wall in each direction from its quality
         index, and the failure mechanisms its vulnerabilities enable
+  mat   the materials of the BIM elements that are not masonry types
+        (stone and brick surrounds, timber, steel), as the mat:Material
+        HMO imports, with the properties of the IfcMaterial of the same name
 
 Where the ontologies have no term for something the records hold, a
 standard vocabulary is used instead of a term with the wrong domain:
@@ -50,6 +53,7 @@ PROV = Namespace("http://www.w3.org/ns/prov#")
 DCT = Namespace("http://purl.org/dc/terms/")
 FOAF = Namespace("http://xmlns.com/foaf/0.1/")
 SKOS = Namespace("http://www.w3.org/2004/02/skos/core#")
+MAT = Namespace("http://bimerr.iot.linkeddata.es/def/material-properties#")
 CHECKED = (HSV, HSTO, HMO, FMO)
 ONTOLOGIES = {"hmo": "resources/ontologies/hmo.ttl", "hsv": "resources/ontologies/hsv.ttl",
               "hsto": "resources/ontologies/hsto.ttl", "fmo": "resources/ontologies/fmo.ttl"}
@@ -74,6 +78,26 @@ def ind(g, iri, *classes, label=None):
     if label:
         g.add((iri, RDFS.label, Literal(label, lang="en")))
     return iri
+
+
+def _material(g, C, name, props):
+    """mat:Material of a non-masonry IfcMaterial, with the properties it carries."""
+    key = name.replace(" ", "_")
+    m = ind(g, C["Material_" + key], MAT.Material, label=name.replace("_", " "))
+    g.add((m, DCT.identifier, Literal(name)))
+    for prop in ("MassDensity", "YoungModulus", "ShearModulus"):
+        if props.get(prop) is not None:
+            p = ind(g, C[f"{prop}_Material_{key}"], HMO[prop])
+            g.add((m, HMO.hasHomogenisedMechanicalProperty, p))
+            g.add((p, SAREF.hasValue, Literal(float(props[prop]), datatype=XSD.float)))
+    if props.get("PoissonRatio") is not None:
+        g.add((m, SKOS.note, Literal(f"Poisson ratio {float(props['PoissonRatio']):g}", lang="en")))
+    if props.get("Source"):
+        g.add((m, DCT.source, Literal(props["Source"])))
+    g.add((m, RDFS.comment, Literal(
+        "Material of the BIM model: its properties are those of the IfcMaterial of the same name "
+        "(Pset_MaterialCommon, Pset_MaterialMechanical), not derived by the reasoner.", lang="en")))
+    return m
 
 
 def _facades_of(photo):
@@ -120,13 +144,13 @@ def _characterise(g, C, k, wall, t, observation, evidence_photos=()):
     return props
 
 
-def build(case, classification, bim_elements=()):
+def build(case, classification, bim_elements=(), bim_materials=None):
     """(graph, walls, variant walls, property IRIs, namespace)."""
     proj = case["project"]
     C = Namespace(proj["namespace"])
     g = rdflib.Graph()
     for p, ns in (("", C), ("hsv", HSV), ("hsto", HSTO), ("hmo", HMO), ("fmo", FMO), ("saref", SAREF),
-                  ("prov", PROV), ("dcterms", DCT), ("foaf", FOAF), ("skos", SKOS)):
+                  ("prov", PROV), ("dcterms", DCT), ("foaf", FOAF), ("skos", SKOS), ("mat", MAT)):
         g.bind(p, ns)
 
     # --- people, organisations, activities (FOAF, PROV-O) -----------------
@@ -218,17 +242,26 @@ def build(case, classification, bim_elements=()):
             text = note if param == "general" else f"{param.replace('_', ' ')}: {note}"
             g.add((mt, SKOS.note, Literal(text, lang="en")))
 
-    # --- BIM elements of each masonry type ------------------------------------
-    # linked by the material name, as the conversion to the numerical model is
+    # --- BIM elements and their materials -------------------------------------
+    # linked by the material name, as the conversion to the numerical model is:
+    # a masonry type, or a mat:Material for any other material of the model
     bim_doc = C[proj["bim_document"]] if proj.get("bim_document") else None
-    for e in bim_elements:
-        mtype = next((m for m in e.get("materials", []) if m in classification["types"]), None)
-        if mtype is None or bim_doc is None:
+    materials = {}
+    for e in bim_elements if bim_doc is not None else ():
+        names = e.get("materials", [])
+        mtype = next((m for m in names if m in classification["types"]), None)
+        others = [m for m in names if m not in classification["types"]]
+        if mtype is None and not others:
             continue
         el = ind(g, C["IFC_" + e["global_id"].replace("$", "-")], label=f"{e['ifc_class']} {e['name']}".strip())
         g.add((el, DCT.identifier, Literal(e["global_id"])))
         g.add((el, DCT.isPartOf, bim_doc))
-        g.add((el, DCT.type, C[mtype]))
+        if mtype is not None:
+            g.add((el, DCT.type, C[mtype]))
+        for name in others:
+            if name not in materials:
+                materials[name] = _material(g, C, name, (bim_materials or {}).get(name, {}))
+            g.add((el, MAT.hasMaterial, materials[name]))
 
     # --- BIM elements of each facade, where the editor has recorded them --------
     for fid, f in case["facades"].items():
@@ -350,7 +383,9 @@ def domain_range_violations(abox, tbox):
     def closure(c):
         if c not in supers:
             supers[c] = {c}
-            for s in tbox.objects(c, RDFS.subClassOf):
+            parents = (list(tbox.objects(c, RDFS.subClassOf)) + list(tbox.objects(c, OWL.equivalentClass))
+                       + list(tbox.subjects(OWL.equivalentClass, c)))
+            for s in parents:
                 if isinstance(s, URIRef):
                     supers[c] |= closure(s)
         return supers[c]
@@ -375,9 +410,9 @@ def domain_range_violations(abox, tbox):
     return sorted(problems)
 
 
-def run(case, classification, out_dir, bim_elements=(), ontologies=ONTOLOGIES, log=print):
+def run(case, classification, out_dir, bim_elements=(), ontologies=ONTOLOGIES, log=print, bim_materials=None):
     """Builds, checks and reasons; writes knowledge_graph.ttl and material_database.json."""
-    abox, walls, variants, prop_iris, C = build(case, classification, bim_elements)
+    abox, walls, variants, prop_iris, C = build(case, classification, bim_elements, bim_materials)
     kb = rdflib.Graph()
     for path in ontologies.values():
         kb.parse(path, format="turtle")

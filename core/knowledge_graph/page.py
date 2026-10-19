@@ -46,12 +46,14 @@ VOCAB = {
     "dcterms": "http://purl.org/dc/terms/",
     "foaf": "http://xmlns.com/foaf/0.1/",
     "skos": "http://www.w3.org/2004/02/skos/core#",
+    "mat": "http://bimerr.iot.linkeddata.es/def/material-properties#",
     "rdfs": str(RDFS),
     "owl": str(OWL),
 }
 HSV, HSTO, HMO, FMO = (rdflib.Namespace(VOCAB[p]) for p in ("hsv", "hsto", "hmo", "fmo"))
 SAREF, PROV, DCT = (rdflib.Namespace(VOCAB[p]) for p in ("saref", "prov", "dcterms"))
 FOAF, SKOS = rdflib.Namespace(VOCAB["foaf"]), rdflib.Namespace(VOCAB["skos"])
+MAT = rdflib.Namespace(VOCAB["mat"])
 
 # node groups, in legend order: (key, label, shown by default)
 GROUPS = [
@@ -65,6 +67,7 @@ GROUPS = [
     ("agent", "People and organisations", True),
     ("photo", "Photographs (HSV)", False),
     ("bim", "BIM elements (IFC)", False),
+    ("material", "Other materials of the BIM model (mat)", False),
     ("variant", "Variant walls (hypothetical)", False),
     ("measured", "Measured properties", False),
     ("hmo", "Quality index and properties (HMO)", False),
@@ -128,6 +131,8 @@ def build_page(kg_path, out_dir, photos_dir=None, ontologies=ONTOLOGIES, log=pri
             return "wall" if (None, HSTO.isMadeOf, term) in kg else "variant"
         if SKOS.Concept in ts:
             return "type"
+        if MAT.Material in ts:
+            return "material"
         if ts & {FOAF.Person, FOAF.Organization}:
             return "agent"
         if PROV.Activity in ts:
@@ -322,6 +327,13 @@ def build_page(kg_path, out_dir, photos_dir=None, ontologies=ONTOLOGIES, log=pri
         "documents": documents, "activities": activities, "people": people, "other_photos": other_photos,
         "bim": {"glb": "bim/model.glb" if os.path.exists(os.path.join(out_dir, "bim", "model.glb")) else None,
                 "types": {label(t): curie(t) for t in sorted(kg.subjects(RDF.type, SKOS.Concept), key=str)},
+                "materials": {str(kg.value(m, DCT.identifier)): {
+                    "id": curie(m),
+                    "elements": sum(1 for _ in kg.subjects(MAT.hasMaterial, m)),
+                    "properties": {local(t): float(kg.value(p, SAREF.hasValue))
+                                   for p in kg.objects(m, HMO.hasHomogenisedMechanicalProperty)
+                                   for t in kg.objects(p, RDF.type) if t != OWL.NamedIndividual}}
+                    for m in sorted(kg.subjects(RDF.type, MAT.Material), key=str)},
                 "elements": {str(kg.value(e, DCT.identifier)): curie(e)
                              for e in kg.subjects(DCT.isPartOf, None) if is_bim_element(e)}},
         "stats": {"triples": len(kg), "nodes": len(nodes), "edges": len(edges)},

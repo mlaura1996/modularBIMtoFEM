@@ -10,7 +10,8 @@ HMO rules (see {doc}`materials`); and the behaviour of every wall in each
 direction and the failure mechanisms its vulnerabilities enable, derived
 from the FMO rules. Each graph can be browsed online, with
 an interactive view of the graph, a 3D view of the BIM model coloured by
-masonry type, and tables of the same content.
+masonry type (and the other elements by their material), and tables of the
+same content.
 
 ```{raw} html
 <ul>
@@ -95,8 +96,14 @@ The first command exports the BIM model for the page, one glTF node per
 element, and lists its elements and their materials. The BIM model and
 the graph are linked by the material name, as in the conversion to the
 numerical model: an element whose material is the name of a masonry type
-is recorded as part of the BIM model and of that type. The elements the
-editor assigned to a façade are also recorded as parts of that façade.
+is recorded as part of the BIM model and of that type. Every other material
+of the model (stone and brick surrounds, timber, steel) becomes a
+`mat:Material`, the class of the BIMERR material-properties ontology that
+HMO imports, linked to its elements by `mat:hasMaterial` and carrying the
+density and Young's modulus of the IFC material of the same name
+(`Pset_MaterialCommon`, `Pset_MaterialMechanical`), which the export also
+lists. The elements the editor assigned to a façade are also recorded as
+parts of that façade.
 
 The second reads the knowledge record, checks that its cross-references resolve,
 builds the graph, checks that every HSV, HSTO, HMO and FMO term is declared and

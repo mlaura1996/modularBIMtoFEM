@@ -14,7 +14,9 @@ runs Pellet (Java and owlready2 0.48 needed), writes knowledge_graph.ttl
 and material_database.json to --out, and with --site writes the browsable
 page there (with --photos, also the photograph thumbnails). --bim is the
 element list written by scripts/export_bim_for_web.py, which links the BIM
-model to the masonry types; its glTF model is expected in <site>/bim/.
+model to the masonry types, and its other materials to mat:Material
+individuals with their IFC properties; its glTF model is expected in
+<site>/bim/.
 When <case> is an IFC file, build also writes it again with the derived
 properties of each masonry type on the IfcMaterial of the same name
 (Pset_MaterialCommon, Pset_MaterialMechanical, Pset_MaterialSource), the
@@ -70,9 +72,9 @@ def main(argv=None):
                       open(a.target, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
         print(f"wrote {a.target}")
         return
-    bim = json.load(open(a.bim, encoding="utf-8"))["elements"] if a.bim else []
+    bim = json.load(open(a.bim, encoding="utf-8")) if a.bim else {}
     from core.knowledge_graph.builder import run
-    run(case, classification, a.out, bim)
+    run(case, classification, a.out, bim.get("elements", []), bim_materials=bim.get("materials"))
     if a.case.lower().endswith(".ifc"):
         import os
         from core.knowledge_graph.ifc_record import write_material_properties

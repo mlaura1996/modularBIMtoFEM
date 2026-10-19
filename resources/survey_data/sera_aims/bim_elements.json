@@ -1,7 +1,7 @@
 {
   "_meta": {
     "source": "resources/ifc_examples/sera_aims/aggregate_1.ifc",
-    "description": "Building elements of the BIM model and their materials, exported by scripts/export_bim_for_web.py. A material that is the name of a masonry type links the element to that type in the knowledge graph."
+    "description": "Building elements of the BIM model and their materials, exported by scripts/export_bim_for_web.py. A material that is the name of a masonry type links the element to that type in the knowledge graph; any other material becomes a mat:Material with the properties listed here."
   },
   "elements": [
     {
@@ -236,5 +236,10 @@
         "Bricks"
       ]
     }
-  ]
+  ],
+  "materials": {
+    "Bricks": {},
+    "Double_leaf_stone_masonry": {},
+    "Timber_floor": {}
+  }
 }

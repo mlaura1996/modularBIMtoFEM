@@ -12,7 +12,7 @@
   --border: #e2ded5; --accent: #8a4b2a; --accent-soft: #f4e9e1; --shadow: 0 1px 2px rgba(0,0,0,.05), 0 4px 16px rgba(0,0,0,.04);
   --g-context: #8a6d3b; --g-facade: #b5562f; --g-structure: #6f7d3a; --g-wall: #2f6f73;
   --g-type: #7a4f9a; --g-document: #3b6ea8; --g-activity: #b0803a; --g-agent: #5e6b78;
-  --g-photo: #7fa7c9; --g-hmo: #5fa39f; --g-constant: #a8a29a; --g-bim: #9c7b5b;
+  --g-photo: #7fa7c9; --g-hmo: #5fa39f; --g-constant: #a8a29a; --g-bim: #9c7b5b; --g-material: #9a8a6a;
   --t-0: #2f6fa3; --t-1: #e0a030; --t-2: #2e9a78; --t-3: #c67aa6; --t-4: #d0602a; --t-5: #6bb3df;
   --t-other: #e6e2da; --edge3d: #4a463f;
   color-scheme: light;
@@ -23,7 +23,7 @@
     --border: #36332d; --accent: #e09a6f; --accent-soft: #3a2a20; --shadow: none;
     --g-context: #c9a76a; --g-facade: #e0855c; --g-structure: #a9b86a; --g-wall: #5fb3b8;
     --g-type: #b48ad6; --g-document: #78a6dc; --g-activity: #dcae68; --g-agent: #9aa7b4;
-    --g-photo: #a9c8e3; --g-hmo: #8cc9c4; --g-constant: #8f8a82; --g-bim: #c7a27e;
+    --g-photo: #a9c8e3; --g-hmo: #8cc9c4; --g-constant: #8f8a82; --g-bim: #c7a27e; --g-material: #cbb994;
     --t-0: #5b9bd5; --t-1: #f0b84a; --t-2: #45b893; --t-3: #d996bd; --t-4: #e57e4b; --t-5: #8ccbee;
     --t-other: #5a564f; --edge3d: #1a1917;
     color-scheme: dark;
@@ -34,7 +34,7 @@
   --border: #36332d; --accent: #e09a6f; --accent-soft: #3a2a20; --shadow: none;
   --g-context: #c9a76a; --g-facade: #e0855c; --g-structure: #a9b86a; --g-wall: #5fb3b8;
   --g-type: #b48ad6; --g-document: #78a6dc; --g-activity: #dcae68; --g-agent: #9aa7b4;
-  --g-photo: #a9c8e3; --g-hmo: #8cc9c4; --g-constant: #8f8a82; --g-bim: #c7a27e;
+  --g-photo: #a9c8e3; --g-hmo: #8cc9c4; --g-constant: #8f8a82; --g-bim: #c7a27e; --g-material: #cbb994;
   --t-0: #5b9bd5; --t-1: #f0b84a; --t-2: #45b893; --t-3: #d996bd; --t-4: #e57e4b; --t-5: #8ccbee;
   --t-other: #5a564f; --edge3d: #1a1917;
   color-scheme: dark;
@@ -68,7 +68,8 @@ h2 { font-size: 22px; margin: 0 0 6px; font-weight: 640; }
 .toggle { display: inline-flex; align-items: center; gap: 7px; padding: 5px 10px; border: 1px solid var(--border);
   border-radius: 999px; background: var(--surface); font-size: 13px; cursor: pointer; user-select: none; }
 .toggle input { position: absolute; opacity: 0; pointer-events: none; }
-.toggle .sw { width: 10px; height: 10px; border-radius: 50%; }
+.toggle .sw, .rel .sw { display: inline-block; width: 10px; height: 10px; border-radius: 50%; }
+.rel .sw { margin-right: 6px; }
 .toggle.off { opacity: .45; }
 .toggle:focus-within { outline: 2px solid var(--accent); outline-offset: 1px; }
 .search { flex: 1 1 220px; min-width: 0; max-width: 320px; padding: 7px 10px; border-radius: 8px; border: 1px solid var(--border);
@@ -81,7 +82,7 @@ h2 { font-size: 22px; margin: 0 0 6px; font-weight: 640; }
 .graph-layout { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 12px; }
 #graph { height: 640px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow); }
 .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px; height: 640px; overflow: auto; box-shadow: var(--shadow); }
-.panel h3 { margin: 0 0 4px; font-size: 17px; }
+.panel h3 { margin: 0 0 4px; font-size: 17px; overflow-wrap: anywhere; }
 .panel .kind { color: var(--muted); font-size: 13px; margin-bottom: 12px; }
 .panel h4 { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 16px 0 6px; }
 .panel dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 4px 10px; font-size: 13px; }
@@ -181,7 +182,7 @@ footer { color: var(--muted); font-size: 13px; padding: 30px 0 40px; border-top:
 
   <section id="bim">
     <h2>BIM model</h2>
-    <p class="section-note">The BIM model of the aggregate, with every element coloured by its masonry type. The BIM model and the graph are linked by the material name, as in the conversion to the numerical model: an element whose material is a masonry type of the graph is an element of that type. Drag to rotate, right-drag to pan, use + and − to zoom, click an element to see it in the graph.</p>
+    <p class="section-note">The BIM model of the aggregate, with every masonry element coloured by its masonry type and every other element, in muted tones, by its material. The BIM model and the graph are linked by the material name, as in the conversion to the numerical model: an element whose material is a masonry type of the graph is an element of that type, and any other material is a mat:Material of the graph, with the properties of the IFC material. Drag to rotate, right-drag to pan, use + and − to zoom, click an element to see it in the graph.</p>
     <div class="graph-tools" id="bimTools">
       <div id="bimToggles" style="display:contents"></div>
       <button class="btn" id="bimZoomIn" type="button" aria-label="Zoom in">+</button>
@@ -303,7 +304,7 @@ function nodeStyle(n) {
   if (n.img) return { id: n.id, label: "", group: n.group, size: 16, shape: "circularImage", image: n.img,
     color: { border: c, highlight: { border: css("--accent") } }, borderWidth: 2, title: n.label };
   return { id: n.id, label: n.label.length > 34 ? n.label.slice(0, 32) + "…" : n.label, group: n.group, size,
-    shape: n.group === "type" ? "diamond" : n.group === "agent" ? "dot" : n.group === "activity" ? "square" :
+    shape: n.group === "type" ? "diamond" : n.group === "material" ? "hexagon" : n.group === "agent" ? "dot" : n.group === "activity" ? "square" :
            n.group === "document" || n.group === "photo" ? "triangle" : "dot",
     color: { background: c, border: c, highlight: { background: css("--accent"), border: css("--accent") } },
     font: { color: css("--text"), size: n.group === "photo" || n.group === "constant" ? 10 : 13, face: "system-ui" },
@@ -486,9 +487,24 @@ if (!DATA.bim || !DATA.bim.glb) {
   host.innerHTML = '<div class="loading">The BIM model has not been exported for this page.</div>';
 } else {
   const typeNames = Object.keys(DATA.bim.types).sort();
+  const matInfo = DATA.bim.materials || {}, matNames = Object.keys(matInfo).sort();
   const typeOf = info => (info.materials || []).find(m => typeNames.includes(m)) || null;
-  const typeKey = name => name ? String(typeNames.indexOf(name) % 6) : "other";
-  const shown = Object.fromEntries([...typeNames.map(typeKey), "other"].map(k => [k, true]));
+  // an element that is not masonry takes the colour of its first material
+  const matOf = info => (info.materials || []).find(m => matNames.includes(m)) || null;
+  const keyOf = info => { const t = typeOf(info), m = matOf(info);
+    return t ? String(typeNames.indexOf(t) % 6) : m ? `m${matNames.indexOf(m)}` : "other"; };
+  // muted tones by kind of material, so that the masonry types stand out
+  const TONES = [[/stair/i, ["#b8ae99", "#a39985"]], [/stone/i, ["#d3c8b1", "#c2b69c"]],
+                 [/brick/i, ["#b9806a", "#a06a56"]], [/timber|wood/i, ["#a5825e", "#c4ab88", "#8a6a4a"]],
+                 [/steel|metal|iron/i, ["#7f8790", "#9aa1a8"]], [/./, ["#c9c4bb", "#aaa49a", "#8f8a82"]]];
+  const matColour = {}, used = new Map();
+  for (const [i, name] of matNames.entries()) {
+    const [re, tones] = TONES.find(([re]) => re.test(name));
+    const n = used.get(re) || 0; used.set(re, n + 1);
+    matColour[`m${i}`] = tones[n % tones.length];
+  }
+  const swatch = key => matColour[key] || css(`--t-${key}`);
+  const shown = {};
   const counts = Object.fromEntries(DATA.types.map(t => [t.Type, t["BIM elements"]]));
 
   const scene = new THREE.Scene();
@@ -503,27 +519,28 @@ if (!DATA.bim || !DATA.bim.glb) {
 
   const elements = [];
   let selected = null, box = null;
-  const colour = key => new THREE.Color(css(`--t-${key}`));
+  const colour = key => new THREE.Color(swatch(key));
 
   function styleAll() {
     for (const e of elements) {
       const m = e.mesh.material;
-      m.color = colour(e.key);
-      m.emissive = new THREE.Color(e === selected ? css("--accent") : "#000000");
-      m.emissiveIntensity = e === selected ? 0.55 : 0;
-      e.edges.material.color = new THREE.Color(css("--edge3d"));
-      e.edges.material.opacity = e.key === "other" ? 0.3 : 0.55;
-      e.mesh.visible = shown[e.key];
+      // the selection is lightened and outlined, not tinted, so it keeps the colour of its type
+      m.color = colour(e.key).lerp(new THREE.Color("#ffffff"), e === selected ? 0.5 : 0);
+      e.edges.material.color = new THREE.Color(e === selected ? css("--text") : css("--edge3d"));
+      e.edges.material.opacity = e === selected ? 1 : /^\d/.test(e.key) ? 0.55 : 0.35;
+      e.mesh.visible = shown[e.key] !== false;
     }
   }
   window.refreshBimColours = () => { styleAll(); renderToggles(); };
 
   function renderToggles() {
-    const items = [...typeNames.map(n => [typeKey(n), `${n.replace(/_/g, " ")} (${counts[n] ?? 0})`]),
-                   ["other", "Other elements"]];
+    const n = k => elements.filter(e => e.key === k).length;
+    const items = [...typeNames.map((t, i) => [String(i % 6), `${t.replace(/_/g, " ")} (${counts[t] ?? 0})`]),
+                   ...matNames.map((m, i) => [`m${i}`, `${m.replace(/_/g, " ")} (${n(`m${i}`)})`]),
+                   ["other", `Other elements (${n("other")})`]].filter(([k]) => !k.startsWith("m") && k !== "other" || n(k));
     document.getElementById("bimToggles").innerHTML = items.map(([k, l]) =>
-      `<label class="toggle ${shown[k] ? "" : "off"}"><input type="checkbox" data-k="${k}" ${shown[k] ? "checked" : ""}>` +
-      `<span class="sw" style="background:${css(`--t-${k}`)}"></span>${l}</label>`).join("");
+      `<label class="toggle ${shown[k] !== false ? "" : "off"}"><input type="checkbox" data-k="${k}" ${shown[k] !== false ? "checked" : ""}>` +
+      `<span class="sw" style="background:${swatch(k)}"></span>${l}</label>`).join("");
     document.querySelectorAll("#bimToggles input").forEach(inp => inp.addEventListener("change", () => {
       shown[inp.dataset.k] = inp.checked; inp.parentElement.classList.toggle("off", !inp.checked); styleAll();
     }));
@@ -545,15 +562,25 @@ if (!DATA.bim || !DATA.bim.glb) {
     if (!e) { panel.innerHTML = HINT; return; }
     const i = e.info, mtype = typeOf(i), typeId = mtype ? DATA.bim.types[mtype] : null;
     const nodeId = DATA.bim.elements[i.global_id];
+    const UNITS = { MassDensity: ["ρ", "kg/m³"], YoungModulus: ["E", "MPa"], ShearModulus: ["G", "MPa"] };
+    const matLine = m => {
+      const info = matInfo[m], k = `m${matNames.indexOf(m)}`;
+      if (!info) return `<div>${esc(m)}</div>`;
+      const props = Object.entries(info.properties).map(([p, v]) => `${UNITS[p]?.[0] ?? p} = ${v.toLocaleString("en-GB")} ${UNITS[p]?.[1] ?? ""}`);
+      return `<span class="rel"><a data-node="${esc(info.id)}"><span class="sw" style="background:${swatch(k)}"></span>${esc(m.replace(/_/g, " "))}</a>` +
+             (props.length ? ` <span class="hint">${esc(props.join(", "))}</span>` : "") + `</span>`;
+    };
+    const others = (i.materials || []).filter(m => m !== mtype);
     panel.innerHTML = `<h3>${esc(i.name || i.ifc_class)}</h3><div class="kind">${esc(i.ifc_class)}</div>` +
       `<h4>GlobalId</h4><div><code>${esc(i.global_id)}</code></div>` +
-      `<h4>Materials</h4><div>${(i.materials || []).map(m => esc(m)).join("<br>") || "none"}</div>` +
       (typeId
-        ? `<h4>Masonry type</h4><div><span class="toggle" style="cursor:default"><span class="sw" style="background:${css(`--t-${e.key}`)}"></span>${esc(mtype)}</span></div>` +
-          `<h4>In the knowledge graph</h4>` +
-          (nodeId ? `<span class="rel"><a data-node="${esc(nodeId)}">This element</a></span>` : "") +
-          `<span class="rel"><a data-node="${esc(typeId)}">Its masonry type, with the façades and properties</a></span>`
-        : `<p class="hint" style="margin-top:12px">Not masonry: its properties come from the IFC material property sets, not from the knowledge graph.</p>`);
+        ? `<h4>Masonry type</h4><div><span class="toggle" style="cursor:default"><span class="sw" style="background:${swatch(e.key)}"></span>${esc(mtype)}</span></div>`
+        : "") +
+      (others.length ? `<h4>${typeId ? "Other materials" : "Materials"} (mat:Material)</h4>${others.map(matLine).join("")}` : "") +
+      `<h4>In the knowledge graph</h4>` +
+      (nodeId ? `<span class="rel"><a data-node="${esc(nodeId)}">This element</a></span>` : "") +
+      (typeId ? `<span class="rel"><a data-node="${esc(typeId)}">Its masonry type, with the façades and properties</a></span>` : "") +
+      (!typeId && others.length ? `<p class="hint" style="margin-top:8px">Not masonry: the properties are those of the IfcMaterial, carried into the graph by its mat:Material.</p>` : "");
     panel.querySelectorAll("a[data-node]").forEach(a => a.addEventListener("click", () => {
       document.getElementById("graph-section").scrollIntoView({ behavior: "smooth" });
       setTimeout(() => focusNode(a.dataset.node), 400);
@@ -589,7 +616,7 @@ if (!DATA.bim || !DATA.bim.glb) {
       const edges = new THREE.LineSegments(new THREE.EdgesGeometry(o.geometry, 30),
                                            new THREE.LineBasicMaterial({ transparent: true }));
       o.add(edges);
-      elements.push({ mesh: o, edges, info, key: typeKey(typeOf(info)) });
+      elements.push({ mesh: o, edges, info, key: keyOf(info) });
     });
     scene.add(gltf.scene);
     box = new THREE.Box3().setFromObject(gltf.scene);

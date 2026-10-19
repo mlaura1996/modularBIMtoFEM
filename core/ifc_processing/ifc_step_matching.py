@@ -99,7 +99,8 @@ def classify_step_volumes_by_ifc_type(ifc_path, volume_tags):
 def _element_material(element):
     """Name of the material of an IFC element: on the instance, else on its
     type; for a layer set or a list, the first masonry layer if there is
-    one, else the first layer."""
+    one, else the first layer (for a constituent set, the constituent with
+    the largest fraction)."""
     def names(rel_owner):
         out = []
         for rel in getattr(rel_owner, "HasAssociations", []) or []:
@@ -114,8 +115,10 @@ def _element_material(element):
                 out += [l.Material.Name for l in m.MaterialLayers if l.Material]
             elif m.is_a("IfcMaterialList"):
                 out += [x.Name for x in m.Materials]
-            elif m.is_a("IfcMaterialConstituentSet"):
-                out += [c.Material.Name for c in m.MaterialConstituents or [] if c.Material]
+            elif m.is_a("IfcMaterialConstituentSet"):     # the largest fraction first
+                cons = sorted((c for c in m.MaterialConstituents or [] if c.Material),
+                              key=lambda c: -(c.Fraction or 0))
+                out += [c.Material.Name for c in cons]
         return out
     found = names(element)
     if not found:

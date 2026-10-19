@@ -5,6 +5,7 @@
 @prefix hmo: <https://w3id.org/hmo#> .
 @prefix hsto: <https://w3id.org/hsto#> .
 @prefix hsv: <https://w3id.org/hsv#> .
+@prefix mat: <http://bimerr.iot.linkeddata.es/def/material-properties#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
@@ -16,6 +17,78 @@
         foaf:Organization ;
     foaf:member :ElenaGigliarelli ;
     foaf:name "Institute of Heritage Science (ISPC), National Research Council of Italy (CNR)" .
+
+:IFC_0V6WjWO2r4QeSDEs0D36aT a owl:NamedIndividual ;
+    rdfs:label "IfcWindow window:StoneWindows:1682818"@en ;
+    mat:hasMaterial :Material_Bricks ;
+    dcterms:identifier "0V6WjWO2r4QeSDEs0D36aT" ;
+    dcterms:isPartOf :BIMModel .
+
+:IFC_0e9BrLsovEtgHZrXU2x7Y- a owl:NamedIndividual ;
+    rdfs:label "IfcSlab Floor:Generic 300mm:1676145"@en ;
+    mat:hasMaterial :Material_Timber_floor ;
+    dcterms:identifier "0e9BrLsovEtgHZrXU2x7Y$" ;
+    dcterms:isPartOf :BIMModel .
+
+:IFC_1DB0Jl8evCsgLKqd9Agqmr a owl:NamedIndividual ;
+    rdfs:label "IfcWindow window:StoneWindows:1682059"@en ;
+    mat:hasMaterial :Material_Bricks ;
+    dcterms:identifier "1DB0Jl8evCsgLKqd9Agqmr" ;
+    dcterms:isPartOf :BIMModel .
+
+:IFC_1DB0Jl8evCsgLKqd9Agqnw a owl:NamedIndividual ;
+    rdfs:label "IfcWindow window:StoneWindows:1682116"@en ;
+    mat:hasMaterial :Material_Bricks ;
+    dcterms:identifier "1DB0Jl8evCsgLKqd9Agqnw" ;
+    dcterms:isPartOf :BIMModel .
+
+:IFC_1DB0Jl8evCsgLKqd9Agqt3 a owl:NamedIndividual ;
+    rdfs:label "IfcWindow window:StoneWindows:1682301"@en ;
+    mat:hasMaterial :Material_Bricks ;
+    dcterms:identifier "1DB0Jl8evCsgLKqd9Agqt3" ;
+    dcterms:isPartOf :BIMModel .
+
+:IFC_1DB0Jl8evCsgLKqd9Agqxm a owl:NamedIndividual ;
+    rdfs:label "IfcWindow window:StoneWindows:1681486"@en ;
+    mat:hasMaterial :Material_Bricks ;
+    dcterms:identifier "1DB0Jl8evCsgLKqd9Agqxm" ;
+    dcterms:isPartOf :BIMModel .
+
+:IFC_1Uwl_9ABb40BDIFRiE4iO4 a owl:NamedIndividual ;
+    rdfs:label "IfcWindow window:Big_Door:1683031"@en ;
+    mat:hasMaterial :Material_Bricks ;
+    dcterms:identifier "1Uwl_9ABb40BDIFRiE4iO4" ;
+    dcterms:isPartOf :BIMModel .
+
+:IFC_25mTE1QLT1ERRkrmKjt0gb a owl:NamedIndividual ;
+    rdfs:label "IfcWindow window:StoneWindows:1677174"@en ;
+    mat:hasMaterial :Material_Bricks ;
+    dcterms:identifier "25mTE1QLT1ERRkrmKjt0gb" ;
+    dcterms:isPartOf :BIMModel .
+
+:IFC_25mTE1QLT1ERRkrmKjt3mF a owl:NamedIndividual ;
+    rdfs:label "IfcWindow window:StoneWindows:1679836"@en ;
+    mat:hasMaterial :Material_Bricks ;
+    dcterms:identifier "25mTE1QLT1ERRkrmKjt3mF" ;
+    dcterms:isPartOf :BIMModel .
+
+:IFC_25mTE1QLT1ERRkrmKjt3oU a owl:NamedIndividual ;
+    rdfs:label "IfcWindow window:StoneWindows:1679693"@en ;
+    mat:hasMaterial :Material_Bricks ;
+    dcterms:identifier "25mTE1QLT1ERRkrmKjt3oU" ;
+    dcterms:isPartOf :BIMModel .
+
+:IFC_25mTE1QLT1ERRkrmKjt3rm a owl:NamedIndividual ;
+    rdfs:label "IfcWindow window:StoneWindows:1679523"@en ;
+    mat:hasMaterial :Material_Bricks ;
+    dcterms:identifier "25mTE1QLT1ERRkrmKjt3rm" ;
+    dcterms:isPartOf :BIMModel .
+
+:IFC_25mTE1QLT1ERRkrmKjt3sa a owl:NamedIndividual ;
+    rdfs:label "IfcWindow window:StoneWindows:1679479"@en ;
+    mat:hasMaterial :Material_Bricks ;
+    dcterms:identifier "25mTE1QLT1ERRkrmKjt3sa" ;
+    dcterms:isPartOf :BIMModel .
 
 :IFC_3_2W4VcEf62eVBAFB0d-OL a owl:NamedIndividual ;
     rdfs:label "IfcWall Basic Wall:Unit_2_first_floor:1675092"@en ;
@@ -73,6 +146,18 @@
         :Facade_3_U2 ;
     dcterms:type :Double_leaf_stone_masonry .
 
+:IFC_3_2W4VcEf62eVBAFB0d_e5 a owl:NamedIndividual ;
+    rdfs:label "IfcSlab Floor:Generic 300mm:1676100"@en ;
+    mat:hasMaterial :Material_Timber_floor ;
+    dcterms:identifier "3_2W4VcEf62eVBAFB0d_e5" ;
+    dcterms:isPartOf :BIMModel .
+
+:IFC_3_2W4VcEf62eVBAFB0d_fO a owl:NamedIndividual ;
+    rdfs:label "IfcSlab Floor:Generic 300mm:1676057"@en ;
+    mat:hasMaterial :Material_Timber_floor ;
+    dcterms:identifier "3_2W4VcEf62eVBAFB0d_fO" ;
+    dcterms:isPartOf :BIMModel .
+
 :IFC_3_2W4VcEf62eVBAFB0d_i6 a owl:NamedIndividual ;
     rdfs:label "IfcWall Basic Wall:Unit_1:1675847"@en ;
     dcterms:identifier "3_2W4VcEf62eVBAFB0d_i6" ;
@@ -93,6 +178,30 @@
     dcterms:isPartOf :BIMModel,
         :Facade_3_U1 ;
     dcterms:type :Double_leaf_stone_masonry .
+
+:IFC_3rDozoXNb0Zfoi8_Hn8YHx a owl:NamedIndividual ;
+    rdfs:label "IfcWindow window:StoneWindows:1683418"@en ;
+    mat:hasMaterial :Material_Bricks ;
+    dcterms:identifier "3rDozoXNb0Zfoi8_Hn8YHx" ;
+    dcterms:isPartOf :BIMModel .
+
+:IFC_3rDozoXNb0Zfoi8_Hn8Zja a owl:NamedIndividual ;
+    rdfs:label "IfcWindow window:StoneWindows:1683653"@en ;
+    mat:hasMaterial :Material_Bricks ;
+    dcterms:identifier "3rDozoXNb0Zfoi8_Hn8Zja" ;
+    dcterms:isPartOf :BIMModel .
+
+:IFC_3rDozoXNb0Zfoi8_Hn8Zjd a owl:NamedIndividual ;
+    rdfs:label "IfcWindow window:StoneWindows:1683654"@en ;
+    mat:hasMaterial :Material_Bricks ;
+    dcterms:identifier "3rDozoXNb0Zfoi8_Hn8Zjd" ;
+    dcterms:isPartOf :BIMModel .
+
+:IFC_3rDozoXNb0Zfoi8_Hn8Zku a owl:NamedIndividual ;
+    rdfs:label "IfcWindow window:StoneWindows:1683481"@en ;
+    mat:hasMaterial :Material_Bricks ;
+    dcterms:identifier "3rDozoXNb0Zfoi8_Hn8Zku" ;
+    dcterms:isPartOf :BIMModel .
 
 :ISISE_UMinho a owl:NamedIndividual,
         foaf:Organization ;
@@ -1086,6 +1195,12 @@
     hsto:isBuiltWithTraditionalConstructionTechnique :DoubleLeafStoneMasonry ;
     hsto:isMadeOf :Wall_5 .
 
+:Material_Timber_floor a mat:Material,
+        owl:NamedIndividual ;
+    rdfs:label "Timber floor"@en ;
+    dcterms:identifier "Timber_floor" ;
+    rdfs:comment "Material of the BIM model: its properties are those of the IfcMaterial of the same name (Pset_MaterialCommon, Pset_MaterialMechanical), not derived by the reasoner."@en .
+
 :MiguelAzenha a owl:NamedIndividual,
         foaf:Person ;
     foaf:name "Miguel Azenha" .
@@ -1153,6 +1268,12 @@
 :DoubleLeafStoneMasonry a owl:NamedIndividual,
         hsv:TraditionalConstructionTechnique ;
     rdfs:label "Double-leaf undressed stone masonry of historic aggregates (Basel)"@en .
+
+:Material_Bricks a mat:Material,
+        owl:NamedIndividual ;
+    rdfs:label "Bricks"@en ;
+    dcterms:identifier "Bricks" ;
+    rdfs:comment "Material of the BIM model: its properties are those of the IfcMaterial of the same name (Pset_MaterialCommon, Pset_MaterialMechanical), not derived by the reasoner."@en .
 
 :BIMModel a owl:NamedIndividual,
         hsv:BuildingInformationModel ;

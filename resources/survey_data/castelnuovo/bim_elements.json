@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "source": "resources/ifc_examples/castelnuovo/final_example.ifc",
+    "source": "resources/ifc_examples/castelnuovo/castelnuovo_case.ifc",
     "description": "Building elements of the BIM model and their materials, exported by scripts/export_bim_for_web.py. A material that is the name of a masonry type links the element to that type in the knowledge graph."
   },
   "elements": [
@@ -107,7 +107,6 @@
       "name": "enclosed_arch:enclosed_arch:1693023",
       "materials": [
         "Stone",
-        "Tufelli_masonry_typeD",
         "Timber"
       ]
     },
@@ -117,8 +116,7 @@
       "name": "enclosed_archv2:enclosed_archv2:1707972",
       "materials": [
         "Timber",
-        "Stone",
-        "Tufelli_masonry_typeD"
+        "Stone"
       ]
     },
     {
@@ -486,7 +484,7 @@
       "ifc_class": "IfcWall",
       "name": "Basic Wall:Castelnuovo_typeA:1675129",
       "materials": [
-        "Tufelli_masonry_typeA"
+        "Tufelli_masonry_typeD"
       ]
     },
     {
@@ -494,7 +492,7 @@
       "ifc_class": "IfcWall",
       "name": "Basic Wall:Castelnuovo_typeA:1675325",
       "materials": [
-        "Tufelli_masonry_typeA"
+        "Tufelli_masonry_typeD"
       ]
     },
     {
@@ -502,7 +500,7 @@
       "ifc_class": "IfcWall",
       "name": "Basic Wall:Castelnuovo_typeA:1675566",
       "materials": [
-        "Tufelli_masonry_typeA"
+        "Tufelli_masonry_typeD"
       ]
     },
     {
@@ -510,7 +508,7 @@
       "ifc_class": "IfcWall",
       "name": "Basic Wall:Castelnuovo_typeA:1675723",
       "materials": [
-        "Tufelli_masonry_typeA"
+        "Tufelli_masonry_typeD"
       ]
     },
     {
@@ -526,7 +524,7 @@
       "ifc_class": "IfcWall",
       "name": "Basic Wall:Castelnuovo_typeA:1676334",
       "materials": [
-        "Tufelli_masonry_typeA"
+        "Tufelli_masonry_typeD"
       ]
     },
     {
@@ -534,7 +532,7 @@
       "ifc_class": "IfcWall",
       "name": "Basic Wall:Castelnuovo_typeA:1676335",
       "materials": [
-        "Tufelli_masonry_typeA"
+        "Tufelli_masonry_typeD"
       ]
     },
     {
@@ -542,7 +540,7 @@
       "ifc_class": "IfcWall",
       "name": "Basic Wall:Castelnuovo_typeA:1676336",
       "materials": [
-        "Tufelli_masonry_typeA"
+        "Tufelli_masonry_typeD"
       ]
     },
     {
@@ -550,7 +548,7 @@
       "ifc_class": "IfcWall",
       "name": "Basic Wall:Castelnuovo_typeA:1676337",
       "materials": [
-        "Tufelli_masonry_typeA"
+        "Tufelli_masonry_typeD"
       ]
     },
     {
@@ -566,7 +564,7 @@
       "ifc_class": "IfcWall",
       "name": "Basic Wall:Castelnuovo_typeA:1676341",
       "materials": [
-        "Tufelli_masonry_typeA"
+        "Tufelli_masonry_typeD"
       ]
     },
     {
@@ -574,7 +572,7 @@
       "ifc_class": "IfcWall",
       "name": "Basic Wall:Castelnuovo_typeA:1676342",
       "materials": [
-        "Tufelli_masonry_typeA"
+        "Tufelli_masonry_typeD"
       ]
     },
     {
@@ -582,7 +580,7 @@
       "ifc_class": "IfcWall",
       "name": "Basic Wall:Castelnuovo_typeA:1676343",
       "materials": [
-        "Tufelli_masonry_typeA"
+        "Tufelli_masonry_typeD"
       ]
     },
     {
@@ -590,7 +588,7 @@
       "ifc_class": "IfcWall",
       "name": "Basic Wall:Castelnuovo_typeA:1676344",
       "materials": [
-        "Tufelli_masonry_typeA"
+        "Tufelli_masonry_typeD"
       ]
     },
     {
@@ -758,7 +756,7 @@
       "ifc_class": "IfcWall",
       "name": "Castelnuovo5:Castelnuovo3:1707943",
       "materials": [
-        "Tufelli_masonry_typeB"
+        "Tufelli_masonry_typeD"
       ]
     },
     {
@@ -766,7 +764,7 @@
       "ifc_class": "IfcWall",
       "name": "Castelnuovo6:Castelnuovo3:1716568",
       "materials": [
-        "Tufelli_masonry_typeB"
+        "Tufelli_masonry_typeD"
       ]
     },
     {
@@ -846,7 +844,7 @@
       "ifc_class": "IfcWall",
       "name": "Castelnuovo_wall3:Castelnuovo_wall3:1690595",
       "materials": [
-        "Tufelli_masonry_typeB"
+        "Tufelli_masonry_typeD"
       ]
     },
     {
@@ -870,7 +868,7 @@
       "ifc_class": "IfcWall",
       "name": "Castelnuovo_wall6:Castelnuovo_wall3:1716643",
       "materials": [
-        "Tufelli_masonry_typeB"
+        "Tufelli_masonry_typeD"
       ]
     },
     {
@@ -1223,8 +1221,7 @@
       "ifc_class": "IfcWindow",
       "name": "archi_window_closed:StoneWindowArch:1699279",
       "materials": [
-        "Stone",
-        "Tufelli_masonry_typeD"
+        "Stone"
       ]
     },
     {
@@ -1232,8 +1229,7 @@
       "ifc_class": "IfcWindow",
       "name": "archi_window_closed:StoneWindowArch:1700425",
       "materials": [
-        "Stone",
-        "Tufelli_masonry_typeD"
+        "Stone"
       ]
     },
     {
@@ -1241,9 +1237,42 @@
       "ifc_class": "IfcWindow",
       "name": "archi_window_closed:StoneWindowArch:1712441",
       "materials": [
-        "Stone",
-        "Tufelli_masonry_typeD"
+        "Stone"
       ]
     }
-  ]
+  ],
+  "materials": {
+    "Bricks": {
+      "MassDensity": 1800.0,
+      "YoungModulus": 1500.0,
+      "PoissonRatio": 0.2,
+      "Source": "Circular No. 7/2019, Table C8.5.I, solid brick and lime mortar (w = 18 kN/m3, E = 1200-1800 MPa, mean)"
+    },
+    "Lightweigth_wood": {},
+    "Steel": {
+      "MassDensity": 7850.0,
+      "YoungModulus": 210000.0,
+      "PoissonRatio": 0.3,
+      "Source": "EN 1993-1-1, steel S235"
+    },
+    "Stone": {
+      "MassDensity": 2200.0,
+      "YoungModulus": 2800.0,
+      "PoissonRatio": 0.2,
+      "Source": "Circular No. 7/2019, Table C8.5.I, squared stone blocks (w = 22 kN/m3, E = 2400-3200 MPa, mean)"
+    },
+    "StoneStairs": {
+      "MassDensity": 2200.0,
+      "YoungModulus": 2800.0,
+      "PoissonRatio": 0.2,
+      "Source": "Circular No. 7/2019, Table C8.5.I, squared stone blocks (w = 22 kN/m3, E = 2400-3200 MPa, mean)"
+    },
+    "Timber": {
+      "MassDensity": 600.0,
+      "YoungModulus": 10000.0,
+      "PoissonRatio": 0.3,
+      "Source": "Density after Giuffre, as in Chapter 5 (Table 5.4); E0,mean of class C22, UNI EN 338; Poisson ratio a modelling assumption of the isotropic model"
+    },
+    "Timber_beams_assembly": {}
+  }
 }

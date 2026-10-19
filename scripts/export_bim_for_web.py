@@ -11,7 +11,10 @@ Writes
   bim_elements.json  the same elements and their materials, read by the
                      knowledge graph builder (python -m core.knowledge_graph
                      build ... --bim) to link each masonry type to the IFC
-                     elements made of it
+                     elements made of it; and, for every other material, the
+                     properties its IfcMaterial carries (Pset_MaterialCommon,
+                     Pset_MaterialMechanical, Pset_MaterialSource), which the
+                     builder writes on the mat:Material of the same name
 
 The link between the BIM model and the knowledge graph is the material
 name, as in the conversion to the numerical model: an element whose
@@ -33,6 +36,10 @@ import ifcopenshell
 import ifcopenshell.geom
 import ifcopenshell.util.element as ue
 
+MATERIAL_PROPERTIES = {"Pset_MaterialCommon": ("MassDensity",),
+                       "Pset_MaterialMechanical": ("YoungModulus", "ShearModulus", "PoissonRatio"),
+                       "Pset_MaterialSource": ("Source",)}
+
 SKIP = ("IfcOpeningElement", "IfcSpace", "IfcVirtualElement")
 
 
@@ -42,6 +49,22 @@ def material_names(element):
         if m is not None and getattr(m, "Name", None) and m.Name not in names:
             names.append(m.Name)
     return names
+
+
+def material_properties(f):
+    """{name: {property: value}} of the materials that are not masonry types.
+
+    A masonry type is recognised by its HMO_MasonryQuality set, which the
+    case-study editor writes; its properties come from the knowledge graph.
+    """
+    out = {}
+    for m in f.by_type("IfcMaterial"):
+        psets = ue.get_psets(m)
+        if "HMO_MasonryQuality" in psets:
+            continue
+        out[m.Name] = {k: psets[ps][k] for ps, keys in MATERIAL_PROPERTIES.items()
+                       for k in keys if ps in psets and psets[ps].get(k) is not None}
+    return out
 
 
 def write_glb(path, meshes):
@@ -122,8 +145,11 @@ def main():
     meta = {"_meta": {"source": IFC.replace("\\", "/"),
                       "description": "Building elements of the BIM model and their materials, exported by "
                                      "scripts/export_bim_for_web.py. A material that is the name of a masonry "
-                                     "type links the element to that type in the knowledge graph."},
-            "elements": sorted(records, key=lambda r: (r["ifc_class"], r["name"], r["global_id"]))}
+                                     "type links the element to that type in the knowledge graph; any other material "
+                                     "becomes a mat:Material with the properties listed here."},
+            "elements": sorted(records, key=lambda r: (r["ifc_class"], r["name"], r["global_id"])),
+            "materials": {k: v for k, v in sorted(material_properties(f).items())
+                          if any(k in r["materials"] for r in records)}}
     with open(ELEMENTS_JSON, "w", encoding="utf-8", newline="\n") as fh:
         json.dump(meta, fh, indent=2, ensure_ascii=False)
         fh.write("\n")

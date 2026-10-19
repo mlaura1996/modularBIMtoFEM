@@ -37,21 +37,21 @@
   "5": {
    "guid": "2jXvyeVVHFE9GajLekYx3J",
    "ifc_class": "IfcDoor",
-   "material": "Tufelli_masonry_typeD",
+   "material": "Stone",
    "how": "inside",
    "volume_m3": 0.16
   },
   "6": {
    "guid": "2jXvyeVVHFE9GajLekYx3J",
    "ifc_class": "IfcDoor",
-   "material": "Tufelli_masonry_typeD",
+   "material": "Stone",
    "how": "inside",
    "volume_m3": 0.16
   },
   "7": {
    "guid": "2jXvyeVVHFE9GajLekYx3J",
    "ifc_class": "IfcDoor",
-   "material": "Tufelli_masonry_typeD",
+   "material": "Stone",
    "how": "votes",
    "votes": 42,
    "volume_m3": 0.1588
@@ -59,7 +59,7 @@
   "8": {
    "guid": "2jXvyeVVHFE9GajLekYx3J",
    "ifc_class": "IfcDoor",
-   "material": "Tufelli_masonry_typeD",
+   "material": "Stone",
    "how": "votes",
    "votes": 51,
    "volume_m3": 0.2499
@@ -67,28 +67,28 @@
   "9": {
    "guid": "2jXvyeVVHFE9GajLekYx3J",
    "ifc_class": "IfcDoor",
-   "material": "Tufelli_masonry_typeD",
+   "material": "Stone",
    "how": "inside",
    "volume_m3": 0.0067
   },
   "10": {
    "guid": "2jXvyeVVHFE9GajLekYx_G",
    "ifc_class": "IfcDoor",
-   "material": "Steel",
+   "material": "Stone",
    "how": "inside",
    "volume_m3": 0.22
   },
   "11": {
    "guid": "2jXvyeVVHFE9GajLekYx_G",
    "ifc_class": "IfcDoor",
-   "material": "Steel",
+   "material": "Stone",
    "how": "inside",
    "volume_m3": 0.18
   },
   "12": {
    "guid": "2jXvyeVVHFE9GajLekYx_G",
    "ifc_class": "IfcDoor",
-   "material": "Steel",
+   "material": "Stone",
    "how": "inside",
    "volume_m3": 0.18
   },
@@ -117,21 +117,21 @@
   "16": {
    "guid": "1HfLPk$M547Aaac6ue3X1s",
    "ifc_class": "IfcDoor",
-   "material": "Tufelli_masonry_typeD",
+   "material": "Stone",
    "how": "inside",
    "volume_m3": 0.0053
   },
   "17": {
    "guid": "1HfLPk$M547Aaac6ue3X1s",
    "ifc_class": "IfcDoor",
-   "material": "Tufelli_masonry_typeD",
+   "material": "Stone",
    "how": "inside",
    "volume_m3": 0.8159
   },
   "18": {
    "guid": "1HfLPk$M547Aaac6ue3X1s",
    "ifc_class": "IfcDoor",
-   "material": "Tufelli_masonry_typeD",
+   "material": "Stone",
    "how": "votes",
    "votes": 59,
    "volume_m3": 0.5548
@@ -139,35 +139,35 @@
   "19": {
    "guid": "1HfLPk$M547Aaac6ue3X1s",
    "ifc_class": "IfcDoor",
-   "material": "Tufelli_masonry_typeD",
+   "material": "Stone",
    "how": "inside",
    "volume_m3": 0.3324
   },
   "20": {
    "guid": "1HfLPk$M547Aaac6ue3X1s",
    "ifc_class": "IfcDoor",
-   "material": "Tufelli_masonry_typeD",
+   "material": "Stone",
    "how": "inside",
    "volume_m3": 0.3324
   },
   "21": {
    "guid": "1HfLPk$M547Aaac6ue3X1s",
    "ifc_class": "IfcDoor",
-   "material": "Tufelli_masonry_typeD",
+   "material": "Stone",
    "how": "inside",
    "volume_m3": 0.1431
   },
   "22": {
    "guid": "1HfLPk$M547Aaac6ue3X1s",
    "ifc_class": "IfcDoor",
-   "material": "Tufelli_masonry_typeD",
+   "material": "Stone",
    "how": "inside",
    "volume_m3": 0.018
   },
   "23": {
    "guid": "1HfLPk$M547Aaac6ue3X1s",
    "ifc_class": "IfcDoor",
-   "material": "Tufelli_masonry_typeD",
+   "material": "Stone",
    "how": "nearest",
    "distance": 0.2,
    "volume_m3": 0.3324
@@ -175,7 +175,7 @@
   "24": {
    "guid": "1HfLPk$M547Aaac6ue3X1s",
    "ifc_class": "IfcDoor",
-   "material": "Tufelli_masonry_typeD",
+   "material": "Stone",
    "how": "inside",
    "volume_m3": 0.3324
   },
@@ -1142,7 +1142,7 @@
   "163": {
    "guid": "08pzrbE8X9reLLOmu2mNts",
    "ifc_class": "IfcWindow",
-   "material": "Tufelli_masonry_typeD",
+   "material": "Stone",
    "how": "votes",
    "votes": 108,
    "volume_m3": 0.1718
@@ -1150,7 +1150,7 @@
   "164": {
    "guid": "08pzrbE8X9reLLOmu2mNts",
    "ifc_class": "IfcWindow",
-   "material": "Tufelli_masonry_typeD",
+   "material": "Stone",
    "how": "nearest",
    "distance": 0.1,
    "volume_m3": 0.1
@@ -1158,28 +1158,28 @@
   "165": {
    "guid": "08pzrbE8X9reLLOmu2mNts",
    "ifc_class": "IfcWindow",
-   "material": "Tufelli_masonry_typeD",
+   "material": "Stone",
    "how": "inside",
    "volume_m3": 0.1
   },
   "166": {
    "guid": "08pzrbE8X9reLLOmu2mNts",
    "ifc_class": "IfcWindow",
-   "material": "Tufelli_masonry_typeD",
+   "material": "Stone",
    "how": "inside",
    "volume_m3": 0.09
   },
   "167": {
    "guid": "08pzrbE8X9reLLOmu2mNts",
    "ifc_class": "IfcWindow",
-   "material": "Tufelli_masonry_typeD",
+   "material": "Stone",
    "how": "inside",
    "volume_m3": 0.1869
   },
   "168": {
    "guid": "08pzrbE8X9reLLOmu2mM9m",
    "ifc_class": "IfcWindow",
-   "material": "Tufelli_masonry_typeD",
+   "material": "Stone",
    "how": "votes",
    "votes": 108,
    "volume_m3": 0.1718
@@ -1187,7 +1187,7 @@
   "169": {
    "guid": "08pzrbE8X9reLLOmu2mM9m",
    "ifc_class": "IfcWindow",
-   "material": "Tufelli_masonry_typeD",
+   "material": "Stone",
    "how": "nearest",
    "distance": 0.1,
    "volume_m3": 0.1
@@ -1195,21 +1195,21 @@
   "170": {
    "guid": "08pzrbE8X9reLLOmu2mM9m",
    "ifc_class": "IfcWindow",
-   "material": "Tufelli_masonry_typeD",
+   "material": "Stone",
    "how": "inside",
    "volume_m3": 0.1
   },
   "171": {
    "guid": "08pzrbE8X9reLLOmu2mM9m",
    "ifc_class": "IfcWindow",
-   "material": "Tufelli_masonry_typeD",
+   "material": "Stone",
    "how": "inside",
    "volume_m3": 0.09
   },
   "172": {
    "guid": "08pzrbE8X9reLLOmu2mM9m",
    "ifc_class": "IfcWindow",
-   "material": "Tufelli_masonry_typeD",
+   "material": "Stone",
    "how": "inside",
    "volume_m3": 0.1869
   },
@@ -1785,7 +1785,7 @@
   "253": {
    "guid": "3PDcirDNvFvA6IW_GuYSIZ",
    "ifc_class": "IfcWindow",
-   "material": "Tufelli_masonry_typeD",
+   "material": "Stone",
    "how": "votes",
    "votes": 90,
    "volume_m3": 0.1305
@@ -1793,14 +1793,14 @@
   "254": {
    "guid": "3PDcirDNvFvA6IW_GuYSIZ",
    "ifc_class": "IfcWindow",
-   "material": "Tufelli_masonry_typeD",
+   "material": "Stone",
    "how": "inside",
    "volume_m3": 0.0724
   },
   "255": {
    "guid": "3PDcirDNvFvA6IW_GuYSIZ",
    "ifc_class": "IfcWindow",
-   "material": "Tufelli_masonry_typeD",
+   "material": "Stone",
    "how": "nearest",
    "distance": 0.1,
    "volume_m3": 0.0623
@@ -1808,14 +1808,14 @@
   "256": {
    "guid": "3PDcirDNvFvA6IW_GuYSIZ",
    "ifc_class": "IfcWindow",
-   "material": "Tufelli_masonry_typeD",
+   "material": "Stone",
    "how": "inside",
    "volume_m3": 0.0623
   },
   "257": {
    "guid": "3PDcirDNvFvA6IW_GuYSIZ",
    "ifc_class": "IfcWindow",
-   "material": "Tufelli_masonry_typeD",
+   "material": "Stone",
    "how": "inside",
    "volume_m3": 0.0623
   },
