@@ -137,13 +137,15 @@ export class Viewer {
   }
 
   paint() {
-    const grey = new THREE.Color("#d9d4cb"), sel = new THREE.Color("#f2b01e");
+    const grey = new THREE.Color("#e6e2da"), sel = new THREE.Color("#f2b01e");
     for (const [id, meshes] of this.byId) {
       for (const m of meshes) {
         const c = this.selected.has(id) ? sel
           : this.colors.has(id) ? new THREE.Color(this.colors.get(id))
           : this.greyOthers ? grey : m.userData.base;
         m.material.color.copy(c);
+        const alpha = this.greyOthers ? 1 : m.userData.alpha;
+        m.material.transparent = alpha < 1; m.material.opacity = alpha; m.material.depthWrite = alpha >= 1;
         m.material.emissive?.setRGB(...(this.selected.has(id) ? [0.25, 0.15, 0] : [0, 0, 0]));
       }
     }

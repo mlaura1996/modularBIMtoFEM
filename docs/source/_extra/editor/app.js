@@ -359,7 +359,7 @@ function elementsField(r) {
 
 // ---- the model ---------------------------------------------------------------------------------
 
-const PALETTE = ["#c2703d", "#4f7cac", "#6a9a55", "#a35d9b", "#5c6f7d", "#3f9d9a", "#b0473f", "#7a6bc1", "#8c7a5b", "#d1828f"];
+const PALETTE = ["#2f6fa3", "#e0a030", "#2e9a78", "#c67aa6", "#d0602a", "#6bb3df", "#8a6bbf", "#b5a33a", "#7a7a7a", "#a0522d"];
 
 function paintModel() {
   if (!viewer || !model) return;
@@ -380,7 +380,7 @@ function paintModel() {
   const lg = $("legend");
   lg.hidden = mode === "ifc" || !legend.length;
   lg.replaceChildren(...legend.map(([name, c, n]) => h("div", {}, h("span", { class: "swatch", style: `background:${c}` }), `${name || "?"} (${n})`)),
-    h("div", { class: "muted" }, h("span", { class: "swatch", style: "background:#d9d4cb" }), "not assigned"));
+    h("div", { class: "muted" }, h("span", { class: "swatch", style: "background:#e6e2da" }), "not assigned"));
   renderSelection();
 }
 

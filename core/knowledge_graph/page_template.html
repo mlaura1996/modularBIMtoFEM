@@ -13,8 +13,8 @@
   --g-context: #8a6d3b; --g-facade: #b5562f; --g-structure: #6f7d3a; --g-wall: #2f6f73;
   --g-type: #7a4f9a; --g-document: #3b6ea8; --g-activity: #b0803a; --g-agent: #5e6b78;
   --g-photo: #7fa7c9; --g-hmo: #5fa39f; --g-constant: #a8a29a; --g-bim: #9c7b5b;
-  --t-0: #b5562f; --t-1: #d9a441; --t-2: #6f8f4e; --t-3: #7a6fa8; --t-4: #3b6ea8; --t-5: #a8456b;
-  --t-other: #cfcac0; --edge3d: #5a554c;
+  --t-0: #2f6fa3; --t-1: #e0a030; --t-2: #2e9a78; --t-3: #c67aa6; --t-4: #d0602a; --t-5: #6bb3df;
+  --t-other: #e6e2da; --edge3d: #4a463f;
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark) {
@@ -24,8 +24,8 @@
     --g-context: #c9a76a; --g-facade: #e0855c; --g-structure: #a9b86a; --g-wall: #5fb3b8;
     --g-type: #b48ad6; --g-document: #78a6dc; --g-activity: #dcae68; --g-agent: #9aa7b4;
     --g-photo: #a9c8e3; --g-hmo: #8cc9c4; --g-constant: #8f8a82; --g-bim: #c7a27e;
-    --t-0: #e0855c; --t-1: #e8bd5f; --t-2: #9cbd78; --t-3: #a99de0; --t-4: #78a6dc; --t-5: #d97a9e;
-    --t-other: #4a463f; --edge3d: #a39d92;
+    --t-0: #5b9bd5; --t-1: #f0b84a; --t-2: #45b893; --t-3: #d996bd; --t-4: #e57e4b; --t-5: #8ccbee;
+    --t-other: #5a564f; --edge3d: #1a1917;
     color-scheme: dark;
   }
 }
@@ -35,8 +35,8 @@
   --g-context: #c9a76a; --g-facade: #e0855c; --g-structure: #a9b86a; --g-wall: #5fb3b8;
   --g-type: #b48ad6; --g-document: #78a6dc; --g-activity: #dcae68; --g-agent: #9aa7b4;
   --g-photo: #a9c8e3; --g-hmo: #8cc9c4; --g-constant: #8f8a82; --g-bim: #c7a27e;
-  --t-0: #e0855c; --t-1: #e8bd5f; --t-2: #9cbd78; --t-3: #a99de0; --t-4: #78a6dc; --t-5: #d97a9e;
-  --t-other: #4a463f; --edge3d: #a39d92;
+  --t-0: #5b9bd5; --t-1: #f0b84a; --t-2: #45b893; --t-3: #d996bd; --t-4: #e57e4b; --t-5: #8ccbee;
+  --t-other: #5a564f; --edge3d: #1a1917;
   color-scheme: dark;
 }
 * { box-sizing: border-box; }
@@ -184,7 +184,6 @@ footer { color: var(--muted); font-size: 13px; padding: 30px 0 40px; border-top:
     <p class="section-note">The BIM model of the aggregate, with every element coloured by its masonry type. The BIM model and the graph are linked by the material name, as in the conversion to the numerical model: an element whose material is a masonry type of the graph is an element of that type. Drag to rotate, right-drag to pan, use + and − to zoom, click an element to see it in the graph.</p>
     <div class="graph-tools" id="bimTools">
       <div id="bimToggles" style="display:contents"></div>
-      <label class="toggle"><input type="checkbox" id="fadeOthers" checked><span class="sw" style="background:var(--t-other)"></span>Fade other elements</label>
       <button class="btn" id="bimZoomIn" type="button" aria-label="Zoom in">+</button>
       <button class="btn" id="bimZoomOut" type="button" aria-label="Zoom out">−</button>
       <button class="btn" id="bimFit" type="button">Fit view</button>
@@ -507,15 +506,13 @@ if (!DATA.bim || !DATA.bim.glb) {
   const colour = key => new THREE.Color(css(`--t-${key}`));
 
   function styleAll() {
-    const fade = document.getElementById("fadeOthers").checked;
     for (const e of elements) {
       const m = e.mesh.material;
       m.color = colour(e.key);
-      m.transparent = e.key === "other" && fade; m.opacity = m.transparent ? 0.22 : 1; m.depthWrite = !m.transparent;
       m.emissive = new THREE.Color(e === selected ? css("--accent") : "#000000");
       m.emissiveIntensity = e === selected ? 0.55 : 0;
       e.edges.material.color = new THREE.Color(css("--edge3d"));
-      e.edges.material.opacity = m.transparent ? 0.15 : 0.45;
+      e.edges.material.opacity = e.key === "other" ? 0.3 : 0.55;
       e.mesh.visible = shown[e.key];
     }
   }
@@ -531,7 +528,6 @@ if (!DATA.bim || !DATA.bim.glb) {
       shown[inp.dataset.k] = inp.checked; inp.parentElement.classList.toggle("off", !inp.checked); styleAll();
     }));
   }
-  document.getElementById("fadeOthers").addEventListener("change", styleAll);
 
   function fit() {
     const size = box.getSize(new THREE.Vector3()), centre = box.getCenter(new THREE.Vector3());
@@ -572,7 +568,7 @@ if (!DATA.bim || !DATA.bim.glb) {
     const r = renderer.domElement.getBoundingClientRect();
     ptr.set(((ev.clientX - r.left) / r.width) * 2 - 1, -((ev.clientY - r.top) / r.height) * 2 + 1);
     ray.setFromCamera(ptr, camera);
-    const pickable = elements.filter(e => e.mesh.visible && !e.mesh.material.transparent).map(e => e.mesh);
+    const pickable = elements.filter(e => e.mesh.visible).map(e => e.mesh);
     const hit = ray.intersectObjects(pickable, false)[0];
     showElement(hit ? elements.find(e => e.mesh === hit.object) : null);
   });
