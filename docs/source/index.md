@@ -10,15 +10,27 @@ normally done by hand: wall-to-wall interface detection and selection,
 mesh generation and partitioning, contact-element and constraint
 generation, and a **parallel nonlinear dynamic analysis on OpenSeesMP**.
 
-```{image} _static/images/pipeline_diagram.svg
-:alt: IFC model, through IfcOpenShell/OpenCASCADE and apeGmsh, to a TCL model run on OpenSeesMP, producing a stress-coloured result.
+```{figure} _static/images/workflow/overview.png
+:alt: Overview of the openBIMtoFEM workflow, from the survey evidence and the IFC model to the OpenSees engine.
 :width: 100%
+
+The openBIMtoFEM workflow. The semantic enrichment (left) records the
+survey evidence on the IFC model and derives the mechanical properties of
+the masonry, which are written back into the model; the conversion (right)
+reads the geometry and the material properties from the same IFC file and
+meets them in the OpenSees engine. The icons are the libraries used at each
+step.
 ```
 
-The pipeline in one line: an IFC model is turned into per-solid STEP
-geometry and a material database (IfcOpenShell + OpenCASCADE), meshed and
-partitioned (apeGmsh/Gmsh), exported as a TCL model with wall-to-wall
-contact interfaces, and run on `OpenSeesMP` inside a pinned Docker image.
+The workflow in one line: the IFC model is enriched with what is known
+about the building, in the enrichment editor, and the knowledge-graph
+builder derives from it, through the ontologies and the Pellet reasoner,
+the mechanical properties of the masonry, which it writes back into the
+model; the enriched model is then converted into the OpenSees model, its
+geometry meshed with Gmsh and its materials read from the IFC property
+sets, and analysed in OpenSees, in parallel with `OpenSeesMP` inside a
+pinned Docker image for large models. The seven steps are described in
+{doc}`user_guide/workflow`.
 
 This site exists so that the reasoning behind each piece - not just the
 code - stays attached to the work. It has four parts, mirroring how the
