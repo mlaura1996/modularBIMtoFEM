@@ -9,7 +9,7 @@ the case-study individuals.
 |---|---|---|
 | `hsv.ttl` | Historic Survey Ontology (HSV) | <https://github.com/mlaura1996/Historic-Survey-Ontology> @ `bb719ac` (2026-05-20), unchanged |
 | `hsto.ttl` | Historic Structure Ontology (HSTO) | <https://github.com/mlaura1996/Historic-Structure-Ontology> @ `04dd898` (2026-05-20), unchanged |
-| `hmo.ttl` | Historic Masonry Ontology (HMO), corrected rules | <https://github.com/mlaura1996/HistoricMasonryOntology>, version 0.2 (`main`) |
+| `hmo.ttl` | Historic Masonry Ontology (HMO), corrected rules | <https://github.com/mlaura1996/HistoricMasonryOntology>, version 0.3 (`main`) |
 | `fmo.ttl` | Failure Mechanism Ontology (FMO), corrected rules | <https://github.com/mlaura1996/FailureMechanismOntology>, version 0.2 (`main`) |
 
 ## `hmo.ttl` — Historic Masonry Ontology, corrected rules
@@ -42,9 +42,8 @@ running Pellet again; each is necessary. With all of them, Pellet derives
 one value per quantity for every type, equal to those of
 `core/ifc_processing/hmo_mqi.py` within its rounding.
 
-F6, F7 and F9 add vocabulary rather than correct it, and are the changes
-the ontology's author should review as design decisions. F10 and F11 are
-applied to this copy only, and are not yet in `tools/fix_swrl_rules.py`.
+F6, F7, F9 and F11 add vocabulary rather than correct it, and are the changes
+the ontology's author should review as design decisions.
 
 Two rules constrain which categories can be combined, because they assign a
 score whatever else is recorded, and `core/ifc_processing/hmo_reasoner.py`
