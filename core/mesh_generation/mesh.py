@@ -11,6 +11,8 @@ from core.config import EXPORT_DIR
 from core.config import gmsh, re, np
 #from . import connections
 
+DEFAULT_MESH_SIZE = 0.3  # m
+
 class GmshModel:
     """Builds a single gmsh model end to end: load STEP, tag materials, mesh."""
 
@@ -44,7 +46,7 @@ class GmshModel:
         #gmshmodel = PhysicalGroups.add_supports_physical_groups(gmshmodel)
         #gmshmodel = PhysicalGroups.add_surface_loads_physical_groups(gmshmodel)  
         if use_adaptive_mesh:
-            Mesh.generate_adaptive_mesh(gmshmodel, scaling_factor=1000)            
+            Mesh.generate_adaptive_mesh(gmshmodel)
         else:
             Mesh.fast_meshing(gmshmodel, 0.3)
         if run_gmsh:
@@ -72,9 +74,15 @@ class Mesh:
 
     @staticmethod
     def generate_adaptive_mesh(model, num_threads=4, scaling_factor=1, debug_file= EXPORT_DIR + "mesh_debug.log"):
+        # Size per solid is set on its boundary points, so a point shared with
+        # a neighbour keeps the size of the last solid processed.
         """
-        Adaptive meshing ensuring at least three elements in the thickness of each solid, using parallel processing,
+        Adaptive meshing aiming at three or more elements in the thickness of each solid, using parallel processing,
         with optimizations for avoiding overly small elements in regions where larger elements are acceptable.
+
+        The thickness is read from the entity name, in metres like the
+        model (scaling_factor=1). A solid with no thickness in its name
+        (``_0.00_m``) gets ``DEFAULT_MESH_SIZE``, with a warning.
         """
         
         gmsh.option.setNumber("General.NumThreads", num_threads)  # Enable multithreading
@@ -97,10 +105,9 @@ class Mesh:
 
                     # Ensure at least three elements in thickness
                     if thickness == 0:
-                        thickness = 100
-                    elif thickness > 1000:
-                        thickness = thickness/5
-                    elif thickness <= 0.05 and thickness > 0:
+                        print(f"Warning: no thickness for {name}, meshed with the default size {DEFAULT_MESH_SIZE}")
+                        mesh_size = DEFAULT_MESH_SIZE
+                    elif thickness <= 0.05:
                         thickness = 0.1
                         mesh_size = thickness
                     elif thickness >= 0.2:
@@ -131,7 +138,9 @@ class PhysicalGroups():
         typically ``<Material>_<thickness>_m``) against the material
         prefix in ``labels`` (thickness suffix stripped), then creates one
         3D physical group per distinct material covering all matching
-        volumes. Returns ``gmsh.model``.
+        volumes. A volume that matches no material, such as the piece two
+        overlapping solids have in common after fragment, is reported: it
+        is meshed but gets no material. Returns ``gmsh.model``.
         """
         tridEleTags = gmsh.model.occ.getEntities(dim=3)
         OriginalDictionaryKeys = []
@@ -154,6 +163,12 @@ class PhysicalGroups():
             matches = [OriginalDictionary[key1] for key1 in OriginalDictionary.keys() if key2 in key1.split('_')[0]]
             if matches:
                 FinalDict[key2] = matches
+
+        grouped = {tag for tags in FinalDict.values() for tag in tags}
+        unassigned = sorted(tg for _dim, tg in tridEleTags if tg not in grouped)
+        if unassigned:
+            print(f"Warning: volumes {unassigned} match no material and get no material: "
+                  "check for solids that overlap in the IFC model")
 
         for key in FinalDict.keys():
             print(key)
