@@ -102,7 +102,7 @@ const INTROS = {
   Documents: "Drawings, point clouds, publications and the BIM model itself, with who made them and in which activity.",
   Units: "The structural units of the aggregate, and what is known about their floors.",
   Facades: "Each façade, or portion of a façade, its unit and its masonry type. Select its walls in the model and assign them here.",
-  MasonryTypes: "Each masonry type with the seven parameters of the Masonry Quality Index and the evidence for each. Name it as its IFC material, so the model and the numerical model find it.",
+  MasonryTypes: "Each masonry type with its seven morphological characteristics and the evidence for each; the scores of the Masonry Quality Index are derived from them by the reasoner. Name it as its IFC material, so the model and the numerical model find it.",
   Connections: "Documented connections between façades: quoins, ties, toothing.",
   Openings: "Historic openings, walled up or altered, of each façade.",
   Vulnerabilities: "The vulnerabilities of each façade wall that enable failure mechanisms (FMO), and what shows them.",
@@ -208,7 +208,7 @@ function fields(sheet, r, refresh) {
     const P = schema.parameters;
     const rest = columns(sheet).filter(c => !P.includes(c) && !P.some(p => c === `evidence_${p}`) && c !== "name" && c !== "description");
     return [field(sheet, r, "name", refresh), field(sheet, r, "description", refresh),
-      h("div", { class: "mqi" }, h("h3", {}, "Masonry Quality Index parameters, and the evidence for each"),
+      h("div", { class: "mqi" }, h("h3", {}, "Morphological characteristics, and the evidence for each"),
         ...P.flatMap(p => [field(sheet, r, p, refresh), field(sheet, r, `evidence_${p}`, refresh, true)])),
       ...rest.map(c => field(sheet, r, c, refresh))];
   }
@@ -603,7 +603,7 @@ function checkPage() {
     h("p", {}, model ? h("span", {}, h("strong", {}, "Save IFC"), " downloads ", h("code", {}, model.name),
         " with the knowledge record in it: the whole record on the IfcProject (property set ", h("code", {}, "HSV_CaseRecord"),
         "), the façade, unit, masonry type and vulnerabilities on each assigned element (", h("code", {}, "HSV_Facade"),
-        "), and the MQI parameters on each IfcMaterial named as a masonry type (", h("code", {}, "HMO_MasonryQuality"), ").")
+        "), and the morphological characteristics on each IfcMaterial named as a masonry type (", h("code", {}, "HMO_MasonryQuality"), ").")
       : "Open the IFC model to save the knowledge record into it. Without a model, download the case.json."),
     h("div", { class: "row", style: "display:flex;gap:8px;flex-wrap:wrap" },
       h("button", { class: "btn primary", disabled: !model, onclick: saveIfc }, "Save IFC"),

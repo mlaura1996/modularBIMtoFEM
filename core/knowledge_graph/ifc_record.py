@@ -8,8 +8,8 @@ model it was entered on:
                  as JSON (the tables of the workbook, see workbook.py)
     elements     property set HSV_Facade: Facade, Unit, MasonryType and
                  Vulnerabilities of the facade the element belongs to
-    IfcMaterial  material properties HMO_MasonryQuality: the seven MQI
-                 categories and the mass density of the masonry type of
+    IfcMaterial  material properties HMO_MasonryQuality: the seven morphological
+                 characteristics and the mass density of the masonry type of
                  the same name
 
 The record is the source; the element and material property sets repeat

@@ -350,37 +350,37 @@
    },
    {
     "name": "unit_dimensions",
-    "help": "MQI category: unit dimensions",
+    "help": "Morphological characteristic: unit dimensions",
     "choices": "unit_dimensions"
    },
    {
     "name": "unit_shape",
-    "help": "MQI category: unit shape",
+    "help": "Morphological characteristic: unit shape",
     "choices": "unit_shape"
    },
    {
     "name": "unit_material",
-    "help": "MQI category: unit material",
+    "help": "Morphological characteristic: unit material",
     "choices": "unit_material"
    },
    {
     "name": "mortar_quality",
-    "help": "MQI category: mortar quality",
+    "help": "Morphological characteristic: mortar quality",
     "choices": "mortar_quality"
    },
    {
     "name": "horizontal_joints",
-    "help": "MQI category: horizontal joints",
+    "help": "Morphological characteristic: horizontal joints",
     "choices": "horizontal_joints"
    },
    {
     "name": "vertical_joints",
-    "help": "MQI category: vertical joints",
+    "help": "Morphological characteristic: vertical joints",
     "choices": "vertical_joints"
    },
    {
     "name": "wall_connections",
-    "help": "MQI category: wall connections",
+    "help": "Morphological characteristic: wall connections",
     "choices": "wall_connections"
    },
    {
@@ -437,11 +437,11 @@
    },
    {
     "name": "variant_lower",
-    "help": "Lower variant, as parameter=value; ... (optional)"
+    "help": "Lower variant, as characteristic=category; ... (optional)"
    },
    {
     "name": "variant_upper",
-    "help": "Upper variant, as parameter=value; ... (optional)"
+    "help": "Upper variant, as characteristic=category; ... (optional)"
    }
   ],
   "Measured": [

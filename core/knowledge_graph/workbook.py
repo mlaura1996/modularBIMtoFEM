@@ -14,7 +14,7 @@ record, so that it can be filled in without touching code or RDF:
     Connections    documented connections between facades
     Openings       historic openings
     Vulnerabilities  the vulnerabilities of each facade wall (FMO), with evidence
-    MasonryTypes   the seven MQI parameters of each masonry type, with the
+    MasonryTypes   the seven morphological characteristics of each masonry type, with the
                    evidence for each, its flags and its density
     Measured       measured properties to compare the derived ones with
 
@@ -30,7 +30,7 @@ workbook, with no records the empty template.
 Conventions in the cells: identifiers are short names without spaces
 (they become the local names of the graph's IRIs); several values in one
 cell are separated by ";"; roles are written "PersonId: Role"; variants
-"parameter=value"; flags one per line. Dates are ISO (2023-06-01, or
+"characteristic=category"; flags one per line. Dates are ISO (2023-06-01, or
 2023-07-04T16:58:25Z for a time).
 """
 import datetime
@@ -103,7 +103,7 @@ SHEETS = {
                         ("vulnerability", "FMO vulnerability", "vulnerability"),
                         ("evidence", "What shows it, and its source", None)],
     "MasonryTypes": [("name", "Name, the same as the IFC material", None), ("description", "Description", None)]
-                    + [(p, f"MQI category: {p.replace('_', ' ')}", p) for p in PARAMETERS]
+                    + [(p, f"Morphological characteristic: {p.replace('_', ' ')}", p) for p in PARAMETERS]
                     + [(f"evidence_{p}", f"Evidence for {p.replace('_', ' ')}", None) for p in PARAMETERS]
                     + [("evidence", "General evidence (optional)", None),
                        ("flags", "Assumptions and caveats, one per line", None),
@@ -111,8 +111,8 @@ SHEETS = {
                        ("density_note", "Source of the density", None),
                        ("reference_category", "Code category it is compared with (optional)", None),
                        ("reference_note", "Note on the comparison (optional)", None),
-                       ("variant_lower", "Lower variant, as parameter=value; ... (optional)", None),
-                       ("variant_upper", "Upper variant, as parameter=value; ... (optional)", None)],
+                       ("variant_lower", "Lower variant, as characteristic=category; ... (optional)", None),
+                       ("variant_upper", "Upper variant, as characteristic=category; ... (optional)", None)],
     "Measured": [("masonry_type", "Masonry type", None), ("quantity", "e.g. compressive_strength_MPa", None),
                  ("value", "Value", None), ("basis", "specimen or full scale", None),
                  ("source", "Where it comes from", None)],

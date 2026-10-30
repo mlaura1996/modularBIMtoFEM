@@ -3,7 +3,7 @@
 // The knowledge record is stored as (core/knowledge_graph/ifc_record.py reads it back):
 //   IfcProject   property set HSV_CaseRecord: Record (the tables, as JSON), Format, Modified
 //   elements     property set HSV_Facade: Facade, Unit, MasonryType, Vulnerabilities
-//   IfcMaterial  material properties HMO_MasonryQuality: the seven MQI categories, MassDensity
+//   IfcMaterial  material properties HMO_MasonryQuality: the seven morphological characteristics, MassDensity
 // Saving removes what an earlier save wrote and writes it again, so the file
 // never holds two versions; every other entity is left byte for byte as it was.
 

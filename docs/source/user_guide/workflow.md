@@ -60,16 +60,17 @@ Open the IFC file in the enrichment editor (<a href="../editor/index.html">open 
 runs in the browser and needs no installation. Record the survey and its
 sources, the structural units, the façades and their connections, assign the
 walls to the façades by selecting them in the 3D view, classify each masonry
-type through the seven parameters of the masonry quality index with the
-evidence for each, and record the vulnerabilities of each façade. Alternative
-classifications can be recorded as variants. See
+type through its seven morphological characteristics, each chosen among the
+categories of the masonry quality index, with the evidence for each (the
+scores of the index are derived in step 4), and record the vulnerabilities
+of each façade. Alternative classifications can be recorded as variants. See
 {doc}`../case_study/knowledge_graph` for what each form contains.
 
 ```{figure} ../_static/images/workflow/editor_sera_aims.png
 :alt: the enrichment editor with the SERA-AIMS benchmark
 :width: 100%
 
-The enrichment editor with the SERA-AIMS benchmark: (a) 3D view coloured by façade, (b) its legend, (c) the selected wall and its assignment, (d) the tabs of the records, (e) a masonry type with the evidence for each parameter, (f) the final check.
+The enrichment editor with the SERA-AIMS benchmark: (a) 3D view coloured by façade, (b) its legend, (c) the selected wall and its assignment, (d) the tabs of the records, (e) a masonry type with the evidence for each morphological characteristic, (f) the final check.
 ```
 
 ```{figure} ../_static/images/workflow/editor_castelnuovo.png

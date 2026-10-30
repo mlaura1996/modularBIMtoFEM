@@ -43,8 +43,9 @@ page that runs entirely in the browser: the model is read and drawn with
 The editor has one form for each kind of record: project, organisations,
 people, activities, documents, units, façades, photographs, connections,
 openings, vulnerabilities of each façade wall (FMO), masonry types (the
-seven MQI parameters with the evidence for each, flags, density and
-variants) and measured properties. Categories are chosen from lists, and a
+seven morphological characteristics with the evidence for each, flags,
+density and variants; the scores of the quality index are derived, not
+entered) and measured properties. Categories are chosen from lists, and a
 record that names another (the people of an activity, the unit of a
 façade) is picked from the records that exist; renaming a record renames
 it wherever it is named. The walls of each façade are assigned by
@@ -57,7 +58,7 @@ masonry type. *Check & save* lists what the graph cannot be built without.
 |---|---|---|
 | `IfcProject` | `HSV_CaseRecord` | `Record`, the whole knowledge record as JSON |
 | each assigned element | `HSV_Facade` | `Facade`, `Unit`, `MasonryType`, `Vulnerabilities` |
-| each `IfcMaterial` named as a masonry type | `HMO_MasonryQuality` (material properties) | the seven MQI categories, `MassDensity` |
+| each `IfcMaterial` named as a masonry type | `HMO_MasonryQuality` (material properties) | the seven morphological characteristics, `MassDensity` |
 
 The record is the source the graph is built from; the element and
 material property sets repeat it where other IFC software can see it.
