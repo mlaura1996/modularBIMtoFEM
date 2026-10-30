@@ -144,7 +144,8 @@ openBIMtoFEM does not include an IDS checker. The enriched file can be
 checked against the Information Delivery Specification with an external
 tool, for instance IfcTester of the IfcOpenShell project, so that a missing
 property or a wrong data type is found on the model rather than during the
-analysis. The specification is in `resources/ids/modelling_requirements.ids`.
+analysis. The specification is in `resources/ids/modelling_requirements.ids`, and each
+of its specifications lists both IFC4 and IFC4X3_ADD2 in `ifcVersion`.
 The prefix `Pset_` is reserved for the property sets of the IFC standard, so
 these hold only the properties the standard defines (mass density, Young's
 modulus, Poisson's ratio): the constitutive model, the strengths and the

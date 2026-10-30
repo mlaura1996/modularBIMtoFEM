@@ -16,7 +16,7 @@
   <specifications>
 
     <!-- 1. Every structural element carries a material association -->
-    <specification name="Material association" ifcVersion="IFC4"
+    <specification name="Material association" ifcVersion="IFC4 IFC4X3_ADD2"
                    identifier="S1"
                    description="Every element of the structural breakdown must be associated with a material.">
       <applicability minOccurs="1" maxOccurs="unbounded">
@@ -40,7 +40,7 @@
     </specification>
 
     <!-- 2. Beams declare their connection state -->
-    <specification name="Beam connectivity" ifcVersion="IFC4"
+    <specification name="Beam connectivity" ifcVersion="IFC4 IFC4X3_ADD2"
                    identifier="S2"
                    description="Beams must declare the state of their connection to the supporting masonry.">
       <applicability minOccurs="1" maxOccurs="unbounded">
@@ -62,7 +62,7 @@
     </specification>
 
     <!-- 3. Every material declares a constitutive model from the admitted vocabulary -->
-    <specification name="Constitutive model" ifcVersion="IFC4"
+    <specification name="Constitutive model" ifcVersion="IFC4 IFC4X3_ADD2"
                    identifier="S3"
                    description="Every material must declare which constitutive law the analysis has to apply.">
       <applicability minOccurs="1" maxOccurs="unbounded">
@@ -83,7 +83,7 @@
     </specification>
 
     <!-- 4. Materials analysed with the plastic-damage model -->
-    <specification name="Plastic-damage material" ifcVersion="IFC4"
+    <specification name="Plastic-damage material" ifcVersion="IFC4 IFC4X3_ADD2"
                    identifier="S4"
                    description="Parameters required by the plastic-damage model. The last three are optional: where they are absent the workflow assigns default values.">
       <applicability minOccurs="1" maxOccurs="unbounded">
@@ -131,7 +131,7 @@
     </specification>
 
     <!-- 5. Materials analysed as elastic isotropic -->
-    <specification name="Elastic isotropic material" ifcVersion="IFC4"
+    <specification name="Elastic isotropic material" ifcVersion="IFC4 IFC4X3_ADD2"
                    identifier="S5"
                    description="Parameters required by the elastic isotropic model.">
       <applicability minOccurs="1" maxOccurs="unbounded">
@@ -159,7 +159,7 @@
     </specification>
 
     <!-- 6. The knowledge record has been written on the model -->
-    <specification name="Recorded knowledge record" ifcVersion="IFC4"
+    <specification name="Recorded knowledge record" ifcVersion="IFC4 IFC4X3_ADD2"
                    identifier="S6"
                    description="The enrichment editor must have saved the knowledge record on the project.">
       <applicability minOccurs="1" maxOccurs="1">
