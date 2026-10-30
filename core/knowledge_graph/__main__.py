@@ -19,7 +19,7 @@ individuals with their IFC properties; its glTF model is expected in
 <site>/bim/.
 When <case> is an IFC file, build also writes it again with the derived
 properties of each masonry type on the IfcMaterial of the same name
-(Pset_MaterialCommon, Pset_MaterialMechanical, Pset_MaterialSource), the
+(Pset_MaterialCommon, Pset_MaterialMechanical, OBTF_MaterialModel), the
 file the conversion to the numerical model reads: to --ifc-out, by default
 <out>/<case file name>.
 schema writes the description of the sheets the editor is generated from.

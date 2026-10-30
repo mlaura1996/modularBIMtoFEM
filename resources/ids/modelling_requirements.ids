@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ids xmlns="http://standards.buildingsmart.org/IDS"
+     xmlns:xs="http://www.w3.org/2001/XMLSchema"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://standards.buildingsmart.org/IDS http://standards.buildingsmart.org/IDS/1.0/ids.xsd">
+
+  <info>
+    <title>Modelling requirements for the structural analysis of masonry aggregates</title>
+    <version>1.0</version>
+    <description>Alphanumerical part of the Level of Information Need (EN 17412-1) for the IFC-to-OpenSees workflow.</description>
+    <author>author@university.edu</author>
+    <date>2026-08-01</date>
+    <purpose>Structural analysis</purpose>
+  </info>
+
+  <specifications>
+
+    <!-- 1. Every structural element carries a material association -->
+    <specification name="Material association" ifcVersion="IFC4"
+                   identifier="S1"
+                   description="Every element of the structural breakdown must be associated with a material.">
+      <applicability minOccurs="1" maxOccurs="unbounded">
+        <entity>
+          <name>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="IFCWALL"/>
+              <xs:enumeration value="IFCBEAM"/>
+              <xs:enumeration value="IFCSLAB"/>
+              <xs:enumeration value="IFCROOF"/>
+              <xs:enumeration value="IFCFOOTING"/>
+              <xs:enumeration value="IFCDOOR"/>
+              <xs:enumeration value="IFCWINDOW"/>
+            </xs:restriction>
+          </name>
+        </entity>
+      </applicability>
+      <requirements>
+        <material cardinality="required"/>
+      </requirements>
+    </specification>
+
+    <!-- 2. Beams declare their connection state -->
+    <specification name="Beam connectivity" ifcVersion="IFC4"
+                   identifier="S2"
+                   description="Beams must declare the state of their connection to the supporting masonry.">
+      <applicability minOccurs="1" maxOccurs="unbounded">
+        <entity><name><simpleValue>IFCBEAM</simpleValue></name></entity>
+      </applicability>
+      <requirements>
+        <property dataType="IFCLABEL" cardinality="required">
+          <propertySet><simpleValue>OBTF_BeamConnection</simpleValue></propertySet>
+          <baseName><simpleValue>Connectivity</simpleValue></baseName>
+          <value>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="Tied"/>
+              <xs:enumeration value="Supported"/>
+              <xs:enumeration value="Disconnected"/>
+            </xs:restriction>
+          </value>
+        </property>
+      </requirements>
+    </specification>
+
+    <!-- 3. Every material declares a constitutive model from the admitted vocabulary -->
+    <specification name="Constitutive model" ifcVersion="IFC4"
+                   identifier="S3"
+                   description="Every material must declare which constitutive law the analysis has to apply.">
+      <applicability minOccurs="1" maxOccurs="unbounded">
+        <entity><name><simpleValue>IFCMATERIAL</simpleValue></name></entity>
+      </applicability>
+      <requirements>
+        <property dataType="IFCLABEL" cardinality="required">
+          <propertySet><simpleValue>OBTF_MaterialModel</simpleValue></propertySet>
+          <baseName><simpleValue>ConstitutiveModel</simpleValue></baseName>
+          <value>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="PlasticDamage"/>
+              <xs:enumeration value="ElasticIsotropic"/>
+            </xs:restriction>
+          </value>
+        </property>
+      </requirements>
+    </specification>
+
+    <!-- 4. Materials analysed with the plastic-damage model -->
+    <specification name="Plastic-damage material" ifcVersion="IFC4"
+                   identifier="S4"
+                   description="Parameters required by the plastic-damage model. The last three are optional: where they are absent the workflow assigns default values.">
+      <applicability minOccurs="1" maxOccurs="unbounded">
+        <entity><name><simpleValue>IFCMATERIAL</simpleValue></name></entity>
+        <property dataType="IFCLABEL">
+          <propertySet><simpleValue>OBTF_MaterialModel</simpleValue></propertySet>
+          <baseName><simpleValue>ConstitutiveModel</simpleValue></baseName>
+          <value><simpleValue>PlasticDamage</simpleValue></value>
+        </property>
+      </applicability>
+      <requirements>
+        <property dataType="IFCMASSDENSITYMEASURE" cardinality="required">
+          <propertySet><simpleValue>Pset_MaterialCommon</simpleValue></propertySet>
+          <baseName><simpleValue>MassDensity</simpleValue></baseName>
+        </property>
+        <property dataType="IFCMODULUSOFELASTICITYMEASURE" cardinality="required">
+          <propertySet><simpleValue>Pset_MaterialMechanical</simpleValue></propertySet>
+          <baseName><simpleValue>YoungModulus</simpleValue></baseName>
+        </property>
+        <property dataType="IFCPOSITIVERATIOMEASURE" cardinality="required">
+          <propertySet><simpleValue>Pset_MaterialMechanical</simpleValue></propertySet>
+          <baseName><simpleValue>PoissonRatio</simpleValue></baseName>
+        </property>
+        <property dataType="IFCPRESSUREMEASURE" cardinality="required">
+          <propertySet><simpleValue>OBTF_MaterialModel</simpleValue></propertySet>
+          <baseName><simpleValue>CompressiveStrength</simpleValue></baseName>
+        </property>
+        <property dataType="IFCPRESSUREMEASURE" cardinality="required">
+          <propertySet><simpleValue>OBTF_MaterialModel</simpleValue></propertySet>
+          <baseName><simpleValue>TensileStrength</simpleValue></baseName>
+        </property>
+        <property dataType="IFCPRESSUREMEASURE" cardinality="optional">
+          <propertySet><simpleValue>OBTF_MaterialModel</simpleValue></propertySet>
+          <baseName><simpleValue>CompressiveElasticLimit</simpleValue></baseName>
+        </property>
+        <property dataType="IFCREAL" cardinality="optional">
+          <propertySet><simpleValue>OBTF_MaterialModel</simpleValue></propertySet>
+          <baseName><simpleValue>CompressiveFractureEnergy</simpleValue></baseName>
+        </property>
+        <property dataType="IFCREAL" cardinality="optional">
+          <propertySet><simpleValue>OBTF_MaterialModel</simpleValue></propertySet>
+          <baseName><simpleValue>TensileFractureEnergy</simpleValue></baseName>
+        </property>
+      </requirements>
+    </specification>
+
+    <!-- 5. Materials analysed as elastic isotropic -->
+    <specification name="Elastic isotropic material" ifcVersion="IFC4"
+                   identifier="S5"
+                   description="Parameters required by the elastic isotropic model.">
+      <applicability minOccurs="1" maxOccurs="unbounded">
+        <entity><name><simpleValue>IFCMATERIAL</simpleValue></name></entity>
+        <property dataType="IFCLABEL">
+          <propertySet><simpleValue>OBTF_MaterialModel</simpleValue></propertySet>
+          <baseName><simpleValue>ConstitutiveModel</simpleValue></baseName>
+          <value><simpleValue>ElasticIsotropic</simpleValue></value>
+        </property>
+      </applicability>
+      <requirements>
+        <property dataType="IFCMASSDENSITYMEASURE" cardinality="required">
+          <propertySet><simpleValue>Pset_MaterialCommon</simpleValue></propertySet>
+          <baseName><simpleValue>MassDensity</simpleValue></baseName>
+        </property>
+        <property dataType="IFCMODULUSOFELASTICITYMEASURE" cardinality="required">
+          <propertySet><simpleValue>Pset_MaterialMechanical</simpleValue></propertySet>
+          <baseName><simpleValue>YoungModulus</simpleValue></baseName>
+        </property>
+        <property dataType="IFCPOSITIVERATIOMEASURE" cardinality="required">
+          <propertySet><simpleValue>Pset_MaterialMechanical</simpleValue></propertySet>
+          <baseName><simpleValue>PoissonRatio</simpleValue></baseName>
+        </property>
+      </requirements>
+    </specification>
+
+    <!-- 6. The knowledge record has been written on the model -->
+    <specification name="Recorded knowledge record" ifcVersion="IFC4"
+                   identifier="S6"
+                   description="The enrichment editor must have saved the knowledge record on the project.">
+      <applicability minOccurs="1" maxOccurs="1">
+        <entity><name><simpleValue>IFCPROJECT</simpleValue></name></entity>
+      </applicability>
+      <requirements>
+        <property dataType="IFCTEXT" cardinality="required">
+          <propertySet><simpleValue>HSV_CaseRecord</simpleValue></propertySet>
+          <baseName><simpleValue>Record</simpleValue></baseName>
+        </property>
+      </requirements>
+    </specification>
+
+  </specifications>
+</ids>

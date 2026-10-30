@@ -124,9 +124,9 @@ sets the conversion to the numerical model reads.
 
 | property set | properties |
 |---|---|
-| `Pset_MaterialCommon` | `MassDensity`, `MaterialModelType` |
-| `Pset_MaterialMechanical` | `YoungModulus`, `ShearModulus`, `PoissonRatio`, `CompressiveStrength`, `TensileStrength`, `ShearStrength`, `isStructural`, `ConstitutiveModel` |
-| `Pset_MaterialSource` | `Source`, how the values were derived |
+| `Pset_MaterialCommon` | `MassDensity` |
+| `Pset_MaterialMechanical` | `YoungModulus`, `ShearModulus`, `PoissonRatio` |
+| `OBTF_MaterialModel` | `ConstitutiveModel`, `IsStructural`, `CompressiveStrength`, `TensileStrength`, `ShearStrength`, `Source` (how the values were derived) |
 
 Moduli and strengths are written in MPa, so a file that declares no
 modulus or pressure unit is given N/mm² and MPa; a file that declares

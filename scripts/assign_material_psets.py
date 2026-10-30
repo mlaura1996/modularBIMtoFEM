@@ -10,14 +10,15 @@ material property sets.
 
 For every material in the spec it writes, overwriting earlier values:
 
-    Pset_MaterialCommon      MassDensity, MaterialModelType
-    Pset_MaterialMechanical  YoungModulus, PoissonRatio, isStructural,
-                             ConstitutiveModel
-    Pset_MaterialSource      Source (where each value comes from)
+    Pset_MaterialCommon      MassDensity
+    Pset_MaterialMechanical  YoungModulus, PoissonRatio
+    OBTF_MaterialModel       ConstitutiveModel, IsStructural, Source (where each
+                             value comes from)
 
-These are the names core/ifc_processing/data_extractor.py reads
-(MaterialModelType, isStructural); ConstitutiveModel is the name the IDS of
-Chapter 5 requires, and carries the same value.
+These are the names core/ifc_processing/data_extractor.py reads and the IDS
+(resources/ids/modelling_requirements.ids) requires. The standard sets hold only
+the properties the standard defines for them, and sets an earlier version wrote
+(Pset_MaterialSource, MaterialModelType and the like) are replaced.
 
 Units. data_extractor reads YoungModulus as MPa. An IFC file without a
 modulus-of-elasticity unit means pascal, so the script declares N/mm2 as
@@ -29,13 +30,18 @@ Materials missing from the IFC file are reported, and the file is not
 written, so a renamed material cannot silently go without properties.
 """
 import json
+import os
 import sys
 
 import ifcopenshell
 import ifcopenshell.api
 import ifcopenshell.util.element
 
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from core.ifc_processing.ifc_schema import MATERIAL_MODEL_PSET
+
 MODEL_TYPE = "ElasticIsotropic"
+REPLACED_PSETS = ("Pset_MaterialCommon", "Pset_MaterialMechanical", "Pset_MaterialSource", MATERIAL_MODEL_PSET)
 
 
 def modulus_unit_n_per_mm2(f):
@@ -59,9 +65,15 @@ def modulus_unit_n_per_mm2(f):
     return True
 
 
+def remove_psets(f, material):
+    for pset in [p for p in material.HasProperties if p.Name in REPLACED_PSETS]:
+        for prop in pset.Properties:
+            f.remove(prop)
+        f.remove(pset)
+
+
 def write_pset(f, material, name, values):
-    pset = ifcopenshell.util.element.get_pset(material, name)
-    pset = f.by_id(pset["id"]) if pset else ifcopenshell.api.run("pset.add_pset", f, product=material, name=name)
+    pset = ifcopenshell.api.run("pset.add_pset", f, product=material, name=name)
     ifcopenshell.api.run("pset.edit_pset", f, pset=pset, properties=values)
 
 
@@ -78,17 +90,19 @@ def apply(spec, path):
     added_unit = modulus_unit_n_per_mm2(f)
     for name, m in spec.items():
         mat = by_name[name]
+        remove_psets(f, mat)
         write_pset(f, mat, "Pset_MaterialCommon", {
             "MassDensity": typed(f, "IfcMassDensityMeasure", float(m["MassDensity"])),
-            "MaterialModelType": typed(f, "IfcLabel", MODEL_TYPE),
         })
         write_pset(f, mat, "Pset_MaterialMechanical", {
             "YoungModulus": typed(f, "IfcModulusOfElasticityMeasure", float(m["YoungModulus"])),
             "PoissonRatio": typed(f, "IfcPositiveRatioMeasure", float(m["PoissonRatio"])),
-            "isStructural": typed(f, "IfcBoolean", True),
-            "ConstitutiveModel": typed(f, "IfcLabel", MODEL_TYPE),
         })
-        write_pset(f, mat, "Pset_MaterialSource", {"Source": typed(f, "IfcText", m["source"])})
+        write_pset(f, mat, MATERIAL_MODEL_PSET, {
+            "ConstitutiveModel": typed(f, "IfcLabel", MODEL_TYPE),
+            "IsStructural": typed(f, "IfcBoolean", True),
+            "Source": typed(f, "IfcText", m["source"]),
+        })
     f.write(path)
     print(f"{path}: {len(spec)} materials written"
           + (", N/mm2 declared as modulus unit" if added_unit else ""))

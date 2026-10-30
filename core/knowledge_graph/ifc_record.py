@@ -21,11 +21,11 @@ derived for each masonry type back into the IFC file, on the IfcMaterial of
 the same name, in the property sets the conversion to the numerical model
 reads and the Information Delivery Specification requires:
 
-    Pset_MaterialCommon      MassDensity, MaterialModelType
-    Pset_MaterialMechanical  YoungModulus, ShearModulus, PoissonRatio,
-                             CompressiveStrength, TensileStrength,
-                             ShearStrength, isStructural, ConstitutiveModel
-    Pset_MaterialSource      Source (how the values were derived)
+    Pset_MaterialCommon      MassDensity
+    Pset_MaterialMechanical  YoungModulus, ShearModulus, PoissonRatio
+    OBTF_MaterialModel       ConstitutiveModel, IsStructural, CompressiveStrength,
+                             TensileStrength, ShearStrength, Source (how the
+                             values were derived)
 
 The moduli and strengths are written in MPa, the unit
 core/ifc_processing/data_extractor.py reads them in, so the file is given
@@ -34,6 +34,8 @@ none; a file that declares other units is refused rather than mixed.
 """
 import json
 import re
+
+from core.ifc_processing.ifc_schema import MATERIAL_MODEL_PSET
 
 ENTITY = re.compile(r"#(\d+)\s*=\s*([A-Za-z0-9_]+)\s*\(")
 
@@ -192,11 +194,12 @@ def real(x):
     return s
 
 
-MATERIAL_PSETS = ("Pset_MaterialCommon", "Pset_MaterialMechanical", "Pset_MaterialSource")
+# Pset_MaterialSource was written by earlier versions: it is removed, never written
+MATERIAL_PSETS = ("Pset_MaterialCommon", "Pset_MaterialMechanical", MATERIAL_MODEL_PSET, "Pset_MaterialSource")
 
 
 def material_properties(entry):
-    """The three property sets of one masonry type of the material database,
+    """The property sets of one masonry type of the material database,
     as {pset: [(property, STEP value)]}."""
     t = entry.get("_mqi_total", {})
     source = ("Derived by the openBIMtoFEM knowledge-graph builder from the case study recorded in this file. "
@@ -208,16 +211,16 @@ def material_properties(entry):
     mech = [("YoungModulus", f"IFCMODULUSOFELASTICITYMEASURE({real(entry['young_modulus'])})")]
     if "_shear_modulus_MPa" in entry:
         mech.append(("ShearModulus", f"IFCMODULUSOFELASTICITYMEASURE({real(entry['_shear_modulus_MPa'])})"))
-    mech += [("PoissonRatio", f"IFCPOSITIVERATIOMEASURE({real(entry['poisson_ratio'])})"),
+    mech.append(("PoissonRatio", f"IFCPOSITIVERATIOMEASURE({real(entry['poisson_ratio'])})"))
+    extra = [("ConstitutiveModel", f"IFCLABEL('{encode(model)}')"), ("IsStructural", "IFCBOOLEAN(.T.)"),
              ("CompressiveStrength", f"IFCPRESSUREMEASURE({real(entry['compressive_strength'])})"),
              ("TensileStrength", f"IFCPRESSUREMEASURE({real(entry['tensile_strength'])})")]
     if "_shear_strength_turnsek_cacovic_MPa" in entry:
-        mech.append(("ShearStrength", f"IFCPRESSUREMEASURE({real(entry['_shear_strength_turnsek_cacovic_MPa'])})"))
-    mech += [("isStructural", "IFCBOOLEAN(.T.)"), ("ConstitutiveModel", f"IFCLABEL('{encode(model)}')")]
-    return {"Pset_MaterialCommon": [("MassDensity", f"IFCMASSDENSITYMEASURE({real(entry['density'])})"),
-                                    ("MaterialModelType", f"IFCLABEL('{encode(model)}')")],
+        extra.append(("ShearStrength", f"IFCPRESSUREMEASURE({real(entry['_shear_strength_turnsek_cacovic_MPa'])})"))
+    extra.append(("Source", f"IFCTEXT('{encode(source)}')"))
+    return {"Pset_MaterialCommon": [("MassDensity", f"IFCMASSDENSITYMEASURE({real(entry['density'])})")],
             "Pset_MaterialMechanical": mech,
-            "Pset_MaterialSource": [("Source", f"IFCTEXT('{encode(source)}')")]}
+            MATERIAL_MODEL_PSET: extra}
 
 
 def _unit_assignment(index):

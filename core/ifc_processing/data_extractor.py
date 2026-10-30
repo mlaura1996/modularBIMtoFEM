@@ -15,7 +15,7 @@ psets.
 
 from core.config import *
 from . import geometry_extractor
-from .ifc_schema import built_elements
+from .ifc_schema import built_elements, LEGACY_MATERIAL_PROPERTIES, MATERIAL_MODEL_PSET, SECTION_SIZE_PSET
 
 
 class GeometryForVolume:
@@ -118,16 +118,13 @@ class MaterialsAndThicknesses:
 
     @staticmethod
     def get_thickness_from_pset(element):
-        """Thickness (m) for a beam/column/roof from its type-specific property set (mm converted to m)."""
-        if element.is_a() == "IfcBeam":
+        """Thickness (m) for a beam/column/roof from the OBTF_SectionSize property set (mm converted to m)."""
+        if element.is_a() in ("IfcBeam", "IfcColumn"):
             psets = ifcopenshell.util.element.get_psets(element)
-            thickness = psets["Pset_BeamCommon"]["CrossSectionHeight"]
-        elif element.is_a() == "IfcColumn":
-            psets = ifcopenshell.util.element.get_psets(element)
-            thickness = psets["Pset_ColumnCommon"]["CrossSectionHeight"]
+            thickness = psets[SECTION_SIZE_PSET]["CrossSectionHeight"]
         elif element.is_a() == "IfcRoof":
             psets = ifcopenshell.util.element.get_psets(element)
-            thickness = psets["Pset_RoofCommon"]["Thickness"]
+            thickness = psets[SECTION_SIZE_PSET]["Thickness"]
         if thickness is not None:
              thickness = thickness/1000
 
@@ -396,11 +393,11 @@ class MaterialsAndThicknesses:
         return dictionaries
 
 class StructuralProperties:
-    """Reads an `IfcMaterial`'s `Pset_MaterialCommon`/`Pset_MaterialMechanical` property sets."""
+    """Reads an `IfcMaterial`'s `Pset_MaterialCommon`, `Pset_MaterialMechanical` and `OBTF_MaterialModel` property sets."""
 
     @staticmethod
     def get_common_properties(material):
-        """`Pset_MaterialCommon` properties for an `IfcMaterial` (density, model type, elastic behaviour), minus its `id` key."""
+        """`Pset_MaterialCommon` properties for an `IfcMaterial` (density), minus its `id` key."""
         psets = ifcopenshell.util.element.get_psets(material)
         properties = psets.get("Pset_MaterialCommon", {})
         if not properties:
@@ -409,8 +406,27 @@ class StructuralProperties:
         return properties
 
     @staticmethod
+    def get_model_properties(material):
+        """`OBTF_MaterialModel` properties for an `IfcMaterial` (constitutive model, strengths, fracture energies), minus its `id` key."""
+        properties = ifcopenshell.util.element.get_psets(material).get(MATERIAL_MODEL_PSET, {})
+        properties.pop('id', None)
+        return properties
+
+    @staticmethod
+    def check_not_legacy(material):
+        """Refuses a material written before OBTF_MaterialModel: its model and strengths would silently read as absent."""
+        psets = ifcopenshell.util.element.get_psets(material)
+        found = [p for pset, props in LEGACY_MATERIAL_PROPERTIES.items() for p in props if p in psets.get(pset, {})]
+        if "Pset_MaterialSource" in psets:
+            found.append("Pset_MaterialSource")
+        if found:
+            raise ValueError(f"material {material.Name} carries {found} in the standard property sets: the file was "
+                             f"written before {MATERIAL_MODEL_PSET}; build the knowledge graph again "
+                             "(masonry) or run scripts/assign_material_psets.py (other materials)")
+
+    @staticmethod
     def get_mechanical_properties(material):
-        """`Pset_MaterialMechanical` properties for an `IfcMaterial` (E, ν, strengths, fracture energies), minus its `id` key."""
+        """`Pset_MaterialMechanical` properties for an `IfcMaterial` (E, ν), minus its `id` key."""
         psets = ifcopenshell.util.element.get_psets(material)
         properties = psets.get("Pset_MaterialMechanical", {})
         if not properties:
@@ -469,7 +485,9 @@ class Material:
         Reads each material's ``Pset_MaterialCommon`` (via
         :meth:`StructuralProperties.get_common_properties`) and, where
         present, ``Pset_MaterialMechanical`` (via
-        :meth:`StructuralProperties.get_mechanical_properties`); a
+        :meth:`StructuralProperties.get_mechanical_properties`) and
+        ``OBTF_MaterialModel`` (via
+        :meth:`StructuralProperties.get_model_properties`); a
         material missing mechanical properties is recorded as
         non-structural (``young_modulus=0``, ``material_model_type=None``)
         rather than raising.
@@ -479,19 +497,21 @@ class Material:
 
         for material in materials:
             name = material.Name
+            StructuralProperties.check_not_legacy(material)
             common_properties = StructuralProperties.get_common_properties(material)
             
             try:
                 properties = StructuralProperties.get_mechanical_properties(material)
+                model = StructuralProperties.get_model_properties(material)
                 young_modulus = properties.get('YoungModulus', 0)
                 poisson_ratio = properties.get('PoissonRatio', 0)
-                is_structural = properties.get('isStructural', False)
-                compressive_strength = properties.get('CompressiveStrength', 0)
-                tensile_strength = properties.get('TensileStrength', 0)
-                compression_fracture_energy = properties.get('CompressionFractureEnergy', 0)
-                tensile_fracture_energy = properties.get('TensileFractureEnergy', 0)
-                material_model_type = common_properties.get('MaterialModelType', None)
-                compressive_elastic_behaviour = common_properties.get('CompressiveStressElasticBehaviour', 0)
+                is_structural = model.get('IsStructural', False)
+                compressive_strength = model.get('CompressiveStrength', 0)
+                tensile_strength = model.get('TensileStrength', 0)
+                compression_fracture_energy = model.get('CompressiveFractureEnergy', 0)
+                tensile_fracture_energy = model.get('TensileFractureEnergy', 0)
+                material_model_type = model.get('ConstitutiveModel', None)
+                compressive_elastic_behaviour = model.get('CompressiveElasticLimit', 0)
             except Exception as e:
                 print(f"The material {name}: is not structural, and it has not {e}")
                 young_modulus = 0

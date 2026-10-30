@@ -13,7 +13,7 @@ Writes
                      build ... --bim) to link each masonry type to the IFC
                      elements made of it; and, for every other material, the
                      properties its IfcMaterial carries (Pset_MaterialCommon,
-                     Pset_MaterialMechanical, Pset_MaterialSource), which the
+                     Pset_MaterialMechanical, OBTF_MaterialModel), which the
                      builder writes on the mat:Material of the same name
 
 The link between the BIM model and the knowledge graph is the material
@@ -38,7 +38,7 @@ import ifcopenshell.util.element as ue
 
 MATERIAL_PROPERTIES = {"Pset_MaterialCommon": ("MassDensity",),
                        "Pset_MaterialMechanical": ("YoungModulus", "ShearModulus", "PoissonRatio"),
-                       "Pset_MaterialSource": ("Source",)}
+                       "OBTF_MaterialModel": ("Source",)}
 
 SKIP = ("IfcOpeningElement", "IfcSpace", "IfcVirtualElement")
 

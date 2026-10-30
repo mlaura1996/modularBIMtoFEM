@@ -1,24 +1,29 @@
 PropertySet:	Pset_MaterialCommon	T	IfcMaterial
-	MaterialModelType	Text	MaterialModelType
 	MassDensity	Real	Density
 
 PropertySet:	Pset_MaterialMechanical	T	IfcMaterial
 	YoungModulus	Real	YoungsModulus
 	PoissonRatio	Real	PoissonRatio
+
+PropertySet:	OBTF_MaterialModel	T	IfcMaterial
+	ConstitutiveModel	Text	MaterialModelType
+	IsStructural	Boolean	isStructural
 	CompressiveStrength	Real	CompressiveStrength
 	TensileStrength	Real	TensileStrength
-	CompressionFractureEnergy	Real	CompressionFractureEnergy
-	TensionFractureEnergy	Real	TensionFractureEnergy
-	CompressiveStressElasticBehaviour	Real	CompressiveStressElasticBehaviour
+	CompressiveFractureEnergy	Real	CompressionFractureEnergy
+	TensileFractureEnergy	Real	TensionFractureEnergy
+	CompressiveElasticLimit	Real	CompressiveStressElasticBehaviour
 	CombinationCoefficient	Real	CombinationCoefficient
 	Overload	Real	Overload
-	isStructural	Boolean	isStructural
 
-PropertySet:	Pset_BeamCommon	I	IfcBeam
+PropertySet:	OBTF_BeamConnection	I	IfcBeam
+	Connectivity	Text	Connectivity
+
+PropertySet:	OBTF_SectionSize	I	IfcBeam
 	CrossSectionBase	Real	CrossSectionBase	
 	CrossSectionHeight	Real	CrossSectionHeight	
 
-PropertySet:	Pset_ColumnCommon	I	IfcColumn
+PropertySet:	OBTF_SectionSize	I	IfcColumn
 	CrossSectionWidth	Real	Width	
 	CrossSectionHeight	Real	Height	
 
