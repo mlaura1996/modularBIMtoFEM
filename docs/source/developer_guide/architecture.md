@@ -61,10 +61,11 @@ OpenCASCADE settings, the `G` gravity constant, `STEP_UNIT`, `EXPORT_DIR`.
 - **`core/knowledge_graph`** (`python -m core.knowledge_graph`) — the
   material characterisation entry point: reads a knowledge record (the IFC
   file saved by the enrichment editor, a case.json or a workbook), builds
-  its knowledge graph (HSV, HSTO, HMO, FMO), has Pellet derive the
-  masonry properties and the behaviour of the walls, and writes the
-  material database and the browsable page (see
-  {doc}`../case_study/knowledge_graph`). The editor itself is the static
+  its knowledge graph (HSV, HSTO, HMO), has Pellet derive the masonry
+  properties, and writes the material database and the browsable page (see
+  {doc}`../case_study/knowledge_graph`). With `--fmo`, a separate run adds
+  the behaviour of the walls and their failure mechanisms (FMO), which the
+  numerical model does not read. The editor itself is the static
   page `docs/source/_extra/editor` (IFC-Lite and three.js, no build step).
   `docker/opensees/castelnuovo_knowledge_graph.py` runs it for Castelnuovo;
   `castelnuovo_material_engine.py` writes the same database from the

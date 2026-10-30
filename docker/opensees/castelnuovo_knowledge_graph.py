@@ -7,7 +7,7 @@ generic pipeline, from the case-study workbook:
 
     python -m core.knowledge_graph build resources/survey_data/castelnuovo/case.xlsx \\
         --out output/castelnuovo --bim resources/survey_data/castelnuovo/bim_elements.json \\
-        --site docs/source/_extra/knowledge-graph
+        --site docs/source/_extra/knowledge-graph --fmo
 
 The workbook replaced survey_record.json as the record of the survey (see
 scripts/migrate_castelnuovo_to_workbook.py for how it was obtained); the
@@ -25,4 +25,4 @@ from core.knowledge_graph.__main__ import main
 if __name__ == "__main__":
     main(["build", "resources/survey_data/castelnuovo/case.xlsx", "--out", "output/castelnuovo",
           "--bim", "resources/survey_data/castelnuovo/bim_elements.json",
-          "--site", "docs/source/_extra/knowledge-graph"])
+          "--site", "docs/source/_extra/knowledge-graph", "--fmo"])

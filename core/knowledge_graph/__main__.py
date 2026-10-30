@@ -2,7 +2,7 @@
 
     python -m core.knowledge_graph build <case> --out <dir> [--bim <bim_elements.json>]
                                          [--site <page dir>] [--photos <photo folder>]
-                                         [--ifc-out <model.ifc>]
+                                         [--ifc-out <model.ifc>] [--fmo]
     python -m core.knowledge_graph convert <case> <case.json | case.xlsx>
     python -m core.knowledge_graph template <path.xlsx>
     python -m core.knowledge_graph schema <schema.json>
@@ -17,6 +17,10 @@ element list written by scripts/export_bim_for_web.py, which links the BIM
 model to the masonry types, and its other materials to mat:Material
 individuals with their IFC properties; its glTF model is expected in
 <site>/bim/.
+--fmo adds the assessment of the Failure Mechanism Ontology to the graph, the
+behaviour of the walls and their mechanisms. It runs apart from the rest and
+the numerical model does not read it: if it fails, it is reported and left
+out, and the other files are written as usual.
 When <case> is an IFC file, build also writes it again with the derived
 properties of each masonry type on the IfcMaterial of the same name
 (Pset_MaterialCommon, Pset_MaterialMechanical, OBTF_MaterialModel), the
@@ -50,6 +54,7 @@ def main(argv=None):
     b.add_argument("--photos")
     b.add_argument("--ifc-out", help="where to write the IFC file with the derived properties "
                                      "(IFC input only; default <out>/<case file name>)")
+    b.add_argument("--fmo", action="store_true", help="add the failure mechanism assessment (FMO) to the graph")
     a = ap.parse_args(argv)
 
     if a.cmd == "template":
@@ -61,7 +66,8 @@ def main(argv=None):
         print(f"wrote {a.path}")
         return
     case, classification = read_case(a.source if a.cmd == "convert" else a.case)
-    problems = validate(case, classification)
+    # a build does not stop on the vulnerabilities: the FMO assessment reports them itself
+    problems = validate({**case, "vulnerabilities": []} if a.cmd == "build" else case, classification)
     if problems:
         sys.exit("the case study has references that do not resolve:\n  " + "\n  ".join(problems))
     if a.cmd == "convert":
@@ -74,7 +80,7 @@ def main(argv=None):
         return
     bim = json.load(open(a.bim, encoding="utf-8")) if a.bim else {}
     from core.knowledge_graph.builder import run
-    run(case, classification, a.out, bim.get("elements", []), bim_materials=bim.get("materials"))
+    run(case, classification, a.out, bim.get("elements", []), bim_materials=bim.get("materials"), fmo=a.fmo)
     if a.case.lower().endswith(".ifc"):
         import os
         from core.knowledge_graph.ifc_record import write_material_properties

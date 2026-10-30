@@ -107,13 +107,19 @@ python -m core.knowledge_graph build <model.ifc> --out <output dir>
 ```
 
 The builder checks the record, builds the knowledge graph, runs Pellet over
-the HSV, HSTO, HMO and FMO rules (Java and owlready2 are required, see
+the HSV, HSTO and HMO rules (Java and owlready2 are required, see
 {doc}`installation`), checks every derived value against an independent
 implementation of the quality index, and writes the graph, the material
 database and a copy of the IFC file with the derived properties on the
 masonry materials. If a reference does not resolve or a check fails, it
 stops with a message naming the record: correct it in the editor and save
 again.
+
+The failure mechanism assessment is an optional tool, parallel to the
+numerical model. With `--fmo`, a separate run of Pellet adds to the graph the
+vulnerabilities, the behaviour of the walls and their failure mechanisms. The
+numerical model does not read these results: if the assessment fails, it is
+reported and left out, and the other files are written as usual.
 
 ```{figure} ../_static/images/workflow/enrichment_architecture.png
 :alt: architecture of the enrichment

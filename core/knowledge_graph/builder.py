@@ -14,9 +14,6 @@ the Historic Survey (HSV), Historic Structure (HSTO) and Historic Masonry
         element, pattern, quality index and properties; and, for every
         variant of a classification, a hypothetical wall characterised the
         same way, so that the reasoner derives the variants too
-  FMO   the vulnerabilities recorded for each wall; the reasoner derives
-        the behaviour of every wall in each direction from its quality
-        index, and the failure mechanisms its vulnerabilities enable
   mat   the materials of the BIM elements that are not masonry types
         (stone and brick surrounds, timber, steel), as the mat:Material
         HMO imports, with the properties of the IfcMaterial of the same name
@@ -32,6 +29,14 @@ property used within its domain and range), runs Pellet over the
 ontologies and the individuals together, checks the derived values against
 the Python implementation of the rules, writes them into the graph, and
 writes the graph and the material database.
+
+The Failure Mechanism Ontology (FMO) is an assessment parallel to the
+numerical model, which does not read its results. On request (fmo=True), a
+separate run of Pellet adds the vulnerabilities recorded for each wall and
+derives the behaviour of every wall in each direction from its quality
+index, and the failure mechanisms its vulnerabilities enable. If it cannot
+be completed, it is reported and left out of the graph, and everything else
+is written as usual.
 """
 import json
 import os
@@ -324,12 +329,6 @@ def build(case, classification, bim_elements=(), bim_materials=None):
     for oid, o in case["openings"].items():
         opening = ind(g, C[oid], HSTO.HistoricOpening, label=o["label"])
         g.add((C[o["facade"]], HSTO.hasHistoricOpening, opening))
-    # vulnerabilities of the facade walls (FMO); the evidence stays on the wall
-    for v in case.get("vulnerabilities", []):
-        wall = C["Wall_" + _strip(v["facade"], "Facade_")]
-        g.add((wall, FMO.hasVulnerability, FMO[v["vulnerability"]]))
-        if v.get("evidence"):
-            g.add((wall, RDFS.comment, Literal(f"{v['vulnerability']}: {v['evidence']}", lang="en")))
 
     # --- HMO characterisation: facade walls, then hypothetical variant walls ---
     prop_iris = {}
@@ -419,12 +418,54 @@ def domain_range_violations(abox, tbox):
     return sorted(problems)
 
 
-def run(case, classification, out_dir, bim_elements=(), ontologies=ONTOLOGIES, log=print, bim_materials=None):
-    """Builds, checks and reasons; writes knowledge_graph.ttl and material_database.json."""
+def assess_failure_mechanisms(case, kb, walls, variants, C, ontologies, name, log=print):
+    """The FMO assessment, in a run of its own over the graph kb.
+
+    Returns the triples to add and {key: (wall, behaviours, mechanisms)}, or
+    (None, {}) if it cannot be completed: nothing else depends on it, so a
+    failure is reported and does not stop the build.
+    """
+    try:
+        # the vulnerabilities of the facade walls; the evidence stays on the wall
+        g = rdflib.Graph()
+        for v in case.get("vulnerabilities", []):
+            wall = C["Wall_" + _strip(v["facade"], "Facade_")]
+            g.add((wall, FMO.hasVulnerability, FMO[v["vulnerability"]]))
+            if v.get("evidence"):
+                g.add((wall, RDFS.comment, Literal(f"{v['vulnerability']}: {v['evidence']}", lang="en")))
+        tbox = kb + rdflib.Graph().parse(ontologies["fmo"], format="turtle")
+        problems = undeclared_terms(g, tbox) + domain_range_violations(g, tbox)
+        if problems:
+            raise ValueError("; ".join(problems))
+        world = run_pellet(tbox + g, name=f"{name}_fmo")
+        has_behaviour, has_mechanism = world[str(FMO.hasBehaviour)], world[str(FMO.hasOccurringMechanism)]
+        derived = {}
+        for k, (wall, *_rest) in list(walls.items()) + list(variants.items()):
+            behaviours = sorted(b.name for b in has_behaviour[world[str(wall)]])
+            for d in DIRECTIONS:
+                n = sum(b.endswith(f"{d}Behaviour") for b in behaviours)
+                if n != 1:
+                    raise ValueError(f"{k}: {n} {d} behaviours derived ({behaviours}); expected exactly one")
+            derived[k] = (wall, behaviours, sorted(m.name for m in has_mechanism[world[str(wall)]]))
+    except Exception as e:
+        log(f"FMO: assessment left out of the graph, the masonry properties are not affected ({e})")
+        return None, {}
+    log(f"FMO: behaviour derived for {len(derived)} walls and variants")
+    return g, derived
+
+
+def run(case, classification, out_dir, bim_elements=(), ontologies=ONTOLOGIES, log=print, bim_materials=None,
+        fmo=False):
+    """Builds, checks and reasons; writes knowledge_graph.ttl and material_database.json.
+
+    fmo adds the assessment of assess_failure_mechanisms, which the material
+    database does not depend on.
+    """
     abox, walls, variants, prop_iris, C = build(case, classification, bim_elements, bim_materials)
     kb = rdflib.Graph()
-    for path in ontologies.values():
-        kb.parse(path, format="turtle")
+    for name, path in ontologies.items():
+        if name != "fmo":
+            kb.parse(path, format="turtle")
     missing = undeclared_terms(abox, kb)
     if missing:
         raise SystemExit("terms not declared by HSV, HSTO or HMO:\n  " + "\n  ".join(missing))
@@ -438,18 +479,6 @@ def run(case, classification, out_dir, bim_elements=(), ontologies=ONTOLOGIES, l
     derived = {k: read_derived(world, str(C[f"MQI_{k}"]), prop_iris[k], f"wall {k}") for k in prop_iris}
     log(f"Pellet: consistent; quality index and properties derived for {len(walls)} walls "
         f"and {len(variants)} variants")
-
-    # FMO: behaviour in each direction and the mechanisms the vulnerabilities enable
-    has_behaviour, has_mechanism = world[str(FMO.hasBehaviour)], world[str(FMO.hasOccurringMechanism)]
-    fmo_derived = {}
-    for k, (wall, *_rest) in list(walls.items()) + list(variants.items()):
-        behaviours = sorted(b.name for b in has_behaviour[world[str(wall)]])
-        for d in DIRECTIONS:
-            n = sum(b.endswith(f"{d}Behaviour") for b in behaviours)
-            if n != 1:
-                raise SystemExit(f"{k}: {n} {d} behaviours derived ({behaviours}); expected exactly one")
-        mechanisms = sorted(m.name for m in has_mechanism[world[str(wall)]])
-        fmo_derived[k] = (wall, behaviours, mechanisms)
 
     # every derived value must agree with the Python implementation of the rules
     engine = compute_all(classification)
@@ -475,20 +504,34 @@ def run(case, classification, out_dir, bim_elements=(), ontologies=ONTOLOGIES, l
         for key, v in d["mechanical_properties"].items():
             abox.add((URIRef(prop_iris[k][key]), SAREF.hasValue,
                       Literal(round(v, ENGINE_DECIMALS[key]), datatype=XSD.float)))
+
+    # FMO: behaviour in each direction and the mechanisms the vulnerabilities enable
+    fmo_triples, fmo_derived = None, {}
+    if fmo:
+        fmo_triples, fmo_derived = assess_failure_mechanisms(case, kb, walls, variants, C, ontologies,
+                                                             f"{case['project']['id']}_knowledge_graph", log)
+    elif case.get("vulnerabilities"):
+        log(f"{len(case['vulnerabilities'])} vulnerabilities recorded and not assessed (no fmo requested)")
+    if fmo_triples is not None:
+        abox += fmo_triples
     for k, (wall, behaviours, mechanisms) in fmo_derived.items():
         for b in behaviours:
             abox.add((wall, FMO.hasBehaviour, FMO[b]))
         for m in mechanisms:
             abox.add((wall, FMO.hasOccurringMechanism, FMO[m]))
+    used = [n for n in ontologies if n != "fmo" or fmo_triples is not None]
     kg_iri = C.KnowledgeGraph
     abox.add((kg_iri, RDF.type, OWL.Ontology))
     abox.add((kg_iri, RDFS.label, Literal(case["project"].get("title", ""), lang="en")))
     abox.add((kg_iri, RDFS.comment, Literal(
         (case["project"].get("description", "") + " ").lstrip()
-        + "Built on HSV, HSTO, HMO and FMO. Quality indices, homogenised properties and behaviours were "
-          "derived by Pellet from the HMO and FMO rules (resources/ontologies/) and checked against "
-          "core/ifc_processing/hmo_mqi.py.", lang="en")))
-    for name in ontologies:
+        + ("Built on HSV, HSTO, HMO and FMO. Quality indices, homogenised properties and behaviours were "
+           "derived by Pellet from the HMO and FMO rules (resources/ontologies/) and checked against "
+           "core/ifc_processing/hmo_mqi.py." if fmo_triples is not None else
+           "Built on HSV, HSTO and HMO. Quality indices and homogenised properties were derived by Pellet "
+           "from the HMO rules (resources/ontologies/) and checked against core/ifc_processing/hmo_mqi.py."),
+        lang="en")))
+    for name in used:
         abox.add((kg_iri, OWL.imports, URIRef(f"https://w3id.org/{name}")))
     if case["project"].get("software_doi"):
         abox.add((kg_iri, DCT.references, URIRef("https://doi.org/" + case["project"]["software_doi"])))

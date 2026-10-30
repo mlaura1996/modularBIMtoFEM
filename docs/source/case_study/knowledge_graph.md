@@ -90,7 +90,7 @@ pip install owlready2==0.48 rdflib openpyxl pillow   # and a Java runtime
 python scripts/export_bim_for_web.py <model.ifc> --glb <page>/bim/model.glb \
     --elements <bim_elements.json>                     # needs IfcOpenShell
 python -m core.knowledge_graph build <case> --out <output dir> \
-    --bim <bim_elements.json> --site <page> [--photos <photo folder>]
+    --bim <bim_elements.json> --site <page> [--photos <photo folder>] [--fmo]
 ```
 
 `<case>` is the IFC file saved by the editor, a `case.json` or a workbook.
@@ -108,7 +108,7 @@ lists. The elements the editor assigned to a façade are also recorded as
 parts of that façade.
 
 The second reads the knowledge record, checks that its cross-references resolve,
-builds the graph, checks that every HSV, HSTO, HMO and FMO term is declared and
+builds the graph, checks that every HSV, HSTO and HMO term is declared and
 every property used within its domain and range, runs Pellet over the
 ontologies and the graph together, checks every derived value against
 `core/ifc_processing/hmo_mqi.py`, and writes `knowledge_graph.ttl`, the
@@ -116,6 +116,13 @@ material database and the page. The variants of a classification are
 recorded as hypothetical walls, so the reasoner derives them in the same
 run. The page's view and tables are generated from the graph itself, and
 pages written under `docs/source/_extra/` are published with this site.
+
+`--fmo` adds the failure mechanism assessment, an optional tool parallel to
+the numerical model, which does not read its results. A separate run of
+Pellet derives the behaviour of every wall and its mechanisms, and requires
+exactly one behaviour per direction. If it fails, the assessment is reported
+and left out of the graph, and the material database and the IFC file are
+written as usual. The pages published here are built with `--fmo`.
 
 When the knowledge record is read from an IFC file, the derived properties are
 also written back into the model: the build writes the file again (to

@@ -110,7 +110,7 @@ Not part of the Docker image. Needs a Java runtime and, in any Python
 environment:
 
     pip install owlready2==0.48 rdflib openpyxl
-    python -m core.knowledge_graph build resources/survey_data/castelnuovo/case.xlsx         --out output/castelnuovo --bim resources/survey_data/castelnuovo/bim_elements.json         --site docs/source/_extra/knowledge-graph
+    python -m core.knowledge_graph build resources/survey_data/castelnuovo/case.xlsx         --out output/castelnuovo --bim resources/survey_data/castelnuovo/bim_elements.json         --site docs/source/_extra/knowledge-graph --fmo
 
 owlready2 is pinned to 0.48 because later releases bundle Jena libraries
 compiled for Java 25, which fail on older runtimes with
