@@ -45,7 +45,8 @@ people, activities, documents, units, façades, photographs, connections,
 openings, vulnerabilities of each façade wall (FMO), masonry types (the
 seven morphological characteristics with the evidence for each, flags,
 density and variants; the scores of the quality index are derived, not
-entered) and measured properties. Categories are chosen from lists, and a
+entered, and combinations that contradict the rules of HMO, such as bricks
+laid as rubble, are reported by the check) and measured properties. Categories are chosen from lists, and a
 record that names another (the people of an activity, the unit of a
 façade) is picked from the records that exist; renaming a record renames
 it wherever it is named. The walls of each façade are assigned by

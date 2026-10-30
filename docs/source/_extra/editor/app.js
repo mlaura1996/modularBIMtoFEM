@@ -578,6 +578,13 @@ function problems() {
   tables.MasonryTypes.forEach((t, i) => {
     const missing = schema.parameters.filter(p => !t[p]);
     if (missing.length) out.push(["MasonryTypes", i, `Masonry types: “${t.name || "?"}” has no ${missing.map(words).map(x => x.toLowerCase()).join(", ")}`]);
+    const who = `Masonry types: “${t.name || "?"}”`;
+    if (t.unit_shape && t.unit_material && !schema.shape_and_material.some(([s, m]) => s === t.unit_shape && m === t.unit_material))
+      out.push(["MasonryTypes", i, `${who}: unit shape “${words(t.unit_shape).toLowerCase()}” contradicts unit material “${words(t.unit_material).toLowerCase()}”`]);
+    if (t.unit_shape === "rubble" && t.wall_connections && t.wall_connections !== "none")
+      out.push(["MasonryTypes", i, `${who}: rubble has no connection between the leaves, so wall connections must be “none”`]);
+    if (t.unit_shape === "rubble" && t.mortar_quality === "dry_joints" && t.vertical_joints && t.vertical_joints !== "aligned")
+      out.push(["MasonryTypes", i, `${who}: rubble with dry joints scores as aligned vertical joints, so vertical joints must be “aligned”`]);
     if (t.density_kg_m3 === "" || isNaN(+t.density_kg_m3)) out.push(["MasonryTypes", i, `Masonry types: “${t.name || "?"}” needs a mass density (a number)`]);
   });
   tables.Vulnerabilities.forEach((v, i) => { if (!v.facade || !v.vulnerability) out.push(["Vulnerabilities", i, "Vulnerabilities: a row needs a façade and a vulnerability"]); });

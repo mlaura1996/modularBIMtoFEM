@@ -34,6 +34,8 @@ ontology repository, are:
 | F6 | added: unit-material rule for squared soft stone | 4 of 16 values missing (type A) |
 | F7 | added: `NoHeaders` and its rule, absence of headers in non-rubble masonry | 4 of 16 values missing (type C) |
 | F9 | added: `IrregularHardstone` and its rule, unit material of hard stone that is not squared | SERA-AIMS benchmark: no values at all |
+| F10 | removed: `MQI_SS_IrregularSoftstones`, so that `IrregularSoftstone` states the material only and the shape is stated apart, as for hard stone | rubble of soft stone: two shape scores, so two values of the index |
+| F11 | added: `MQI_MM_DryJoints`, mortar quality zero for dry joints | dry joints: no mortar score, so no index |
 
 The "without it" column is the result of removing that one correction and
 running Pellet again; each is necessary. With all of them, Pellet derives
@@ -41,7 +43,14 @@ one value per quantity for every type, equal to those of
 `core/ifc_processing/hmo_mqi.py` within its rounding.
 
 F6, F7 and F9 add vocabulary rather than correct it, and are the changes
-the ontology's author should review as design decisions.
+the ontology's author should review as design decisions. F10 and F11 are
+applied to this copy only, and are not yet in `tools/fix_swrl_rules.py`.
+
+Two rules constrain which categories can be combined, because they assign a
+score whatever else is recorded, and `core/ifc_processing/hmo_reasoner.py`
+refuses a classification that contradicts them: rubble has no connection
+between the leaves (`MQI_WC_RubbleStones`), and rubble with dry joints has
+vertical joints scoring zero (`MQI_MM_RubbleStones_DryJoints`).
 
 ## `fmo.ttl` — Failure Mechanism Ontology, corrected rules
 

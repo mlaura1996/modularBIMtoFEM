@@ -36,6 +36,7 @@ cell are separated by ";"; roles are written "PersonId: Role"; variants
 import datetime
 
 from core.ifc_processing import hmo_mqi
+from core.ifc_processing.hmo_reasoner import SHAPE_AND_MATERIAL, combination_problem
 
 PARAMETERS = ["unit_dimensions", "unit_shape", "unit_material", "mortar_quality",
               "horizontal_joints", "vertical_joints", "wall_connections"]
@@ -235,7 +236,8 @@ def editor_schema():
                                   if (name, c) in REFERENCES else {})}
                               for c, d, k in cols] for name, cols in SHEETS.items()},
             "project_keys": [{"name": k, "help": d} for k, d in PROJECT_KEYS],
-            "choices": CHOICES, "parameters": PARAMETERS}
+            "choices": CHOICES, "parameters": PARAMETERS,
+            "shape_and_material": [list(pair) for pair in SHAPE_AND_MATERIAL]}
 
 
 def records_from_tables(s):
@@ -358,6 +360,13 @@ def validate(case, classification):
         for p in PARAMETERS:
             if t["observation"][p] not in CHOICES[p]:
                 problems.append(f"MasonryTypes {name}: '{t['observation'][p]}' is not a category of {p}")
+        problem = combination_problem(t["observation"])
+        if problem:
+            problems.append(f"MasonryTypes {name}: {problem}")
+        for vname, change in t.get("variants", {}).items():
+            problem = combination_problem({**t["observation"], **change})
+            if problem:
+                problems.append(f"MasonryTypes {name}, {vname} variant: {problem}")
     if c["project"].get("bim_document") and c["project"]["bim_document"] not in ids["documents"]:
         problems.append(f"Project: bim_document '{c['project']['bim_document']}' is not in Documents")
     return problems

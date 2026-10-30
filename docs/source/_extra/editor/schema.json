@@ -605,5 +605,75 @@
   "horizontal_joints",
   "vertical_joints",
   "wall_connections"
+ ],
+ "shape_and_material": [
+  [
+   "rubble",
+   "irregular_soft_stone"
+  ],
+  [
+   "rubble",
+   "irregular_hard_stone"
+  ],
+  [
+   "rubble",
+   "damaged"
+  ],
+  [
+   "roughly_cut_or_irregular_soft",
+   "irregular_soft_stone"
+  ],
+  [
+   "roughly_cut_or_irregular_soft",
+   "irregular_hard_stone"
+  ],
+  [
+   "roughly_cut_or_irregular_soft",
+   "damaged"
+  ],
+  [
+   "roughly_cut",
+   "irregular_soft_stone"
+  ],
+  [
+   "roughly_cut",
+   "irregular_hard_stone"
+  ],
+  [
+   "roughly_cut",
+   "damaged"
+  ],
+  [
+   "cut_or_squared",
+   "irregular_soft_stone"
+  ],
+  [
+   "cut_or_squared",
+   "irregular_hard_stone"
+  ],
+  [
+   "cut_or_squared",
+   "squared_hard_stone"
+  ],
+  [
+   "cut_or_squared",
+   "bricks"
+  ],
+  [
+   "cut_or_squared",
+   "hollow_bricks_lt30pct"
+  ],
+  [
+   "cut_or_squared",
+   "hollow_bricks_30_55pct"
+  ],
+  [
+   "cut_or_squared",
+   "hollow_bricks_gt55pct"
+  ],
+  [
+   "cut_or_squared",
+   "damaged"
+  ]
  ]
 }

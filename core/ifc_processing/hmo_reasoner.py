@@ -34,22 +34,40 @@ SAREF_HAS_VALUE = "https://saref.etsi.org/core/hasValue"
 # cm; the rules classify on (min + max) / 2: small < 20, medium 20-40, large >= 40
 UNIT_LENGTH_CM = {"small": (10.0, 20.0), "medium": (20.0, 40.0), "large": (40.0, 60.0)}
 
-# Unit shape and unit material are not independent in HMO: the constant
-# IrregularSoftstone triggers both a shape and a material rule, so the pair
-# is mapped together. Only the combinations the case study uses are listed;
-# any other raises, rather than being guessed.
+# Unit shape and unit material are not independent in HMO: Bricks,
+# SquaredHardstone and SquaredSoftstone trigger both a shape and a material
+# rule, so the pair is mapped together. A pair that is not listed contradicts
+# itself (bricks as rubble, squared stone that is roughly cut): both shape
+# rules would fire, so it is refused rather than given a meaning here.
 SHAPE_AND_MATERIAL = {
-    ("cut_or_squared", "irregular_soft_stone"): ["SquaredSoftstone"],
-    ("roughly_cut_or_irregular_soft", "irregular_soft_stone"): ["RoughlyCutStone", "IrregularSoftstone"],
     ("rubble", "irregular_soft_stone"): ["RubbleStones", "IrregularSoftstone"],
-    # hard stone that is not squared: IrregularHardstone sets the material
-    # only (F9), the shape comes from its own constant
-    ("roughly_cut", "irregular_hard_stone"): ["RoughlyCutStone", "IrregularHardstone"],
     ("rubble", "irregular_hard_stone"): ["RubbleStones", "IrregularHardstone"],
+    ("rubble", "damaged"): ["RubbleStones"],
+    ("roughly_cut_or_irregular_soft", "irregular_soft_stone"): ["RoughlyCutStone", "IrregularSoftstone"],
+    ("roughly_cut_or_irregular_soft", "irregular_hard_stone"): ["RoughlyCutStone", "IrregularHardstone"],
+    ("roughly_cut_or_irregular_soft", "damaged"): ["RoughlyCutStone"],
+    ("roughly_cut", "irregular_soft_stone"): ["RoughlyCutStone", "IrregularSoftstone"],
+    ("roughly_cut", "irregular_hard_stone"): ["RoughlyCutStone", "IrregularHardstone"],
+    ("roughly_cut", "damaged"): ["RoughlyCutStone"],
+    ("cut_or_squared", "irregular_soft_stone"): ["SquaredSoftstone"],
+    ("cut_or_squared", "irregular_hard_stone"): ["BarelyCutStone", "IrregularHardstone"],
+    ("cut_or_squared", "squared_hard_stone"): ["SquaredHardstone"],
+    ("cut_or_squared", "bricks"): ["Bricks"],
+    ("cut_or_squared", "hollow_bricks_lt30pct"): ["BarelyCutStone"],
+    ("cut_or_squared", "hollow_bricks_30_55pct"): ["BarelyCutStone"],
+    ("cut_or_squared", "hollow_bricks_gt55pct"): ["BarelyCutStone"],
+    ("cut_or_squared", "damaged"): ["BarelyCutStone"],
 }
+# Materials the rules read from the Units individual rather than from a
+# constant. The classification records a category, so hollow bricks are given
+# a representative void fraction, as unit size is given a representative length.
+HOLLOW_FRACTION = {"hollow_bricks_lt30pct": "0.2", "hollow_bricks_30_55pct": "0.4", "hollow_bricks_gt55pct": "0.7"}
+DOT_HAS_DAMAGE_AREA = "https://w3id.org/dot/hasDamageArea"
+DOT_DAMAGE_AREA = "https://w3id.org/dot#DamageArea"
 MORTAR = {"lime": "LimeMortarJoints",
           "hydraulic_lime_or_roman_cement": "HydraulicLimeMortarJoints",
-          "earth": "EarthMortarJoints"}
+          "earth": "EarthMortarJoints",
+          "dry_joints": "DryJoints"}
 HORIZONTAL_JOINTS = {"not_continuous": "NotContinuousHorizontalJoints",
                      "partially_continuous": "PartiallyContinuousHorizontalJoints",
                      "continuous": "ContinuousHorizontalJoints"}
@@ -69,11 +87,25 @@ PROPERTY_CLASSES = {"young_modulus_MPa": "YoungModulus",
 DIRECTIONS = {"vertical": "Vertical", "out_of_plane": "OutOfPlane", "in_plane": "InPlane"}
 
 
+def combination_problem(observation):
+    """Why the rules of HMO cannot evaluate these survey categories together, or None."""
+    shape, material = observation.get("unit_shape"), observation.get("unit_material")
+    if shape and material and (shape, material) not in SHAPE_AND_MATERIAL:
+        return f"unit shape '{shape}' contradicts unit material '{material}'"
+    if shape == "rubble" and observation.get("wall_connections") not in (None, "", "none"):
+        return "rubble has no connection between the leaves: wall connections must be 'none'"
+    if (shape == "rubble" and observation.get("mortar_quality") == "dry_joints"
+            and observation.get("vertical_joints") not in (None, "", "aligned")):
+        return "rubble with dry joints scores as aligned vertical joints: vertical joints must be 'aligned'"
+    return None
+
+
 def pattern_entities(observation):
     """Survey categories -> (dominant constants, sparse constants, unit length range)."""
+    problem = combination_problem(observation)
+    if problem:
+        raise ValueError(problem)
     pair = (observation["unit_shape"], observation["unit_material"])
-    if pair not in SHAPE_AND_MATERIAL:
-        raise KeyError(f"no HMO constants defined for unit shape/material {pair}")
     dominant = list(SHAPE_AND_MATERIAL[pair])
     dominant.append(MORTAR[observation["mortar_quality"]])
     dominant.append(HORIZONTAL_JOINTS[observation["horizontal_joints"]])
@@ -107,6 +139,13 @@ def build_individuals(classification):
         # ontology inconsistent, the two value spaces being disjoint in OWL 2
         g.add((units, h("unitsLengthHasMinimumValue"), Literal(lo, datatype=XSD.float)))
         g.add((units, h("unitsLengthMaximumValue"), Literal(hi, datatype=XSD.float)))
+        material = t["observation"]["unit_material"]
+        if material in HOLLOW_FRACTION:             # xsd:decimal, the range declared for this one
+            g.add((units, h("bricksHaveVolumePercentage"), Literal(HOLLOW_FRACTION[material], datatype=XSD.decimal)))
+        elif material == "damaged":
+            g.add((units, URIRef(DOT_HAS_DAMAGE_AREA), c(f"DamageArea_{k}")))
+            g.add((c(f"DamageArea_{k}"), RDF.type, OWL.NamedIndividual))
+            g.add((c(f"DamageArea_{k}"), RDF.type, URIRef(DOT_DAMAGE_AREA)))
         g.add((wall, h("hasRepresentativeVolumeElement"), rve))
         g.add((wall, h("hasMasonryQualityIndex"), mqi))
         g.add((rve, h("hasPattern"), pat))

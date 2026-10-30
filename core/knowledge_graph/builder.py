@@ -41,7 +41,8 @@ from rdflib import RDF, RDFS, OWL, XSD, Literal, Namespace, URIRef
 from rdflib.collection import Collection
 
 from core.ifc_processing.hmo_reasoner import (
-    PROPERTY_CLASSES, ENGINE_DECIMALS, cross_check, pattern_entities, read_derived, run_pellet)
+    DOT_DAMAGE_AREA, DOT_HAS_DAMAGE_AREA, HOLLOW_FRACTION, PROPERTY_CLASSES, ENGINE_DECIMALS, cross_check,
+    pattern_entities, read_derived, run_pellet)
 from core.ifc_processing.material_database import compute_all, write_material_database
 
 HSV = Namespace("https://w3id.org/hsv#")
@@ -124,6 +125,14 @@ def _characterise(g, C, k, wall, t, observation, evidence_photos=()):
     g.add((units, RDFS.comment, Literal(
         f"Representative length range for the '{observation['unit_dimensions']}' category "
         "recorded by the survey, not measured unit lengths.", lang="en")))
+    material = observation["unit_material"]
+    if material in HOLLOW_FRACTION:
+        g.add((units, HMO.bricksHaveVolumePercentage, Literal(HOLLOW_FRACTION[material], datatype=XSD.decimal)))
+        g.add((units, RDFS.comment, Literal(f"Representative void fraction for the '{material}' category recorded by "
+                                            "the survey, not a measured value.", lang="en")))
+    elif material == "damaged":
+        damage = ind(g, C[f"DamageArea_{k}"], URIRef(DOT_DAMAGE_AREA))
+        g.add((units, URIRef(DOT_HAS_DAMAGE_AREA), damage))
     g.add((pattern, HMO.hasDominantPatternEntities, units))
     for x in dominant:
         g.add((pattern, HMO.hasDominantPatternEntities, HMO[x]))
