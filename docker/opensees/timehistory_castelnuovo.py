@@ -86,6 +86,12 @@ FourNodeTetrahedron takes nodal coordinates as given.
     python docker/opensees/timehistory_castelnuovo.py \
         --record resources/records/<name>.AT2 --duration 20 --dt 0.005 \
         --mesh-size 0.35 --solid-sample 1
+
+    # the committed Run 2.1 record brought back from the half-scale time
+    # of the shake table to the time of the earthquake (x sqrt 2): the same
+    # 19.5 s of table time become 27.58 s, in 3900 steps of 0.00707 s
+    python docker/opensees/timehistory_castelnuovo.py --time-scale sqrt2 \
+        --mesh-size 0.3 --solid-sample 1
 """
 import json
 import math
@@ -134,13 +140,31 @@ OUT_DIR = argval("--out-dir", "output/castelnuovo/recorders_timehistory"
 RECORD = argval("--record",
                 "resources/records/castelnuovo/montenegro1979_run21_long.txt")
 RECORD_SCALE = argval("--record-scale", 1.0, float)
+
+
+def time_scale_arg(text):
+    return math.sqrt(2.0) if text.lower() == "sqrt2" else float(text)
+
+
+# The committed record is the motion the shake table delivered to the
+# half-scale SERA-AIMS specimen, so its time axis is compressed by 1/sqrt(2)
+# under the Cauchy-Froude law (lambda = 2). Castelnuovo is a full-scale
+# building: --time-scale sqrt2 stretches the record back to the time axis of
+# the original earthquake. Accelerations are not scaled under Cauchy-Froude,
+# so RECORD_SCALE stays 1.0. The default 1.0 reproduces the September run,
+# which applied the record as delivered.
+TIME_SCALE = argval("--time-scale", 1.0, time_scale_arg)
 # 0.005 s and ~3900 increments are Chapter 6's own setup for this record
 # ("the transient analysis spans the strong motion window with a nominal
 # step of the same order ... for a total of approximately 3900
 # increments"), i.e. a 19.5 s window out of the record's full 38.9 s. The
-# PGA falls at t = 12.345 s, well inside it.
-DURATION = argval("--duration", 0.05 if SMOKE else 19.5, float)
-DT = argval("--dt", 0.005, float)
+# PGA falls at t = 12.345 s, well inside it. Both are in the record's own
+# time, so with --time-scale the default window and the default step are
+# stretched by the same factor: the same part of the earthquake, in the
+# same number of steps.
+DURATION = argval("--duration", 0.05 if SMOKE else 19.5 * TIME_SCALE, float)
+DT_ARG = argval("--dt", None, float)
+DT = DT_ARG if DT_ARG is not None else 0.005 * TIME_SCALE
 # Chapter 6 applied the longitudinal component in y. Castelnuovo has its own
 # orientation and its mass-carrying modes are mode 1 in X (PRMx 20.98%) and
 # mode 7 in Y (PRMy 18.44%), so the direction is a parameter rather than
@@ -196,7 +220,12 @@ MU_FRICTION = 0.6
 # which is exactly why anchoring at 1 and 10 works: inside the bracket the
 # damping dips below the target, outside it rises, and the mass-carrying
 # modes are all inside.
-F1_HZ, F2_HZ = 5.786, 10.695
+# These two values come from the single averaged masonry of the September
+# run. With the four masonry types the modes move, so the anchors have to
+# be read again from eigen_castelnuovo_tied.py on the same materials and
+# passed as --rayleigh-hz f1,f10.
+F1_HZ, F2_HZ = argval("--rayleigh-hz", (5.786, 10.695),
+                      lambda s: tuple(float(v) for v in s.split(",")))
 XI = argval("--damping", 0.03, float)
 
 G_ACCEL = 9.81
@@ -216,15 +245,17 @@ say(f"{'SMOKE' if SMOKE else 'FULL'} run -> {OUT_DIR}")
 def read_record(path):
     """PEER .AT2 or a plain whitespace-separated list of accelerations.
 
-    AT2 carries its own dt in the 4th header line ('NPTS=..., DT=...');
-    a plain file does not, so --dt is used as the record's own step there.
-    Plain files may carry '#' comment lines (the committed Chapter 6 record
-    documents its source and units that way) and they are skipped - the
-    first version of this reader did not, and the smoke run on the target
-    machine died on the first '#'.
-    Returned unscaled - RECORD_SCALE is applied by the caller. It defaults
-    to 1.0 because the committed record is already in m/s^2; pass 9.81 for
-    a record in g. Getting that factor wrong is a silent 10x on the input.
+    AT2 carries its own dt in the 4th header line ('NPTS=..., DT=...').
+    A plain file may state it in a '# dt = ...' comment line, as the
+    committed record does; otherwise --dt, or 0.005 s, is taken as the
+    record's own step. Plain files may carry '#' comment lines (the
+    committed Chapter 6 record documents its source and units that way)
+    and they are skipped - the first version of this reader did not, and
+    the smoke run on the target machine died on the first '#'.
+    Returned unscaled, in amplitude and in time - RECORD_SCALE and
+    TIME_SCALE are applied by the caller. RECORD_SCALE defaults to 1.0
+    because the committed record is already in m/s^2; pass 9.81 for a
+    record in g. Getting that factor wrong is a silent 10x on the input.
     """
     with open(path) as fh:
         lines = fh.readlines()
@@ -246,15 +277,23 @@ def read_record(path):
     values = [float(x) for line in lines
               if line.strip() and not line.lstrip().startswith("#")
               for x in line.split()]
-    return np.asarray(values), DT
+    rec_dt = DT_ARG if DT_ARG is not None else 0.005
+    for line in lines:
+        words = line.lstrip("#").replace("=", " ").split()
+        if line.lstrip().startswith("#") and len(words) >= 2 and words[0].lower() == "dt":
+            rec_dt = float(words[1])
+            break
+    return np.asarray(values), rec_dt
 
 
 if RECORD:
     if not os.path.isfile(RECORD):
         sys.exit(f"Record not found: {RECORD}")
-    accel_raw, record_dt = read_record(RECORD)
+    accel_raw, record_dt_own = read_record(RECORD)
     accel = accel_raw * RECORD_SCALE
-    say(f"record {os.path.basename(RECORD)}: {len(accel)} points, dt={record_dt} s, "
+    record_dt = record_dt_own * TIME_SCALE
+    say(f"record {os.path.basename(RECORD)}: {len(accel)} points, dt={record_dt_own} s "
+        f"x time scale {TIME_SCALE:.6f} = {record_dt:.6f} s, "
         f"peak {np.abs(accel).max():.3f} m/s^2 "
         f"({np.abs(accel).max()/G_ACCEL:.3f} g) after x{RECORD_SCALE}")
 else:
@@ -797,6 +836,8 @@ summary = {
     "run": "smoke" if SMOKE else "full",
     "record": os.path.basename(RECORD) if RECORD else "synthetic sine (smoke)",
     "record_scale_to_m_s2": RECORD_SCALE,
+    "record_time_scale": TIME_SCALE,
+    "record_dt_s": record_dt if RECORD else None,
     "duration_s": DURATION,
     "dt_s": DT,
     "steps_requested": n_steps,
