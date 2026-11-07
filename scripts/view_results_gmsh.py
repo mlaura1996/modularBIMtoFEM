@@ -55,6 +55,13 @@ RUNS = {
     "tied80": ("output/castelnuovo/recorders_castelnuovo_tied_80modes",
                "castelnuovo_tied.msh",
                "docker/opensees/eigen_castelnuovo_tied.py --n-modes 80"),
+    # The model with the four masonry types (volume_materials.json), which
+    # the de-scaled time history uses. The September runs above have the
+    # single averaged masonry.
+    "types100": ("output/castelnuovo/recorders_castelnuovo_types_100modes",
+                 "castelnuovo_tied.msh",
+                 "docker/opensees/eigen_castelnuovo_tied.py --n-modes 100 "
+                 "--out-dir output/castelnuovo/recorders_castelnuovo_types_100modes"),
 }
 RUN = sys.argv[1] if len(sys.argv) > 1 else "native"
 if RUN not in RUNS:
