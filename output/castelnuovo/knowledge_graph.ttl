@@ -35,6 +35,7 @@
         hsv:HistoricCentre ;
     rdfs:label "Historic centre of Castelnuovo di Porto"@en ;
     hsv:contains :Aggregate ;
+    hsv:hasSeismicZone :SeismicZone_Lazio_3A ;
     hsv:hasTraditionalConstructionTechnique :MuraturaATufelli .
 
 :IFC_0-ZVtLQ75EtvwV7Alme-6k a owl:NamedIndividual ;
@@ -1447,6 +1448,11 @@
 :ReferenceTextTuffMasonry a owl:NamedIndividual,
         hsv:Publication ;
     rdfs:label "Reference text on tuff masonry in the Roman area (typology comparison tables, citing Carbonara)"@en .
+
+:SeismicZone_Lazio_3A a owl:NamedIndividual,
+        hsv:SeismicZone ;
+    rdfs:label "Seismic subzone 3A of the Lazio Region"@en ;
+    rdfs:comment "Peak horizontal acceleration on rigid ground with a 10% probability of exceedance in 50 years of at least 0.10g, within seismic zone 3 (0.05g < ag <= 0.15g). Classification of the Lazio Region, DGR 387 of 22 May 2009, as amended by DGR 571 of 2 August 2019."@en .
 
 :ShearModulus_417a a owl:NamedIndividual,
         hmo:ShearModulus ;

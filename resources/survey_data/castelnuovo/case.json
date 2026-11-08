@@ -44,6 +44,18 @@
     "value": "Muratura a tufelli"
    },
    {
+    "key": "seismic_zone_id",
+    "value": "SeismicZone_Lazio_3A"
+   },
+   {
+    "key": "seismic_zone_label",
+    "value": "Seismic subzone 3A of the Lazio Region"
+   },
+   {
+    "key": "seismic_zone_note",
+    "value": "Peak horizontal acceleration on rigid ground with a 10% probability of exceedance in 50 years of at least 0.10g, within seismic zone 3 (0.05g < ag <= 0.15g). Classification of the Lazio Region, DGR 387 of 22 May 2009, as amended by DGR 571 of 2 August 2019."
+   },
+   {
     "key": "bim_document",
     "value": "BIMModel"
    },

@@ -123,7 +123,8 @@ def build_page(kg_path, out_dir, photos_dir=None, ontologies=ONTOLOGIES, log=pri
             return "photo"
         if ts & {HSV.Facade, HSTO.Facade}:
             return "facade"
-        if ts & {HSV.HistoricCentre, HSV.Aggregate, HSV.StructuralUnit, HSV.TraditionalConstructionTechnique}:
+        if ts & {HSV.HistoricCentre, HSV.Aggregate, HSV.StructuralUnit, HSV.TraditionalConstructionTechnique,
+                  HSV.SeismicZone}:
             return "context"
         if ts & STRUCTURE:
             return "structure"

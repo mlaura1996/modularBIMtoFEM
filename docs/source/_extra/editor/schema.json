@@ -513,6 +513,18 @@
    "help": "Name of the technique (optional)"
   },
   {
+   "name": "seismic_zone_id",
+   "help": "Identifier of the seismic zone of the historic centre (optional)"
+  },
+  {
+   "name": "seismic_zone_label",
+   "help": "Seismic zone, as named by the classification in force (optional)"
+  },
+  {
+   "name": "seismic_zone_note",
+   "help": "Hazard of the zone and the act that classifies it (optional)"
+  },
+  {
    "name": "bim_document",
    "help": "Identifier of the BIM model in Documents"
   },

@@ -209,6 +209,13 @@ def build(case, classification, bim_elements=(), bim_materials=None):
                         label=proj.get("technique_label"))
         if centre is not None:
             g.add((centre, HSV.hasTraditionalConstructionTechnique, technique))
+    # hsv:hasSeismicZone has a historic centre (or a region) as its domain,
+    # so the zone is recorded only for a case study that names its centre
+    if proj.get("seismic_zone_id") and centre is not None:
+        zone = ind(g, C[proj["seismic_zone_id"]], HSV.SeismicZone, label=proj.get("seismic_zone_label"))
+        g.add((centre, HSV.hasSeismicZone, zone))
+        if proj.get("seismic_zone_note"):
+            g.add((zone, RDFS.comment, Literal(proj["seismic_zone_note"], lang="en")))
 
     # --- documents (HSV, PROV-O) --------------------------------------------
     roles = (("authors", HSV.Author, HSV.hasAuthor), ("acquired_by", HSV.Inspector, HSV.acquiredBy),

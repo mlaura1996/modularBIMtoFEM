@@ -129,6 +129,9 @@ PROJECT_KEYS = [
     ("aggregate_label", "Description of the aggregate"),
     ("technique_id", "Identifier of the traditional construction technique (optional)"),
     ("technique_label", "Name of the technique (optional)"),
+    ("seismic_zone_id", "Identifier of the seismic zone of the historic centre (optional)"),
+    ("seismic_zone_label", "Seismic zone, as named by the classification in force (optional)"),
+    ("seismic_zone_note", "Hazard of the zone and the act that classifies it (optional)"),
     ("bim_document", "Identifier of the BIM model in Documents"),
     ("software_doi", "DOI of the software release (optional)"),
 ]
