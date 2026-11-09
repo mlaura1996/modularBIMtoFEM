@@ -16,14 +16,19 @@
 # --bind-to none: binding fails inside Docker on WSL2 ("failed to bind
 # memory") and only prints a warning.
 # SKIP_BUILD=1 reuses an existing model; ONLY="np4_mumps results_np8" runs a subset.
+# MPI_ARGS replaces the mpirun options, e.g. MPI_ARGS="--bind-to none
+# --use-hwthread-cpus" when Open MPI counts fewer physical cores than the
+# processes asked for (it then refuses to start: "not enough slots").
 set -u
+MPI_ARGS="${MPI_ARGS:---bind-to none}"
 OUT="${1:?usage: run_benchmark_unit417.sh <out_dir> [build arguments]}"
 shift
 mkdir -p "$OUT"
 LOG="$OUT/benchmark.log"
 export OMP_NUM_THREADS=1          # one core per MPI process, BLAS included
 
-echo "=== unit 417 benchmark $(date -u -Iseconds) on $(hostname), $(nproc --all) logical CPUs" | tee -a "$LOG"
+echo "=== unit 417 benchmark $(date -u -Iseconds) on $(hostname), $(nproc --all) logical CPUs, mpirun $MPI_ARGS" | tee -a "$LOG"
+command -v lscpu >/dev/null && lscpu | grep -E "^CPU\(s\)|Thread|Core|Socket|Model name" | tee -a "$LOG"
 if [ "${SKIP_BUILD:-0}" != "1" ]; then
     conda run --no-capture-output -n appenv python docker/opensees/benchmark_unit417_build.py \
         --out-dir "$OUT" "$@" 2>&1 | tee -a "$LOG"
@@ -35,10 +40,12 @@ run_list() {
         if [ -n "${ONLY:-}" ] && ! echo " $ONLY " | grep -q " $LABEL "; then continue; fi
         echo "--- $LABEL: $NP process(es), started $(date -u -Iseconds)" | tee -a "$LOG"
         START=$(date +%s)
-        /usr/bin/time -v mpirun --allow-run-as-root --bind-to none -np "$NP" \
+        /usr/bin/time -v mpirun --allow-run-as-root $MPI_ARGS -np "$NP" \
             /usr/local/bin/OpenSeesMP "$OUT/run_$LABEL.tcl" > "$OUT/$LABEL.out" 2>&1 < /dev/null
         STATUS=$?
         grep -E "^step |^done|Maximum resident|Elapsed \(wall|WARNING|ERROR|error" "$OUT/$LABEL.out" | tail -8 | tee -a "$LOG"
+        # a run that fails before the analysis says why only in its .out
+        [ "$STATUS" -ne 0 ] && grep -v -E "^step " "$OUT/$LABEL.out" | head -25 | tee -a "$LOG"
         echo "--- $LABEL: exit $STATUS, $(( $(date +%s) - START )) s" | tee -a "$LOG"
     done < "$1"
 }

@@ -41,6 +41,8 @@ LABEL = summ["results_run"]
 NPART = max(int(k) for k in summ["partitions"])
 RUN = os.path.join(OUT, "runs", LABEL)
 DEST = os.path.join(OUT, "results_unit417")
+if not os.path.isfile(os.path.join(RUN, "timing.txt")):
+    sys.exit(f"{LABEL}: no timing.txt, the results run is missing or failed; nothing to merge")
 os.makedirs(DEST, exist_ok=True)
 W = summ["self_weight_N"]
 
