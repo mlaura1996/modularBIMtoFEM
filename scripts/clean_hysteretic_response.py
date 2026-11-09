@@ -190,9 +190,15 @@ def main():
         os.path.dirname(RESULTS_DIR.rstrip("/\\")),
         "recorders_" + os.path.basename(RESULTS_DIR).replace("results_", "", 1),
         "summary.json")
-    if os.path.isfile(run_summary_path):
-        with open(run_summary_path) as fh:
-            weight = json.load(fh).get("self_weight_N")
+    # The run's summary.json is usually copied next to the results when they
+    # are moved off the machine that ran the analysis; prefer that copy.
+    local_summary_path = os.path.join(RESULTS_DIR, "summary.json")
+    for path in (local_summary_path, run_summary_path):
+        if weight is None and os.path.isfile(path):
+            with open(path) as fh:
+                weight = json.load(fh).get("self_weight_N")
+            if weight is not None:
+                print(f"Weight {weight:,.1f} N from {path}")
     if weight is None:
         # Known value for this model (self-weight check, 0.026% match
         # across every run in this chapter) - used only if the analysis's
