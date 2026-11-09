@@ -1,0 +1,3 @@
+# Shell scripts run inside the Linux containers: keep LF on every checkout,
+# also on Windows machines with core.autocrlf=true (a CRLF script fails in sh).
+*.sh text eol=lf
