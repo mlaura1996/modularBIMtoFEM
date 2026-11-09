@@ -66,6 +66,17 @@ displacement to every digit written. Each step converges in one iteration
 (ASDConcrete3D with IMPL-EX is linear within the step), so the time per
 step is one state determination plus one factorisation.
 
+THE RESULTS RUN
+---------------
+The timed runs record only the roof displacement and the base reactions,
+so that writing results does not enter the timing. A last run, on the
+largest process count, applies the whole de-scaled record from t = 0 (the
+Chapter 8 input) and records the displacement of every node and the strain
+of every element every 4 steps, and the damage of every element at the
+end: the response of the unit on its own, to be shown and compared with
+the unit inside the aggregate. benchmark_unit417_fields.py turns it into
+the files the Chapter 8 rendering scripts read.
+
 OUTPUT
 ------
 <out-dir>/model/      common.tcl, analysis.tcl, accel_window.txt, mesh.msh
@@ -148,6 +159,12 @@ T_END = argval("--t-end", 15.15 if SMOKE else 18.0, float)
 TAPER = argval("--taper", 0.05 if SMOKE else 0.5, float)
 DT = 0.005 * TIME_SCALE
 EXC_DOF = 1
+# The results run: the whole de-scaled record, as Chapter 8 (19.5 s of table
+# time = 27.58 s, 3900 steps), on the largest process count, with the
+# displacement of every node and the strain of every element recorded every
+# FIELDS_EVERY steps and the final damage of every element.
+FULL_DURATION = argval("--full-duration", 0.1 if SMOKE else 19.5 * TIME_SCALE, float)
+FIELDS_EVERY = argval("--fields-every", 1 if SMOKE else 4, int)
 XI = 0.03
 N_ROOF = 20
 G_ACCEL = 9.81
@@ -455,6 +472,11 @@ n_taper = min(max(1, int(round(TAPER / DT))), len(acc) // 2)
 acc[:n_taper] *= 0.5 * (1 - np.cos(np.pi * np.arange(n_taper) / n_taper))
 np.savetxt(os.path.join(MODEL_DIR, "accel_window.txt"), acc, fmt="%.8g")
 N_STEPS = len(acc)
+acc_full = vals[:int(round(FULL_DURATION / DT))]
+np.savetxt(os.path.join(MODEL_DIR, "accel_full.txt"), acc_full, fmt="%.8g")
+N_STEPS_FULL = len(acc_full)
+say(f"results run: 0-{FULL_DURATION:.2f} s of the de-scaled record, {N_STEPS_FULL} steps, "
+    f"fields every {FIELDS_EVERY} steps")
 say(f"record window {T_START}-{T_END} s of the de-scaled record: {N_STEPS} steps of {DT:.6f} s, "
     f"peak {np.abs(acc).max():.3f} m/s^2, {TAPER} s taper")
 
@@ -525,6 +547,19 @@ for npart in NPARTS:
                            f"-mat 8999999 8999999 8999999 -dir 1 2 3\n")
     for f in files:
         f.close()
+    # element and node lists of every rank, for the results run's recorders
+    plastic_tags = {int(t) for t, nm in zip(ele_tags, ele_mat) if nm in plastic}
+    rank_eles = [[] for _ in range(npart)]
+    rank_nodes = [set() for _ in range(npart)]
+    for t, conn in zip(ele_tags, ele_conn):
+        r = part_of[int(t)]
+        rank_eles[r].append(int(t))
+        rank_nodes[r].update(int(n) for n in conn)
+    for r in range(npart):
+        with open(os.path.join(pdir, f"rank{r}_lists.tcl"), "w") as fh:
+            fh.write(f"set RANK_ELES {{{' '.join(map(str, rank_eles[r]))}}}\n")
+            fh.write(f"set RANK_PLASTIC {{{' '.join(str(t) for t in rank_eles[r] if t in plastic_tags)}}}\n")
+            fh.write(f"set RANK_NODES {{{' '.join(map(str, sorted(rank_nodes[r])))}}}\n")
     # interface size: nodes used by elements of more than one part
     owners = {}
     for t, conn in zip(ele_tags, ele_conn):
@@ -542,7 +577,9 @@ for npart in NPARTS:
 # equalDOF in the model, Plain is used
 HANDLER = "Transformation" if (TIES == "equaldof" and ties) else "Plain"
 analysis = f"""# Unit 417 scalability benchmark - analysis, sourced by every driver.
-# Set before sourcing: MODEL_DIR, NPART, SYSTEM (list), NUMBERER, OUT.
+# Set before sourcing: MODEL_DIR, NPART, SYSTEM (list), NUMBERER, OUT,
+# ACCEL (file of the ground motion), NSTEPS, FIELDS (1 = record the fields),
+# FIELDS_EVERY.
 set pid [getPID]
 set np [getNP]
 if {{$np != $NPART}} {{ error "run with $NPART processes, not $np" }}
@@ -569,12 +606,19 @@ if {{$okG != 0}} {{ error "gravity did not converge" }}
 # transient
 wipeAnalysis
 rayleigh {A0:.10g} {A1:.10g} 0.0 0.0
-timeSeries Path 1 -dt {DT:.10g} -filePath [file join $MODEL_DIR accel_window.txt]
+timeSeries Path 1 -dt {DT:.10g} -filePath [file join $MODEL_DIR $ACCEL]
 pattern UniformExcitation 1 {EXC_DOF} -accel 1
 if {{$pid == 0}} {{
     recorder Node -file [file join $OUT roof_disp.txt] -time -node {{*}}$ROOF_NODES -dof 1 2 3 disp
 }}
 recorder Node -file [file join $OUT base_reaction_r$pid.txt] -time -node {{*}}$BASE_NODES -dof 1 2 3 reaction
+if {{$FIELDS}} {{
+    # each rank records its own elements and the nodes they use
+    source [file join $MODEL_DIR np$NPART rank${{pid}}_lists.tcl]
+    set dTrec [expr {{$FIELDS_EVERY * {DT:.10g} - 1e-9}}]
+    recorder Node -file [file join $OUT disp_r$pid.txt] -time -dT $dTrec -node {{*}}$RANK_NODES -dof 1 2 3 disp
+    recorder Element -file [file join $OUT strain_r$pid.txt] -time -dT $dTrec -ele {{*}}$RANK_ELES material 1 strain
+}}
 constraints {HANDLER}
 numberer $NUMBERER
 system {{*}}$SYSTEM
@@ -583,7 +627,7 @@ algorithm NewtonLineSearch
 integrator TRBDF2
 analysis Transient
 
-set nSteps {N_STEPS}
+set nSteps $NSTEPS
 set dt {DT:.10g}
 set iters 0
 set subdiv 0
@@ -611,6 +655,12 @@ for {{set i 1}} {{$i <= $nSteps}} {{incr i}} {{
 }}
 set T4 [clock milliseconds]
 remove recorders
+if {{$FIELDS}} {{
+    # damage never heals: its value at the end is its peak
+    set fh [open [file join $OUT damage_final_r$pid.txt] w]
+    foreach e $RANK_PLASTIC {{ puts $fh "$e [eleResponse $e material 1 damage]" }}
+    close $fh
+}}
 if {{$pid == 0}} {{
     set fh [open [file join $OUT timing.txt] w]
     puts $fh "np $np"
@@ -634,14 +684,22 @@ with open(os.path.join(MODEL_DIR, "analysis.tcl"), "w") as fh:
 
 runs = [("np1_umfpack", 1, "UmfPack", "RCM")]
 runs += [(f"np{n}_mumps", n, "Mumps", "ParallelRCM") for n in NPARTS]
-for label, npart, system, numberer in runs:
+FIELDS_LABEL = f"results_np{max(NPARTS)}"
+for label, npart, system, numberer in runs + [(FIELDS_LABEL, max(NPARTS), "Mumps", "ParallelRCM")]:
+    fields = label == FIELDS_LABEL
     with open(os.path.join(OUT_DIR, f"run_{label}.tcl"), "w") as fh:
         fh.write(f"set MODEL_DIR {{{MODEL_DIR}}}\nset NPART {npart}\nset SYSTEM {{{system}}}\n"
                  f"set NUMBERER {numberer}\nset OUT {{{os.path.join(OUT_DIR, 'runs', label)}}}\n"
+                 f"set ACCEL {'accel_full.txt' if fields else 'accel_window.txt'}\n"
+                 f"set NSTEPS {N_STEPS_FULL if fields else N_STEPS}\n"
+                 f"set FIELDS {int(fields)}\nset FIELDS_EVERY {FIELDS_EVERY}\n"
                  f"source [file join $MODEL_DIR analysis.tcl]\n")
+# the timed runs, then the results run (not part of the timing comparison)
 with open(os.path.join(OUT_DIR, "runs.txt"), "w") as fh:
     for label, npart, _s, _n in runs:
         fh.write(f"{label} {npart}\n")
+with open(os.path.join(OUT_DIR, "runs_results.txt"), "w") as fh:
+    fh.write(f"{FIELDS_LABEL} {max(NPARTS)}\n")
 
 summary = {
     "run": "smoke" if SMOKE else "full",
@@ -657,6 +715,8 @@ summary = {
     "record": os.path.basename(RECORD), "time_scale": TIME_SCALE,
     "window_s": [T_START, T_END], "taper_s": TAPER, "dt_s": DT, "steps": N_STEPS,
     "roof_nodes": roof, "partitions": partition_info,
+    "results_run": FIELDS_LABEL, "results_duration_s": FULL_DURATION, "results_steps": N_STEPS_FULL,
+    "fields_every_steps": FIELDS_EVERY,
     "integrator": "TRBDF2", "algorithm": "NewtonLineSearch", "test": "EnergyIncr 1e-3 200",
     "runs": [r[0] for r in runs], "build_time_s": time.perf_counter() - T_ALL,
 }
