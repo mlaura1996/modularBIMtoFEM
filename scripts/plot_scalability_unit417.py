@@ -171,6 +171,64 @@ if all(r.get("peak_rss_MB") for r in mumps):
     ax.legend(loc="upper right", fontsize=13)
     save(fig, "scalability_memory")
 
+# --- the four performance plots in one figure, small panels -----------------------------
+# (a) time per step, (b) speed-up, (c) parallel efficiency, (d) memory. Sized
+# to be printed at the text width (about 6.3 in): the 15 pt text reads at
+# about 9 pt on the page.
+if all(r.get("peak_rss_MB") for r in mumps):
+    fig, axs = plt.subplots(2, 2, figsize=(10.5, 8.2))
+    (pa, pb), (pc, pd) = axs
+    xt = dict(fontsize=14)
+
+    pa.bar(range(len(tps)), tps, color=[RED] + [NAVY] * len(p), width=0.5, edgecolor="black", linewidth=0.6)
+    for i, v in enumerate(tps):
+        pa.text(i, v + 0.2, f"{v:.2f}", ha="center", va="bottom", fontsize=13)
+    pa.set_xticks(range(len(tps)))
+    pa.set_xticklabels(["U1"] + [f"M{q}" for q in p], **xt)
+    pa.set_xlabel("Solver and processes (U = UmfPack, M = MUMPS)", fontsize=14)
+    pa.set_ylabel("Wall time per step [s]")
+    pa.set_ylim(0, tps.max() * 1.22)
+    pa.set_xlim(-0.6, len(tps) - 0.4)
+    pa.grid(True, axis="y", **GRID)
+    pa.set_axisbelow(True)
+
+    pb.plot([1, p.max()], [1, p.max()], color=GREY, lw=1.2, ls="--", label="Ideal")
+    pb.plot(pp, 1 / (f + (1 - f) / pp), color=NAVY, lw=1.0, ls=":", label=f"Amdahl, $f$ = {f:.2f}")
+    pb.plot(p, S, "o-", color=NAVY, lw=1.5, ms=6, label="Relative to MUMPS, 1 process")
+    pb.plot(p, S_umf, "s-", color=RED, lw=1.5, ms=6, label="Relative to UmfPack, 1 process")
+    pb.set_ylim(0, p.max() + 0.5)
+    pb.set_ylabel("Speed-up [-]")
+    pb.legend(loc="upper left", fontsize=12, handlelength=1.8, borderpad=0.4, labelspacing=0.3)
+
+    pc.axhline(1.0, color=GREY, lw=1.2, ls="--")
+    pc.plot(p, E, "o-", color=NAVY, lw=1.5, ms=6)
+    for x, y in zip(p, E):
+        last = x == p.max()
+        pc.annotate(f"{y:.2f}", (x, y), textcoords="offset points", xytext=(-6, -10) if last else (5, 9),
+                    ha="right" if last else "left", va="top" if last else "baseline",
+                    fontsize=13, color=NAVY)
+    pc.set_ylim(0, 1.15)
+    pc.set_ylabel("Parallel efficiency [-]")
+
+    pd.plot(pp, m1[0] / pp, color=GREY, lw=1.0, ls=":", label="Ideal, $M_1/p$")
+    pd.plot(p, m1, "o-", color=NAVY, lw=1.5, ms=6, label="Largest process")
+    pd.plot(p, m1 * p, "s--", color=RED, lw=1.3, ms=5, label="All processes (upper bound)")
+    pd.set_ylim(0, (m1 * p).max() * 1.5)
+    pd.set_ylabel("Peak memory [GB]")
+    pd.legend(loc="upper left", fontsize=12, handlelength=1.8, borderpad=0.4, labelspacing=0.3)
+
+    for ax in (pb, pc, pd):
+        ax.set_xticks(p)
+        ax.set_xlim(0.5, p.max() + 0.7)
+        ax.set_xlabel("Number of MPI processes")
+        ax.tick_params(labelsize=14)
+        ax.grid(True, **GRID)
+    pa.tick_params(axis="y", labelsize=14)
+    for ax, lab in zip((pa, pb, pc, pd), "abcd"):
+        ax.text(-0.17, 1.04, f"({lab})", transform=ax.transAxes, fontsize=16, va="bottom")
+    fig.tight_layout(h_pad=2.0, w_pad=2.5)
+    save(fig, "scalability_performance")
+
 # --- correctness -----------------------------------------------------------------------
 if HIST is not None and HIST.is_file():
     h = list(csv.DictReader(open(HIST)))
