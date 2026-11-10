@@ -171,17 +171,34 @@ if all(r.get("peak_rss_MB") for r in mumps):
 if HIST is not None and HIST.is_file():
     h = list(csv.DictReader(open(HIST)))
     t = np.array([float(r["time_s"]) for r in h])
+    # the timed runs start at the beginning of the record window: shift to
+    # the time of the de-scaled record, as in the Chapter 8 figures
+    bs_path = SRC / "build_summary.json"
+    if bs_path.is_file():
+        import json
+        t = t + float(json.load(open(bs_path))["window_s"][0])
     runs = [k[:-6] for k in h[0] if k.endswith("_Rd_mm")]
     ref = "np1_umfpack" if "np1_umfpack" in runs else runs[0]
     rd = {k: np.array([float(r[f"{k}_Rd_mm"]) for r in h]) for k in runs}
     vb = {k: np.array([float(r[f"{k}_Vb_over_W"]) for r in h]) for k in runs}
-    fig, axes = plt.subplots(2, 2, figsize=(14.4, 8.2), gridspec_kw={"height_ratios": [3, 1.3]},
-                             sharex="col")
+    # The largest relative differences are taken from benchmark_results.csv,
+    # computed by benchmark_unit417_post.py on the recorder files at full
+    # precision: the time-history csv keeps 6 decimals, so differences taken
+    # from it would only show its rounding (about 1e-6 of the peak).
+    worst = {"Rd": max(float(r.get("Rd_diff_rel") or 0) for r in rows),
+             "Vb": max(float(r.get("Vb_diff_rel") or 0) for r in rows)}
+
+    def sci(x):
+        if x == 0:
+            return "0 (identical)"
+        e = int(np.floor(np.log10(x)))
+        return f"{x / 10 ** e:.1f}" + r"$\times$10$^{" + str(e) + "}$"
+
+    fig, axes = plt.subplots(1, 2, figsize=(14.4, 5.6))
     shades = plt.cm.Blues(np.linspace(0.45, 0.95, len(runs) - 1))
-    maxdiff = {}
-    for col, (data, ylab) in enumerate(((rd, "Roof displacement, $R_d$ [mm]"),
-                                        (vb, "Base shear coefficient, $V_b/W$ [-]"))):
-        ax, ad = axes[0, col], axes[1, col]
+    for col, (key, data, ylab) in enumerate((("Rd", rd, "Roof displacement, $R_d$ [mm]"),
+                                             ("Vb", vb, "Base shear coefficient, $V_b/W$ [-]"))):
+        ax = axes[col]
         k_m = 0
         for k in runs:
             if k == ref:
@@ -190,22 +207,19 @@ if HIST is not None and HIST.is_file():
             q = k.split("_")[0][2:]
             ax.plot(t, data[k], color=shades[k_m], lw=1.0, ls="--",
                     label=f"MUMPS, {q} process{'es' if q != '1' else ''}", zorder=2)
-            diff = np.abs(data[k] - data[ref]) / max(np.abs(data[ref]).max(), 1e-30)
-            ad.semilogy(t, np.maximum(diff, 1e-16), color=shades[k_m], lw=1.0)
-            maxdiff.setdefault(col, []).append((q, diff.max()))
             k_m += 1
-        ax.set_ylabel(ylab)
         ax.axhline(0, color="0.7", lw=0.6, zorder=0)
-        ad.set_ylabel("Difference [-]")
-        ad.set_xlabel("Time [s]")
-        ad.set_ylim(1e-16, 1e-4)
+        ax.set_xlabel("Time [s]")
+        ax.set_ylabel(ylab)
+        ax.set_xlim(t[0], t[-1])
+        lo, hi = ax.get_ylim()
+        ax.set_ylim(lo - 0.22 * (hi - lo), hi + 0.42 * (hi - lo))
+        ax.set_xticks(np.arange(np.round(t[0] * 2) / 2, t[-1] + 1e-9, 0.5))
+        ax.set_xlim(np.round(t[0] * 2) / 2, t[-1])
         ax.grid(True, **GRID)
-        ad.grid(True, **GRID)
-        worst = max(v for _q, v in maxdiff[col])
-        ad.text(0.02, 0.88, "largest difference from UmfPack, 1 process: "
-                + (f"{worst:.1e}" if worst > 0 else "none (identical)"),
-                transform=ad.transAxes, fontsize=12, va="top")
+        ax.text(0.98, 0.04, "largest relative difference from\nUmfPack, 1 process: " + sci(worst[key]),
+                transform=ax.transAxes, ha="right", va="bottom", fontsize=13)
         if col == 0:
-            ax.legend(loc="lower left", fontsize=12, ncol=2)
+            ax.legend(loc="upper left", fontsize=12, ncol=3, columnspacing=1.0, handlelength=1.6)
     save(fig, "scalability_correctness")
 print(f"font: {font_name}")

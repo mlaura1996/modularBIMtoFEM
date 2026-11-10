@@ -9,7 +9,14 @@ earlier figures, filled iso bands, the scale clipped at the 99th percentile so t
 numerical hot spots do not flatten the rest of the structure.
 
     conda activate castelnuovo_viewer
-    python scripts/render_strain_figure_gmsh.py [results_dir] [out_dir]
+    python scripts/render_strain_figure_gmsh.py [results_dir] [out_dir] [--scale 0.8] [--front-light]
+
+--scale zooms out (gmsh General.ScaleX/Y/Z): the default fit is tight on a
+single unit and cuts its top and foot. --front-light puts the light on the
+viewing direction: with the default light the faces turned away from it come
+out nearly black, which on this white-to-black scale reads as the highest
+strain. Without the two options the Chapter 8 figures are reproduced as they
+were.
 """
 import csv
 import os
@@ -19,9 +26,13 @@ import numpy as np
 import gmsh
 from PIL import Image, ImageChops
 
-RUN_DIR = (sys.argv[1] if len(sys.argv) > 1
+ARGS = [a for i, a in enumerate(sys.argv[1:], 1)
+        if not a.startswith("--") and sys.argv[i - 1] != "--scale"]
+SCALE = float(sys.argv[sys.argv.index("--scale") + 1]) if "--scale" in sys.argv else 1.0
+FRONT_LIGHT = "--front-light" in sys.argv
+RUN_DIR = (ARGS[0] if len(ARGS) > 0
            else "output/castelnuovo/results_timehistory_mesh03_descaled").rstrip("/\\")
-OUT_DIR = sys.argv[2] if len(sys.argv) > 2 else "output/castelnuovo/plots/descaled"
+OUT_DIR = ARGS[1] if len(ARGS) > 1 else "output/castelnuovo/plots/descaled"
 CLIP_PERCENTILE = 99.0
 N_BANDS = 10
 CAMERAS = {"1": (-60, 0, -70), "2": (130, 180, -70)}   # Tools > Manipulator rotation
@@ -67,6 +78,12 @@ for name, val in (("GraphicsPositionX", -32000), ("GraphicsPositionY", -32000),
     gmsh.option.setNumber(f"General.{name}", val)
 gmsh.option.setColor("General.Background", 255, 255, 255)
 gmsh.option.setColor("General.SmallAxes", 90, 90, 90)
+if FRONT_LIGHT:
+    for k, val in (("Light0X", 0.0), ("Light0Y", 0.0), ("Light0Z", 1.0)):
+        gmsh.option.setNumber(f"General.{k}", val)
+if SCALE != 1.0:
+    for k in ("ScaleX", "ScaleY", "ScaleZ"):
+        gmsh.option.setNumber(f"General.{k}", SCALE)
 gmsh.fltk.initialize()
 gmsh.open(f"{RUN_DIR}/mesh.msh")
 model = gmsh.model.getCurrent()

@@ -1,0 +1,194 @@
+{
+  "run": "full",
+  "unit": 417,
+  "plan_box_xy": [
+    13.8,
+    21.3,
+    -17.3,
+    -7.4
+  ],
+  "eaves_line_xz": [
+    [
+      14.09,
+      12.27
+    ],
+    [
+      21.09,
+      10.0
+    ]
+  ],
+  "volumes": 98,
+  "total_volume_m3": 179.88528757123552,
+  "volume_before_cut_m3": 188.01800040826046,
+  "materials": {
+    "Stone": {
+      "volumes": 74,
+      "volume_m3": 8.893,
+      "model": "LinearElastic",
+      "young_modulus_MPa": 2800.0,
+      "poisson_ratio": 0.2,
+      "density_kg_m3": 2200.0,
+      "compressive_strength_MPa": 0,
+      "tensile_strength_MPa": 0
+    },
+    "Bricks": {
+      "volumes": 9,
+      "volume_m3": 1.64,
+      "model": "LinearElastic",
+      "young_modulus_MPa": 1500.0,
+      "poisson_ratio": 0.2,
+      "density_kg_m3": 1800.0,
+      "compressive_strength_MPa": 0,
+      "tensile_strength_MPa": 0
+    },
+    "Tufelli_masonry_typeA": {
+      "volumes": 3,
+      "volume_m3": 41.219,
+      "model": "PlasticDamage",
+      "young_modulus_MPa": 1526.6,
+      "poisson_ratio": 0.2,
+      "density_kg_m3": 1450.0,
+      "compressive_strength_MPa": 3.445,
+      "tensile_strength_MPa": 0.451
+    },
+    "Tufelli_masonry_typeD": {
+      "volumes": 12,
+      "volume_m3": 128.134,
+      "model": "PlasticDamage",
+      "young_modulus_MPa": 1198.7,
+      "poisson_ratio": 0.2,
+      "density_kg_m3": 1450.0,
+      "compressive_strength_MPa": 2.616,
+      "tensile_strength_MPa": 0.342
+    }
+  },
+  "mesh_size_m": 0.3,
+  "nodes": 17227,
+  "elements": 60977,
+  "dofs_free": 50589,
+  "base_nodes": 364,
+  "open_junctions": 0,
+  "ties": 0,
+  "tie_model": "equaldof",
+  "constraint_handler": "Plain",
+  "self_weight_N": 2629839.567989764,
+  "eigen_frequencies_Hz": [
+    5.57391148009427,
+    6.840756003038325,
+    7.898696808427191,
+    9.818365599191843,
+    10.048077044186554,
+    11.141201802571077,
+    13.768969312945448,
+    14.222698763396288,
+    14.6212138346077,
+    15.3130790347685
+  ],
+  "rayleigh_anchor_Hz": [
+    5.57391148009427,
+    15.3130790347685
+  ],
+  "rayleigh_alphaM": 1.5405572445323243,
+  "rayleigh_betaK": 0.0004571887260981246,
+  "damping_ratio": 0.03,
+  "record": "montenegro1979_run21_long.txt",
+  "time_scale": 1.4142135623730951,
+  "window_s": [
+    15.0,
+    18.0
+  ],
+  "taper_s": 0.5,
+  "dt_s": 0.007071067811865476,
+  "steps": 425,
+  "roof_nodes": [
+    3694,
+    3695,
+    3696,
+    3697,
+    3698,
+    3699,
+    3700,
+    3701,
+    3702,
+    3703,
+    452,
+    453,
+    779,
+    2633,
+    3685,
+    3686,
+    3687,
+    3688,
+    3689,
+    3690
+  ],
+  "partitions": {
+    "1": {
+      "elements_per_rank": [
+        60977
+      ],
+      "shared_nodes": 0,
+      "imbalance": 1.0
+    },
+    "2": {
+      "elements_per_rank": [
+        30488,
+        30489
+      ],
+      "shared_nodes": 284,
+      "imbalance": 1.0000163996260885
+    },
+    "4": {
+      "elements_per_rank": [
+        15244,
+        15244,
+        15244,
+        15245
+      ],
+      "shared_nodes": 605,
+      "imbalance": 1.0000491988782656
+    },
+    "6": {
+      "elements_per_rank": [
+        10162,
+        10163,
+        10163,
+        10163,
+        10163,
+        10163
+      ],
+      "shared_nodes": 784,
+      "imbalance": 1.0000163996260885
+    },
+    "8": {
+      "elements_per_rank": [
+        7622,
+        7622,
+        7622,
+        7622,
+        7622,
+        7622,
+        7622,
+        7623
+      ],
+      "shared_nodes": 945,
+      "imbalance": 1.0001147973826197
+    }
+  },
+  "results_run": "results_np8",
+  "results_duration_s": 27.577164466275356,
+  "results_steps": 3900,
+  "fields_every_steps": 4,
+  "integrator": "TRBDF2",
+  "algorithm": "NewtonLineSearch",
+  "test": "EnergyIncr 1e-3 200",
+  "runs": [
+    "np1_umfpack",
+    "np1_mumps",
+    "np2_mumps",
+    "np4_mumps",
+    "np6_mumps",
+    "np8_mumps"
+  ],
+  "build_time_s": 173.21787835200666
+}
