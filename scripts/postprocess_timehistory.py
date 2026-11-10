@@ -324,9 +324,20 @@ out = {}
 
 # --- principal strains (streamed) -----------------------------------------
 strain_path = recorder_path("solid_strain")
-if not os.path.isfile(strain_path):
+reduced_path = os.path.join(RUN_DIR, "principal_strains.csv")
+if os.path.isfile(strain_path):
+    e1_max, t_e1, e3_min, t_e3 = compute_principal_strains(strain_path)
+elif os.path.isfile(reduced_path):
+    # A parallel run (docker/opensees/aggregate_parallel_merge.py): each
+    # rank recorded the strain of its own elements, and the merge already
+    # reduced them to the same peak principal values with the same closed
+    # form, instead of writing a merged strain file of tens of GB.
+    red = np.loadtxt(reduced_path, delimiter=",", skiprows=1, ndmin=2)
+    e1_max, t_e1, e3_min, t_e3 = red[:, 1], red[:, 2], red[:, 3], red[:, 4]
+    print(f"  strain: peak principal values of {len(e1_max)} elements read from "
+          f"{reduced_path} (reduced from the per-rank recorders)")
+else:
     sys.exit(f"Missing {strain_path}.")
-e1_max, t_e1, e3_min, t_e3 = compute_principal_strains(strain_path)
 n_ele = len(e1_max)
 
 with open(out_path("principal_strains.csv"), "w") as fh:
