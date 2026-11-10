@@ -64,7 +64,7 @@ def render():
         gmsh.option.setNumber(f"General.{k}", val)
     # zoom out a little: the default fit crops the top and the foot of the unit
     for k in ("ScaleX", "ScaleY", "ScaleZ"):
-        gmsh.option.setNumber(f"General.{k}", 0.82)
+        gmsh.option.setNumber(f"General.{k}", 0.70)
     gmsh.fltk.initialize()
     gmsh.open(str(SRC / "model" / "mesh.msh"))
     model = gmsh.model.getCurrent()
@@ -121,19 +121,27 @@ def compose():
             font_manager.fontManager.addfont(str(path))
             rcParams["font.family"] = font_manager.FontProperties(fname=str(path)).get_name()
     rcParams["font.weight"] = "normal"
-    rcParams.update({"font.size": 15, "legend.frameon": False})
-    fig, axes = plt.subplots(1, len(NPARTS), figsize=(5.2 * len(NPARTS), 6.6))
-    for ax, npart in zip(np.atleast_1d(axes), NPARTS):
+    rcParams.update({"font.size": 16, "legend.frameon": False})
+    # The figure is printed at the text width of the thesis (about 6.3 in): an
+    # 11 in wide figure keeps the 16 pt text at about 9 pt on the page. Each
+    # unit occupies the upper part of its column, inset from the borders, the
+    # title above it and the legend below it, with clear space in between.
+    n = len(NPARTS)
+    fig = plt.figure(figsize=(11.0, 6.4))
+    col_w = 1.0 / n
+    for k, npart in enumerate(NPARTS):
         info = summ["partitions"][str(npart)]
+        x0 = k * col_w
+        fig.text(x0 + col_w / 2, 0.97, f"{npart} processes", ha="center", va="top", fontsize=17)
+        fig.text(x0 + col_w / 2, 0.915, f"{info['shared_nodes']} shared nodes", ha="center", va="top",
+                 fontsize=16, color="0.25")
+        ax = fig.add_axes([x0 + 0.12 * col_w, 0.32, 0.76 * col_w, 0.50])
         ax.imshow(np.asarray(crop(Image.open(raw_path(npart)).convert("RGB"))))
         ax.set_axis_off()
-        ax.set_title(f"{npart} processes\n{info['shared_nodes']} nodes shared between processes",
-                     fontsize=15)
         ax.legend(handles=[Patch(facecolor=np.array(OKABE_ITO[r]) / 255, edgecolor="black", lw=0.6,
                                  label=f"Process {r}") for r in range(npart)],
-                  loc="upper center", bbox_to_anchor=(0.5, -0.02), ncol=4, fontsize=12,
-                  handlelength=1.2, columnspacing=1.0)
-    fig.tight_layout()
+                  loc="upper center", bbox_to_anchor=(0.5, -0.06), ncol=2, fontsize=15,
+                  handlelength=1.2, columnspacing=1.2, labelspacing=0.35)
     for ext in ("png", "svg"):
         fig.savefig(OUT / f"scalability_partitions.{ext}", dpi=220, bbox_inches="tight")
     print(f"saved {OUT / 'scalability_partitions'}.png/.svg")
