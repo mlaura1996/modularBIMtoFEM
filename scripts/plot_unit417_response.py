@@ -44,7 +44,7 @@ t = np.array([float(r["time_s"]) for r in rows])
 rd = np.array([float(r["Rd_mm"]) for r in rows])
 vb = np.array([float(r["Vb_over_W"]) for r in rows])
 
-fig, axes = plt.subplots(1, 2, figsize=(14.4, 5.4))
+fig, axes = plt.subplots(1, 2, figsize=(10.5, 4.3))
 for ax, y, ylab, color, unit in ((axes[0], rd, "Roof displacement, $R_d$ [mm]", "#00204d", "mm"),
                                  (axes[1], vb, "Base shear coefficient, $V_b/W$ [-]", "#8b0000", "")):
     ax.plot(t, y, color=color, lw=1.1)

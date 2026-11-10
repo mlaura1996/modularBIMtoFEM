@@ -101,12 +101,12 @@ def save(fig, name):
 
 
 # --- speed-up and efficiency -------------------------------------------------------
-fig, (a1, a2) = plt.subplots(1, 2, figsize=(14.4, 5.4))
+fig, (a1, a2) = plt.subplots(1, 2, figsize=(10.5, 4.5))
 a1.plot([1, p.max()], [1, p.max()], color=GREY, lw=1.2, ls="--", label="Ideal")
 a1.plot(pp, 1 / (f + (1 - f) / pp), color=NAVY, lw=1.0, ls=":",
         label=f"Amdahl's law, $f$ = {f:.2f}")
-a1.plot(p, S, "o-", color=NAVY, lw=1.6, ms=7, label="MUMPS, relative to MUMPS on 1 process")
-a1.plot(p, S_umf, "s-", color=RED, lw=1.6, ms=7, label="MUMPS, relative to UmfPack on 1 process")
+a1.plot(p, S, "o-", color=NAVY, lw=1.6, ms=7, label="Relative to MUMPS, 1 process")
+a1.plot(p, S_umf, "s-", color=RED, lw=1.6, ms=7, label="Relative to UmfPack, 1 process")
 for x, y in zip(p, S):
     a1.annotate(f"{y:.2f}", (x, y), textcoords="offset points", xytext=(8, -14), fontsize=12, color=NAVY)
 for x, y in zip(p, S_umf):
@@ -117,7 +117,7 @@ a1.set_xticks(p)
 a1.set_xlabel("Number of MPI processes")
 a1.set_ylabel("Speed-up [-]")
 a1.grid(True, **GRID)
-a1.legend(loc="upper left", fontsize=13)
+a1.legend(loc="upper left", fontsize=12, labelspacing=0.3)
 
 a2.axhline(1.0, color=GREY, lw=1.2, ls="--")
 a2.plot(p, E, "o-", color=NAVY, lw=1.6, ms=7)
@@ -256,7 +256,7 @@ if HIST is not None and HIST.is_file():
         e = int(np.floor(np.log10(x)))
         return f"{x / 10 ** e:.1f}" + r"$\times$10$^{" + str(e) + "}$"
 
-    fig, axes = plt.subplots(1, 2, figsize=(14.4, 5.6))
+    fig, axes = plt.subplots(1, 2, figsize=(10.5, 4.8))
     shades = plt.cm.Blues(np.linspace(0.45, 0.95, len(runs) - 1))
     for col, (key, data, ylab) in enumerate((("Rd", rd, "Roof displacement, $R_d$ [mm]"),
                                              ("Vb", vb, "Base shear coefficient, $V_b/W$ [-]"))):
@@ -282,6 +282,6 @@ if HIST is not None and HIST.is_file():
         ax.text(0.98, 0.04, "largest relative difference from\nUmfPack, 1 process: " + sci(worst[key]),
                 transform=ax.transAxes, ha="right", va="bottom", fontsize=13)
         if col == 0:
-            ax.legend(loc="upper left", fontsize=12, ncol=3, columnspacing=1.0, handlelength=1.6)
+            ax.legend(loc="upper left", fontsize=11, ncol=2, columnspacing=0.8, handlelength=1.5, labelspacing=0.25)
     save(fig, "scalability_correctness")
 print(f"font: {font_name}")
