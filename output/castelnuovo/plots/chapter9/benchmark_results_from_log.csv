@@ -1,0 +1,7 @@
+label,np,system,transient_s,iterations,peak_rss_MB
+np1_umfpack,1,UmfPack,3969.737,425,2331.15
+np1_mumps,1,Mumps,2712.46,425,2331.68
+np2_mumps,2,Mumps,1496.326,425,1231.13
+np4_mumps,4,Mumps,973.541,425,677.93
+np6_mumps,6,Mumps,740.734,425,515.66
+np8_mumps,8,Mumps,709.506,425,481.82

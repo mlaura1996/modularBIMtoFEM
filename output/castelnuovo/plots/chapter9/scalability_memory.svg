@@ -1,0 +1,1552 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="500.108437pt" height="370.272187pt" viewBox="0 0 500.108437 370.272187" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-10T08:57:26.443804</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.7.1, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 370.272187 
+L 500.108437 370.272187 
+L 500.108437 0 
+L 0 0 
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 49.148438 330.18 
+L 492.908437 330.18 
+L 492.908437 7.2 
+L 49.148438 7.2 
+z
+" style="fill: #ffffff"/>
+   </g>
+   <g id="matplotlib.axis_1">
+    <g id="xtick_1">
+     <g id="line2d_1">
+      <defs>
+       <path id="m9a908af432" d="M 0 0 
+L 0 -6 
+" style="stroke: #000000; stroke-width: 1.4"/>
+      </defs>
+      <g>
+       <use xlink:href="#m9a908af432" x="75.562723" y="330.18" style="stroke: #000000; stroke-width: 1.4"/>
+      </g>
+     </g>
+     <g id="text_1">
+      <!-- 1 -->
+      <g transform="translate(71.211551 343.678437) scale(0.15 -0.15)">
+       <defs>
+        <path id="NewsGotT-Bol-31" d="M 2450 4266 
+L 2450 775 
+L 3178 775 
+L 3178 0 
+L 747 0 
+L 747 775 
+L 1491 775 
+L 1491 3375 
+L 1397 3375 
+L 1106 3375 
+L 800 3375 
+L 747 3375 
+L 747 3900 
+Q 844 3934 1353 4091 
+Q 1600 4166 1891 4266 
+L 2450 4266 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#NewsGotT-Bol-31"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_2">
+     <g id="line2d_2">
+      <g>
+       <use xlink:href="#m9a908af432" x="128.391295" y="330.18" style="stroke: #000000; stroke-width: 1.4"/>
+      </g>
+     </g>
+     <g id="text_2">
+      <!-- 2 -->
+      <g transform="translate(124.040123 343.678437) scale(0.15 -0.15)">
+       <defs>
+        <path id="NewsGotT-Bol-32" d="M 3350 775 
+L 3350 0 
+L 256 0 
+L 256 688 
+Q 406 941 619 1194 
+Q 853 1472 1091 1681 
+Q 1228 1803 1666 2169 
+Q 2078 2513 2203 2741 
+Q 2306 2934 2306 3128 
+Q 2306 3338 2200 3475 
+Q 2084 3619 1878 3619 
+Q 1441 3619 1344 2925 
+L 328 3100 
+Q 547 4338 1878 4338 
+Q 2631 4338 3016 3972 
+Q 3372 3634 3372 3091 
+Q 3372 2669 3141 2325 
+Q 3000 2109 2591 1794 
+Q 1975 1316 1694 1078 
+Q 1513 922 1400 775 
+Q 1509 766 1544 766 
+L 1963 775 
+L 3350 775 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#NewsGotT-Bol-32"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_3">
+     <g id="line2d_3">
+      <g>
+       <use xlink:href="#m9a908af432" x="234.048437" y="330.18" style="stroke: #000000; stroke-width: 1.4"/>
+      </g>
+     </g>
+     <g id="text_3">
+      <!-- 4 -->
+      <g transform="translate(229.697266 343.678437) scale(0.15 -0.15)">
+       <defs>
+        <path id="NewsGotT-Bol-34" d="M 2966 4266 
+L 2966 1709 
+L 3503 1709 
+L 3503 981 
+L 2966 981 
+L 2966 0 
+L 2006 0 
+L 2006 981 
+L 209 981 
+L 209 1609 
+L 1647 4266 
+L 2966 4266 
+z
+M 2006 3488 
+Q 1978 3406 1875 3163 
+L 1794 2963 
+L 1166 1709 
+L 2006 1709 
+L 2006 2850 
+L 1997 3056 
+Q 2006 3369 2006 3488 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#NewsGotT-Bol-34"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_4">
+     <g id="line2d_4">
+      <g>
+       <use xlink:href="#m9a908af432" x="339.70558" y="330.18" style="stroke: #000000; stroke-width: 1.4"/>
+      </g>
+     </g>
+     <g id="text_4">
+      <!-- 6 -->
+      <g transform="translate(335.354408 343.678437) scale(0.15 -0.15)">
+       <defs>
+        <path id="NewsGotT-Bol-36" d="M 3416 3491 
+L 2463 3275 
+Q 2366 3619 2041 3619 
+Q 1653 3619 1475 3141 
+Q 1391 2909 1338 2422 
+Q 1713 2791 2238 2791 
+Q 2759 2791 3134 2447 
+Q 3528 2088 3528 1419 
+Q 3528 756 3119 334 
+Q 2719 -78 1897 -78 
+Q 984 -78 584 594 
+Q 244 1166 244 2022 
+Q 244 2884 575 3459 
+Q 1078 4334 2100 4334 
+Q 2841 4334 3191 3928 
+Q 3344 3753 3416 3491 
+z
+M 1338 1784 
+Q 1309 1628 1309 1569 
+Q 1309 1313 1425 1041 
+Q 1531 791 1678 706 
+Q 1794 638 1925 638 
+Q 2122 638 2253 772 
+Q 2463 984 2463 1375 
+Q 2463 1734 2303 1906 
+Q 2150 2072 1916 2072 
+Q 1725 2072 1531 1947 
+Q 1444 1891 1375 1822 
+Q 1338 1788 1338 1784 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#NewsGotT-Bol-36"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_5">
+     <g id="line2d_5">
+      <g>
+       <use xlink:href="#m9a908af432" x="445.362723" y="330.18" style="stroke: #000000; stroke-width: 1.4"/>
+      </g>
+     </g>
+     <g id="text_5">
+      <!-- 8 -->
+      <g transform="translate(441.011551 343.678437) scale(0.15 -0.15)">
+       <defs>
+        <path id="NewsGotT-Bol-38" d="M 2644 2256 
+Q 2878 2188 3050 2050 
+Q 3484 1700 3484 1159 
+Q 3484 547 2947 194 
+Q 2538 -78 1813 -78 
+Q 1009 -78 606 275 
+Q 225 606 225 1122 
+Q 225 1744 747 2091 
+Q 903 2197 1113 2256 
+Q 828 2347 659 2509 
+Q 369 2784 369 3191 
+Q 369 3722 800 4044 
+Q 1009 4200 1366 4278 
+Q 1622 4334 1888 4334 
+Q 2581 4334 2959 4025 
+Q 3341 3716 3341 3213 
+Q 3341 2544 2644 2256 
+z
+M 1909 2622 
+Q 2325 2844 2325 3194 
+Q 2325 3406 2163 3528 
+Q 2044 3616 1863 3616 
+Q 1619 3616 1484 3469 
+Q 1384 3356 1384 3191 
+Q 1384 2956 1597 2800 
+Q 1706 2719 1841 2653 
+Q 1909 2622 1909 2622 
+z
+M 1853 1888 
+Q 1728 1816 1650 1766 
+Q 1291 1528 1291 1191 
+Q 1291 956 1450 794 
+Q 1603 638 1853 638 
+Q 2144 638 2306 838 
+Q 2419 978 2419 1178 
+Q 2419 1497 2178 1684 
+Q 2075 1763 1853 1888 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#NewsGotT-Bol-38"/>
+      </g>
+     </g>
+    </g>
+    <g id="text_6">
+     <!-- Number of MPI processes -->
+     <g transform="translate(189.392109 360.472969) scale(0.15 -0.15)">
+      <defs>
+       <path id="NewsGotT-Bol-4e" d="M 3888 4266 
+L 3888 0 
+L 2828 0 
+L 1753 2400 
+Q 1616 2703 1388 3256 
+Q 1441 2838 1459 2319 
+L 1466 2172 
+L 1466 0 
+L 406 0 
+L 406 4266 
+L 1753 4266 
+L 2434 2719 
+Q 2584 2372 2828 1725 
+L 2828 4266 
+L 3888 4266 
+z
+" transform="scale(0.015625)"/>
+       <path id="NewsGotT-Bol-75" d="M 3025 3009 
+L 3025 0 
+L 2091 0 
+L 2091 394 
+Q 2050 266 1806 134 
+Q 1394 -84 1075 -84 
+Q 791 -84 594 91 
+Q 391 275 338 653 
+Q 319 797 319 1094 
+L 319 3009 
+L 1278 3009 
+L 1278 1216 
+Q 1278 916 1338 822 
+Q 1422 691 1597 691 
+Q 1847 691 2066 919 
+L 2066 3009 
+L 3025 3009 
+z
+" transform="scale(0.015625)"/>
+       <path id="NewsGotT-Bol-6d" d="M 1278 3009 
+L 1278 2656 
+Q 1750 3116 2219 3116 
+Q 2509 3116 2716 2919 
+Q 2822 2816 2888 2656 
+Q 3059 2825 3247 2931 
+Q 3572 3116 3878 3116 
+Q 4147 3116 4353 2959 
+Q 4569 2794 4625 2422 
+Q 4650 2266 4650 2022 
+L 4650 0 
+L 3691 0 
+L 3691 1922 
+Q 3691 2147 3638 2228 
+Q 3563 2341 3406 2341 
+Q 3172 2341 2963 2109 
+L 2963 0 
+L 2003 0 
+L 2003 1922 
+Q 2003 2341 1722 2341 
+Q 1500 2341 1278 2109 
+L 1278 0 
+L 319 0 
+L 319 3009 
+L 1278 3009 
+z
+" transform="scale(0.015625)"/>
+       <path id="NewsGotT-Bol-62" d="M 1278 4266 
+L 1278 2703 
+Q 1581 3116 2069 3116 
+Q 2600 3116 2888 2638 
+Q 3141 2219 3141 1566 
+Q 3141 872 2872 438 
+Q 2725 197 2469 53 
+Q 2225 -84 1963 -84 
+Q 1538 -84 1194 281 
+L 1138 0 
+L 319 0 
+L 319 4266 
+L 1278 4266 
+z
+M 1278 2063 
+L 1278 838 
+Q 1519 606 1691 606 
+Q 1828 606 1944 725 
+Q 2134 922 2134 1525 
+Q 2134 2047 1938 2250 
+Q 1853 2341 1719 2341 
+Q 1584 2341 1475 2256 
+Q 1400 2197 1278 2063 
+z
+" transform="scale(0.015625)"/>
+       <path id="NewsGotT-Bol-65" d="M 2081 953 
+L 2972 881 
+Q 2903 572 2747 372 
+Q 2394 -84 1625 -84 
+Q 878 -84 509 375 
+Q 181 784 181 1463 
+Q 181 2191 503 2616 
+Q 703 2878 1022 3003 
+Q 1306 3116 1622 3116 
+Q 2228 3116 2584 2741 
+Q 2866 2447 2941 2000 
+Q 2959 1894 2981 1306 
+L 1197 1306 
+Q 1200 956 1272 825 
+Q 1394 606 1656 606 
+Q 1994 606 2081 953 
+z
+M 1197 1828 
+L 2081 1828 
+Q 2078 2041 2019 2178 
+Q 1909 2425 1638 2425 
+Q 1413 2425 1294 2225 
+Q 1200 2069 1197 1828 
+z
+" transform="scale(0.015625)"/>
+       <path id="NewsGotT-Bol-72" d="M 2384 3088 
+L 2384 2175 
+Q 2275 2203 2172 2203 
+Q 1825 2203 1563 2003 
+Q 1397 1881 1278 1656 
+L 1278 0 
+L 319 0 
+L 319 3009 
+L 1278 3009 
+L 1278 2741 
+Q 1278 2734 1275 2672 
+Q 1272 2641 1272 2597 
+Q 1272 2550 1278 2384 
+Q 1406 2638 1566 2791 
+Q 1878 3097 2247 3097 
+Q 2288 3097 2384 3088 
+z
+" transform="scale(0.015625)"/>
+       <path id="NewsGotT-Bol-20" transform="scale(0.015625)"/>
+       <path id="NewsGotT-Bol-6f" d="M 1647 3116 
+Q 2459 3116 2844 2506 
+Q 3091 2116 3091 1500 
+Q 3091 1097 2938 719 
+Q 2784 338 2469 141 
+Q 2100 -88 1584 -88 
+Q 900 -88 538 356 
+Q 184 794 184 1503 
+Q 184 2341 663 2769 
+Q 1047 3116 1647 3116 
+z
+M 1634 2425 
+Q 1191 2425 1191 1531 
+Q 1191 603 1638 603 
+Q 1841 603 1934 763 
+Q 2084 1016 2084 1575 
+Q 2084 2425 1634 2425 
+z
+" transform="scale(0.015625)"/>
+       <path id="NewsGotT-Bol-66" d="M 2025 4266 
+L 2025 3616 
+Q 1891 3659 1781 3659 
+Q 1566 3659 1478 3556 
+Q 1406 3469 1406 3231 
+L 1406 3009 
+L 2025 3009 
+L 2025 2347 
+L 1406 2347 
+L 1406 0 
+L 447 0 
+L 447 2347 
+L -22 2347 
+L -22 3009 
+L 447 3009 
+L 447 3184 
+Q 447 3716 575 3944 
+Q 806 4350 1447 4350 
+Q 1688 4350 2025 4266 
+z
+" transform="scale(0.015625)"/>
+       <path id="NewsGotT-Bol-4d" d="M 4994 4266 
+L 4994 0 
+L 3934 0 
+L 3934 2828 
+L 3925 3006 
+Q 3925 3013 3934 3291 
+Q 3934 3347 3934 3472 
+Q 3916 3381 3847 3091 
+L 3809 2928 
+L 3109 0 
+L 2278 0 
+L 1594 2828 
+Q 1506 3225 1466 3472 
+L 1466 3322 
+L 1466 2997 
+L 1466 2828 
+L 1466 0 
+L 406 0 
+L 406 4266 
+L 2088 4266 
+L 2609 2109 
+Q 2716 1656 2738 1394 
+Q 2766 1616 2844 2022 
+L 2859 2109 
+L 3300 4266 
+L 4994 4266 
+z
+" transform="scale(0.015625)"/>
+       <path id="NewsGotT-Bol-50" d="M 406 4266 
+L 1719 4266 
+Q 2578 4266 2906 4106 
+Q 3141 3994 3284 3813 
+Q 3559 3463 3559 2963 
+Q 3559 2528 3322 2203 
+Q 2950 1691 1981 1691 
+L 1466 1691 
+L 1466 0 
+L 406 0 
+L 406 4266 
+z
+M 1466 2463 
+L 1847 2463 
+Q 2463 2463 2463 2972 
+Q 2463 3278 2253 3400 
+Q 2125 3472 1847 3472 
+L 1466 3472 
+L 1466 2463 
+z
+" transform="scale(0.015625)"/>
+       <path id="NewsGotT-Bol-49" d="M 1466 4266 
+L 1466 0 
+L 406 0 
+L 406 4266 
+L 1466 4266 
+z
+" transform="scale(0.015625)"/>
+       <path id="NewsGotT-Bol-70" d="M 1278 3009 
+L 1278 2697 
+Q 1613 3116 2091 3116 
+Q 2469 3116 2744 2828 
+Q 3147 2409 3147 1588 
+Q 3147 969 2941 519 
+Q 2819 253 2559 81 
+Q 2306 -84 1997 -84 
+Q 1588 -84 1278 253 
+L 1278 -1109 
+L 319 -1109 
+L 319 3009 
+L 1278 3009 
+z
+M 1278 878 
+Q 1447 606 1675 606 
+Q 1884 606 1997 800 
+Q 2138 1044 2138 1528 
+Q 2138 2038 1944 2247 
+Q 1856 2341 1725 2341 
+Q 1506 2341 1278 2081 
+L 1278 878 
+z
+" transform="scale(0.015625)"/>
+       <path id="NewsGotT-Bol-63" d="M 2928 2056 
+L 2066 1919 
+Q 2053 2150 1956 2278 
+Q 1847 2425 1666 2425 
+Q 1191 2425 1191 1519 
+Q 1191 606 1638 606 
+Q 1834 606 1938 744 
+Q 2022 863 2066 1113 
+L 2928 1013 
+Q 2809 -84 1597 -84 
+Q 888 -84 538 353 
+Q 184 788 184 1500 
+Q 184 2200 541 2628 
+Q 941 3116 1659 3116 
+Q 2338 3116 2684 2675 
+Q 2875 2431 2928 2056 
+z
+" transform="scale(0.015625)"/>
+       <path id="NewsGotT-Bol-73" d="M 2500 2278 
+L 1619 2206 
+Q 1591 2478 1347 2478 
+Q 1203 2478 1119 2384 
+Q 1063 2316 1063 2219 
+Q 1063 2034 1247 1953 
+Q 1300 1931 1775 1834 
+Q 2613 1669 2613 931 
+Q 2613 475 2272 188 
+Q 1947 -88 1316 -88 
+Q 281 -88 197 834 
+L 1091 891 
+Q 1128 553 1419 553 
+Q 1588 553 1672 675 
+Q 1716 744 1716 825 
+Q 1716 1056 1353 1125 
+Q 963 1203 823 1243 
+Q 684 1284 566 1363 
+Q 184 1609 184 2116 
+Q 184 2572 534 2863 
+Q 838 3116 1347 3116 
+Q 2034 3116 2328 2744 
+Q 2456 2581 2500 2278 
+z
+" transform="scale(0.015625)"/>
+      </defs>
+      <use xlink:href="#NewsGotT-Bol-4e"/>
+      <use xlink:href="#NewsGotT-Bol-75" x="67.089844"/>
+      <use xlink:href="#NewsGotT-Bol-6d" x="119.335938"/>
+      <use xlink:href="#NewsGotT-Bol-62" x="197.021484"/>
+      <use xlink:href="#NewsGotT-Bol-65" x="248.974609"/>
+      <use xlink:href="#NewsGotT-Bol-72" x="299.072266"/>
+      <use xlink:href="#NewsGotT-Bol-20" x="337.353516"/>
+      <use xlink:href="#NewsGotT-Bol-6f" x="362.353516"/>
+      <use xlink:href="#NewsGotT-Bol-66" x="413.476562"/>
+      <use xlink:href="#NewsGotT-Bol-20" x="445.800781"/>
+      <use xlink:href="#NewsGotT-Bol-4d" x="470.800781"/>
+      <use xlink:href="#NewsGotT-Bol-50" x="555.126953"/>
+      <use xlink:href="#NewsGotT-Bol-49" x="612.646484"/>
+      <use xlink:href="#NewsGotT-Bol-20" x="641.845703"/>
+      <use xlink:href="#NewsGotT-Bol-70" x="666.845703"/>
+      <use xlink:href="#NewsGotT-Bol-72" x="718.847656"/>
+      <use xlink:href="#NewsGotT-Bol-6f" x="757.128906"/>
+      <use xlink:href="#NewsGotT-Bol-63" x="808.251953"/>
+      <use xlink:href="#NewsGotT-Bol-65" x="856.884766"/>
+      <use xlink:href="#NewsGotT-Bol-73" x="906.982422"/>
+      <use xlink:href="#NewsGotT-Bol-73" x="950.78125"/>
+      <use xlink:href="#NewsGotT-Bol-65" x="994.580078"/>
+      <use xlink:href="#NewsGotT-Bol-73" x="1044.677734"/>
+     </g>
+    </g>
+   </g>
+   <g id="matplotlib.axis_2">
+    <g id="ytick_1">
+     <g id="line2d_6">
+      <defs>
+       <path id="mc747be45e5" d="M 0 0 
+L 6 0 
+" style="stroke: #000000; stroke-width: 1.4"/>
+      </defs>
+      <g>
+       <use xlink:href="#mc747be45e5" x="49.148438" y="330.18" style="stroke: #000000; stroke-width: 1.4"/>
+      </g>
+     </g>
+     <g id="text_7">
+      <!-- 0.0 -->
+      <g transform="translate(24.142188 335.179219) scale(0.15 -0.15)">
+       <defs>
+        <path id="NewsGotT-Bol-30" d="M 1872 4334 
+Q 2697 4334 3113 3691 
+Q 3497 3088 3497 2119 
+Q 3497 1253 3141 644 
+Q 2719 -78 1838 -78 
+Q 916 -78 506 731 
+Q 213 1319 213 2131 
+Q 213 3069 591 3659 
+Q 1022 4334 1872 4334 
+z
+M 1872 3619 
+Q 1556 3619 1416 3291 
+Q 1278 2978 1278 2100 
+Q 1278 1213 1441 897 
+Q 1575 638 1847 638 
+Q 2184 638 2316 1013 
+Q 2431 1334 2431 2172 
+Q 2431 3072 2259 3384 
+Q 2131 3619 1872 3619 
+z
+" transform="scale(0.015625)"/>
+        <path id="NewsGotT-Bol-2e" d="M 1366 1025 
+L 1366 0 
+L 384 0 
+L 384 1025 
+L 1366 1025 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#NewsGotT-Bol-30"/>
+       <use xlink:href="#NewsGotT-Bol-2e" x="58.007812"/>
+       <use xlink:href="#NewsGotT-Bol-30" x="85.351562"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_2">
+     <g id="line2d_7">
+      <g>
+       <use xlink:href="#mc747be45e5" x="49.148438" y="292.874494" style="stroke: #000000; stroke-width: 1.4"/>
+      </g>
+     </g>
+     <g id="text_8">
+      <!-- 0.5 -->
+      <g transform="translate(24.142188 297.873712) scale(0.15 -0.15)">
+       <defs>
+        <path id="NewsGotT-Bol-35" d="M 3106 4266 
+L 3106 3491 
+L 1300 3491 
+L 1216 2591 
+Q 1531 2950 2059 2950 
+Q 2613 2950 2988 2609 
+Q 3428 2209 3428 1525 
+Q 3428 913 3084 475 
+Q 2850 172 2528 53 
+Q 2181 -78 1716 -78 
+Q 538 -78 200 872 
+L 1113 1228 
+Q 1263 638 1734 638 
+Q 1988 638 2141 794 
+Q 2363 1022 2363 1469 
+Q 2363 1906 2128 2109 
+Q 1984 2234 1784 2234 
+Q 1391 2234 1216 1800 
+L 338 2019 
+L 438 4266 
+L 3106 4266 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#NewsGotT-Bol-30"/>
+       <use xlink:href="#NewsGotT-Bol-2e" x="58.007812"/>
+       <use xlink:href="#NewsGotT-Bol-35" x="85.351562"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_3">
+     <g id="line2d_8">
+      <g>
+       <use xlink:href="#mc747be45e5" x="49.148438" y="255.568987" style="stroke: #000000; stroke-width: 1.4"/>
+      </g>
+     </g>
+     <g id="text_9">
+      <!-- 1.0 -->
+      <g transform="translate(24.367188 260.568206) scale(0.15 -0.15)">
+       <use xlink:href="#NewsGotT-Bol-31"/>
+       <use xlink:href="#NewsGotT-Bol-2e" x="56.507812"/>
+       <use xlink:href="#NewsGotT-Bol-30" x="83.851562"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_4">
+     <g id="line2d_9">
+      <g>
+       <use xlink:href="#mc747be45e5" x="49.148438" y="218.263481" style="stroke: #000000; stroke-width: 1.4"/>
+      </g>
+     </g>
+     <g id="text_10">
+      <!-- 1.5 -->
+      <g transform="translate(24.367188 223.262699) scale(0.15 -0.15)">
+       <use xlink:href="#NewsGotT-Bol-31"/>
+       <use xlink:href="#NewsGotT-Bol-2e" x="56.507812"/>
+       <use xlink:href="#NewsGotT-Bol-35" x="83.851562"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_5">
+     <g id="line2d_10">
+      <g>
+       <use xlink:href="#mc747be45e5" x="49.148438" y="180.957974" style="stroke: #000000; stroke-width: 1.4"/>
+      </g>
+     </g>
+     <g id="text_11">
+      <!-- 2.0 -->
+      <g transform="translate(24.142188 185.957193) scale(0.15 -0.15)">
+       <use xlink:href="#NewsGotT-Bol-32"/>
+       <use xlink:href="#NewsGotT-Bol-2e" x="58.007812"/>
+       <use xlink:href="#NewsGotT-Bol-30" x="85.351562"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_6">
+     <g id="line2d_11">
+      <g>
+       <use xlink:href="#mc747be45e5" x="49.148438" y="143.652468" style="stroke: #000000; stroke-width: 1.4"/>
+      </g>
+     </g>
+     <g id="text_12">
+      <!-- 2.5 -->
+      <g transform="translate(24.142188 148.651686) scale(0.15 -0.15)">
+       <use xlink:href="#NewsGotT-Bol-32"/>
+       <use xlink:href="#NewsGotT-Bol-2e" x="58.007812"/>
+       <use xlink:href="#NewsGotT-Bol-35" x="85.351562"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_7">
+     <g id="line2d_12">
+      <g>
+       <use xlink:href="#mc747be45e5" x="49.148438" y="106.346961" style="stroke: #000000; stroke-width: 1.4"/>
+      </g>
+     </g>
+     <g id="text_13">
+      <!-- 3.0 -->
+      <g transform="translate(24.142188 111.34618) scale(0.15 -0.15)">
+       <defs>
+        <path id="NewsGotT-Bol-33" d="M 1134 3059 
+L 269 3328 
+Q 409 3678 628 3906 
+Q 1044 4334 1816 4334 
+Q 2484 4334 2859 4034 
+Q 3250 3722 3250 3219 
+Q 3250 2528 2522 2316 
+Q 2847 2259 3050 2103 
+Q 3428 1813 3428 1266 
+Q 3428 584 2897 219 
+Q 2466 -78 1734 -78 
+Q 994 -78 631 206 
+Q 269 491 138 1044 
+L 1134 1256 
+Q 1256 638 1766 638 
+Q 2072 638 2238 847 
+Q 2363 1003 2363 1234 
+Q 2363 1559 2147 1722 
+Q 1938 1881 1334 1881 
+Q 1297 1881 1225 1881 
+L 1225 2600 
+Q 1322 2597 1381 2597 
+Q 1784 2597 1975 2688 
+Q 2109 2750 2181 2897 
+Q 2234 3003 2234 3134 
+Q 2234 3369 2084 3503 
+Q 1956 3619 1759 3619 
+Q 1438 3619 1256 3341 
+Q 1197 3247 1134 3059 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#NewsGotT-Bol-33"/>
+       <use xlink:href="#NewsGotT-Bol-2e" x="58.007812"/>
+       <use xlink:href="#NewsGotT-Bol-30" x="85.351562"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_8">
+     <g id="line2d_13">
+      <g>
+       <use xlink:href="#mc747be45e5" x="49.148438" y="69.041455" style="stroke: #000000; stroke-width: 1.4"/>
+      </g>
+     </g>
+     <g id="text_14">
+      <!-- 3.5 -->
+      <g transform="translate(24.142188 74.040673) scale(0.15 -0.15)">
+       <use xlink:href="#NewsGotT-Bol-33"/>
+       <use xlink:href="#NewsGotT-Bol-2e" x="58.007812"/>
+       <use xlink:href="#NewsGotT-Bol-35" x="85.351562"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_9">
+     <g id="line2d_14">
+      <g>
+       <use xlink:href="#mc747be45e5" x="49.148438" y="31.735948" style="stroke: #000000; stroke-width: 1.4"/>
+      </g>
+     </g>
+     <g id="text_15">
+      <!-- 4.0 -->
+      <g transform="translate(24.142188 36.735167) scale(0.15 -0.15)">
+       <use xlink:href="#NewsGotT-Bol-34"/>
+       <use xlink:href="#NewsGotT-Bol-2e" x="58.007812"/>
+       <use xlink:href="#NewsGotT-Bol-30" x="85.351562"/>
+      </g>
+     </g>
+    </g>
+    <g id="text_16">
+     <!-- Peak memory [GB] -->
+     <g transform="translate(17.395312 227.589609) rotate(-90) scale(0.15 -0.15)">
+      <defs>
+       <path id="NewsGotT-Bol-61" d="M 1241 2069 
+L 309 2184 
+Q 369 2544 553 2741 
+Q 900 3116 1669 3116 
+Q 2422 3116 2744 2775 
+Q 2925 2584 2950 2319 
+Q 2966 2156 2966 1869 
+L 2966 1100 
+Q 2966 253 3009 0 
+L 2084 0 
+L 2047 247 
+Q 1631 -84 1150 -84 
+Q 719 -84 459 131 
+Q 178 369 178 756 
+Q 178 1241 609 1525 
+Q 947 1747 1934 1953 
+L 2006 1969 
+Q 2006 2025 2006 2044 
+Q 2006 2253 1944 2322 
+Q 1850 2425 1650 2425 
+Q 1300 2425 1241 2069 
+z
+M 2006 1363 
+Q 1772 1331 1516 1234 
+Q 1191 1113 1191 856 
+Q 1191 728 1291 659 
+Q 1369 606 1481 606 
+Q 1725 606 2006 813 
+L 2006 1363 
+z
+" transform="scale(0.015625)"/>
+       <path id="NewsGotT-Bol-6b" d="M 1278 4266 
+L 1278 2106 
+L 1922 3009 
+L 3013 3009 
+L 2116 1922 
+L 3131 0 
+L 2041 0 
+L 1456 1169 
+L 1278 953 
+L 1278 0 
+L 319 0 
+L 319 4266 
+L 1278 4266 
+z
+" transform="scale(0.015625)"/>
+       <path id="NewsGotT-Bol-79" d="M 2878 3009 
+L 1928 78 
+Q 1719 -569 1550 -791 
+Q 1253 -1172 634 -1172 
+Q 413 -1172 109 -1109 
+L 109 -406 
+Q 319 -466 466 -466 
+Q 794 -466 922 -191 
+Q 953 -122 988 0 
+L -63 3009 
+L 988 3009 
+L 1359 1597 
+Q 1444 1231 1469 1047 
+Q 1506 1291 1572 1597 
+L 1881 3009 
+L 2878 3009 
+z
+" transform="scale(0.015625)"/>
+       <path id="NewsGotT-Bol-5b" d="M 2091 4266 
+L 2091 3638 
+L 1334 3638 
+L 1334 -481 
+L 2091 -481 
+L 2091 -1109 
+L 469 -1109 
+L 469 4266 
+L 2091 4266 
+z
+" transform="scale(0.015625)"/>
+       <path id="NewsGotT-Bol-47" d="M 3625 3078 
+L 2663 2906 
+Q 2584 3650 2075 3650 
+Q 1556 3650 1416 2909 
+Q 1356 2594 1356 2113 
+Q 1356 1513 1456 1184 
+Q 1616 666 2088 666 
+Q 2391 666 2541 878 
+Q 2666 1056 2666 1369 
+Q 2666 1394 2663 1456 
+L 2034 1456 
+L 2034 2250 
+L 3625 2250 
+L 3625 0 
+L 2959 0 
+L 2884 322 
+Q 2584 -84 1916 -84 
+Q 1072 -84 644 534 
+Q 213 1153 213 2122 
+Q 213 3094 650 3688 
+Q 1138 4350 2063 4350 
+Q 2613 4350 3000 4109 
+Q 3397 3863 3559 3341 
+Q 3588 3247 3625 3078 
+z
+" transform="scale(0.015625)"/>
+       <path id="NewsGotT-Bol-42" d="M 406 4266 
+L 1966 4266 
+Q 2297 4266 2463 4244 
+Q 3109 4163 3366 3625 
+Q 3475 3397 3475 3144 
+Q 3475 2481 2866 2231 
+Q 3097 2184 3259 2034 
+Q 3600 1725 3600 1213 
+Q 3600 681 3244 334 
+Q 3034 131 2769 63 
+Q 2528 0 2231 0 
+L 406 0 
+L 406 4266 
+z
+M 1466 2603 
+L 1809 2603 
+Q 2094 2603 2206 2675 
+Q 2378 2788 2378 3044 
+Q 2378 3313 2175 3413 
+Q 2056 3472 1809 3472 
+L 1466 3472 
+L 1466 2603 
+z
+M 1466 794 
+L 1809 794 
+Q 2234 794 2378 941 
+Q 2509 1075 2509 1288 
+Q 2509 1522 2350 1669 
+Q 2203 1809 1766 1809 
+L 1466 1809 
+L 1466 794 
+z
+" transform="scale(0.015625)"/>
+       <path id="NewsGotT-Bol-5d" d="M 44 -1109 
+L 44 -481 
+L 800 -481 
+L 800 3638 
+L 44 3638 
+L 44 4266 
+L 1666 4266 
+L 1666 -1109 
+L 44 -1109 
+z
+" transform="scale(0.015625)"/>
+      </defs>
+      <use xlink:href="#NewsGotT-Bol-50"/>
+      <use xlink:href="#NewsGotT-Bol-65" x="56.019531"/>
+      <use xlink:href="#NewsGotT-Bol-61" x="106.117188"/>
+      <use xlink:href="#NewsGotT-Bol-6b" x="157.435547"/>
+      <use xlink:href="#NewsGotT-Bol-20" x="206.361328"/>
+      <use xlink:href="#NewsGotT-Bol-6d" x="231.361328"/>
+      <use xlink:href="#NewsGotT-Bol-65" x="309.046875"/>
+      <use xlink:href="#NewsGotT-Bol-6d" x="359.144531"/>
+      <use xlink:href="#NewsGotT-Bol-6f" x="436.830078"/>
+      <use xlink:href="#NewsGotT-Bol-72" x="487.953125"/>
+      <use xlink:href="#NewsGotT-Bol-79" x="528.859375"/>
+      <use xlink:href="#NewsGotT-Bol-20" x="572.804688"/>
+      <use xlink:href="#NewsGotT-Bol-5b" x="597.804688"/>
+      <use xlink:href="#NewsGotT-Bol-47" x="631.154297"/>
+      <use xlink:href="#NewsGotT-Bol-42" x="692.482422"/>
+      <use xlink:href="#NewsGotT-Bol-5d" x="752.003906"/>
+     </g>
+    </g>
+   </g>
+   <g id="line2d_15">
+    <path d="M 75.562723 160.288392 
+L 128.391295 240.477015 
+L 234.048437 280.784449 
+L 339.70558 292.607817 
+L 445.362723 295.073478 
+" clip-path="url(#p3506fbf6b7)" style="fill: none; stroke: #00204d; stroke-width: 1.6; stroke-linecap: square"/>
+    <defs>
+     <path id="m08cefcb1e5" d="M 0 3.5 
+C 0.928211 3.5 1.81853 3.131218 2.474874 2.474874 
+C 3.131218 1.81853 3.5 0.928211 3.5 0 
+C 3.5 -0.928211 3.131218 -1.81853 2.474874 -2.474874 
+C 1.81853 -3.131218 0.928211 -3.5 0 -3.5 
+C -0.928211 -3.5 -1.81853 -3.131218 -2.474874 -2.474874 
+C -3.131218 -1.81853 -3.5 -0.928211 -3.5 0 
+C -3.5 0.928211 -3.131218 1.81853 -2.474874 2.474874 
+C -1.81853 3.131218 -0.928211 3.5 0 3.5 
+z
+" style="stroke: #00204d"/>
+    </defs>
+    <g clip-path="url(#p3506fbf6b7)">
+     <use xlink:href="#m08cefcb1e5" x="75.562723" y="160.288392" style="fill: #00204d; stroke: #00204d"/>
+     <use xlink:href="#m08cefcb1e5" x="128.391295" y="240.477015" style="fill: #00204d; stroke: #00204d"/>
+     <use xlink:href="#m08cefcb1e5" x="234.048437" y="280.784449" style="fill: #00204d; stroke: #00204d"/>
+     <use xlink:href="#m08cefcb1e5" x="339.70558" y="292.607817" style="fill: #00204d; stroke: #00204d"/>
+     <use xlink:href="#m08cefcb1e5" x="445.362723" y="295.073478" style="fill: #00204d; stroke: #00204d"/>
+    </g>
+   </g>
+   <g id="line2d_16">
+    <path d="M 75.562723 160.288392 
+L 128.391295 150.774031 
+L 234.048437 132.597797 
+L 339.70558 104.746905 
+L 445.362723 49.327826 
+" clip-path="url(#p3506fbf6b7)" style="fill: none; stroke-dasharray: 5.18,2.24; stroke-dashoffset: 0; stroke: #8b0000; stroke-width: 1.4"/>
+    <defs>
+     <path id="m18b6a10ba8" d="M -3 3 
+L 3 3 
+L 3 -3 
+L -3 -3 
+z
+" style="stroke: #8b0000; stroke-linejoin: miter"/>
+    </defs>
+    <g clip-path="url(#p3506fbf6b7)">
+     <use xlink:href="#m18b6a10ba8" x="75.562723" y="160.288392" style="fill: #8b0000; stroke: #8b0000; stroke-linejoin: miter"/>
+     <use xlink:href="#m18b6a10ba8" x="128.391295" y="150.774031" style="fill: #8b0000; stroke: #8b0000; stroke-linejoin: miter"/>
+     <use xlink:href="#m18b6a10ba8" x="234.048437" y="132.597797" style="fill: #8b0000; stroke: #8b0000; stroke-linejoin: miter"/>
+     <use xlink:href="#m18b6a10ba8" x="339.70558" y="104.746905" style="fill: #8b0000; stroke: #8b0000; stroke-linejoin: miter"/>
+     <use xlink:href="#m18b6a10ba8" x="445.362723" y="49.327826" style="fill: #8b0000; stroke: #8b0000; stroke-linejoin: miter"/>
+    </g>
+   </g>
+   <g id="line2d_17">
+    <path d="M 75.562723 160.288392 
+L 77.421015 166.061408 
+L 79.279306 171.454976 
+L 82.995889 181.244185 
+L 86.712472 189.896058 
+L 90.429055 197.597922 
+L 94.145638 204.498104 
+L 97.862221 210.715583 
+L 101.578804 216.346902 
+L 105.295387 221.471222 
+L 109.011969 226.154062 
+L 112.728552 230.450118 
+L 116.445135 234.405411 
+L 120.161718 238.058937 
+L 123.878301 241.443963 
+L 127.594884 244.589038 
+L 131.311467 247.518802 
+L 136.886341 251.555744 
+L 142.461216 255.216741 
+L 148.03609 258.55197 
+L 153.610964 261.603063 
+L 159.185839 264.404844 
+L 164.760713 266.986673 
+L 170.335588 269.373471 
+L 177.768753 272.288853 
+L 185.201919 274.937467 
+L 192.635085 277.354328 
+L 200.068251 279.568578 
+L 209.359708 282.08835 
+L 218.651165 284.369119 
+L 227.942623 286.443351 
+L 239.092371 288.697264 
+L 250.24212 290.730257 
+L 263.25016 292.863852 
+L 276.258201 294.778503 
+L 291.124532 296.739416 
+L 307.849155 298.701015 
+L 324.573778 300.445233 
+L 343.156693 302.169702 
+L 363.597899 303.849447 
+L 385.897397 305.466235 
+L 411.913477 307.118315 
+L 439.787849 308.659675 
+L 445.362723 308.943549 
+L 445.362723 308.943549 
+" clip-path="url(#p3506fbf6b7)" style="fill: none; stroke-dasharray: 1,1.65; stroke-dashoffset: 0; stroke: #737373"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 49.148438 330.18 
+L 49.148438 7.2 
+" style="fill: none; stroke: #000000; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 492.908437 330.18 
+L 492.908437 7.2 
+" style="fill: none; stroke: #000000; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 49.148438 330.18 
+L 492.908437 330.18 
+" style="fill: none; stroke: #000000; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 49.148438 7.2 
+L 492.908437 7.2 
+" style="fill: none; stroke: #000000; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="text_17">
+    <!-- 2.28 -->
+    <g style="fill: #00204d" transform="translate(81.562723 152.288392) scale(0.12 -0.12)">
+     <use xlink:href="#NewsGotT-Bol-32"/>
+     <use xlink:href="#NewsGotT-Bol-2e" x="58.007812"/>
+     <use xlink:href="#NewsGotT-Bol-32" x="85.351562"/>
+     <use xlink:href="#NewsGotT-Bol-38" x="143.359375"/>
+    </g>
+   </g>
+   <g id="text_18">
+    <!-- 1.20 -->
+    <g style="fill: #00204d" transform="translate(134.391295 232.477015) scale(0.12 -0.12)">
+     <use xlink:href="#NewsGotT-Bol-31"/>
+     <use xlink:href="#NewsGotT-Bol-2e" x="56.507812"/>
+     <use xlink:href="#NewsGotT-Bol-32" x="83.851562"/>
+     <use xlink:href="#NewsGotT-Bol-30" x="141.859375"/>
+    </g>
+   </g>
+   <g id="text_19">
+    <!-- 0.66 -->
+    <g style="fill: #00204d" transform="translate(240.048437 272.784449) scale(0.12 -0.12)">
+     <use xlink:href="#NewsGotT-Bol-30"/>
+     <use xlink:href="#NewsGotT-Bol-2e" x="58.007812"/>
+     <use xlink:href="#NewsGotT-Bol-36" x="85.351562"/>
+     <use xlink:href="#NewsGotT-Bol-36" x="143.359375"/>
+    </g>
+   </g>
+   <g id="text_20">
+    <!-- 0.50 -->
+    <g style="fill: #00204d" transform="translate(345.70558 284.607817) scale(0.12 -0.12)">
+     <use xlink:href="#NewsGotT-Bol-30"/>
+     <use xlink:href="#NewsGotT-Bol-2e" x="58.007812"/>
+     <use xlink:href="#NewsGotT-Bol-35" x="85.351562"/>
+     <use xlink:href="#NewsGotT-Bol-30" x="143.359375"/>
+    </g>
+   </g>
+   <g id="text_21">
+    <!-- 0.47 -->
+    <g style="fill: #00204d" transform="translate(451.362723 287.073478) scale(0.12 -0.12)">
+     <defs>
+      <path id="NewsGotT-Bol-37" d="M 338 4266 
+L 3419 4266 
+L 3419 3825 
+L 1703 0 
+L 522 0 
+L 1988 3066 
+L 2047 3206 
+Q 2134 3391 2178 3491 
+L 338 3491 
+L 338 4266 
+z
+" transform="scale(0.015625)"/>
+     </defs>
+     <use xlink:href="#NewsGotT-Bol-30"/>
+     <use xlink:href="#NewsGotT-Bol-2e" x="58.007812"/>
+     <use xlink:href="#NewsGotT-Bol-34" x="85.351562"/>
+     <use xlink:href="#NewsGotT-Bol-37" x="138.484375"/>
+    </g>
+   </g>
+   <g id="legend_1">
+    <g id="line2d_18">
+     <path d="M 307.643437 22.36125 
+L 319.643437 22.36125 
+L 331.643437 22.36125 
+" style="fill: none; stroke: #00204d; stroke-width: 1.6; stroke-linecap: square"/>
+     <g>
+      <use xlink:href="#m08cefcb1e5" x="319.643437" y="22.36125" style="fill: #00204d; stroke: #00204d"/>
+     </g>
+    </g>
+    <g id="text_22">
+     <!-- One process (largest) -->
+     <g transform="translate(341.243437 26.56125) scale(0.12 -0.12)">
+      <defs>
+       <path id="NewsGotT-Bol-4f" d="M 2031 4350 
+Q 2722 4350 3134 4025 
+Q 3859 3450 3859 2141 
+Q 3859 1169 3428 544 
+Q 2994 -84 2016 -84 
+Q 1141 -84 697 475 
+Q 213 1088 213 2084 
+Q 213 3038 594 3634 
+Q 1053 4350 2031 4350 
+z
+M 2047 3600 
+Q 1684 3600 1531 3263 
+Q 1375 2913 1375 2144 
+Q 1375 1406 1475 1075 
+Q 1531 891 1688 772 
+Q 1828 666 2019 666 
+Q 2441 666 2572 1103 
+Q 2684 1475 2684 2156 
+Q 2684 2916 2572 3222 
+Q 2500 3413 2341 3519 
+Q 2219 3600 2047 3600 
+z
+" transform="scale(0.015625)"/>
+       <path id="NewsGotT-Bol-6e" d="M 1278 3009 
+L 1278 2669 
+Q 1784 3116 2291 3116 
+Q 2550 3116 2747 2953 
+Q 2966 2775 3013 2369 
+Q 3031 2225 3031 1934 
+L 3031 0 
+L 2072 0 
+L 2072 1934 
+Q 2072 2341 1750 2341 
+Q 1528 2341 1278 2106 
+L 1278 0 
+L 319 0 
+L 319 3009 
+L 1278 3009 
+z
+" transform="scale(0.015625)"/>
+       <path id="NewsGotT-Bol-28" d="M 1400 4566 
+L 1966 4222 
+Q 1766 3913 1622 3531 
+Q 1306 2697 1306 1813 
+Q 1306 375 1994 -772 
+L 1422 -1109 
+Q 1050 -672 791 -59 
+Q 372 938 372 1828 
+Q 372 2463 634 3213 
+Q 791 3659 1006 3991 
+Q 1125 4175 1400 4566 
+z
+" transform="scale(0.015625)"/>
+       <path id="NewsGotT-Bol-6c" d="M 1278 4266 
+L 1278 0 
+L 319 0 
+L 319 4266 
+L 1278 4266 
+z
+" transform="scale(0.015625)"/>
+       <path id="NewsGotT-Bol-67" d="M 3331 3166 
+L 3331 2519 
+Q 3222 2572 3103 2572 
+Q 2984 2572 2841 2519 
+Q 3038 2294 3038 2000 
+Q 3038 1572 2681 1303 
+Q 2328 1031 1663 1031 
+Q 1484 1031 1300 1066 
+Q 1134 997 1134 891 
+Q 1134 831 1191 803 
+Q 1269 763 1403 753 
+L 1963 716 
+Q 2663 669 2750 644 
+Q 3322 481 3322 -122 
+Q 3322 -684 2775 -953 
+Q 2369 -1153 1653 -1153 
+Q 841 -1153 459 -888 
+Q 353 -813 281 -684 
+Q 222 -575 222 -456 
+Q 222 -138 581 53 
+Q 309 228 309 525 
+Q 309 784 534 978 
+Q 638 1069 888 1163 
+Q 266 1422 266 2050 
+Q 266 2613 747 2903 
+Q 1100 3116 1594 3116 
+Q 2200 3116 2534 2831 
+Q 2763 3169 3234 3169 
+Q 3263 3169 3331 3166 
+z
+M 1663 2528 
+Q 1272 2528 1272 2050 
+Q 1272 1844 1359 1722 
+Q 1463 1588 1653 1588 
+Q 1803 1588 1897 1675 
+Q 2031 1800 2031 2050 
+Q 2031 2297 1916 2425 
+Q 1822 2528 1663 2528 
+z
+M 953 -63 
+Q 875 -153 875 -259 
+Q 875 -575 1828 -575 
+Q 2591 -575 2591 -331 
+Q 2591 -281 2559 -244 
+Q 2506 -175 2297 -175 
+Q 1550 -175 953 -63 
+z
+" transform="scale(0.015625)"/>
+       <path id="NewsGotT-Bol-74" d="M 1366 3834 
+L 1366 3009 
+L 1984 3009 
+L 1984 2347 
+L 1366 2347 
+L 1366 1144 
+Q 1366 903 1391 831 
+Q 1422 750 1522 688 
+Q 1609 634 1706 634 
+Q 1788 634 1984 706 
+L 1984 0 
+Q 1716 -38 1356 -38 
+Q 891 -38 681 125 
+Q 491 278 431 550 
+Q 406 675 406 925 
+L 406 2347 
+L -63 2347 
+L -63 3009 
+L 406 3009 
+L 406 3834 
+L 1366 3834 
+z
+" transform="scale(0.015625)"/>
+       <path id="NewsGotT-Bol-29" d="M 731 4566 
+Q 1113 4025 1209 3853 
+Q 1478 3384 1631 2759 
+Q 1759 2247 1759 1828 
+Q 1759 938 1338 -59 
+Q 1081 -669 709 -1109 
+L 138 -772 
+Q 825 375 825 1813 
+Q 825 2697 509 3531 
+Q 366 3909 166 4222 
+L 731 4566 
+z
+" transform="scale(0.015625)"/>
+      </defs>
+      <use xlink:href="#NewsGotT-Bol-4f"/>
+      <use xlink:href="#NewsGotT-Bol-6e" x="63.623047"/>
+      <use xlink:href="#NewsGotT-Bol-65" x="116.015625"/>
+      <use xlink:href="#NewsGotT-Bol-20" x="166.113281"/>
+      <use xlink:href="#NewsGotT-Bol-70" x="191.113281"/>
+      <use xlink:href="#NewsGotT-Bol-72" x="243.115234"/>
+      <use xlink:href="#NewsGotT-Bol-6f" x="281.396484"/>
+      <use xlink:href="#NewsGotT-Bol-63" x="332.519531"/>
+      <use xlink:href="#NewsGotT-Bol-65" x="381.152344"/>
+      <use xlink:href="#NewsGotT-Bol-73" x="431.25"/>
+      <use xlink:href="#NewsGotT-Bol-73" x="475.048828"/>
+      <use xlink:href="#NewsGotT-Bol-20" x="518.847656"/>
+      <use xlink:href="#NewsGotT-Bol-28" x="543.847656"/>
+      <use xlink:href="#NewsGotT-Bol-6c" x="577.197266"/>
+      <use xlink:href="#NewsGotT-Bol-61" x="602.197266"/>
+      <use xlink:href="#NewsGotT-Bol-72" x="653.515625"/>
+      <use xlink:href="#NewsGotT-Bol-67" x="692.046875"/>
+      <use xlink:href="#NewsGotT-Bol-65" x="743.798828"/>
+      <use xlink:href="#NewsGotT-Bol-73" x="793.896484"/>
+      <use xlink:href="#NewsGotT-Bol-74" x="838.570312"/>
+      <use xlink:href="#NewsGotT-Bol-29" x="870.259766"/>
+     </g>
+    </g>
+    <g id="line2d_19">
+     <path d="M 307.643437 39.084375 
+L 319.643437 39.084375 
+L 331.643437 39.084375 
+" style="fill: none; stroke-dasharray: 5.18,2.24; stroke-dashoffset: 0; stroke: #8b0000; stroke-width: 1.4"/>
+     <g>
+      <use xlink:href="#m18b6a10ba8" x="319.643437" y="39.084375" style="fill: #8b0000; stroke: #8b0000; stroke-linejoin: miter"/>
+     </g>
+    </g>
+    <g id="text_23">
+     <!-- All processes (upper bound) -->
+     <g transform="translate(341.243437 43.284375) scale(0.12 -0.12)">
+      <defs>
+       <path id="NewsGotT-Bol-41" d="M 1234 1006 
+L 978 0 
+L -44 0 
+L 1138 4266 
+L 2472 4266 
+L 3631 0 
+L 2541 0 
+L 2291 1006 
+L 1234 1006 
+z
+M 1416 1753 
+L 2122 1753 
+L 1866 2931 
+Q 1788 3319 1769 3569 
+Q 1731 3275 1672 2931 
+L 1416 1753 
+z
+" transform="scale(0.015625)"/>
+       <path id="NewsGotT-Bol-64" d="M 3019 4266 
+L 3019 0 
+L 2181 0 
+L 2134 309 
+Q 1778 -84 1334 -84 
+Q 731 -84 419 469 
+Q 184 888 184 1506 
+Q 184 2181 450 2597 
+Q 591 2813 800 2953 
+Q 1047 3116 1325 3116 
+Q 1738 3116 2059 2728 
+L 2059 4266 
+L 3019 4266 
+z
+M 2059 2069 
+Q 1894 2338 1638 2338 
+Q 1472 2338 1366 2203 
+Q 1191 1975 1191 1509 
+Q 1191 900 1453 675 
+Q 1531 606 1653 606 
+Q 1900 606 2059 884 
+L 2059 1000 
+L 2059 1166 
+L 2059 1272 
+L 2059 2069 
+z
+" transform="scale(0.015625)"/>
+      </defs>
+      <use xlink:href="#NewsGotT-Bol-41"/>
+      <use xlink:href="#NewsGotT-Bol-6c" x="56.054688"/>
+      <use xlink:href="#NewsGotT-Bol-6c" x="81.054688"/>
+      <use xlink:href="#NewsGotT-Bol-20" x="106.054688"/>
+      <use xlink:href="#NewsGotT-Bol-70" x="131.054688"/>
+      <use xlink:href="#NewsGotT-Bol-72" x="183.056641"/>
+      <use xlink:href="#NewsGotT-Bol-6f" x="221.337891"/>
+      <use xlink:href="#NewsGotT-Bol-63" x="272.460938"/>
+      <use xlink:href="#NewsGotT-Bol-65" x="321.09375"/>
+      <use xlink:href="#NewsGotT-Bol-73" x="371.191406"/>
+      <use xlink:href="#NewsGotT-Bol-73" x="414.990234"/>
+      <use xlink:href="#NewsGotT-Bol-65" x="458.789062"/>
+      <use xlink:href="#NewsGotT-Bol-73" x="508.886719"/>
+      <use xlink:href="#NewsGotT-Bol-20" x="552.685547"/>
+      <use xlink:href="#NewsGotT-Bol-28" x="577.685547"/>
+      <use xlink:href="#NewsGotT-Bol-75" x="611.035156"/>
+      <use xlink:href="#NewsGotT-Bol-70" x="663.28125"/>
+      <use xlink:href="#NewsGotT-Bol-70" x="715.283203"/>
+      <use xlink:href="#NewsGotT-Bol-65" x="767.285156"/>
+      <use xlink:href="#NewsGotT-Bol-72" x="817.382812"/>
+      <use xlink:href="#NewsGotT-Bol-20" x="855.664062"/>
+      <use xlink:href="#NewsGotT-Bol-62" x="880.664062"/>
+      <use xlink:href="#NewsGotT-Bol-6f" x="932.617188"/>
+      <use xlink:href="#NewsGotT-Bol-75" x="983.740234"/>
+      <use xlink:href="#NewsGotT-Bol-6e" x="1035.986328"/>
+      <use xlink:href="#NewsGotT-Bol-64" x="1088.378906"/>
+      <use xlink:href="#NewsGotT-Bol-29" x="1140.527344"/>
+     </g>
+    </g>
+    <g id="line2d_20">
+     <path d="M 307.643437 55.92375 
+L 319.643437 55.92375 
+L 331.643437 55.92375 
+" style="fill: none; stroke-dasharray: 1,1.65; stroke-dashoffset: 0; stroke: #737373"/>
+    </g>
+    <g id="text_24">
+     <!-- Ideal, $M_1/p$ -->
+     <g transform="translate(341.243437 60.12375) scale(0.12 -0.12)">
+      <defs>
+       <path id="NewsGotT-Bol-2c" d="M 1366 1025 
+L 1366 172 
+L 625 -1109 
+L 300 -938 
+L 684 0 
+L 384 0 
+L 384 1025 
+L 1366 1025 
+z
+" transform="scale(0.015625)"/>
+       <path id="DejaVuSerif-Italic-4d" d="M -97 0 
+L -34 331 
+L 559 331 
+L 1338 4331 
+L 709 4331 
+L 775 4666 
+L 2134 4666 
+L 3125 1344 
+L 5409 4666 
+L 6684 4666 
+L 6619 4331 
+L 5997 4331 
+L 5222 331 
+L 5816 331 
+L 5753 0 
+L 3928 0 
+L 3991 331 
+L 4584 331 
+L 5288 3938 
+L 3053 684 
+L 2613 684 
+L 1647 3938 
+L 944 331 
+L 1538 331 
+L 1475 0 
+L -97 0 
+z
+" transform="scale(0.015625)"/>
+       <path id="DejaVuSerif-31" d="M 909 0 
+L 909 331 
+L 1722 331 
+L 1722 4213 
+L 781 3603 
+L 781 4013 
+L 1919 4750 
+L 2350 4750 
+L 2350 331 
+L 3163 331 
+L 3163 0 
+L 909 0 
+z
+" transform="scale(0.015625)"/>
+       <path id="DejaVuSerif-2f" d="M 1656 4666 
+L 2156 4666 
+L 500 -594 
+L 0 -594 
+L 1656 4666 
+z
+" transform="scale(0.015625)"/>
+       <path id="DejaVuSerif-Italic-70" d="M 1466 1825 
+L 1400 1497 
+Q 1353 1250 1353 1053 
+Q 1353 769 1453 581 
+Q 1622 269 2059 269 
+Q 2500 269 2795 622 
+Q 3091 975 3225 1663 
+Q 3284 1978 3284 2225 
+Q 3284 2513 3200 2703 
+Q 3041 3053 2600 3053 
+Q 2163 3053 1872 2737 
+Q 1581 2422 1466 1825 
+z
+M 1116 2988 
+L 563 2988 
+L 628 3322 
+L 1756 3322 
+L 1656 2803 
+Q 1884 3116 2175 3264 
+Q 2466 3413 2850 3413 
+Q 3463 3413 3753 2928 
+Q 3947 2609 3947 2163 
+Q 3947 1928 3897 1663 
+Q 3744 881 3262 395 
+Q 2781 -91 2169 -91 
+Q 1784 -91 1551 57 
+Q 1319 206 1213 519 
+L 850 -1331 
+L 275 -1331 
+L 1116 2988 
+z
+" transform="scale(0.015625)"/>
+      </defs>
+      <use xlink:href="#NewsGotT-Bol-49" transform="translate(0 0.09375)"/>
+      <use xlink:href="#NewsGotT-Bol-64" transform="translate(29.199219 0.09375)"/>
+      <use xlink:href="#NewsGotT-Bol-65" transform="translate(81.347656 0.09375)"/>
+      <use xlink:href="#NewsGotT-Bol-61" transform="translate(131.445312 0.09375)"/>
+      <use xlink:href="#NewsGotT-Bol-6c" transform="translate(182.763672 0.09375)"/>
+      <use xlink:href="#NewsGotT-Bol-2c" transform="translate(207.763672 0.09375)"/>
+      <use xlink:href="#NewsGotT-Bol-20" transform="translate(235.107422 0.09375)"/>
+      <use xlink:href="#DejaVuSerif-Italic-4d" transform="translate(260.107422 0.09375)"/>
+      <use xlink:href="#DejaVuSerif-31" transform="translate(362.5 -15.478125) scale(0.7)"/>
+      <use xlink:href="#DejaVuSerif-2f" transform="translate(409.631445 0.09375)"/>
+      <use xlink:href="#DejaVuSerif-Italic-70" transform="translate(443.322852 0.09375)"/>
+     </g>
+    </g>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p3506fbf6b7">
+   <rect x="49.148438" y="7.2" width="443.76" height="322.98"/>
+  </clipPath>
+ </defs>
+</svg>
