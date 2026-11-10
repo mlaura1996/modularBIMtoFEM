@@ -113,12 +113,14 @@ def compose():
     from matplotlib.patches import Patch
 
     summ = json.load(open(SRC / "build_summary.json"))
-    font = next((p for p in [REPO_ROOT / "resources/fonts/n015006t.ttf",
-                             Path("C:/Users/mlaur/Documents/aggregate_tests/graph_maker/n015006t.ttf")]
-                 if p.exists()), None)
-    if font:
-        font_manager.fontManager.addfont(str(font))
-        rcParams["font.family"] = font_manager.FontProperties(fname=str(font)).get_name()
+    dirs = [Path.home() / "AppData/Local/Microsoft/Windows/Fonts", Path("C:/Windows/Fonts"),
+            REPO_ROOT / "resources/fonts", Path("C:/Users/mlaur/Documents/aggregate_tests/graph_maker")]
+    for name in ("n015003t.ttf", "n015006t.ttf"):     # News Gothic Regular, then Bold
+        path = next((d / name for d in dirs if (d / name).exists()), None)
+        if path:
+            font_manager.fontManager.addfont(str(path))
+            rcParams["font.family"] = font_manager.FontProperties(fname=str(path)).get_name()
+    rcParams["font.weight"] = "normal"
     rcParams.update({"font.size": 15, "legend.frameon": False})
     fig, axes = plt.subplots(1, len(NPARTS), figsize=(5.2 * len(NPARTS), 6.6))
     for ax, npart in zip(np.atleast_1d(axes), NPARTS):

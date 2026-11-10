@@ -46,6 +46,11 @@ OUT_STEM = Path(sys.argv[2]) if len(sys.argv) > 2 else (
 # that the analysis is moving to a second computer.
 FONT_CANDIDATES = [
     Path(os.environ["THESIS_FONT"]) if os.environ.get("THESIS_FONT") else None,
+    # News Gothic Regular, the weight of the graph_maker figures (installed
+    # in Windows); n015006t.ttf below, the file in the graph_maker folder,
+    # is the Bold of the same family and only a fallback
+    Path.home() / "AppData/Local/Microsoft/Windows/Fonts/n015003t.ttf",
+    Path("C:/Windows/Fonts/n015003t.ttf"),
     REPO_ROOT / "resources/fonts/n015006t.ttf",
     Path("C:/Users/mlaur/Documents/aggregate_tests/graph_maker/n015006t.ttf"),
     Path.home() / "Documents/aggregate_tests/graph_maker/n015006t.ttf",

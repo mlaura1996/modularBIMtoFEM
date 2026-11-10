@@ -41,27 +41,35 @@ OUT.mkdir(parents=True, exist_ok=True)
 CSV = SRC / "benchmark_results.csv" if SRC.is_dir() else SRC
 HIST = SRC / "benchmark_timehistories.csv" if SRC.is_dir() else None
 
-FONT_CANDIDATES = [
-    Path(os.environ["THESIS_FONT"]) if os.environ.get("THESIS_FONT") else None,
-    REPO_ROOT / "resources/fonts/n015006t.ttf",
-    Path("C:/Users/mlaur/Documents/aggregate_tests/graph_maker/n015006t.ttf"),
-    Path.home() / "Documents/aggregate_tests/graph_maker/n015006t.ttf",
-]
-FONT_PATH = next((p for p in FONT_CANDIDATES if p and p.exists()), FONT_CANDIDATES[-1])
-if FONT_PATH.exists():
-    font_manager.fontManager.addfont(str(FONT_PATH))
-    font_name = font_manager.FontProperties(fname=str(FONT_PATH)).get_name()
-else:
-    font_name = "DejaVu Serif"
-    print(f"WARNING: {FONT_PATH} not found - falling back to {font_name}.")
+# The thesis font is News Gothic (URW n0150xxt): n015003t.ttf is the
+# Regular the graph_maker figures are drawn in (installed in Windows, so
+# matplotlib picks it for the family "NewsGotT"); n015006t.ttf, the file kept
+# in the graph_maker folder, is the Bold of the same family. Both are
+# registered and the family is asked for at normal weight.
+FONT_DIRS = [Path(os.environ["THESIS_FONT_DIR"]) if os.environ.get("THESIS_FONT_DIR") else None,
+             Path.home() / "AppData/Local/Microsoft/Windows/Fonts",
+             Path("C:/Windows/Fonts"),
+             REPO_ROOT / "resources/fonts",
+             Path("C:/Users/mlaur/Documents/aggregate_tests/graph_maker")]
+font_name = "DejaVu Serif"
+for name in ("n015003t.ttf", "n015006t.ttf"):
+    path = next((d / name for d in FONT_DIRS if d and (d / name).exists()), None)
+    if path:
+        font_manager.fontManager.addfont(str(path))
+        font_name = font_manager.FontProperties(fname=str(path)).get_name()
+if not any(d and (d / "n015003t.ttf").exists() for d in FONT_DIRS):
+    print("WARNING: News Gothic Regular (n015003t.ttf) not found - the text will not match the thesis figures")
 rcParams.update({
-    "font.family": font_name, "mathtext.fontset": "dejavuserif",
+    "font.family": font_name, "font.weight": "normal", "mathtext.fontset": "dejavuserif",
     "axes.linewidth": 1.6,
     "xtick.direction": "in", "ytick.direction": "in",
     "xtick.major.size": 6, "ytick.major.size": 6,
     "xtick.major.width": 1.4, "ytick.major.width": 1.4,
-    "font.size": 15, "legend.frameon": False,
+    "font.size": 15,
+    "legend.frameon": True, "legend.framealpha": 1.0, "legend.edgecolor": "black",
+    "legend.fancybox": True, "legend.fontsize": 14,
 })
+GRID = dict(ls=":", lw=0.6, alpha=0.5)
 NAVY, RED, GREY = "#00204d", "#8b0000", "0.45"
 
 rows = list(csv.DictReader(open(CSV)))
@@ -108,7 +116,8 @@ a1.set_ylim(0, p.max() + 0.5)
 a1.set_xticks(p)
 a1.set_xlabel("Number of MPI processes")
 a1.set_ylabel("Speed-up [-]")
-a1.legend(loc="upper left", fontsize=12)
+a1.grid(True, **GRID)
+a1.legend(loc="upper left", fontsize=13)
 
 a2.axhline(1.0, color=GREY, lw=1.2, ls="--")
 a2.plot(p, E, "o-", color=NAVY, lw=1.6, ms=7)
@@ -119,6 +128,7 @@ a2.set_ylim(0, 1.1)
 a2.set_xticks(p)
 a2.set_xlabel("Number of MPI processes")
 a2.set_ylabel("Parallel efficiency [-]")
+a2.grid(True, **GRID)
 save(fig, "scalability_speedup")
 
 # --- wall time per step ------------------------------------------------------------
@@ -135,6 +145,8 @@ ax.set_xticklabels(labels, fontsize=13)
 ax.set_xlabel("Solver and number of MPI processes")
 ax.set_ylabel("Wall time per step [s]")
 ax.set_ylim(0, tps.max() * 1.25)
+ax.grid(True, axis="y", **GRID)
+ax.set_axisbelow(True)
 save(fig, "scalability_time")
 
 # --- memory --------------------------------------------------------------------------
@@ -151,7 +163,8 @@ if all(r.get("peak_rss_MB") for r in mumps):
     ax.set_ylim(0, max((m1 * p).max(), m1.max()) * 1.15)
     ax.set_xlabel("Number of MPI processes")
     ax.set_ylabel("Peak memory [GB]")
-    ax.legend(loc="upper right", fontsize=12)
+    ax.grid(True, **GRID)
+    ax.legend(loc="upper right", fontsize=13)
     save(fig, "scalability_memory")
 
 # --- correctness -----------------------------------------------------------------------
@@ -186,11 +199,13 @@ if HIST is not None and HIST.is_file():
         ad.set_ylabel("Difference [-]")
         ad.set_xlabel("Time [s]")
         ad.set_ylim(1e-16, 1e-4)
+        ax.grid(True, **GRID)
+        ad.grid(True, **GRID)
         worst = max(v for _q, v in maxdiff[col])
         ad.text(0.02, 0.88, "largest difference from UmfPack, 1 process: "
                 + (f"{worst:.1e}" if worst > 0 else "none (identical)"),
                 transform=ad.transAxes, fontsize=12, va="top")
         if col == 0:
-            ax.legend(loc="lower left", fontsize=11, ncol=2)
+            ax.legend(loc="lower left", fontsize=12, ncol=2)
     save(fig, "scalability_correctness")
 print(f"font: {font_name}")
