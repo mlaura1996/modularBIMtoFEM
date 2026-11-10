@@ -134,17 +134,21 @@ save(fig, "scalability_speedup")
 # --- wall time per step ------------------------------------------------------------
 labels = ["UmfPack\n1"] + [f"MUMPS\n{q}" for q in p]
 tps = np.concatenate(([T_umf], T)) / steps
-fig, ax = plt.subplots(figsize=(8.4, 5.4))
+# Smaller canvas and narrower bars than the other figures: printed at the text
+# width, the bars stay light and the labels read at the size of the axis text
+fig, ax = plt.subplots(figsize=(7.2, 5.0))
 cols = [RED] + [NAVY] * len(p)
-bars = ax.bar(range(len(tps)), tps, color=cols, width=0.62, edgecolor="black", linewidth=0.8)
+bars = ax.bar(range(len(tps)), tps, color=cols, width=0.45, edgecolor="black", linewidth=0.6)
 for b, v, tt in zip(bars, tps, np.concatenate(([T_umf], T))):
-    ax.text(b.get_x() + b.get_width() / 2, v + 0.12, f"{v:.2f} s\n({tt / 60:.0f} min)",
-            ha="center", va="bottom", fontsize=11)
+    ax.text(b.get_x() + b.get_width() / 2, v + 0.15, f"{v:.2f} s\n({tt / 60:.0f} min)",
+            ha="center", va="bottom", fontsize=14, linespacing=1.1)
 ax.set_xticks(range(len(tps)))
-ax.set_xticklabels(labels, fontsize=13)
-ax.set_xlabel("Solver and number of MPI processes")
-ax.set_ylabel("Wall time per step [s]")
-ax.set_ylim(0, tps.max() * 1.25)
+ax.set_xticklabels(labels, fontsize=15, linespacing=1.1)
+ax.set_xlabel("Solver and number of MPI processes", fontsize=16)
+ax.set_ylabel("Wall time per step [s]", fontsize=16)
+ax.tick_params(axis="y", labelsize=15)
+ax.set_xlim(-0.6, len(tps) - 0.4)
+ax.set_ylim(0, tps.max() * 1.32)
 ax.grid(True, axis="y", **GRID)
 ax.set_axisbelow(True)
 save(fig, "scalability_time")
