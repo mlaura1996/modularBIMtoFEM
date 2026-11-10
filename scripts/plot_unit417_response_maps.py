@@ -105,3 +105,29 @@ out = RENDER / "unit417_response_maps"
 for ext in ("png", "svg"):
     fig.savefig(f"{out}.{ext}", dpi=220, bbox_inches="tight")
 print(f"saved {out}.png/.svg")
+plt.close(fig)
+
+# --- the two strain envelopes only, the four views in one row ---------------------------
+# tension view 1 and 2, then compression view 1 and 2; one title and one colour
+# bar under each pair
+fig = plt.figure(figsize=(11.0, 4.6))
+pair_w = 0.5
+for j, (stem, title, top, unit) in enumerate(COLUMNS[:2]):
+    x0 = j * pair_w
+    fig.text(x0 + pair_w / 2, 0.98, title.replace("\n", " "), ha="center", va="top", fontsize=15)
+    for i, view in enumerate(("view1", "view2")):
+        img = crop(RENDER / f"{stem}_{view}.png")
+        ax = fig.add_axes([x0 + i * pair_w / 2 + 0.01, 0.28, pair_w / 2 - 0.02, 0.62])
+        ax.imshow(np.asarray(img))
+        ax.set_axis_off()
+    cax = fig.add_axes([x0 + 0.12 * pair_w, 0.13, 0.76 * pair_w, 0.04])
+    bounds = np.linspace(0, top, len(BAND_COLOURS) + 1)
+    cb = fig.colorbar(ScalarMappable(norm=BoundaryNorm(bounds, cmap.N), cmap=cmap), cax=cax,
+                      orientation="horizontal", ticks=bounds[::5])
+    cb.ax.set_xticklabels([f"{v:.3g}" for v in bounds[::5]], fontsize=13)
+    cb.outline.set_linewidth(1.0)
+    cb.set_label(unit, fontsize=14, labelpad=4)
+out = RENDER / "unit417_strain_row"
+for ext in ("png", "svg"):
+    fig.savefig(f"{out}.{ext}", dpi=220, bbox_inches="tight")
+print(f"saved {out}.png/.svg")
