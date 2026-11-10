@@ -1,13 +1,11 @@
 """Chapter 9, Figure 9.1: structural unit 417 of the scalability benchmark.
 
-(a) the Castelnuovo di Porto aggregate with the volumes of unit 417 coloured
-    by material and every other volume in light grey;
+(a) the Castelnuovo di Porto aggregate with unit 417 in a darker grey and
+    every other unit in light grey;
 (b) the isolated benchmark model (the wall shared with unit 418 trimmed to
-    the eaves line), coloured by material.
+    the eaves line), in the same darker grey.
 
-Masonry types take the colour-blind-safe palette of the knowledge-graph
-pages and the enrichment editor (type A #2f6fa3, type D #c67aa6), stone and
-brick their muted tones. Rendered by gmsh off screen as element data, like
+Rendered by gmsh off screen as element data, like
 the partition figure, then composed in the thesis figure style.
 
     conda activate castelnuovo_viewer
@@ -31,14 +29,11 @@ OUT.mkdir(parents=True, exist_ok=True)
 STEP_PATH = REPO_ROOT / "resources/ifc_examples/castelnuovo/example_clean_PRONTO.stp"
 VOLUME_MATERIALS = REPO_ROOT / "resources/survey_data/castelnuovo/volume_materials.json"
 BOX = (13.8, 21.3, -17.3, -7.4)               # plan box of unit 417 (centroids), as the build
-MATERIALS = [  # name, label, colour
-    ("Tufelli_masonry_typeA", "Tuff masonry, type A", (0x2f, 0x6f, 0xa3)),
-    ("Tufelli_masonry_typeD", "Tuff masonry, type D", (0xc6, 0x7a, 0xa6)),
-    ("Stone", "Stone", (0xd3, 0xc8, 0xb1)),
-    ("Bricks", "Brick", (0xb9, 0x80, 0x6a)),
-]
-OTHER = ("other", "Other structural units", (0xe6, 0xe2, 0xda))
-INDEX = {m[0]: i for i, m in enumerate(MATERIALS)}
+# unit 417 in a darker grey, every other unit in light grey (whatever the material)
+MATERIALS = [("unit417", "Structural unit 417", (120, 120, 120))]
+OTHER = ("other", "Other structural units", (226, 226, 226))
+INDEX = {name: 0 for name in ("Tufelli_masonry_typeA", "Tufelli_masonry_typeB", "Tufelli_masonry_typeC",
+                              "Tufelli_masonry_typeD", "Stone", "Bricks", "StoneStairs")}
 CAM_AGGREGATE = (-60, 0, -70)
 CAM_UNIT = (-60, 0, -70)          # the camera of (a), so the unit is seen from the same side
 
@@ -113,7 +108,7 @@ def render():
     for _d, vol in gmsh.model.getEntities(3):
         cx, cy, _cz = gmsh.model.occ.getCenterOfMass(3, vol)
         inside = BOX[0] <= cx <= BOX[1] and BOX[2] <= cy <= BOX[3]
-        values[vol] = INDEX.get(mat.get(vol), len(MATERIALS)) if inside else len(MATERIALS)
+        values[vol] = 0 if inside else len(MATERIALS)
     element_view(values, colours, raw("aggregate"), CAM_AGGREGATE, 0.85, (2600, 2000))
     gmsh.fltk.finalize()
     gmsh.finalize()
@@ -128,7 +123,7 @@ def render():
     for _d, pg in gmsh.model.getPhysicalGroups(3):
         name = gmsh.model.getPhysicalName(3, pg)
         for vol in gmsh.model.getEntitiesForPhysicalGroup(3, pg):
-            values[int(vol)] = INDEX[name]
+            values[int(vol)] = 0
     element_view(values, colours, raw("unit"), CAM_UNIT, 0.82, (1800, 1800))
     gmsh.fltk.finalize()
     gmsh.finalize()
@@ -169,8 +164,8 @@ def compose():
         ax.set_title(label, fontsize=16)
     handles = [Patch(facecolor=np.array(c) / 255, edgecolor="black", lw=0.6, label=lab)
                for _n, lab, c in MATERIALS + [OTHER]]
-    fig.legend(handles=handles, loc="lower center", ncol=3, fontsize=15, frameon=False,
-               bbox_to_anchor=(0.5, -0.09), handlelength=1.4, columnspacing=1.6)
+    fig.legend(handles=handles, loc="lower center", ncol=2, fontsize=15, frameon=False,
+               bbox_to_anchor=(0.5, -0.06), handlelength=1.4, columnspacing=1.6)
     fig.tight_layout()
     for ext in ("png", "svg"):
         fig.savefig(OUT / f"unit417_model.{ext}", dpi=220, bbox_inches="tight")
